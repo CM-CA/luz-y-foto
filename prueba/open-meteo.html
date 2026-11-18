@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prueba de previsión · luz-y-foto</title>
+<style>
+  :root {
+    --fondo: #f6f4ef;
+    --tarjeta: #ffffff;
+    --texto: #1f2328;
+    --suave: #5b6470;
+    --borde: #dcd8cf;
+    --verde: #1f7a3f;
+    --verde-fondo: #e3f3e8;
+    --ambar: #8a5a00;
+    --ambar-fondo: #fdf0d0;
+    --rojo: #a52a2a;
+    --rojo-fondo: #f9e0e0;
+    --barra-baja: #6c7a89;
+    --barra-media: #8fa3b8;
+    --barra-alta: #c9a6d6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #15181c;
+      --tarjeta: #1f2329;
+      --texto: #e8eaed;
+      --suave: #a3abb5;
+      --borde: #333a43;
+      --verde: #6fcf8e;
+      --verde-fondo: #1b3324;
+      --ambar: #f0c060;
+      --ambar-fondo: #3a2f14;
+      --rojo: #f08a8a;
+      --rojo-fondo: #3b1d1d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fondo);
+    color: var(--texto);
+    font: 18px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  h2 { font-size: 1.2rem; margin: 0; text-transform: capitalize; }
+  h3 { font-size: 1rem; margin: 20px 0 8px; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
+  .intro { color: var(--suave); margin: 0 0 20px; }
+
+  form {
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: end;
+    margin-bottom: 12px;
+  }
+  label { display: flex; flex-direction: column; font-size: .85rem; color: var(--suave); gap: 4px; }
+  input {
+    font: inherit; padding: 8px 10px; width: 9em;
+    border: 1px solid var(--borde); border-radius: 8px;
+    background: var(--fondo); color: var(--texto);
+  }
+  button {
+    font: inherit; padding: 9px 16px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--borde); background: var(--tarjeta); color: var(--texto);
+  }
+  button.principal { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
+  #estado { min-height: 1.5em; color: var(--suave); margin: 8px 0 16px; }
+
+  .dia {
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .cabecera { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px; }
+  .puesta { color: var(--suave); font-size: .95rem; }
+
+  .veredicto {
+    margin-top: 14px;
+    padding: 16px;
+    border-radius: 12px;
+    border: 2px solid currentColor;
+  }
+  .veredicto.verde { color: var(--verde); background: var(--verde-fondo); }
+  .veredicto.ambar { color: var(--ambar); background: var(--ambar-fondo); }
+  .veredicto.rojo  { color: var(--rojo);  background: var(--rojo-fondo); }
+  .veredicto .titulo { font-size: 1.5rem; font-weight: 700; line-height: 1.2; }
+  .veredicto .nota { font-size: .95rem; margin-top: 2px; }
+  .veredicto p { margin: 10px 0 0; color: var(--texto); }
+  .avisos { margin: 12px 0 0; padding: 12px 16px; border-radius: 10px; background: var(--ambar-fondo); color: var(--texto); border-left: 6px solid var(--ambar); }
+  .avisos p { margin: 4px 0; }
+
+  table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--borde); vertical-align: top; }
+  th { font-weight: 600; color: var(--suave); font-size: .85rem; }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  tr.total td { font-weight: 700; border-bottom: none; }
+
+  .capas { display: grid; gap: 8px; }
+  .capa { display: grid; grid-template-columns: 7.5em 1fr 3.2em; gap: 10px; align-items: center; font-size: .95rem; }
+  .barra { height: 14px; background: var(--fondo); border: 1px solid var(--borde); border-radius: 7px; overflow: hidden; }
+  .barra span { display: block; height: 100%; }
+  .capa .valor { text-align: right; }
+
+  details { margin-top: 20px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 12px 16px; }
+  summary { cursor: pointer; font-weight: 600; }
+  details ul { padding-left: 20px; }
+  a { color: inherit; }
+  .pie { color: var(--suave); font-size: .85rem; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Prueba de previsión</h1>
+  <p class="intro">Lee la previsión de Open-Meteo para tu lugar y calcula el semáforo del atardecer con las reglas propuestas. Es una página de prueba: sirve para comprobar que los datos llegan bien y que las reglas tienen sentido.</p>
+
+  <form id="lugar">
+    <label>Latitud
+      <input id="lat" inputmode="decimal" value="42.2406">
+    </label>
+    <label>Longitud
+      <input id="lon" inputmode="decimal" value="-8.7207">
+    </label>
+    <button class="principal" type="submit">Consultar</button>
+    <button type="button" id="gps">Usar mi ubicación</button>
+  </form>
+  <p id="estado" role="status" aria-live="polite"></p>
+
+  <section id="dias"></section>
+
+  <details>
+    <summary>Cómo se calcula (reglas de esta prueba)</summary>
+    <p>Se miran las horas desde 1 h antes hasta 30 min después de la puesta. Se suman tres factores hasta un máximo de 100 puntos:</p>
+    <ul>
+      <li><strong>Nubes bajas</strong> (hasta 40): menos de 20 % da 40; de 20 a 40 %, 28; de 40 a 60 %, 18; de 60 a 75 %, 10; por encima, 4.</li>
+      <li><strong>Nubes medias y altas</strong> (hasta 50): se toma la mayor de las dos capas. De 20 a 70 % da 50; de 10 a 20 % o de 70 a 85 %, 25; en el resto, 5.</li>
+      <li><strong>Lluvia</strong> (hasta 10): sin lluvia o casi nada, 10; llovizna (hasta 0,5 mm/h), 7; lluvia moderada (hasta 2,5 mm/h), 2; lluvia fuerte, 0.</li>
+    </ul>
+    <p><strong>Semáforo:</strong> de 70 a 100, verde («Prometedor»); de 40 a 69, ámbar («Posible, pero incierto»); menos de 40, rojo («Poco probable»).</p>
+    <p><strong>Vetos (rojo directo):</strong> lluvia fuerte (más de 2,5 mm/h) o nubes bajas por encima del 88 %.</p>
+    <p><strong>Otros casos:</strong> la lluvia moderada limita el resultado a ámbar. Con tormenta eléctrica no hay veto, pero el resultado es siempre ámbar y con aviso de seguridad. Si la visibilidad baja de 5 km, se avisa de niebla.</p>
+    <p>Los umbrales son un punto de partida y hay que calibrarlos con salidas reales.</p>
+  </details>
+
+  <p class="pie">Datos de <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0). La previsión no ve el horizonte: nunca es una garantía.</p>
+</main>
+
+<script>
+"use strict";
+
+// Umbrales de esta prueba (ver «Cómo se calcula»)
+const REGLAS = {
+  vetoBajas: 88,         // % de nubes bajas
+  lluviaModerada: 0.5,   // mm/h
+  lluviaFuerte: 2.5,     // mm/h
+  nieblaKm: 5            // visibilidad mínima en km
+};
+
+const ETIQUETA = {
+  verde: { simbolo: "●", texto: "Prometedor" },
+  ambar: { simbolo: "▲", texto: "Posible, pero incierto" },
+  rojo:  { simbolo: "■", texto: "Poco probable" }
+};
+
+const $ = (id) => document.getElementById(id);
+
+function urlPrevision(lat, lon) {
+  const p = new URLSearchParams({
+    latitude: lat,
+    longitude: lon,
+    hourly: [
+      "cloud_cover", "cloud_cover_low", "cloud_cover_mid", "cloud_cover_high",
+      "visibility", "precipitation_probability", "precipitation",
+      "weather_code", "relative_humidity_2m"
+    ].join(","),
+    daily: "sunrise,sunset",
+    timezone: "auto",
+    forecast_days: 3
+  });
+  return "https://api.open-meteo.com/v1/forecast?" + p.toString();
+}
+
+/* ---------- Cálculo ---------- */
+
+// Posiciones de las horas que caen entre 1 h antes y 30 min después de la puesta
+function horasVentana(h, puesta) {
+  const s = new Date(puesta).getTime();
+  const desde = s - 60 * 60000;
+  const hasta = s + 30 * 60000;
+  const idx = [];
+  h.time.forEach((t, i) => {
+    const ini = new Date(t).getTime();
+    if (ini + 3600000 > desde && ini <= hasta) idx.push(i);
+  });
+  return idx;
+}
+
+const media = (arr, idx) => idx.reduce((a, i) => a + arr[i], 0) / idx.length;
+const maximo = (arr, idx) => Math.max(...idx.map((i) => arr[i]));
+const minimo = (arr, idx) => Math.min(...idx.map((i) => arr[i]));
+
+function calcular(h, puesta) {
+  const idx = horasVentana(h, puesta);
+  if (!idx.length) return null;
+
+  const bajas = media(h.cloud_cover_low, idx);
+  const medias = media(h.cloud_cover_mid, idx);
+  const altas = media(h.cloud_cover_high, idx);
+  const cielo = Math.max(medias, altas);
+  const lluvia = maximo(h.precipitation, idx);
+  const prob = maximo(h.precipitation_probability, idx);
+  const vis = minimo(h.visibility, idx) / 1000;
+  const tormenta = idx.some((i) => h.weather_code[i] >= 95);
+
+  const pBajas = bajas < 20 ? 40 : bajas < 40 ? 28 : bajas < 60 ? 18 : bajas < 75 ? 10 : 4;
+  const pCielo = (cielo >= 20 && cielo <= 70) ? 50
+    : ((cielo >= 10 && cielo < 20) || (cielo > 70 && cielo <= 85)) ? 25 : 5;
+  const pLluvia = lluvia <= 0.1 ? 10 : lluvia <= REGLAS.lluviaModerada ? 7 : lluvia <= REGLAS.lluviaFuerte ? 2 : 0;
+  const total = pBajas + pCielo + pLluvia;
+
+  let nivel = total >= 70 ? "verde" : total >= 40 ? "ambar" : "rojo";
+  let motivoVeto = null;
+  const avisos = [];
+
+  if (tormenta) {
+    nivel = "ambar";
+    avisos.push("Hay tormenta eléctrica en la previsión. Fotografía desde un sitio cubierto (coche, porche o ventana), lejos de zonas altas y sin trípode metálico a la intemperie. Si oyes truenos, recoge.");
+  } else if (lluvia > REGLAS.lluviaFuerte) {
+    nivel = "rojo";
+    motivoVeto = "Se espera lluvia fuerte a la hora de la puesta.";
+  } else if (bajas > REGLAS.vetoBajas) {
+    nivel = "rojo";
+    motivoVeto = "El cielo bajo está casi cerrado: el sol no se verá en el horizonte.";
+  } else if (lluvia > REGLAS.lluviaModerada && nivel === "verde") {
+    nivel = "ambar";
+  }
+
+  if (!tormenta && lluvia > 0.1 && lluvia <= REGLAS.lluviaModerada) {
+    avisos.push("Puede haber llovizna: lleva algo para proteger la cámara.");
+  }
+  if (vis < REGLAS.nieblaKm) {
+    avisos.push("Poca visibilidad (niebla): el atardecer será difícil, pero la ría con niebla puede merecer la pena.");
+  }
+
+  return {
+    idx, bajas, medias, altas, cielo, lluvia, prob, vis, tormenta,
+    pBajas, pCielo, pLluvia, total, nivel, motivoVeto, avisos
+  };
+}
+
+/* ---------- Frases en lenguaje llano ---------- */
+
+function fraseBajas(v) {
+  if (v < 20) return "Casi sin nubes bajas: el sol se verá bien en el horizonte.";
+  if (v < 40) return "Pocas nubes bajas: el horizonte estará bastante despejado.";
+  if (v < 60) return "Nubes bajas a ratos: el sol puede quedar tapado un rato.";
+  if (v < 75) return "Muchas nubes bajas: es probable que tapen el sol cerca del horizonte.";
+  return "Cielo bajo muy cubierto: poco hueco para ver el sol.";
+}
+function fraseCielo(v) {
+  if (v >= 20 && v <= 70) return "Nubes medias o altas en buena cantidad: son las que se tiñen de naranja y rosa.";
+  if (v < 20) return "Casi sin nubes altas: el cielo será bonito pero sin mucho color.";
+  return "Cielo alto muy cubierto: los colores saldrán apagados.";
+}
+function fraseLluvia(v, tormenta) {
+  if (tormenta) return "Tormenta eléctrica prevista.";
+  if (v <= 0.1) return "Sin lluvia a la hora de la puesta.";
+  if (v <= REGLAS.lluviaModerada) return "Llovizna ligera.";
+  if (v <= REGLAS.lluviaFuerte) return "Lluvia moderada.";
+  return "Lluvia fuerte.";
+}
+
+function resumen(r) {
+  if (r.motivoVeto) return r.motivoVeto;
+  if (r.tormenta) return "Con tormenta eléctrica se puede salir, pero solo con precaución. La nota depende de lo que dejen ver las nubes.";
+  if (r.nivel === "verde") return "Buena combinación de nubes y sin lluvia importante. Merece la pena salir.";
+  if (r.nivel === "ambar") return "Hay posibilidades, pero algún factor juega en contra. Si sales, ten un plan B (siluetas, nubes, hora azul).";
+  return "Los factores juegan en contra. Mejor un plan B (detalles, reflejos, blanco y negro) o quedarse en casa.";
+}
+
+/* ---------- Pintado ---------- */
+
+const pct = (v) => Math.round(v) + " %";
+const hora = (iso) => iso.slice(11, 16);
+
+function nombreDia(iso) {
+  const d = new Date(iso.slice(0, 10) + "T12:00:00");
+  return d.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" });
+}
+
+function barra(etiqueta, valor, color) {
+  return `<div class="capa">
+    <span>${etiqueta}</span>
+    <div class="barra" aria-hidden="true"><span style="width:${Math.round(valor)}%;background:${color}"></span></div>
+    <span class="valor">${pct(valor)}</span>
+  </div>`;
+}
+
+function tarjeta(h, dia, puesta, salida, yaPaso) {
+  const r = calcular(h, puesta);
+  if (!r) return "";
+  const et = ETIQUETA[r.nivel];
+
+  const filasHoras = r.idx.map((i) => `
+    <tr>
+      <td>${hora(h.time[i])}</td>
+      <td class="num">${pct(h.cloud_cover_low[i])}</td>
+      <td class="num">${pct(h.cloud_cover_mid[i])}</td>
+      <td class="num">${pct(h.cloud_cover_high[i])}</td>
+      <td class="num">${h.precipitation[i].toFixed(1)}</td>
+      <td class="num">${pct(h.precipitation_probability[i])}</td>
+      <td class="num">${(h.visibility[i] / 1000).toFixed(0)}</td>
+    </tr>`).join("");
+
+  const avisos = r.avisos.length
+    ? `<div class="avisos">${r.avisos.map((a) => `<p>⚠ ${a}</p>`).join("")}</div>`
+    : "";
+
+  return `
+  <article class="dia">
+    <div class="cabecera">
+      <h2>${nombreDia(dia)}</h2>
+      <span class="puesta">Puesta a las ${hora(puesta)}${yaPaso ? " · ya ha pasado" : ""}</span>
+    </div>
+
+    <div class="veredicto ${r.nivel}">
+      <div class="titulo">${et.simbolo} ${et.texto}</div>
+      <div class="nota">${r.total} de 100 puntos</div>
+      <p>${resumen(r)}</p>
+    </div>
+    ${avisos}
+
+    <h3>Qué pesa en la nota</h3>
+    <table>
+      <thead><tr><th>Factor</th><th>Qué significa</th><th class="num">Puntos</th></tr></thead>
+      <tbody>
+        <tr><td>Nubes bajas (${pct(r.bajas)})</td><td>${fraseBajas(r.bajas)}</td><td class="num">${r.pBajas} / 40</td></tr>
+        <tr><td>Nubes medias y altas (${pct(r.cielo)})</td><td>${fraseCielo(r.cielo)}</td><td class="num">${r.pCielo} / 50</td></tr>
+        <tr><td>Lluvia (${r.lluvia.toFixed(1)} mm/h)</td><td>${fraseLluvia(r.lluvia, r.tormenta)}</td><td class="num">${r.pLluvia} / 10</td></tr>
+        <tr class="total"><td colspan="2">Total</td><td class="num">${r.total} / 100</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Capas de nubes (media de la ventana)</h3>
+    <div class="capas">
+      ${barra("Bajas", r.bajas, "var(--barra-baja)")}
+      ${barra("Medias", r.medias, "var(--barra-media)")}
+      ${barra("Altas", r.altas, "var(--barra-alta)")}
+    </div>
+
+    <h3>Horas analizadas</h3>
+    <table>
+      <thead><tr>
+        <th>Hora</th><th class="num">Bajas</th><th class="num">Medias</th><th class="num">Altas</th>
+        <th class="num">mm/h</th><th class="num">Prob. lluvia</th><th class="num">Visib. (km)</th>
+      </tr></thead>
+      <tbody>${filasHoras}</tbody>
+    </table>
+  </article>`;
+}
+
+async function consultar(lat, lon) {
+  const estado = $("estado");
+  const cont = $("dias");
+  estado.textContent = "Consultando Open-Meteo…";
+  cont.innerHTML = "";
+
+  try {
+    const resp = await fetch(urlPrevision(lat, lon));
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    const datos = await resp.json();
+    const h = datos.hourly;
+    const ahora = Date.now();
+
+    cont.innerHTML = datos.daily.time.map((dia, i) => {
+      const puesta = datos.daily.sunset[i];
+      const yaPaso = new Date(puesta).getTime() + 30 * 60000 < ahora - (datos.utc_offset_seconds ? 0 : 0) && false;
+      return tarjeta(h, dia, puesta, datos.daily.sunrise[i], yaPaso);
+    }).join("");
+
+    const enlace = document.createElement("a");
+    enlace.href = urlPrevision(lat, lon);
+    enlace.textContent = "ver datos sin procesar";
+    enlace.target = "_blank";
+    enlace.rel = "noopener";
+    estado.textContent = `Lugar: ${datos.latitude.toFixed(3)}, ${datos.longitude.toFixed(3)} · ${datos.timezone} · `;
+    estado.appendChild(enlace);
+  } catch (e) {
+    estado.textContent = "No se han podido cargar los datos (" + e.message + "). Comprueba la conexión y vuelve a intentarlo.";
+  }
+}
+
+$("lugar").addEventListener("submit", (ev) => {
+  ev.preventDefault();
+  const lat = parseFloat($("lat").value.replace(",", "."));
+  const lon = parseFloat($("lon").value.replace(",", "."));
+  if (isNaN(lat) || isNaN(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
+    $("estado").textContent = "Latitud o longitud no válidas.";
+    return;
+  }
+  consultar(lat, lon);
+});
+
+$("gps").addEventListener("click", () => {
+  if (!navigator.geolocation) {
+    $("estado").textContent = "Este dispositivo no permite obtener la ubicación.";
+    return;
+  }
+  $("estado").textContent = "Buscando tu ubicación…";
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      $("lat").value = pos.coords.latitude.toFixed(4);
+      $("lon").value = pos.coords.longitude.toFixed(4);
+      consultar(pos.coords.latitude, pos.coords.longitude);
+    },
+    () => { $("estado").textContent = "No se ha podido obtener la ubicación. Escríbela a mano."; }
+  );
+});
+
+consultar(42.2406, -8.7207);
+</script>
+</body>
+</html>
