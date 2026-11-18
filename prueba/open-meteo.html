@@ -301,7 +301,7 @@ function barra(etiqueta, valor, color) {
   </div>`;
 }
 
-function tarjeta(h, dia, puesta, salida, yaPaso) {
+function tarjeta(h, dia, puesta, yaPaso) {
   const r = calcular(h, puesta);
   if (!r) return "";
   const et = ETIQUETA[r.nivel];
@@ -375,12 +375,14 @@ async function consultar(lat, lon) {
     if (!resp.ok) throw new Error("HTTP " + resp.status);
     const datos = await resp.json();
     const h = datos.hourly;
-    const ahora = Date.now();
+
+    // Hora actual en el lugar consultado, en la misma escala que las horas de la API
+    const ahoraLugar = Date.now() + (datos.utc_offset_seconds || 0) * 1000;
 
     cont.innerHTML = datos.daily.time.map((dia, i) => {
       const puesta = datos.daily.sunset[i];
-      const yaPaso = new Date(puesta).getTime() + 30 * 60000 < ahora - (datos.utc_offset_seconds ? 0 : 0) && false;
-      return tarjeta(h, dia, puesta, datos.daily.sunrise[i], yaPaso);
+      const yaPaso = Date.parse(puesta + ":00Z") + 30 * 60000 < ahoraLugar;
+      return tarjeta(h, dia, puesta, yaPaso);
     }).join("");
 
     const enlace = document.createElement("a");
