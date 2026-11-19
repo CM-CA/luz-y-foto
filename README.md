@@ -19,6 +19,7 @@ Se abren desde GitHub Pages (`cm-ca.github.io/luz-y-foto/prueba/...`):
 ## Estructura
 
 - `js/astro.js`: cálculos de sol y luna (usa SunCalc).
+- `js/lugar.js`: ubicación del dispositivo, nombre de la ciudad y búsqueda por nombre.
 - `js/semaforo.js`: reglas del semáforo (atardecer y luna).
 - `lib/suncalc.js`: [SunCalc](https://github.com/mourner/suncalc) 2.1.4, incluida con su licencia.
-- `test/`: pruebas. Se ejecutan con `TZ=Europe/Madrid node test/astro.test.cjs` y `TZ=Europe/Madrid node test/semaforo.test.cjs`.
+- `test/`: pruebas. Se ejecutan con `TZ=Europe/Madrid node test/astro.test.cjs` `TZ=Europe/Madrid node test/semaforo.test.cjs` y `node test/lugar.test.cjs`.

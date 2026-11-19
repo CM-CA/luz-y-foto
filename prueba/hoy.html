@@ -32,11 +32,17 @@
   h3 { font-size: 1rem; margin: 22px 0 8px; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
   .intro { color: var(--suave); margin: 0 0 16px; }
 
-  details.lugar { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; }
-  details.lugar summary { cursor: pointer; color: var(--suave); }
-  form { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-top: 12px; }
-  label { display: flex; flex-direction: column; font-size: .85rem; color: var(--suave); gap: 4px; }
-  input { font: inherit; padding: 8px 10px; width: 9em; border: 1px solid var(--borde); border-radius: 8px; background: var(--fondo); color: var(--texto); }
+  .lugar { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; }
+  .lugar .etq { display: block; font-size: .8rem; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
+  .lugar strong { font-size: 1.15rem; }
+  .selector { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 14px; margin-bottom: 8px; }
+  .selector[hidden] { display: none; }
+  .selector form { display: flex; gap: 8px; margin: 12px 0 0; }
+  .selector input { flex: 1; min-width: 0; font: inherit; padding: 10px 12px; border: 1px solid var(--borde); border-radius: 8px; background: var(--fondo); color: var(--texto); }
+  .selector ul { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 6px; }
+  .selector li button { width: 100%; text-align: left; }
+  .selector li small { display: block; color: var(--suave); }
+  #msgLugar { margin: 0; min-height: 1.4em; color: var(--suave); font-size: .95rem; }
   button { font: inherit; padding: 9px 16px; border-radius: 8px; cursor: pointer; border: 1px solid var(--borde); background: var(--tarjeta); color: var(--texto); }
   button.principal { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
   #estado { min-height: 1.5em; color: var(--suave); margin: 6px 0 12px; font-size: .9rem; }
@@ -48,6 +54,7 @@
   .dias button { padding: 7px 14px; border-radius: 999px; font-size: .95rem; }
   .dias button[aria-pressed="true"] { border-color: var(--texto); border-width: 2px; font-weight: 700; }
 
+  .panel:empty { display: none; }
   .panel { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 16px; padding: 20px; }
   .subtitulo { color: var(--suave); font-size: .95rem; margin: 0 0 12px; }
 
@@ -96,15 +103,19 @@
   <h1>Hoy</h1>
   <p class="intro">¿Merece la pena salir con la cámara? Elige qué quieres fotografiar.</p>
 
-  <details class="lugar" id="detalleLugar">
-    <summary id="resumenLugar">Lugar</summary>
-    <form id="lugar">
-      <label>Latitud <input id="lat" inputmode="decimal" value="42.2406"></label>
-      <label>Longitud <input id="lon" inputmode="decimal" value="-8.7207"></label>
-      <button class="principal" type="submit">Consultar</button>
-      <button type="button" id="gps">Usar mi ubicación</button>
+  <div class="lugar">
+    <div><span class="etq">Lugar</span><strong id="nombreLugar">Buscando tu ubicación…</strong></div>
+    <button type="button" id="cambiar" aria-expanded="false" aria-controls="selector">Cambiar</button>
+  </div>
+  <section class="selector" id="selector" hidden>
+    <p id="msgLugar" role="status" aria-live="polite"></p>
+    <button type="button" class="principal" id="gps">Usar mi ubicación</button>
+    <form id="buscar" role="search">
+      <input id="ciudad" type="search" placeholder="Ciudad o pueblo" aria-label="Buscar ciudad o pueblo" autocomplete="off">
+      <button type="submit">Buscar</button>
     </form>
-  </details>
+    <ul id="resultados"></ul>
+  </section>
   <p id="estado" role="status" aria-live="polite"></p>
 
   <div class="pestanas" role="tablist" aria-label="Qué fotografiar">
@@ -127,19 +138,20 @@
     <p><strong>Tormenta eléctrica:</strong> nunca es verde y lleva un aviso de seguridad. Los umbrales son un punto de partida y hay que calibrarlos con salidas reales.</p>
   </details>
 
-  <p class="pie">Previsión de <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0); sol y luna calculados en el dispositivo con SunCalc. La previsión no ve el horizonte: nunca es una garantía. Las horas son las de tu dispositivo.</p>
+  <p class="pie">Previsión de <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0); sol y luna calculados en el dispositivo con SunCalc. La previsión no ve el horizonte: nunca es una garantía. Las horas son las de tu dispositivo. Tu lugar se guarda solo en tu dispositivo; para ponerle nombre se consulta OpenStreetMap con unas coordenadas aproximadas.</p>
 </main>
 
-<script src="../lib/suncalc.js"></script>
-<script src="../js/astro.js"></script>
-<script src="../js/semaforo.js"></script>
+<script src="../lib/suncalc.js?v=3"></script>
+<script src="../js/astro.js?v=3"></script>
+<script src="../js/semaforo.js?v=3"></script>
+<script src="../js/lugar.js?v=3"></script>
 <script>
 "use strict";
 const $ = (id) => document.getElementById(id);
 const HORA = 3600000;
 const SIMBOLO = { verde: "●", ambar: "▲", rojo: "■", ninguno: "○" };
 
-const estado = { prev: null, lat: 0, lon: 0, pestana: "atardecer", indice: 0, ahora: 0, listas: null, pestanaElegida: false };
+const estado = { lugar: null, peticion: 0, resultados: [], prev: null, lat: 0, lon: 0, pestana: "atardecer", indice: 0, ahora: 0, listas: null, pestanaElegida: false };
 
 const hm = (ms) => ms == null ? "—" : new Date(ms).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
 const pct = (v) => Math.round(v) + " %";
@@ -337,7 +349,6 @@ async function consultar(lat, lon) {
         if (r.nivel === "ninguno" && estado.listas.noches.length > 1) estado.indice = 1;
       }
     }
-    $("resumenLugar").textContent = `Lugar: ${datos.latitude.toFixed(3)}, ${datos.longitude.toFixed(3)} (cambiar)`;
     $("estado").textContent = "Previsión de las " + hm(estado.ahora) + " · " + datos.timezone;
     pintar();
   } catch (e) {
@@ -355,22 +366,105 @@ $("dias").addEventListener("click", (ev) => {
   if (!b) return;
   estado.indice = Number(b.dataset.i); pintar();
 });
-$("lugar").addEventListener("submit", (ev) => {
-  ev.preventDefault();
-  const lat = parseFloat($("lat").value.replace(",", ".")), lon = parseFloat($("lon").value.replace(",", "."));
-  if (isNaN(lat) || isNaN(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) { $("estado").textContent = "Latitud o longitud no válidas."; return; }
-  $("detalleLugar").open = false;
+/* ---------- Lugar ---------- */
+
+const MENSAJES_GPS = {
+  denegado: "No tengo permiso para ver tu ubicación. Puedes darlo en los ajustes del navegador o buscar tu ciudad aquí.",
+  "no-disponible": "Este dispositivo o navegador no ha podido darme tu ubicación. Busca tu ciudad aquí.",
+  tiempo: "Tu ubicación tarda demasiado en llegar. Prueba otra vez o busca tu ciudad aquí."
+};
+const escapar = (t) => String(t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function abrirSelector(mensaje) {
+  $("selector").hidden = false; $("cambiar").setAttribute("aria-expanded", "true");
+  $("msgLugar").textContent = mensaje || "";
+}
+function cerrarSelector() {
+  $("selector").hidden = true; $("cambiar").setAttribute("aria-expanded", "false");
+  $("resultados").innerHTML = ""; $("msgLugar").textContent = "";
+}
+
+async function fijarLugar(lat, lon, nombre, origen) {
+  const mia = ++estado.peticion;
+  estado.lugar = { lat, lon, nombre: nombre || null, origen };
+  $("nombreLugar").textContent = nombre || "Tu ubicación";
   consultar(lat, lon);
+  if (nombre) { Lugar.guardar(estado.lugar); return; }
+  const texto = await Lugar.nombreDeLugar(lat, lon);
+  if (mia !== estado.peticion) return; // mientras tanto se eligió otro lugar
+  estado.lugar.nombre = texto || Lugar.coordenadas(lat, lon);
+  $("nombreLugar").textContent = estado.lugar.nombre;
+  Lugar.guardar(estado.lugar);
+}
+
+async function usarGps(silencioso) {
+  if (!silencioso) $("msgLugar").textContent = "Buscando tu ubicación…";
+  try {
+    const p = await Lugar.posicionGps();
+    cerrarSelector();
+    fijarLugar(p.lat, p.lon, null, "gps");
+  } catch (e) {
+    if (!silencioso) {
+      if (!estado.lugar) { $("nombreLugar").textContent = "Elige tu lugar"; $("estado").textContent = ""; }
+      abrirSelector(MENSAJES_GPS[e.codigo] || MENSAJES_GPS["no-disponible"]);
+    }
+  }
+}
+
+// Si ya hay permiso, se comprueba en segundo plano si te has movido de ciudad
+async function refrescarGps(guardado) {
+  try {
+    if (!navigator.permissions) return;
+    const permiso = await navigator.permissions.query({ name: "geolocation" });
+    if (permiso.state !== "granted") return;
+    const p = await Lugar.posicionGps();
+    if (Lugar.distanciaKm(guardado, p) > 5) fijarLugar(p.lat, p.lon, null, "gps");
+  } catch (e) { /* sin ubicación: se queda el lugar guardado */ }
+}
+
+$("cambiar").addEventListener("click", () => ($("selector").hidden ? abrirSelector("") : cerrarSelector()));
+$("gps").addEventListener("click", () => usarGps(false));
+
+$("buscar").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const q = $("ciudad").value.trim();
+  if (q.length < 2) { $("msgLugar").textContent = "Escribe al menos dos letras."; return; }
+  $("msgLugar").textContent = "Buscando…"; $("resultados").innerHTML = "";
+  try {
+    estado.resultados = await Lugar.buscarCiudad(q);
+    if (!estado.resultados.length) { $("msgLugar").textContent = "No he encontrado ese lugar. Prueba con otro nombre."; return; }
+    $("msgLugar").textContent = "Elige tu lugar:";
+    $("resultados").innerHTML = estado.resultados.map((x, i) =>
+      `<li><button type="button" data-i="${i}">${escapar(x.nombre)}<small>${escapar(x.detalle)}</small></button></li>`).join("");
+  } catch (e) {
+    $("msgLugar").textContent = "No he podido buscar. Comprueba la conexión e inténtalo de nuevo.";
+  }
 });
-$("gps").addEventListener("click", () => {
-  if (!navigator.geolocation) { $("estado").textContent = "Este dispositivo no permite obtener la ubicación."; return; }
-  $("estado").textContent = "Buscando tu ubicación…";
-  navigator.geolocation.getCurrentPosition(
-    (pos) => { $("lat").value = pos.coords.latitude.toFixed(4); $("lon").value = pos.coords.longitude.toFixed(4); $("detalleLugar").open = false; consultar(pos.coords.latitude, pos.coords.longitude); },
-    () => { $("estado").textContent = "No se ha podido obtener la ubicación. Escríbela a mano."; });
+$("resultados").addEventListener("click", (ev) => {
+  const b = ev.target.closest("button[data-i]");
+  const x = b && estado.resultados[Number(b.dataset.i)];
+  if (!x) return;
+  cerrarSelector();
+  fijarLugar(x.lat, x.lon, x.texto, "busqueda");
 });
 
-consultar(42.2406, -8.7207);
+function arrancar() {
+  // Si el navegador conservó una versión antigua de algún archivo, se explica en vez de fallar
+  if (typeof Astro === "undefined" || typeof Astro.alturas !== "function" || typeof Lugar === "undefined") {
+    $("panel").innerHTML = "<p><strong>Tu navegador tiene guardada una versión antigua de la página.</strong> Recárgala con Ctrl+F5 (en el móvil, cierra la pestaña y vuelve a abrirla).</p>";
+    $("nombreLugar").textContent = "—";
+    return;
+  }
+  const guardado = Lugar.cargar();
+  if (guardado) {
+    fijarLugar(guardado.lat, guardado.lon, guardado.nombre, guardado.origen);
+    if (guardado.origen === "gps") refrescarGps(guardado);
+  } else {
+    $("estado").textContent = "Buscando tu ubicación…";
+    usarGps(false);
+  }
+}
+arrancar();
 </script>
 </body>
 </html>
