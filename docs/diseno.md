@@ -43,5 +43,8 @@ Sin conexión (última previsión con su hora), sin GPS (elegir a mano), cargand
 - **v2**: urbana, alineaciones sol/luna con lugares, segundo punto meteorológico hacia la puesta.
 - **v3**: flores e insectos, diario local, "Mi foto salió...", calendario .ics, eventos astronómicos.
 
+## Hecho en las páginas de prueba
+Fuentes de datos (SunCalc en el dispositivo, Open-Meteo, ubicación del navegador con nombre de ciudad) y estructura de `data/` (ver [`datos.md`](datos.md)).
+
 ## Pendiente
-Fuentes de datos (SunCalc, Open-Meteo, caché offline), diseño visual (daltonismo, modo oscuro), estructura de `data/`.
+Caché sin conexión (service worker), diseño visual definitivo (daltonismo, modo oscuro), perfil de equipo y recetas (`data/recetas/`), lugares guardados.

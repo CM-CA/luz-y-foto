@@ -1,7 +1,16 @@
 // Pruebas del semáforo. Se ejecutan con: TZ=Europe/Madrid node test/semaforo.test.cjs
 const assert = require("node:assert/strict");
 const Astro = require("../js/astro.js");
-const S = require("../js/semaforo.js");
+const Semaforo = require("../js/semaforo.js");
+const Datos = require("../js/datos.js");
+const { cargarDatos } = require("./datos-de-disco.cjs");
+
+// El semáforo se prueba con los datos reales de data/, así que si se cambia un umbral aquí se nota
+const S = Semaforo.crear(cargarDatos());
+const ventanaAtardecer = (p, dia) => S.ventana("atardecer", p, { dia });
+const ventanaLuna = (p, inicio, fin, lat, lon, desde) => S.ventana("luna", p, { inicio, fin, lat, lon, desde });
+const puntuarAtardecer = (p, dia) => S.evaluar("atardecer", p, { dia });
+const puntuarLuna = (p, inicio, fin, lat, lon, fraccion, desde) => S.evaluar("luna", p, { inicio, fin, lat, lon, fraccion, desde });
 
 const LAT = 42.2406, LON = -8.7207; // Vigo
 let fallos = 0;
@@ -40,7 +49,7 @@ function respuesta(diaInicial, dias, base, cambios) {
 
 const ATARDECER = (datos) => {
   const p = S.prepararPrevision(datos);
-  return { p, r: S.puntuarAtardecer(p, p.dias[1]) }; // día 2 de la respuesta
+  return { p, r: puntuarAtardecer(p, p.dias[1]) }; // día 2 de la respuesta
 };
 const horaDe = (iso) => Number(iso.slice(11, 13));
 const esDia = (iso, n) => iso.slice(0, 10) === ["2026-11-17", "2026-11-18", "2026-11-19"][n];
@@ -99,7 +108,7 @@ prueba("atardecer: niebla avisa", () => {
 
 prueba("atardecer: la ventana son las horas de 17 a 18 más la de las 18 (1 h antes a 30 min después)", () => {
   const p = S.prepararPrevision(respuesta("2026-11-18", 3, {}));
-  const horas = S.ventanaAtardecer(p, p.dias[1]).map((x) => new Date(x.t + 3600000).toISOString().slice(11, 13));
+  const horas = ventanaAtardecer(p, p.dias[1]).map((x) => new Date(x.t + 3600000).toISOString().slice(11, 13));
   assert.deepEqual(horas, ["17", "18"]);
 });
 
@@ -110,7 +119,7 @@ prueba("atardecer: con el caso real del 19 de noviembre (llovizna y cielo bajo) 
     if (iso === "2026-11-19T18:00") return { bajas: 71, medias: 49, altas: 0, lluvia: 0.2, prob: 93 };
     return {};
   });
-  const r = S.puntuarAtardecer(S.prepararPrevision(datos), S.prepararPrevision(datos).dias[1]);
+  const r = puntuarAtardecer(S.prepararPrevision(datos), S.prepararPrevision(datos).dias[1]);
   assert.equal(r.motivoVeto, null);
   assert.ok(["ambar", "rojo"].includes(r.nivel));
 });
@@ -124,12 +133,12 @@ function nocheDel(datos, i) {
 }
 const LUNA = (datos, fraccion = 0.62, i = 1) => {
   const { p, inicio, fin } = nocheDel(datos, i);
-  return S.puntuarLuna(p, inicio, fin, LAT, LON, fraccion);
+  return puntuarLuna(p, inicio, fin, LAT, LON, fraccion);
 };
 
 prueba("luna: la noche del 18 de noviembre hay ventana de luna alta (de 19:00 a 00:00 aprox.)", () => {
   const { p, inicio, fin } = nocheDel(respuesta("2026-11-17", 4, {}), 1);
-  const h = S.ventanaLuna(p, inicio, fin, LAT, LON).map((x) => new Date(x.t + 3600000).getUTCHours());
+  const h = ventanaLuna(p, inicio, fin, LAT, LON).map((x) => new Date(x.t + 3600000).getUTCHours());
   assert.ok(h.length >= 4 && h.length <= 8, "horas: " + h.join(","));
   assert.ok(h.includes(21), "debería incluir las 21:00");
 });
@@ -193,7 +202,7 @@ prueba("luna: existe alguna noche sin luna alta y entonces no hay semáforo", ()
   const p = S.prepararPrevision(datos);
   const sinLuna = [];
   for (let i = 0; i < 4; i++) {
-    const r = S.puntuarLuna(p, p.dias[i].puesta, p.dias[i + 1].amanecer, LAT, LON, 0.3);
+    const r = puntuarLuna(p, p.dias[i].puesta, p.dias[i + 1].amanecer, LAT, LON, 0.3);
     if (r.nivel === "ninguno") sinLuna.push(p.dias[i].fecha);
   }
   assert.ok(sinLuna.length >= 1, "ninguna noche sin luna entre el 8 y el 12 de diciembre");
@@ -203,9 +212,9 @@ prueba("luna: existe alguna noche sin luna alta y entonces no hay semáforo", ()
 prueba("luna: las horas que ya pasaron se descartan", () => {
   const datos = respuesta("2026-11-17", 4, { total: 10 });
   const { p, inicio, fin } = nocheDel(datos, 1);
-  const sinFiltro = S.ventanaLuna(p, inicio, fin, LAT, LON).length;
+  const sinFiltro = ventanaLuna(p, inicio, fin, LAT, LON).length;
   const desde = Date.parse("2026-11-18T22:30:00Z"); // 23:30 locales
-  const con = S.ventanaLuna(p, inicio, fin, LAT, LON, desde).length;
+  const con = ventanaLuna(p, inicio, fin, LAT, LON, desde).length;
   assert.ok(con < sinFiltro && con >= 1, sinFiltro + " -> " + con);
 });
 
@@ -220,10 +229,82 @@ prueba("luna: si ya pasó toda la luna alta de la noche en curso se dice que ya 
   const datos = respuesta("2026-11-17", 4, { total: 10 });
   const { p, inicio, fin } = nocheDel(datos, 1);
   const tarde = Date.parse("2026-11-19T01:30:00Z"); // 02:30 locales del día 19, luna ya baja
-  const r = S.puntuarLuna(p, inicio, fin, LAT, LON, 0.62, tarde);
+  const r = puntuarLuna(p, inicio, fin, LAT, LON, 0.62, tarde);
   assert.equal(r.nivel, "ninguno");
   assert.equal(r.yaPaso, true);
   assert.match(r.motivo, /Ya no quedan/);
+});
+
+/* ---------- Los datos mandan ---------- */
+
+const copia = (x) => JSON.parse(JSON.stringify(x));
+
+prueba("datos: cambiar un umbral en data/ cambia el resultado (sin tocar código)", () => {
+  const cfg = cargarDatos();
+  const datos = respuesta("2026-11-17", 4, { total: 45 });
+  const antes = Semaforo.crear(cfg);
+  const p = antes.prepararPrevision(datos);
+  const ev = (S2) => S2.evaluar("luna", p, { inicio: p.dias[1].puesta, fin: p.dias[2].amanecer, lat: LAT, lon: LON, fraccion: 0.62 });
+  assert.equal(ev(antes).nivel, "ambar");           // 45 % está entre 30 y 60
+  cfg.generos.luna.nubes.verdeMenosDe = 50;         // más permisivo
+  assert.equal(ev(Semaforo.crear(cfg)).nivel, "verde");
+  cfg.generos.luna.nubes.ambarHasta = 40; cfg.generos.luna.nubes.verdeMenosDe = 30;
+  assert.equal(ev(Semaforo.crear(cfg)).nivel, "rojo"); // más estricto
+});
+
+prueba("datos: cambiar los puntos del atardecer cambia la nota", () => {
+  const cfg = cargarDatos();
+  const datos = respuesta("2026-11-18", 3, { bajas: 10, medias: 30, altas: 50, lluvia: 0 });
+  const nota = (c) => { const S2 = Semaforo.crear(c); const p = S2.prepararPrevision(datos); return S2.evaluar("atardecer", p, { dia: p.dias[1] }).total; };
+  const antes = nota(cfg);
+  cfg.generos.atardecer.factores[0].tramos[0].puntos = 30; // bajas < 20 %: de 40 a 30 puntos
+  assert.equal(nota(cfg), antes - 10);
+});
+
+prueba("datos: la explicación en palabras sale de los mismos datos", () => {
+  const cfg = cargarDatos();
+  const texto = Semaforo.crear(cfg).explicar("atardecer").join(" ");
+  assert.match(texto, /Nubes bajas \(hasta 40 puntos\): menos de 20 % da 40/);
+  assert.match(texto, /de 20 a 40 % da 28/);
+  assert.match(texto, /por encima de 88 %/);
+  cfg.generos.atardecer.vetos[1].masDe = 95;
+  assert.match(Semaforo.crear(cfg).explicar("atardecer").join(" "), /por encima de 95 %/);
+  assert.match(Semaforo.crear(cfg).explicar("luna").join(" "), /menos de 30 % es verde/);
+});
+
+prueba("datos: un género NUEVO (amanecer) se añade solo con datos", () => {
+  const cfg = cargarDatos();
+  const amanecer = copia(cfg.generos.atardecer);
+  Object.assign(amanecer, {
+    id: "amanecer", nombre: "Amanecer", evento: "amanecer", eventoNombre: "el amanecer",
+    textoEvento: "Amanecer a las {hora}", textoBrujula: "Al amanecer, mira hacia el {direccion} ({grados}°).",
+    avisoNiebla: "Hay niebla al amanecer."
+  });
+  amanecer.vetos[0].motivo = "Se espera lluvia fuerte al amanecer.";
+  cfg.generos.amanecer = amanecer;
+  cfg.indice.orden.push("amanecer");
+  assert.deepEqual(Datos.validar(cfg), [], "el género nuevo debería ser válido");
+
+  const S2 = Semaforo.crear(cfg);
+  const p = S2.prepararPrevision(respuesta("2026-11-17", 4, { bajas: 10, medias: 30, altas: 50 }));
+  const horas = S2.ventana("amanecer", p, { dia: p.dias[1] }).map((x) => new Date(x.t + 3600000).getUTCHours());
+  assert.deepEqual(horas, [7, 8], "ventana alrededor del amanecer (08:28 local)");
+  const r = S2.evaluar("amanecer", p, { dia: p.dias[1] });
+  assert.equal(r.genero, "amanecer");
+  assert.equal(r.nivel, "verde");
+  assert.equal(r.titulo, "Prometedor");
+});
+
+prueba("tramos: descripción en palabras", () => {
+  assert.equal(Semaforo.describirTramo({ menosDe: 20 }), "menos de 20 %");
+  assert.equal(Semaforo.describirTramo({ desde: 20, hasta: 70 }), "de 20 a 70 %");
+  assert.equal(Semaforo.describirTramo({ desde: 10, menosDe: 20 }), "de 10 % a menos de 20 %");
+  assert.equal(Semaforo.describirTramo({ masDe: 70, hasta: 85 }), "más de 70 % y hasta 85 %");
+  assert.equal(Semaforo.describirTramo({}), "el resto");
+});
+
+prueba("género inexistente da un error claro", () => {
+  assert.throws(() => S.evaluar("surf", {}, {}), /No existe el género «surf»/);
 });
 
 console.log(fallos ? "\n" + fallos + " prueba(s) con fallo" : "\nTodo correcto");

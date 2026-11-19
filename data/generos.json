@@ -1,0 +1,9 @@
+{
+  "orden": [
+    "atardecer",
+    "luna"
+  ],
+  "porDefecto": "atardecer",
+  "porDefectoDeNoche": "luna",
+  "nocheDespuesPuestaMin": 30
+}

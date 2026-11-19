@@ -47,7 +47,7 @@
   button.principal { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
   #estado { min-height: 1.5em; color: var(--suave); margin: 6px 0 12px; font-size: .9rem; }
 
-  .pestanas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .pestanas { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; margin-bottom: 12px; }
   .pestanas button { padding: 14px 10px; font-weight: 700; font-size: 1.1rem; border-width: 2px; }
   .pestanas button[aria-selected="true"] { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
   .dias { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
@@ -93,6 +93,7 @@
 
   details.reglas { margin-top: 20px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 12px 16px; }
   details.reglas summary { cursor: pointer; font-weight: 600; }
+  details.reglas h4 { margin: 16px 0 4px; }
   details.reglas ul { padding-left: 20px; }
   a { color: inherit; }
   .pie { color: var(--suave); font-size: .85rem; margin-top: 24px; }
@@ -118,40 +119,28 @@
   </section>
   <p id="estado" role="status" aria-live="polite"></p>
 
-  <div class="pestanas" role="tablist" aria-label="Qué fotografiar">
-    <button role="tab" id="tab-atardecer" aria-selected="true" data-tab="atardecer">Atardecer</button>
-    <button role="tab" id="tab-luna" aria-selected="false" data-tab="luna">Luna</button>
-  </div>
+  <div class="pestanas" id="tabs" role="tablist" aria-label="Qué fotografiar"></div>
   <div class="dias" id="dias" role="group" aria-label="Día"></div>
   <section class="panel" id="panel" role="tabpanel" aria-live="polite"></section>
 
-  <details class="reglas">
-    <summary>Cómo se calcula</summary>
-    <p><strong>Atardecer.</strong> Se miran las horas desde 1 h antes hasta 30 min después de la puesta y se suman hasta 100 puntos:</p>
-    <ul>
-      <li><strong>Nubes bajas</strong> (hasta 40): menos de 20 % da 40; de 20 a 40 %, 28; de 40 a 60 %, 18; de 60 a 75 %, 10; por encima, 4.</li>
-      <li><strong>Nubes medias y altas</strong> (hasta 50): se toma la mayor de las dos. De 20 a 70 % da 50; de 10 a 20 % o de 70 a 85 %, 25; el resto, 5.</li>
-      <li><strong>Lluvia</strong> (hasta 10): sin lluvia, 10; llovizna, 7; moderada, 2; fuerte, 0.</li>
-    </ul>
-    <p>De 70 a 100 es verde, de 40 a 69 ámbar y menos de 40 rojo. Rojo directo con lluvia fuerte (más de 2,5 mm/h) o nubes bajas por encima de 88 %. La lluvia moderada limita a ámbar.</p>
-    <p><strong>Luna.</strong> Se buscan las horas de la noche en las que la luna está a más de 10° sobre el horizonte y ya ha anochecido. Se valora la hora con menos nubes totales (descartando las de lluvia fuerte): menos de 30 % es verde, de 30 a 60 % ámbar y más de 60 % rojo. La lluvia moderada limita a ámbar. La fase no cambia la nota, solo el consejo. Si la luna no está alta de noche o es luna nueva, no hay semáforo.</p>
-    <p><strong>Tormenta eléctrica:</strong> nunca es verde y lleva un aviso de seguridad. Los umbrales son un punto de partida y hay que calibrarlos con salidas reales.</p>
-  </details>
+  <details class="reglas" id="reglas"><summary>Cómo se calcula</summary></details>
 
   <p class="pie">Previsión de <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0); sol y luna calculados en el dispositivo con SunCalc. La previsión no ve el horizonte: nunca es una garantía. Las horas son las de tu dispositivo. Tu lugar se guarda solo en tu dispositivo; para ponerle nombre se consulta OpenStreetMap con unas coordenadas aproximadas.</p>
 </main>
 
-<script src="../lib/suncalc.js?v=3"></script>
-<script src="../js/astro.js?v=3"></script>
-<script src="../js/semaforo.js?v=3"></script>
-<script src="../js/lugar.js?v=3"></script>
+<script src="../lib/suncalc.js?v=4"></script>
+<script src="../js/astro.js?v=4"></script>
+<script src="../js/datos.js?v=4"></script>
+<script src="../js/semaforo.js?v=4"></script>
+<script src="../js/lugar.js?v=4"></script>
 <script>
 "use strict";
 const $ = (id) => document.getElementById(id);
 const HORA = 3600000;
 const SIMBOLO = { verde: "●", ambar: "▲", rojo: "■", ninguno: "○" };
 
-const estado = { lugar: null, peticion: 0, resultados: [], prev: null, lat: 0, lon: 0, pestana: "atardecer", indice: 0, ahora: 0, listas: null, pestanaElegida: false };
+const estado = { lugar: null, peticion: 0, resultados: [], prev: null, lat: 0, lon: 0, pestana: null, indice: 0, ahora: 0, listas: null, pestanaElegida: false };
+let config = null, S = null; // datos de data/ y motores configurados con ellos
 
 const hm = (ms) => ms == null ? "—" : new Date(ms).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
 const pct = (v) => Math.round(v) + " %";
@@ -170,28 +159,31 @@ function urlPrevision(lat, lon) {
   return "https://api.open-meteo.com/v1/forecast?" + p;
 }
 
-// Listas de lo que se puede consultar: atardeceres que aún no han pasado y noches que aún no han acabado
-function construirListas(prev, ahora) {
-  const atardeceres = prev.dias.filter((d) => d.puesta + HORA / 2 > ahora).slice(0, 3);
+// Qué se puede consultar en cada género. El tipo de lista depende del motor, no del género.
+function nochesDe(prev, ahora) {
   const noches = [];
-  for (let i = 0; i < prev.dias.length - 1 && noches.length < 3; i++) {
+  for (let i = 0; i < prev.dias.length - 1; i++) {
     const inicio = prev.dias[i].puesta, fin = prev.dias[i + 1].amanecer;
     if (fin > ahora) noches.push({ fecha: prev.dias[i].fecha, inicio, fin });
   }
-  return { atardeceres, noches };
+  return noches;
+}
+
+function listaDe(g, prev, ahora) {
+  if (g.motor === "puntos-ventana") {
+    return prev.dias.filter((d) => d[g.evento] + g.ventana.despuesMin * 60000 > ahora)
+      .map((d) => ({ fecha: d.fecha, evento: d[g.evento], dia: d })).slice(0, 3);
+  }
+  return nochesDe(prev, ahora).slice(0, 3);
 }
 
 function fechaLugar(ms, prev) { return new Date(ms + prev.desfaseMs).toISOString().slice(0, 10); }
 
-function etiquetaDia(x, prev, ahora, noche) {
-  const hoy = fechaLugar(ahora, prev);
-  const manana = fechaLugar(ahora + 24 * HORA, prev);
-  const d = new Date(x.fecha + "T12:00:00").toLocaleDateString("es-ES", { weekday: "long" });
-  if (noche) {
-    if (x.inicio <= ahora) return "Ahora";
-    return x.fecha === hoy ? "Esta noche" : x.fecha === manana ? "Mañana noche" : mayus(d) + " noche";
-  }
-  return x.fecha === hoy ? "Hoy" : x.fecha === manana ? "Mañana" : mayus(d);
+function etiquetaDia(g, x, prev, ahora) {
+  const e = g.etiquetasDia, hoy = fechaLugar(ahora, prev), manana = fechaLugar(ahora + 24 * HORA, prev);
+  if (g.motor === "mejor-hora-nocturna" && x.inicio <= ahora && e.ahora) return e.ahora;
+  const dia = mayus(new Date(x.fecha + "T12:00:00").toLocaleDateString("es-ES", { weekday: "long" }));
+  return Semaforo.plantilla(x.fecha === hoy ? e.hoy : x.fecha === manana ? e.manana : e.otro, { dia });
 }
 
 /* ---------- Dibujos ---------- */
@@ -225,68 +217,64 @@ const veredicto = (nivel, titulo, nota, texto) => `
 
 const avisos = (lista) => lista.length ? `<div class="avisos">${lista.map((a) => `<p>⚠ ${a}</p>`).join("")}</div>` : "";
 
-/* ---------- Pestaña Atardecer ---------- */
+/* ---------- Paneles (uno por motor: sirven para cualquier género que lo use) ---------- */
 
-function panelAtardecer(dia) {
-  const r = Semaforo.puntuarAtardecer(estado.prev, dia);
+function panelPuntos(g, item) {
+  const r = S.evaluar(g.id, estado.prev, { dia: item.dia });
   if (!r) return `<p>No hay previsión para esa hora todavía.</p>`;
-  const sol = Astro.calcularDia(new Date(dia.fecha + "T12:00:00"), estado.lat, estado.lon).sol;
-  const nombre = Semaforo.TEXTOS_NIVEL.atardecer[r.nivel];
+  const sol = Astro.calcularDia(new Date(item.fecha + "T12:00:00"), estado.lat, estado.lon).sol;
+  const alAmanecer = g.evento === "amanecer";
+  const az = alAmanecer ? sol.azAmanecer : sol.azPuesta;
+  const palabra = alAmanecer ? sol.palabraAmanecer : sol.palabraPuesta;
+  const horaSol = (d) => hm(d && d.getTime());
 
   const filas = r.horas.map((x) => `<tr><td>${hm(x.t)}</td>
     <td class="num">${pct(x.bajas)}</td><td class="num">${pct(x.medias)}</td><td class="num">${pct(x.altas)}</td>
     <td class="num">${x.lluvia.toFixed(1)}</td><td class="num">${pct(x.prob)}</td><td class="num">${x.vis.toFixed(0)}</td></tr>`).join("");
+  const factores = r.factores.map((f) => `<tr><td>${escapar(f.etiqueta)} (${f.nivel ? f.valor.toFixed(1) + " mm/h" : pct(f.valor)})</td>
+    <td>${escapar(f.frase)}</td><td class="num">${f.puntos} / ${f.max}</td></tr>`).join("");
 
   return `
-    <p class="subtitulo">Puesta de sol a las <strong>${hm(dia.puesta)}</strong> · hora dorada desde las ${hm(sol.horaDorada && sol.horaDorada.getTime())} · hora azul hasta las ${hm(sol.finHoraAzul && sol.finHoraAzul.getTime())}</p>
-    ${veredicto(r.nivel, nombre, r.total + " de 100 puntos", Semaforo.resumenAtardecer(r))}
+    <p class="subtitulo">${Semaforo.plantilla(escapar(g.textoEvento), { hora: "<strong>" + hm(item.evento) + "</strong>", dorada: horaSol(sol.horaDorada), finAzul: horaSol(sol.finHoraAzul) })}</p>
+    ${veredicto(r.nivel, escapar(r.titulo), r.total + " de 100 puntos", escapar(r.resumen))}
     ${avisos(r.avisos)}
-    <div class="brujula">${flecha(sol.azPuesta)}
-      <p>Al atardecer, mira hacia el <strong>${unida(sol.palabraPuesta)}</strong> (${Math.round(sol.azPuesta)}°).</p></div>
+    <div class="brujula">${flecha(az)}
+      <p>${Semaforo.plantilla(escapar(g.textoBrujula), { direccion: "<strong>" + unida(palabra) + "</strong>", grados: Math.round(az) })}</p></div>
 
     <h3>Qué pesa en la nota</h3>
     <table>
       <thead><tr><th>Factor</th><th>Qué significa</th><th class="num">Puntos</th></tr></thead>
-      <tbody>
-        <tr><td>Nubes bajas (${pct(r.bajas)})</td><td>${Semaforo.fraseBajas(r.bajas)}</td><td class="num">${r.pBajas} / 40</td></tr>
-        <tr><td>Nubes medias y altas (${pct(r.cielo)})</td><td>${Semaforo.fraseCielo(r.cielo)}</td><td class="num">${r.pCielo} / 50</td></tr>
-        <tr><td>Lluvia (${r.lluvia.toFixed(1)} mm/h)</td><td>${Semaforo.fraseLluvia(r.lluvia, r.tormenta, "a la hora de la puesta")}</td><td class="num">${r.pLluvia} / 10</td></tr>
-        <tr class="total"><td colspan="2">Total</td><td class="num">${r.total} / 100</td></tr>
-      </tbody>
+      <tbody>${factores}<tr class="total"><td colspan="2">Total</td><td class="num">${r.total} / 100</td></tr></tbody>
     </table>
 
     <h3>Capas de nubes</h3>
-    <div class="capas">${barra("Bajas", r.bajas, "var(--barra-baja)")}${barra("Medias", r.medias, "var(--barra-media)")}${barra("Altas", r.altas, "var(--barra-alta)")}</div>
+    <div class="capas">${barra("Bajas", r.capas.bajas, "var(--barra-baja)")}${barra("Medias", r.capas.medias, "var(--barra-media)")}${barra("Altas", r.capas.altas, "var(--barra-alta)")}</div>
 
     <h3>Horas analizadas</h3>
     <table><thead><tr><th>Hora</th><th class="num">Bajas</th><th class="num">Medias</th><th class="num">Altas</th>
       <th class="num">mm/h</th><th class="num">Prob.</th><th class="num">Visib. km</th></tr></thead><tbody>${filas}</tbody></table>`;
 }
 
-/* ---------- Pestaña Luna ---------- */
-
-function panelLuna(noche) {
-  const lunaDia = Astro.calcularDia(new Date(noche.fecha + "T12:00:00"), estado.lat, estado.lon).luna;
-  const desde = noche.inicio <= estado.ahora ? estado.ahora : undefined;
-  const r = Semaforo.puntuarLuna(estado.prev, noche.inicio, noche.fin, estado.lat, estado.lon, lunaDia.fraccion, desde);
-  const nombre = r.yaPaso ? "Esta luna ya ha pasado" : Semaforo.TEXTOS_NIVEL.luna[r.nivel];
+function panelNocturno(g, item) {
+  const lunaDia = Astro.calcularDia(new Date(item.fecha + "T12:00:00"), estado.lat, estado.lon).luna;
+  const fase = g.fases[lunaDia.faseId];
+  const desde = item.inicio <= estado.ahora ? estado.ahora : undefined;
+  const r = S.evaluar(g.id, estado.prev, { inicio: item.inicio, fin: item.fin, lat: estado.lat, lon: estado.lon, fraccion: lunaDia.fraccion, desde });
 
   const sale = lunaDia.sale ? `${hm(lunaDia.sale.getTime())}<small>hacia el ${unida(lunaDia.palabraSale)}</small>` : "—<small>no sale este día</small>";
   const pone = lunaDia.seSitua
     ? `${hm(lunaDia.seSitua.getTime())}<small>${lunaDia.seSituaAlDiaSiguiente ? "ya de madrugada, " : ""}hacia el ${unida(lunaDia.palabraSeSitua)}</small>` : "—";
 
-  let nota, cuerpo = "";
-  if (r.nivel === "ninguno") {
-    nota = lunaDia.nombre;
-  } else {
+  let nota = fase.nombre, cuerpo = "";
+  if (r.nivel !== "ninguno" && !r.sinUtiles) {
     nota = `Mejor hora: ${hm(r.mejorHora)} · nubes ${pct(r.nubes)}`;
     const filas = r.horas.map((x) => `<tr class="${x.t === r.mejorHora ? "mejor" : ""}"><td>${hm(x.t)}</td>
       <td class="num">${pct(x.total)}</td><td class="num">${x.lluvia.toFixed(1)}</td><td class="num">${pct(x.prob)}</td><td class="num">${x.vis.toFixed(0)}</td></tr>`).join("");
     cuerpo = `
       <h3>Qué pesa en la nota</h3>
       <table><tbody>
-        <tr><td>Nubes en la mejor hora (${pct(r.nubes)})</td><td>${Semaforo.fraseNubesLuna(r.nubes)}</td></tr>
-        <tr><td>Lluvia (${r.lluvia.toFixed(1)} mm/h)</td><td>${Semaforo.fraseLluvia(r.lluvia, r.tormenta, "cuando la luna está alta")}</td></tr>
+        <tr><td>Nubes en la mejor hora (${pct(r.nubes)})</td><td>${escapar(r.fraseNubes)}</td></tr>
+        <tr><td>Lluvia (${r.lluvia.toFixed(1)} mm/h)</td><td>${escapar(r.fraseLluvia)}</td></tr>
         <tr><td>Luna alta</td><td>Entre las ${hm(r.primera)} y las ${hm(r.ultima)}</td></tr>
       </tbody></table>
       <h3>Horas con la luna alta</h3>
@@ -294,37 +282,54 @@ function panelLuna(noche) {
   }
 
   return `
-    <p class="subtitulo">${noche.inicio <= estado.ahora ? "Noche en curso" : "Noche"} del ${new Date(noche.fecha + "T12:00:00").toLocaleDateString("es-ES", { day: "numeric", month: "long" })}</p>
-    ${veredicto(r.nivel, nombre, nota, Semaforo.resumenLuna(r))}
+    <p class="subtitulo">${item.inicio <= estado.ahora ? "Noche en curso" : "Noche"} del ${new Date(item.fecha + "T12:00:00").toLocaleDateString("es-ES", { day: "numeric", month: "long" })}</p>
+    ${veredicto(r.nivel, escapar(r.titulo), escapar(nota), escapar(r.resumen))}
     ${avisos(r.avisos)}
     <div class="luna-cab">${lunaSvg(lunaDia.fase, estado.lat < 0)}
-      <p><span class="luna-nombre">${lunaDia.nombre}</span><br>${Math.round(lunaDia.fraccion * 100)} % iluminada, ${lunaDia.creciente ? "creciendo" : "menguando"}</p></div>
+      <p><span class="luna-nombre">${escapar(fase.nombre)}</span><br>${Math.round(lunaDia.fraccion * 100)} % iluminada, ${lunaDia.creciente ? "creciendo" : "menguando"}</p></div>
     <dl><dt>Sale</dt><dd>${sale}</dd><dt>Se pone</dt><dd>${pone}</dd></dl>
-    <p class="consejo">${lunaDia.consejo}</p>
+    <p class="consejo">${escapar(fase.consejo)}</p>
     ${cuerpo}`;
 }
 
+const PANELES = { "puntos-ventana": panelPuntos, "mejor-hora-nocturna": panelNocturno };
+
 /* ---------- Pintado general ---------- */
+
+function construirPestanas() {
+  const ids = config.indice.orden;
+  $("tabs").innerHTML = ids.map((id) =>
+    `<button role="tab" id="tab-${id}" aria-selected="false" data-tab="${id}">${escapar(config.generos[id].nombre)}</button>`).join("");
+}
+
+// La explicación se genera desde los mismos datos que usa el semáforo, así que no puede quedar desfasada
+function construirExplicaciones() {
+  $("reglas").innerHTML = "<summary>Cómo se calcula</summary>" +
+    config.indice.orden.map((id) =>
+      `<h4>${escapar(config.generos[id].nombre)}</h4><ul>${S.explicar(id).map((l) => `<li>${escapar(l)}</li>`).join("")}</ul>`).join("") +
+    `<p>Con tormenta eléctrica el semáforo nunca es verde y lleva un aviso de seguridad. Los umbrales y los textos están en la carpeta <code>data/</code> del proyecto y son un punto de partida: hay que calibrarlos con salidas reales.</p>`;
+}
 
 function pintar() {
   const { listas, prev, ahora } = estado;
-  const noche = estado.pestana === "luna";
-  const lista = noche ? listas.noches : listas.atardeceres;
+  const g = config.generos[estado.pestana];
+  const lista = listas[g.id];
   if (estado.indice >= lista.length) estado.indice = 0;
 
   document.querySelectorAll(".pestanas button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.tab === estado.pestana)));
   $("dias").innerHTML = lista.map((x, i) =>
-    `<button type="button" data-i="${i}" aria-pressed="${i === estado.indice}">${etiquetaDia(x, prev, ahora, noche)}</button>`).join("");
+    `<button type="button" data-i="${i}" aria-pressed="${i === estado.indice}">${escapar(etiquetaDia(g, x, prev, ahora))}</button>`).join("");
 
   $("panel").innerHTML = lista.length
-    ? (noche ? panelLuna(lista[estado.indice]) : panelAtardecer(lista[estado.indice]))
+    ? PANELES[g.motor](g, lista[estado.indice])
     : "<p>No hay previsión disponible para estos días.</p>";
 }
 
-// Pestaña por defecto: de 30 min después de la puesta hasta el amanecer, Luna; el resto del día, Atardecer
-function pestanaPorDefecto(listas, ahora) {
-  const n = listas.noches[0];
-  return n && ahora >= n.inicio + HORA / 2 && ahora < n.fin ? "luna" : "atardecer";
+// De noche (desde unos minutos después de la puesta hasta el amanecer) se abre la pestaña nocturna; el resto del día, la normal
+function pestanaPorDefecto(prev, ahora) {
+  const n = nochesDe(prev, ahora)[0];
+  const deNoche = n && ahora >= n.inicio + config.indice.nocheDespuesPuestaMin * 60000 && ahora < n.fin;
+  return deNoche ? config.indice.porDefectoDeNoche : config.indice.porDefecto;
 }
 
 async function consultar(lat, lon) {
@@ -334,19 +339,20 @@ async function consultar(lat, lon) {
     const resp = await fetch(urlPrevision(lat, lon));
     if (!resp.ok) throw new Error("HTTP " + resp.status);
     const datos = await resp.json();
-    estado.prev = Semaforo.prepararPrevision(datos);
+    estado.prev = S.prepararPrevision(datos);
     estado.lat = lat; estado.lon = lon;
     estado.ahora = Date.now();
-    estado.listas = construirListas(estado.prev, estado.ahora);
-    if (!estado.pestanaElegida) estado.pestana = pestanaPorDefecto(estado.listas, estado.ahora);
+    estado.listas = Object.fromEntries(config.indice.orden.map((id) => [id, listaDe(config.generos[id], estado.prev, estado.ahora)]));
+    if (!estado.pestanaElegida) estado.pestana = pestanaPorDefecto(estado.prev, estado.ahora);
     estado.indice = 0;
     // Si la noche en curso ya no tiene luna alta, se empieza por la siguiente
-    if (estado.pestana === "luna") {
-      const n = estado.listas.noches[0];
+    const g = config.generos[estado.pestana];
+    if (g.motor === "mejor-hora-nocturna") {
+      const n = estado.listas[g.id][0];
       if (n && n.inicio <= estado.ahora) {
         const f = Astro.calcularDia(new Date(n.fecha + "T12:00:00"), lat, lon).luna.fraccion;
-        const r = Semaforo.puntuarLuna(estado.prev, n.inicio, n.fin, lat, lon, f, estado.ahora);
-        if (r.nivel === "ninguno" && estado.listas.noches.length > 1) estado.indice = 1;
+        const r = S.evaluar(g.id, estado.prev, { inicio: n.inicio, fin: n.fin, lat, lon, fraccion: f, desde: estado.ahora });
+        if (r.nivel === "ninguno" && estado.listas[g.id].length > 1) estado.indice = 1;
       }
     }
     $("estado").textContent = "Previsión de las " + hm(estado.ahora) + " · " + datos.timezone;
@@ -356,7 +362,7 @@ async function consultar(lat, lon) {
   }
 }
 
-document.querySelector(".pestanas").addEventListener("click", (ev) => {
+$("tabs").addEventListener("click", (ev) => {
   const b = ev.target.closest("button[data-tab]");
   if (!b || !estado.listas) return;
   estado.pestana = b.dataset.tab; estado.pestanaElegida = true; estado.indice = 0; pintar();
@@ -366,6 +372,7 @@ $("dias").addEventListener("click", (ev) => {
   if (!b) return;
   estado.indice = Number(b.dataset.i); pintar();
 });
+
 /* ---------- Lugar ---------- */
 
 const MENSAJES_GPS = {
@@ -448,13 +455,26 @@ $("resultados").addEventListener("click", (ev) => {
   fijarLugar(x.lat, x.lon, x.texto, "busqueda");
 });
 
-function arrancar() {
+async function arrancar() {
   // Si el navegador conservó una versión antigua de algún archivo, se explica en vez de fallar
-  if (typeof Astro === "undefined" || typeof Astro.alturas !== "function" || typeof Lugar === "undefined") {
+  if (typeof Astro === "undefined" || !(Astro.version >= 4) || typeof Datos === "undefined" ||
+      typeof Semaforo === "undefined" || typeof Semaforo.crear !== "function" || typeof Lugar === "undefined") {
     $("panel").innerHTML = "<p><strong>Tu navegador tiene guardada una versión antigua de la página.</strong> Recárgala con Ctrl+F5 (en el móvil, cierra la pestaña y vuelve a abrirla).</p>";
     $("nombreLugar").textContent = "—";
     return;
   }
+  try {
+    config = await Datos.cargar("../data/");
+    const errores = Datos.validar(config);
+    if (errores.length) { console.error("Errores en data/:\n" + errores.join("\n")); throw new Error("Hay un error en los datos: " + errores[0]); }
+    S = Semaforo.crear(config);
+  } catch (e) {
+    $("panel").innerHTML = "<p><strong>No he podido cargar los datos de la app.</strong> " + escapar(e.message) + "</p>";
+    $("nombreLugar").textContent = "—";
+    return;
+  }
+  construirPestanas();
+  construirExplicaciones();
   const guardado = Lugar.cargar();
   if (guardado) {
     fijarLugar(guardado.lat, guardado.lon, guardado.nombre, guardado.origen);

@@ -25,29 +25,22 @@
     return PUNTOS[Math.round(g / 22.5) % 16];
   }
 
-  // Fase de 0 a 1 (0 nueva, 0.25 cuarto creciente, 0.5 llena, 0.75 cuarto menguante)
-  function nombreFase(fase) {
+  // Fase de 0 a 1 (0 nueva, 0.25 cuarto creciente, 0.5 llena, 0.75 cuarto menguante) -> identificador.
+  // El nombre y el consejo de cada fase están en data/generos/luna.json.
+  function idFase(fase) {
     const cerca = (objetivo) => {
       const d = Math.abs(fase - objetivo);
       return Math.min(d, 1 - d) < 0.03;
     };
-    if (cerca(0)) return { clave: "nueva", nombre: "Luna nueva" };
-    if (cerca(0.25)) return { clave: "cuarto", nombre: "Cuarto creciente" };
-    if (cerca(0.5)) return { clave: "llena", nombre: "Luna llena" };
-    if (cerca(0.75)) return { clave: "cuarto", nombre: "Cuarto menguante" };
-    if (fase < 0.25) return { clave: "creciente", nombre: "Creciente" };
-    if (fase < 0.5) return { clave: "gibosa", nombre: "Gibosa creciente" };
-    if (fase < 0.75) return { clave: "gibosa", nombre: "Gibosa menguante" };
-    return { clave: "creciente", nombre: "Menguante" };
+    if (cerca(0)) return "nueva";
+    if (cerca(0.25)) return "cuarto-creciente";
+    if (cerca(0.5)) return "llena";
+    if (cerca(0.75)) return "cuarto-menguante";
+    if (fase < 0.25) return "creciente";
+    if (fase < 0.5) return "gibosa-creciente";
+    if (fase < 0.75) return "gibosa-menguante";
+    return "menguante";
   }
-
-  const CONSEJOS = {
-    nueva: "Casi no se ve. Noche buena para estrellas, no para fotografiar la luna.",
-    llena: "Muy brillante y de luz plana, sin relieve. Queda mejor dentro de un paisaje o entre nubes.",
-    cuarto: "La luz llega de lado y marca el relieve de los cráteres. Es la fase con más detalle.",
-    creciente: "Luz suave con el borde bien marcado. Buena para una luna fina sobre el paisaje.",
-    gibosa: "Sombras suaves y mucho brillo. Con teleobjetivo se aprecia relieve en el borde."
-  };
 
   function azimutDe(fecha, lat, lon, tipo) {
     if (!fecha) return null;
@@ -79,7 +72,6 @@
     // La luna se describe tal y como se ve a la hora de la puesta
     const referencia = t.sunset || fecha;
     const ilum = SunCalc.getMoonIllumination(referencia);
-    const f = nombreFase(ilum.phase);
 
     const hoy = SunCalc.getMoonTimes(fecha, lat, lon, desfase);
     const sigDia = new Date(fecha.getTime() + 86400000);
@@ -97,9 +89,7 @@
       fraccion: ilum.fraction,
       fase: ilum.phase,
       creciente: ilum.waxing,
-      clave: f.clave,
-      nombre: f.nombre,
-      consejo: CONSEJOS[f.clave],
+      faseId: idFase(ilum.phase),
       sale: hoy.rise || null,
       seSitua,
       seSituaAlDiaSiguiente,
@@ -123,5 +113,5 @@
     };
   }
 
-  return { puntoCardinal, nombreFase, calcularDia, alturas };
+  return { version: 4, puntoCardinal, idFase, calcularDia, alturas };
 });

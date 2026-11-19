@@ -1,0 +1,50 @@
+{
+  "id": "luna",
+  "nombre": "Luna",
+  "motor": "mejor-hora-nocturna",
+
+  "luna": {
+    "alturaMinGrados": 10,
+    "solMaxGrados": -1,
+    "fraccionMinima": 0.03
+  },
+  "nubes": { "campo": "total", "verdeMenosDe": 30, "ambarHasta": 60 },
+  "lluvia": { "momento": "cuando la luna está alta", "vetoDesde": "fuerte", "ambarSiLluviaDesde": "moderada" },
+
+  "niveles": {
+    "verde": "Se verá bien",
+    "ambar": "Posible entre nubes",
+    "rojo": "Poco probable",
+    "ninguno": "Sin luna esta noche",
+    "yaPaso": "Esta luna ya ha pasado"
+  },
+  "resumenes": {
+    "verde": "Cielo despejado cuando la luna está alta. Merece la pena salir.",
+    "ambar": "Habrá nubes, pero puede abrir algún hueco. Si sales, ten paciencia y mira las nubes cada poco.",
+    "rojo": "Cielo muy cubierto: la luna apenas se verá. Mejor otra noche."
+  },
+  "motivos": {
+    "lunaNueva": "Luna nueva: casi no se ve. Buena noche para estrellas, no para la luna.",
+    "sinLunaAlta": "Esta noche la luna no estará alta mientras es de noche.",
+    "yaPaso": "Ya no quedan horas de esta noche con la luna alta.",
+    "lluviaFuerte": "Se espera lluvia fuerte mientras la luna está alta."
+  },
+  "frasesNubes": [
+    { "menosDe": 30, "texto": "Cielo despejado o casi: la luna se verá limpia." },
+    { "hasta": 60, "texto": "Nubes a ratos: tendrás que esperar un hueco entre ellas." },
+    { "texto": "Cielo cubierto: la luna apenas se dejará ver." }
+  ],
+  "avisoNiebla": "Poca visibilidad (niebla): la luna se verá borrosa.",
+  "etiquetasDia": { "ahora": "Ahora", "hoy": "Esta noche", "manana": "Mañana noche", "otro": "{dia} noche" },
+
+  "fases": {
+    "nueva": { "nombre": "Luna nueva", "consejo": "Casi no se ve. Noche buena para estrellas, no para fotografiar la luna." },
+    "creciente": { "nombre": "Creciente", "consejo": "Luz suave con el borde bien marcado. Buena para una luna fina sobre el paisaje." },
+    "cuarto-creciente": { "nombre": "Cuarto creciente", "consejo": "La luz llega de lado y marca el relieve de los cráteres. Es la fase con más detalle." },
+    "gibosa-creciente": { "nombre": "Gibosa creciente", "consejo": "Sombras suaves y mucho brillo. Con teleobjetivo se aprecia relieve en el borde." },
+    "llena": { "nombre": "Luna llena", "consejo": "Muy brillante y de luz plana, sin relieve. Queda mejor dentro de un paisaje o entre nubes." },
+    "gibosa-menguante": { "nombre": "Gibosa menguante", "consejo": "Sombras suaves y mucho brillo. Con teleobjetivo se aprecia relieve en el borde." },
+    "cuarto-menguante": { "nombre": "Cuarto menguante", "consejo": "La luz llega de lado y marca el relieve de los cráteres. Es la fase con más detalle." },
+    "menguante": { "nombre": "Menguante", "consejo": "Luz suave con el borde bien marcado. Buena para una luna fina sobre el paisaje." }
+  }
+}

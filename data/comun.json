@@ -1,0 +1,24 @@
+{
+  "lluvia": {
+    "sinLluviaMm": 0.1,
+    "lloviznaMm": 0.5,
+    "fuerteMm": 2.5,
+    "tormentaCodigo": 95
+  },
+  "nieblaKm": 5,
+  "niveles": {
+    "verdeDesde": 70,
+    "ambarDesde": 40
+  },
+  "avisos": {
+    "tormenta": "Hay tormenta eléctrica en la previsión. Fotografía desde un sitio cubierto (coche, porche o ventana), lejos de zonas altas y sin trípode metálico a la intemperie. Si oyes truenos, recoge.",
+    "llovizna": "Puede haber llovizna: lleva algo para proteger la cámara."
+  },
+  "frasesLluvia": {
+    "tormenta": "Tormenta eléctrica prevista.",
+    "sin": "Sin lluvia {momento}.",
+    "llovizna": "Llovizna ligera.",
+    "moderada": "Lluvia moderada.",
+    "fuerte": "Lluvia fuerte."
+  }
+}

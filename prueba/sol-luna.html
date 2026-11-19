@@ -78,11 +78,12 @@
   <p class="pie">Cálculo con <a href="https://github.com/mourner/suncalc">SunCalc</a> (licencia BSD). Las horas pueden diferir uno o dos minutos de otras fuentes y no tienen en cuenta montes ni edificios del horizonte.</p>
 </main>
 
-<script src="../lib/suncalc.js?v=3"></script>
-<script src="../js/astro.js?v=3"></script>
+<script src="../lib/suncalc.js?v=4"></script>
+<script src="../js/astro.js?v=4"></script>
 <script>
 "use strict";
 const $ = (id) => document.getElementById(id);
+let FASES = {}; // nombre y consejo de cada fase, de data/generos/luna.json
 const hm = (d) => d ? d.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" }) : "—";
 const grados = (az) => Math.round(az) + "°";
 
@@ -118,6 +119,7 @@ function lunaSvg(fase, hemisferioSur) {
 
 function tarjeta(fecha, lat, lon) {
   const { sol, luna } = Astro.calcularDia(fecha, lat, lon);
+  const fase = FASES[luna.faseId] || { nombre: luna.faseId, consejo: "" };
 
   const sale = luna.sale ? `${hm(luna.sale)}<small>hacia el ${unida(luna.palabraSale)}</small>` : "—<small>no sale este día</small>";
   const pone = luna.seSitua
@@ -143,12 +145,12 @@ function tarjeta(fecha, lat, lon) {
       <div class="bloque">
         <h3>Luna</h3>
         <div class="luna-cab">${lunaSvg(luna.fase, lat < 0)}
-          <p><span class="luna-nombre">${luna.nombre}</span><br>${Math.round(luna.fraccion * 100)} % iluminada, ${luna.creciente ? "creciendo" : "menguando"}</p></div>
+          <p><span class="luna-nombre">${fase.nombre}</span><br>${Math.round(luna.fraccion * 100)} % iluminada, ${luna.creciente ? "creciendo" : "menguando"}</p></div>
         <dl>
           <dt>Sale</dt><dd>${sale}</dd>
           <dt>Se pone</dt><dd>${pone}</dd>
         </dl>
-        <p class="consejo">${luna.consejo}</p>
+        <p class="consejo">${fase.consejo}</p>
       </div>
     </div>
   </article>`;
@@ -185,7 +187,9 @@ $("gps").addEventListener("click", () => {
   );
 });
 
-calcular(42.2406, -8.7207);
+fetch("../data/generos/luna.json", { cache: "no-cache" })
+  .then((r) => r.json()).then((j) => { FASES = j.fases || {}; }).catch(() => {})
+  .then(() => calcular(42.2406, -8.7207));
 </script>
 </body>
 </html>

@@ -52,16 +52,16 @@ prueba("la hora dorada empieza antes de la puesta y la hora azul dura menos de u
   assert.ok(azul > 20 && azul < 60, "azul " + azul.toFixed(0) + " min");
 });
 
-prueba("nombres de fase", () => {
-  assert.equal(Astro.nombreFase(0.0).nombre, "Luna nueva");
-  assert.equal(Astro.nombreFase(0.99).nombre, "Luna nueva");
-  assert.equal(Astro.nombreFase(0.10).nombre, "Creciente");
-  assert.equal(Astro.nombreFase(0.25).nombre, "Cuarto creciente");
-  assert.equal(Astro.nombreFase(0.40).nombre, "Gibosa creciente");
-  assert.equal(Astro.nombreFase(0.50).nombre, "Luna llena");
-  assert.equal(Astro.nombreFase(0.60).nombre, "Gibosa menguante");
-  assert.equal(Astro.nombreFase(0.75).nombre, "Cuarto menguante");
-  assert.equal(Astro.nombreFase(0.90).nombre, "Menguante");
+prueba("identificadores de fase", () => {
+  assert.equal(Astro.idFase(0.0), "nueva");
+  assert.equal(Astro.idFase(0.99), "nueva");
+  assert.equal(Astro.idFase(0.10), "creciente");
+  assert.equal(Astro.idFase(0.25), "cuarto-creciente");
+  assert.equal(Astro.idFase(0.40), "gibosa-creciente");
+  assert.equal(Astro.idFase(0.50), "llena");
+  assert.equal(Astro.idFase(0.60), "gibosa-menguante");
+  assert.equal(Astro.idFase(0.75), "cuarto-menguante");
+  assert.equal(Astro.idFase(0.90), "menguante");
 });
 
 prueba("puntos cardinales", () => {
@@ -94,11 +94,12 @@ prueba("si la luna se pone de madrugada, se avisa de que es al día siguiente", 
   assert.ok(l.seSitua > l.sale);
 });
 
-prueba("todos los días tienen consejo para la luna", () => {
+prueba("todos los días de noviembre tienen una fase que existe en los datos", () => {
+  const luna = JSON.parse(require("node:fs").readFileSync(__dirname + "/../data/generos/luna.json", "utf8"));
   for (let i = 0; i < 30; i++) {
     const d = new Date(2026, 10, 1 + i, 12);
     const l = Astro.calcularDia(d, LAT, LON).luna;
-    assert.ok(typeof l.consejo === "string" && l.consejo.length > 10, "día " + (1 + i));
+    assert.ok(luna.fases[l.faseId], "día " + (1 + i) + ": fase " + l.faseId);
   }
 });
 

@@ -1,6 +1,13 @@
 /*
- * Semáforo de atardecer y de luna para luz-y-foto.
- * Reglas explicadas en docs/reglas-puntuacion.md (versión de la página de prueba, a calibrar).
+ * Motores del semáforo de luz-y-foto.
+ *
+ * Los umbrales, los puntos y los textos NO están aquí: se leen de data/ (ver docs/datos.md).
+ * Aquí solo están los dos motores de cálculo:
+ *   - "puntos-ventana": suma puntos de varios factores sobre las horas alrededor de un evento
+ *     del sol (la puesta, el amanecer...). Es el del atardecer.
+ *   - "mejor-hora-nocturna": busca las horas de la noche con la luna alta y valora la mejor. Es el de la luna.
+ * Un género nuevo que encaje en uno de los dos se añade solo con datos.
+ *
  * Funciona en el navegador (después de js/astro.js) y en Node (para las pruebas).
  */
 (function (raiz, fabrica) {
@@ -12,25 +19,11 @@
 })(typeof self !== "undefined" ? self : this, function (Astro) {
   "use strict";
 
+  const MIN = 60000;
   const HORA = 3600000;
+  const ORDEN_LLUVIA = { sin: 0, llovizna: 1, moderada: 2, fuerte: 3 };
 
-  const REGLAS = {
-    vetoBajas: 88,         // % de nubes bajas: por encima, el sol no se ve en el horizonte
-    lluviaModerada: 0.5,   // mm/h: hasta aquí es llovizna
-    lluviaFuerte: 2.5,     // mm/h: por encima, no se sale
-    nieblaKm: 5,           // visibilidad mínima antes de avisar de niebla
-    lunaAltaGrados: 10,    // la luna cuenta como "alta" por encima de esta altura
-    lunaVerde: 30,         // % de nubes totales
-    lunaAmbar: 60,
-    lunaNuevaFraccion: 0.03
-  };
-
-  const TEXTOS_NIVEL = {
-    atardecer: { verde: "Prometedor", ambar: "Posible, pero incierto", rojo: "Poco probable" },
-    luna: { verde: "Se verá bien", ambar: "Posible entre nubes", rojo: "Poco probable", ninguno: "Sin luna esta noche" }
-  };
-
-  /* ---------- Preparar los datos de Open-Meteo ---------- */
+  /* ---------- Previsión ---------- */
 
   // Convierte las horas del lugar ("2026-11-18T18:00") en instantes reales (milisegundos).
   function prepararPrevision(datos) {
@@ -65,185 +58,241 @@
   const media = (xs, f) => xs.reduce((a, x) => a + f(x), 0) / xs.length;
   const maximo = (xs, f) => Math.max(...xs.map(f));
   const minimo = (xs, f) => Math.min(...xs.map(f));
-  const hayTormenta = (xs) => xs.some((x) => x.codigo >= 95);
+  const plantilla = (texto, valores) => texto.replace(/\{(\w+)\}/g, (_, k) => (k in valores ? valores[k] : "—"));
+  const num = (n) => String(n).replace(".", ",");
 
-  function nivelPorPuntos(total) {
-    return total >= 70 ? "verde" : total >= 40 ? "ambar" : "rojo";
+  // Un tramo cumple si cumple todas sus condiciones (las que tenga): desde (>=), menosDe (<), hasta (<=), masDe (>)
+  function cumple(t, v) {
+    return (t.desde === undefined || v >= t.desde) && (t.menosDe === undefined || v < t.menosDe) &&
+      (t.hasta === undefined || v <= t.hasta) && (t.masDe === undefined || v > t.masDe);
+  }
+  const tramoDe = (tramos, v) => tramos.find((t) => cumple(t, v));
+
+  function describirTramo(t, unidad) {
+    const u = unidad || " %";
+    if (t.desde !== undefined && t.hasta !== undefined) return "de " + num(t.desde) + " a " + num(t.hasta) + u;
+    if (t.desde !== undefined && t.menosDe !== undefined) return "de " + num(t.desde) + u + " a menos de " + num(t.menosDe) + u;
+    if (t.masDe !== undefined && t.hasta !== undefined) return "más de " + num(t.masDe) + u + " y hasta " + num(t.hasta) + u;
+    if (t.menosDe !== undefined) return "menos de " + num(t.menosDe) + u;
+    if (t.hasta !== undefined) return "hasta " + num(t.hasta) + u;
+    if (t.masDe !== undefined) return "más de " + num(t.masDe) + u;
+    if (t.desde !== undefined) return num(t.desde) + u + " o más";
+    return "el resto";
   }
 
-  const AVISO_TORMENTA = "Hay tormenta eléctrica en la previsión. Fotografía desde un sitio cubierto (coche, porche o ventana), lejos de zonas altas y sin trípode metálico a la intemperie. Si oyes truenos, recoge.";
-  const AVISO_LLOVIZNA = "Puede haber llovizna: lleva algo para proteger la cámara.";
-  const AVISO_NIEBLA = "Poca visibilidad (niebla): el atardecer será difícil, pero la ría con niebla puede merecer la pena.";
+  /* ---------- Motores ---------- */
 
-  /* ---------- Atardecer ---------- */
+  function crear(config) {
+    const comun = config.comun;
+    const L = comun.lluvia;
 
-  // Horas desde 1 h antes hasta 30 min después de la puesta
-  function ventanaAtardecer(prev, dia) {
-    return prev.horas.filter((x) => x.t + HORA > dia.puesta - HORA && x.t <= dia.puesta + HORA / 2);
-  }
+    const nivelLluvia = (mm) => mm <= L.sinLluviaMm ? "sin" : mm <= L.lloviznaMm ? "llovizna" : mm <= L.fuerteMm ? "moderada" : "fuerte";
+    const lluviaDesde = (mm, minimoNivel) => ORDEN_LLUVIA[nivelLluvia(mm)] >= ORDEN_LLUVIA[minimoNivel];
+    const hayTormenta = (xs) => xs.some((x) => x.codigo >= L.tormentaCodigo);
+    const nivelPorPuntos = (total) => total >= comun.niveles.verdeDesde ? "verde" : total >= comun.niveles.ambarDesde ? "ambar" : "rojo";
 
-  function puntuarAtardecer(prev, dia) {
-    const v = ventanaAtardecer(prev, dia);
-    if (!v.length) return null;
-
-    const bajas = media(v, (x) => x.bajas);
-    const medias = media(v, (x) => x.medias);
-    const altas = media(v, (x) => x.altas);
-    const cielo = Math.max(medias, altas);
-    const lluvia = maximo(v, (x) => x.lluvia);
-    const prob = maximo(v, (x) => x.prob);
-    const vis = minimo(v, (x) => x.vis);
-    const tormenta = hayTormenta(v);
-
-    const pBajas = bajas < 20 ? 40 : bajas < 40 ? 28 : bajas < 60 ? 18 : bajas < 75 ? 10 : 4;
-    const pCielo = (cielo >= 20 && cielo <= 70) ? 50
-      : ((cielo >= 10 && cielo < 20) || (cielo > 70 && cielo <= 85)) ? 25 : 5;
-    const pLluvia = lluvia <= 0.1 ? 10 : lluvia <= REGLAS.lluviaModerada ? 7 : lluvia <= REGLAS.lluviaFuerte ? 2 : 0;
-    const total = pBajas + pCielo + pLluvia;
-
-    let nivel = nivelPorPuntos(total);
-    let motivoVeto = null;
-    const avisos = [];
-
-    if (tormenta) {
-      nivel = "ambar";
-      avisos.push(AVISO_TORMENTA);
-    } else if (lluvia > REGLAS.lluviaFuerte) {
-      nivel = "rojo";
-      motivoVeto = "Se espera lluvia fuerte a la hora de la puesta.";
-    } else if (bajas > REGLAS.vetoBajas) {
-      nivel = "rojo";
-      motivoVeto = "El cielo bajo está casi cerrado: el sol no se verá en el horizonte.";
-    } else if (lluvia > REGLAS.lluviaModerada && nivel === "verde") {
-      nivel = "ambar";
+    function fraseLluvia(mm, tormenta, momento) {
+      if (tormenta) return comun.frasesLluvia.tormenta;
+      return plantilla(comun.frasesLluvia[nivelLluvia(mm)], { momento });
     }
 
-    if (!tormenta && lluvia > 0.1 && lluvia <= REGLAS.lluviaModerada) avisos.push(AVISO_LLOVIZNA);
-    if (vis < REGLAS.nieblaKm) avisos.push(AVISO_NIEBLA);
+    const genero = (id) => {
+      const g = config.generos[id];
+      if (!g) throw new Error("No existe el género «" + id + "»");
+      return g;
+    };
 
-    return { horas: v, bajas, medias, altas, cielo, lluvia, prob, vis, tormenta, pBajas, pCielo, pLluvia, total, nivel, motivoVeto, avisos };
-  }
+    /* ----- puntos-ventana ----- */
 
-  /* ---------- Luna ---------- */
-
-  /*
-   * Horas de la noche (de la puesta de un día al amanecer del siguiente) en las que la luna
-   * está alta y ya es de noche. Cada hora se valora por su punto medio.
-   * `desde` (opcional) descarta lo que ya ha pasado.
-   */
-  function ventanaLuna(prev, inicio, fin, lat, lon, desde) {
-    return prev.horas.filter((x) => {
-      const medio = x.t + HORA / 2;
-      if (medio < inicio || medio > fin) return false;
-      if (desde !== undefined && x.t + HORA <= desde) return false;
-      const a = Astro.alturas(new Date(medio), lat, lon);
-      return a.luna >= REGLAS.lunaAltaGrados && a.sol < -1;
-    });
-  }
-
-  /*
-   * `fraccion`: parte iluminada de la luna esa noche (0 a 1).
-   * Devuelve nivel "ninguno" cuando no hay luna que fotografiar (no sale de noche o es luna nueva).
-   */
-  function puntuarLuna(prev, inicio, fin, lat, lon, fraccion, desde) {
-    const v = ventanaLuna(prev, inicio, fin, lat, lon, desde);
-
-    if (fraccion < REGLAS.lunaNuevaFraccion) {
-      return { horas: v, nivel: "ninguno", motivo: "Luna nueva: casi no se ve. Buena noche para estrellas, no para la luna.", avisos: [] };
+    // Horas desde `antesMin` antes hasta `despuesMin` después del evento
+    function ventanaPuntos(g, prev, dia) {
+      const ev = dia[g.evento];
+      const desde = ev - g.ventana.antesMin * MIN, hasta = ev + g.ventana.despuesMin * MIN;
+      return prev.horas.filter((x) => x.t + HORA > desde && x.t <= hasta);
     }
-    if (!v.length) {
-      // Si ya han pasado todas las horas útiles, se dice así en vez de dar a entender que no hubo luna
-      const entera = desde !== undefined && ventanaLuna(prev, inicio, fin, lat, lon).length > 0;
+
+    function puntuarVentana(g, prev, { dia }) {
+      const v = ventanaPuntos(g, prev, dia);
+      if (!v.length) return null;
+
+      const agregar = (campo, modo) => (modo === "maximo" ? maximo(v, (x) => x[campo]) : media(v, (x) => x[campo]));
+      const lluviaMm = maximo(v, (x) => x.lluvia);
+      const tormenta = hayTormenta(v);
+      const vis = minimo(v, (x) => x.vis);
+      const valores = {};
+
+      const factores = g.factores.map((f) => {
+        if (f.tipo === "lluvia") {
+          const nivel = nivelLluvia(lluviaMm);
+          valores[f.id] = lluviaMm;
+          return { id: f.id, etiqueta: f.etiqueta, valor: lluviaMm, nivel, puntos: f.puntos[nivel], max: f.max,
+            frase: fraseLluvia(lluviaMm, tormenta, f.momento) };
+        }
+        const porCampo = f.campos.map((c) => agregar(c, f.agregado));
+        const valor = f.combinar === "maximo" ? Math.max(...porCampo) : porCampo[0];
+        valores[f.id] = valor;
+        return { id: f.id, etiqueta: f.etiqueta, valor, puntos: tramoDe(f.tramos, valor).puntos, max: f.max,
+          frase: tramoDe(f.frases, valor).texto };
+      });
+
+      const total = factores.reduce((a, f) => a + f.puntos, 0);
+      let nivel = nivelPorPuntos(total);
+      let motivoVeto = null;
+      const avisos = [];
+
+      if (tormenta) {
+        nivel = "ambar";
+        avisos.push(comun.avisos.tormenta);
+      } else {
+        const veto = (g.vetos || []).find((x) => x.factor === "lluvia"
+          ? lluviaDesde(lluviaMm, x.nivel) : valores[x.factor] > x.masDe);
+        if (veto) { nivel = "rojo"; motivoVeto = veto.motivo; }
+        else if (nivel === "verde" && lluviaDesde(lluviaMm, g.ambarSiLluviaDesde)) nivel = "ambar";
+      }
+
+      if (!tormenta && nivelLluvia(lluviaMm) === "llovizna") avisos.push(comun.avisos.llovizna);
+      if (vis < comun.nieblaKm) avisos.push(g.avisoNiebla);
+
       return {
-        horas: v, nivel: "ninguno", avisos: [], yaPaso: entera,
-        motivo: entera ? "Ya no quedan horas de esta noche con la luna alta."
-          : "Esta noche la luna no estará alta mientras es de noche."
+        genero: g.id, motor: g.motor, horas: v, factores, valores,
+        capas: { bajas: media(v, (x) => x.bajas), medias: media(v, (x) => x.medias), altas: media(v, (x) => x.altas) },
+        lluvia: lluviaMm, prob: maximo(v, (x) => x.prob), vis, tormenta,
+        total, nivel, titulo: g.niveles[nivel], motivoVeto, avisos,
+        resumen: motivoVeto || (tormenta ? g.resumenes.tormenta : g.resumenes[nivel])
       };
     }
 
-    const avisos = [];
-    const tormenta = hayTormenta(v);
-    const utiles = v.filter((x) => x.lluvia <= REGLAS.lluviaFuerte);
+    /* ----- mejor-hora-nocturna ----- */
 
-    if (!utiles.length) {
-      return { horas: v, nivel: "rojo", motivo: "Se espera lluvia fuerte mientras la luna está alta.", avisos, lluvia: maximo(v, (x) => x.lluvia), tormenta };
+    /*
+     * Horas de la noche (de `inicio` a `fin`) con la luna alta y el sol bajo el horizonte.
+     * Cada hora se valora por su punto medio. `desde` (opcional) descarta lo que ya ha pasado.
+     */
+    function ventanaNocturna(g, prev, { inicio, fin, lat, lon, desde }) {
+      return prev.horas.filter((x) => {
+        const medio = x.t + HORA / 2;
+        if (medio < inicio || medio > fin) return false;
+        if (desde !== undefined && x.t + HORA <= desde) return false;
+        const a = Astro.alturas(new Date(medio), lat, lon);
+        return a.luna >= g.luna.alturaMinGrados && a.sol < g.luna.solMaxGrados;
+      });
     }
 
-    // La mejor hora es la de menos nubes (a igualdad, la de menos lluvia)
-    const mejor = utiles.reduce((a, b) =>
-      (b.total < a.total || (b.total === a.total && b.lluvia < a.lluvia)) ? b : a);
+    // `fraccion`: parte iluminada de la luna esa noche (0 a 1)
+    function puntuarNocturno(g, prev, ctx) {
+      const { fraccion, desde } = ctx;
+      const v = ventanaNocturna(g, prev, ctx);
+      const base = { genero: g.id, motor: g.motor, horas: v, avisos: [] };
+      const ninguno = (motivo, extra) => Object.assign(base, { nivel: "ninguno", motivo, resumen: motivo,
+        titulo: g.niveles[extra && extra.yaPaso ? "yaPaso" : "ninguno"] }, extra);
 
-    let nivel = mejor.total < REGLAS.lunaVerde ? "verde" : mejor.total <= REGLAS.lunaAmbar ? "ambar" : "rojo";
-    if (nivel === "verde" && mejor.lluvia > REGLAS.lluviaModerada) nivel = "ambar";
+      if (fraccion < g.luna.fraccionMinima) return ninguno(g.motivos.lunaNueva);
+      if (!v.length) {
+        // Si ya han pasado todas las horas útiles, se dice así en vez de dar a entender que no hubo luna
+        const entera = desde !== undefined && ventanaNocturna(g, prev, Object.assign({}, ctx, { desde: undefined })).length > 0;
+        return ninguno(entera ? g.motivos.yaPaso : g.motivos.sinLunaAlta, { yaPaso: entera });
+      }
 
-    if (tormenta) {
-      nivel = nivel === "rojo" ? "rojo" : "ambar";
-      avisos.push(AVISO_TORMENTA);
-    } else if (mejor.lluvia > 0.1 && mejor.lluvia <= REGLAS.lluviaModerada) {
-      avisos.push(AVISO_LLOVIZNA);
+      const tormenta = hayTormenta(v);
+      const utiles = v.filter((x) => !lluviaDesde(x.lluvia, g.lluvia.vetoDesde));
+      if (!utiles.length) {
+        return Object.assign(base, { nivel: "rojo", titulo: g.niveles.rojo, motivo: g.motivos.lluviaFuerte,
+          resumen: g.motivos.lluviaFuerte, lluvia: maximo(v, (x) => x.lluvia), tormenta, sinUtiles: true });
+      }
+
+      // La mejor hora es la de menos nubes (a igualdad, la de menos lluvia)
+      const campo = g.nubes.campo;
+      const mejor = utiles.reduce((a, b) => (b[campo] < a[campo] || (b[campo] === a[campo] && b.lluvia < a.lluvia)) ? b : a);
+
+      let nivel = mejor[campo] < g.nubes.verdeMenosDe ? "verde" : mejor[campo] <= g.nubes.ambarHasta ? "ambar" : "rojo";
+      if (nivel === "verde" && lluviaDesde(mejor.lluvia, g.lluvia.ambarSiLluviaDesde)) nivel = "ambar";
+
+      const avisos = [];
+      if (tormenta) {
+        nivel = nivel === "rojo" ? "rojo" : "ambar";
+        avisos.push(comun.avisos.tormenta);
+      } else if (nivelLluvia(mejor.lluvia) === "llovizna") {
+        avisos.push(comun.avisos.llovizna);
+      }
+      if (mejor.vis < comun.nieblaKm) avisos.push(g.avisoNiebla);
+
+      return Object.assign(base, {
+        mejorHora: mejor.t, nubes: mejor[campo], mediaNubes: media(v, (x) => x[campo]),
+        lluvia: mejor.lluvia, tormenta, nivel, avisos,
+        titulo: g.niveles[nivel], resumen: g.resumenes[nivel],
+        fraseNubes: tramoDe(g.frasesNubes, mejor[campo]).texto,
+        fraseLluvia: fraseLluvia(mejor.lluvia, tormenta, g.lluvia.momento),
+        primera: v[0].t, ultima: v[v.length - 1].t + HORA
+      });
     }
-    if (mejor.vis < REGLAS.nieblaKm) avisos.push("Poca visibilidad (niebla): la luna se verá borrosa.");
 
-    return {
-      horas: v,
-      mejorHora: mejor.t,
-      nubes: mejor.total,
-      mediaNubes: media(v, (x) => x.total),
-      lluvia: mejor.lluvia,
-      tormenta,
-      nivel,
-      avisos,
-      primera: v[0].t,
-      ultima: v[v.length - 1].t + HORA
+    /* ----- Interfaz común ----- */
+
+    const MOTORES = {
+      "puntos-ventana": { puntuar: puntuarVentana, ventana: (g, prev, ctx) => ventanaPuntos(g, prev, ctx.dia) },
+      "mejor-hora-nocturna": { puntuar: puntuarNocturno, ventana: ventanaNocturna }
     };
+
+    // ctx para "puntos-ventana": { dia }. ctx para "mejor-hora-nocturna": { inicio, fin, lat, lon, fraccion, desde? }
+    function evaluar(id, prev, ctx) {
+      const g = genero(id);
+      return MOTORES[g.motor].puntuar(g, prev, ctx);
+    }
+    function ventana(id, prev, ctx) {
+      const g = genero(id);
+      return MOTORES[g.motor].ventana(g, prev, ctx);
+    }
+
+    /* ----- Explicación en palabras, generada desde los mismos datos ----- */
+
+    function explicar(id) {
+      const g = genero(id);
+      const L2 = comun.lluvia;
+      const lineas = [];
+      const nivelesLluvia = "sin lluvia (hasta " + num(L2.sinLluviaMm) + " mm/h), llovizna (hasta " + num(L2.lloviznaMm) +
+        "), moderada (hasta " + num(L2.fuerteMm) + ") y fuerte (más de " + num(L2.fuerteMm) + ")";
+
+      if (g.motor === "puntos-ventana") {
+        lineas.push("Se miran las horas desde " + g.ventana.antesMin + " min antes hasta " + g.ventana.despuesMin +
+          " min después de " + g.eventoNombre + " y se suman puntos (en total, 100).");
+        g.factores.forEach((f) => {
+          if (f.tipo === "lluvia") {
+            lineas.push(f.etiqueta + " (hasta " + f.max + " puntos): " + Object.keys(f.puntos).map((n) => n + " " + f.puntos[n]).join(", ") +
+              ". Niveles: " + nivelesLluvia + ".");
+          } else {
+            // Tramos "menos de 20, menos de 40..." se cuentan como "de 20 a 40": así se lee como una escala
+            let previo = null;
+            const trozos = f.tramos.map((t) => {
+              const soloMenosDe = t.menosDe !== undefined && Object.keys(t).every((k) => k === "menosDe" || k === "puntos");
+              const cond = soloMenosDe && previo !== null ? "de " + num(previo) + " a " + num(t.menosDe) + " %" : describirTramo(t);
+              previo = soloMenosDe ? t.menosDe : null;
+              return cond + " da " + t.puntos;
+            });
+            lineas.push(f.etiqueta + " (hasta " + f.max + " puntos): " + trozos.join("; ") + ".");
+          }
+        });
+        lineas.push("Semáforo: de " + comun.niveles.verdeDesde + " a 100 puntos verde («" + g.niveles.verde + "»); de " + comun.niveles.ambarDesde + " a " +
+          (comun.niveles.verdeDesde - 1) + " ámbar («" + g.niveles.ambar + "»); por debajo, rojo («" + g.niveles.rojo + "»).");
+        (g.vetos || []).forEach((v) => {
+          const cond = v.factor === "lluvia" ? "lluvia " + v.nivel : g.factores.find((f) => f.id === v.factor).etiqueta.toLowerCase() + " por encima de " + num(v.masDe) + " %";
+          lineas.push("Rojo directo con " + cond + ".");
+        });
+        lineas.push("La lluvia " + g.ambarSiLluviaDesde + " o más limita el resultado a ámbar.");
+      } else {
+        const n = g.nubes;
+        lineas.push("Se buscan las horas de la noche en las que la luna está a más de " + g.luna.alturaMinGrados +
+          "° sobre el horizonte y el sol ya está bajo el horizonte (" + g.luna.solMaxGrados + "° o menos).");
+        lineas.push("Se valora la hora con menos nubes (sin contar las horas con lluvia " + g.lluvia.vetoDesde + (g.lluvia.vetoDesde === "fuerte" ? "" : " o más") + "): menos de " + n.verdeMenosDe +
+          " % es verde («" + g.niveles.verde + "»), hasta " + n.ambarHasta + " % ámbar («" + g.niveles.ambar + "») y más rojo («" + g.niveles.rojo + "»).");
+        lineas.push("La lluvia " + g.lluvia.ambarSiLluviaDesde + " o más limita el resultado a ámbar.");
+        lineas.push("La fase no cambia la nota, solo el consejo. Si la luna no está alta de noche o está casi nueva (menos de un " +
+          Math.round(g.luna.fraccionMinima * 100) + " % iluminada), no hay semáforo.");
+      }
+      return lineas;
+    }
+
+    return { evaluar, ventana, explicar, prepararPrevision, nivelLluvia, genero };
   }
 
-  /* ---------- Frases en lenguaje llano ---------- */
-
-  function fraseBajas(v) {
-    if (v < 20) return "Casi sin nubes bajas: el sol se verá bien en el horizonte.";
-    if (v < 40) return "Pocas nubes bajas: el horizonte estará bastante despejado.";
-    if (v < 60) return "Nubes bajas a ratos: el sol puede quedar tapado un rato.";
-    if (v < 75) return "Muchas nubes bajas: es probable que tapen el sol cerca del horizonte.";
-    return "Cielo bajo muy cubierto: poco hueco para ver el sol.";
-  }
-  function fraseCielo(v) {
-    if (v >= 20 && v <= 70) return "Nubes medias o altas en buena cantidad: son las que se tiñen de naranja y rosa.";
-    if (v < 20) return "Casi sin nubes altas: el cielo será bonito pero sin mucho color.";
-    return "Cielo alto muy cubierto: los colores saldrán apagados.";
-  }
-  function fraseLluvia(v, tormenta, momento) {
-    if (tormenta) return "Tormenta eléctrica prevista.";
-    if (v <= 0.1) return "Sin lluvia " + momento + ".";
-    if (v <= REGLAS.lluviaModerada) return "Llovizna ligera.";
-    if (v <= REGLAS.lluviaFuerte) return "Lluvia moderada.";
-    return "Lluvia fuerte.";
-  }
-  function fraseNubesLuna(v) {
-    if (v < REGLAS.lunaVerde) return "Cielo despejado o casi: la luna se verá limpia.";
-    if (v <= REGLAS.lunaAmbar) return "Nubes a ratos: tendrás que esperar un hueco entre ellas.";
-    return "Cielo cubierto: la luna apenas se dejará ver.";
-  }
-
-  function resumenAtardecer(r) {
-    if (r.motivoVeto) return r.motivoVeto;
-    if (r.tormenta) return "Con tormenta eléctrica se puede salir, pero solo con precaución. La nota depende de lo que dejen ver las nubes.";
-    if (r.nivel === "verde") return "Buena combinación de nubes y sin lluvia importante. Merece la pena salir.";
-    if (r.nivel === "ambar") return "Hay posibilidades, pero algún factor juega en contra. Si sales, ten un plan B (siluetas, nubes, hora azul).";
-    return "Los factores juegan en contra. Mejor un plan B (detalles, reflejos, blanco y negro) o quedarse en casa.";
-  }
-
-  function resumenLuna(r) {
-    if (r.nivel === "ninguno") return r.motivo;
-    if (r.nivel === "rojo" && r.nubes === undefined) return r.motivo;
-    if (r.nivel === "verde") return "Cielo despejado cuando la luna está alta. Merece la pena salir.";
-    if (r.nivel === "ambar") return "Habrá nubes, pero puede abrir algún hueco. Si sales, ten paciencia y mira las nubes cada poco.";
-    return "Cielo muy cubierto: la luna apenas se verá. Mejor otra noche.";
-  }
-
-  return {
-    REGLAS, TEXTOS_NIVEL,
-    prepararPrevision, ventanaAtardecer, puntuarAtardecer, ventanaLuna, puntuarLuna,
-    fraseBajas, fraseCielo, fraseLluvia, fraseNubesLuna, resumenAtardecer, resumenLuna
-  };
+  return { crear, prepararPrevision, describirTramo, plantilla };
 });
