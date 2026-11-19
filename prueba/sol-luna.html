@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sol y luna · luz-y-foto</title>
+<style>
+  :root {
+    --fondo: #f6f4ef; --tarjeta: #ffffff; --texto: #1f2328; --suave: #5b6470;
+    --borde: #dcd8cf; --acento: #8a5a00; --acento-fondo: #fdf0d0;
+    --luna-luz: #f3efe2; --luna-sombra: #3a4150;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #15181c; --tarjeta: #1f2329; --texto: #e8eaed; --suave: #a3abb5;
+      --borde: #333a43; --acento: #f0c060; --acento-fondo: #3a2f14;
+      --luna-luz: #ece7d6; --luna-sombra: #2b313c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto);
+    font: 18px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  h2 { font-size: 1.2rem; margin: 0 0 12px; }
+  h3 { font-size: 1rem; margin: 0 0 8px; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
+  .intro { color: var(--suave); margin: 0 0 20px; }
+
+  form { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 14px;
+    padding: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-bottom: 12px; }
+  label { display: flex; flex-direction: column; font-size: .85rem; color: var(--suave); gap: 4px; }
+  input { font: inherit; padding: 8px 10px; width: 9em; border: 1px solid var(--borde);
+    border-radius: 8px; background: var(--fondo); color: var(--texto); }
+  button { font: inherit; padding: 9px 16px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--borde); background: var(--tarjeta); color: var(--texto); }
+  button.principal { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
+  #estado { min-height: 1.5em; color: var(--suave); margin: 8px 0 16px; }
+
+  .dia { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 16px;
+    padding: 20px; margin-bottom: 20px; }
+  .par { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .par { grid-template-columns: 1fr; } }
+  .bloque { border: 1px solid var(--borde); border-radius: 12px; padding: 14px; }
+
+  dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; }
+  dt { color: var(--suave); font-size: .95rem; }
+  dd { margin: 0; font-weight: 600; text-align: right; }
+  dd small { display: block; font-weight: 400; color: var(--suave); }
+
+  .brujula { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+  .brujula svg { flex: none; }
+  .brujula p { margin: 0; }
+
+  .luna-cab { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .luna-cab p { margin: 0; }
+  .luna-nombre { font-size: 1.15rem; font-weight: 700; }
+  .consejo { margin: 12px 0 0; padding: 10px 14px; border-radius: 10px;
+    background: var(--acento-fondo); border-left: 6px solid var(--acento); font-size: .95rem; }
+  .pie { color: var(--suave); font-size: .85rem; margin-top: 24px; }
+  a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Sol y luna</h1>
+  <p class="intro">Todo se calcula en tu dispositivo con SunCalc: no hace falta conexión una vez cargada la página. Las horas son las de tu dispositivo.</p>
+
+  <form id="lugar">
+    <label>Latitud <input id="lat" inputmode="decimal" value="42.2406"></label>
+    <label>Longitud <input id="lon" inputmode="decimal" value="-8.7207"></label>
+    <button class="principal" type="submit">Calcular</button>
+    <button type="button" id="gps">Usar mi ubicación</button>
+  </form>
+  <p id="estado" role="status" aria-live="polite"></p>
+
+  <section id="dias"></section>
+
+  <p class="pie">Cálculo con <a href="https://github.com/mourner/suncalc">SunCalc</a> (licencia BSD). Las horas pueden diferir uno o dos minutos de otras fuentes y no tienen en cuenta montes ni edificios del horizonte.</p>
+</main>
+
+<script src="../lib/suncalc.js"></script>
+<script src="../js/astro.js"></script>
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const hm = (d) => d ? d.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" }) : "—";
+const grados = (az) => Math.round(az) + "°";
+
+function nombreDia(d) {
+  const t = d.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" });
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
+
+// Guion que no permite partir la palabra en dos líneas ("este-sureste")
+const unida = (palabra) => (palabra || "").replace(/-/g, "\u2011");
+
+// Flecha que apunta hacia el azimut indicado (0 = arriba = norte)
+function flecha(az) {
+  return `<svg width="64" height="64" viewBox="-32 -32 64 64" role="img" aria-label="Dirección: ${Math.round(az)} grados desde el norte">
+    <circle r="29" fill="none" stroke="var(--borde)" stroke-width="2"/>
+    <text y="-19" text-anchor="middle" font-size="9" fill="var(--suave)">N</text>
+    <g transform="rotate(${az.toFixed(1)})">
+      <path d="M0 -22 L7 6 L0 1 L-7 6 Z" fill="var(--acento)"/>
+    </g></svg>`;
+}
+
+// Luna dibujada según la fase (hemisferio norte; en el sur se invierte)
+function lunaSvg(fase, hemisferioSur) {
+  const r = 34, c = Math.cos(2 * Math.PI * fase), rx = (r * Math.abs(c)).toFixed(2);
+  const creciente = fase < 0.5;
+  const barrido = c > 0 ? 0 : 1;
+  const luz = `M0 ${-r} A${r} ${r} 0 0 1 0 ${r} A${rx} ${r} 0 0 ${barrido} 0 ${-r} Z`;
+  const izquierda = creciente === !!hemisferioSur; // en el sur crece por la izquierda
+  return `<svg width="72" height="72" viewBox="-36 -36 72 72" role="img" aria-label="Fase de la luna">
+    <circle r="${r}" fill="var(--luna-sombra)" stroke="var(--borde)"/>
+    <path d="${luz}" fill="var(--luna-luz)" transform="${izquierda ? "scale(-1,1)" : ""}"/></svg>`;
+}
+
+function tarjeta(fecha, lat, lon) {
+  const { sol, luna } = Astro.calcularDia(fecha, lat, lon);
+
+  const sale = luna.sale ? `${hm(luna.sale)}<small>hacia el ${unida(luna.palabraSale)}</small>` : "—<small>no sale este día</small>";
+  const pone = luna.seSitua
+    ? `${hm(luna.seSitua)}<small>${luna.seSituaAlDiaSiguiente ? "ya de madrugada, " : ""}hacia el ${unida(luna.palabraSeSitua)}</small>`
+    : "—";
+
+  return `
+  <article class="dia">
+    <h2>${nombreDia(fecha)}</h2>
+    <div class="par">
+      <div class="bloque">
+        <h3>Sol</h3>
+        <dl>
+          <dt>Amanecer</dt><dd>${hm(sol.amanecer)}<small>hacia el ${unida(sol.palabraAmanecer)}</small></dd>
+          <dt>Empieza la hora dorada</dt><dd>${hm(sol.horaDorada)}</dd>
+          <dt>Puesta de sol</dt><dd>${hm(sol.puesta)}<small>hacia el ${unida(sol.palabraPuesta)}</small></dd>
+          <dt>Fin de la hora azul</dt><dd>${hm(sol.finHoraAzul)}</dd>
+        </dl>
+        <div class="brujula">${flecha(sol.azPuesta)}
+          <p>Al atardecer, mira hacia el <strong>${unida(sol.palabraPuesta)}</strong> (${grados(sol.azPuesta)}).</p></div>
+      </div>
+
+      <div class="bloque">
+        <h3>Luna</h3>
+        <div class="luna-cab">${lunaSvg(luna.fase, lat < 0)}
+          <p><span class="luna-nombre">${luna.nombre}</span><br>${Math.round(luna.fraccion * 100)} % iluminada, ${luna.creciente ? "creciendo" : "menguando"}</p></div>
+        <dl>
+          <dt>Sale</dt><dd>${sale}</dd>
+          <dt>Se pone</dt><dd>${pone}</dd>
+        </dl>
+        <p class="consejo">${luna.consejo}</p>
+      </div>
+    </div>
+  </article>`;
+}
+
+function calcular(lat, lon) {
+  const hoy = new Date();
+  let html = "";
+  for (let i = 0; i < 3; i++) {
+    const f = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + i, 12, 0, 0);
+    html += tarjeta(f, lat, lon);
+  }
+  $("dias").innerHTML = html;
+  $("estado").textContent = `Lugar: ${lat.toFixed(3)}, ${lon.toFixed(3)} · zona horaria del dispositivo: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
+}
+
+$("lugar").addEventListener("submit", (ev) => {
+  ev.preventDefault();
+  const lat = parseFloat($("lat").value.replace(",", "."));
+  const lon = parseFloat($("lon").value.replace(",", "."));
+  if (isNaN(lat) || isNaN(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
+    $("estado").textContent = "Latitud o longitud no válidas.";
+    return;
+  }
+  calcular(lat, lon);
+});
+
+$("gps").addEventListener("click", () => {
+  if (!navigator.geolocation) { $("estado").textContent = "Este dispositivo no permite obtener la ubicación."; return; }
+  $("estado").textContent = "Buscando tu ubicación…";
+  navigator.geolocation.getCurrentPosition(
+    (pos) => { $("lat").value = pos.coords.latitude.toFixed(4); $("lon").value = pos.coords.longitude.toFixed(4); calcular(pos.coords.latitude, pos.coords.longitude); },
+    () => { $("estado").textContent = "No se ha podido obtener la ubicación. Escríbela a mano."; }
+  );
+});
+
+calcular(42.2406, -8.7207);
+</script>
+</body>
+</html>
