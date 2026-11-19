@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hoy · luz-y-foto</title>
+<style>
+  :root {
+    --fondo: #f6f4ef; --tarjeta: #ffffff; --texto: #1f2328; --suave: #5b6470; --borde: #dcd8cf;
+    --verde: #1f7a3f; --verde-fondo: #e3f3e8;
+    --ambar: #8a5a00; --ambar-fondo: #fdf0d0;
+    --rojo: #a52a2a; --rojo-fondo: #f9e0e0;
+    --gris: #4a5260; --gris-fondo: #e9e9ec;
+    --barra-baja: #6c7a89; --barra-media: #8fa3b8; --barra-alta: #c9a6d6;
+    --luna-luz: #f3efe2; --luna-sombra: #3a4150;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #15181c; --tarjeta: #1f2329; --texto: #e8eaed; --suave: #a3abb5; --borde: #333a43;
+      --verde: #6fcf8e; --verde-fondo: #1b3324;
+      --ambar: #f0c060; --ambar-fondo: #3a2f14;
+      --rojo: #f08a8a; --rojo-fondo: #3b1d1d;
+      --gris: #c3c8d0; --gris-fondo: #2a2f37;
+      --luna-luz: #ece7d6; --luna-sombra: #2b313c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto);
+    font: 18px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 20px 16px 64px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  h3 { font-size: 1rem; margin: 22px 0 8px; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
+  .intro { color: var(--suave); margin: 0 0 16px; }
+
+  details.lugar { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; }
+  details.lugar summary { cursor: pointer; color: var(--suave); }
+  form { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-top: 12px; }
+  label { display: flex; flex-direction: column; font-size: .85rem; color: var(--suave); gap: 4px; }
+  input { font: inherit; padding: 8px 10px; width: 9em; border: 1px solid var(--borde); border-radius: 8px; background: var(--fondo); color: var(--texto); }
+  button { font: inherit; padding: 9px 16px; border-radius: 8px; cursor: pointer; border: 1px solid var(--borde); background: var(--tarjeta); color: var(--texto); }
+  button.principal { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
+  #estado { min-height: 1.5em; color: var(--suave); margin: 6px 0 12px; font-size: .9rem; }
+
+  .pestanas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .pestanas button { padding: 14px 10px; font-weight: 700; font-size: 1.1rem; border-width: 2px; }
+  .pestanas button[aria-selected="true"] { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
+  .dias { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .dias button { padding: 7px 14px; border-radius: 999px; font-size: .95rem; }
+  .dias button[aria-pressed="true"] { border-color: var(--texto); border-width: 2px; font-weight: 700; }
+
+  .panel { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 16px; padding: 20px; }
+  .subtitulo { color: var(--suave); font-size: .95rem; margin: 0 0 12px; }
+
+  .veredicto { padding: 20px 16px; border-radius: 14px; border: 3px solid currentColor; }
+  .veredicto.verde { color: var(--verde); background: var(--verde-fondo); }
+  .veredicto.ambar { color: var(--ambar); background: var(--ambar-fondo); }
+  .veredicto.rojo  { color: var(--rojo);  background: var(--rojo-fondo); }
+  .veredicto.ninguno { color: var(--gris); background: var(--gris-fondo); }
+  .veredicto .titulo { font-size: 2rem; font-weight: 800; line-height: 1.15; }
+  .veredicto .nota { font-size: .95rem; margin-top: 2px; }
+  .veredicto p { margin: 10px 0 0; color: var(--texto); }
+  .avisos { margin: 12px 0 0; padding: 12px 16px; border-radius: 10px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); }
+  .avisos p { margin: 4px 0; }
+
+  table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--borde); vertical-align: top; }
+  th { font-weight: 600; color: var(--suave); font-size: .85rem; }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  tr.total td { font-weight: 700; border-bottom: none; }
+  tr.mejor td { font-weight: 700; background: var(--verde-fondo); }
+
+  .capas { display: grid; gap: 8px; }
+  .capa { display: grid; grid-template-columns: 5em 1fr 3.2em; gap: 10px; align-items: center; font-size: .95rem; }
+  .barra { height: 14px; background: var(--fondo); border: 1px solid var(--borde); border-radius: 7px; overflow: hidden; }
+  .barra span { display: block; height: 100%; }
+  .capa .valor { text-align: right; }
+
+  .brujula, .luna-cab { display: flex; align-items: center; gap: 14px; margin-top: 14px; }
+  .brujula p, .luna-cab p { margin: 0; }
+  .luna-nombre { font-size: 1.15rem; font-weight: 700; }
+  dl { margin: 12px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; }
+  dt { color: var(--suave); font-size: .95rem; }
+  dd { margin: 0; font-weight: 600; text-align: right; }
+  dd small { display: block; font-weight: 400; color: var(--suave); }
+  .consejo { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
+
+  details.reglas { margin-top: 20px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 12px 16px; }
+  details.reglas summary { cursor: pointer; font-weight: 600; }
+  details.reglas ul { padding-left: 20px; }
+  a { color: inherit; }
+  .pie { color: var(--suave); font-size: .85rem; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Hoy</h1>
+  <p class="intro">¿Merece la pena salir con la cámara? Elige qué quieres fotografiar.</p>
+
+  <details class="lugar" id="detalleLugar">
+    <summary id="resumenLugar">Lugar</summary>
+    <form id="lugar">
+      <label>Latitud <input id="lat" inputmode="decimal" value="42.2406"></label>
+      <label>Longitud <input id="lon" inputmode="decimal" value="-8.7207"></label>
+      <button class="principal" type="submit">Consultar</button>
+      <button type="button" id="gps">Usar mi ubicación</button>
+    </form>
+  </details>
+  <p id="estado" role="status" aria-live="polite"></p>
+
+  <div class="pestanas" role="tablist" aria-label="Qué fotografiar">
+    <button role="tab" id="tab-atardecer" aria-selected="true" data-tab="atardecer">Atardecer</button>
+    <button role="tab" id="tab-luna" aria-selected="false" data-tab="luna">Luna</button>
+  </div>
+  <div class="dias" id="dias" role="group" aria-label="Día"></div>
+  <section class="panel" id="panel" role="tabpanel" aria-live="polite"></section>
+
+  <details class="reglas">
+    <summary>Cómo se calcula</summary>
+    <p><strong>Atardecer.</strong> Se miran las horas desde 1 h antes hasta 30 min después de la puesta y se suman hasta 100 puntos:</p>
+    <ul>
+      <li><strong>Nubes bajas</strong> (hasta 40): menos de 20 % da 40; de 20 a 40 %, 28; de 40 a 60 %, 18; de 60 a 75 %, 10; por encima, 4.</li>
+      <li><strong>Nubes medias y altas</strong> (hasta 50): se toma la mayor de las dos. De 20 a 70 % da 50; de 10 a 20 % o de 70 a 85 %, 25; el resto, 5.</li>
+      <li><strong>Lluvia</strong> (hasta 10): sin lluvia, 10; llovizna, 7; moderada, 2; fuerte, 0.</li>
+    </ul>
+    <p>De 70 a 100 es verde, de 40 a 69 ámbar y menos de 40 rojo. Rojo directo con lluvia fuerte (más de 2,5 mm/h) o nubes bajas por encima de 88 %. La lluvia moderada limita a ámbar.</p>
+    <p><strong>Luna.</strong> Se buscan las horas de la noche en las que la luna está a más de 10° sobre el horizonte y ya ha anochecido. Se valora la hora con menos nubes totales (descartando las de lluvia fuerte): menos de 30 % es verde, de 30 a 60 % ámbar y más de 60 % rojo. La lluvia moderada limita a ámbar. La fase no cambia la nota, solo el consejo. Si la luna no está alta de noche o es luna nueva, no hay semáforo.</p>
+    <p><strong>Tormenta eléctrica:</strong> nunca es verde y lleva un aviso de seguridad. Los umbrales son un punto de partida y hay que calibrarlos con salidas reales.</p>
+  </details>
+
+  <p class="pie">Previsión de <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0); sol y luna calculados en el dispositivo con SunCalc. La previsión no ve el horizonte: nunca es una garantía. Las horas son las de tu dispositivo.</p>
+</main>
+
+<script src="../lib/suncalc.js"></script>
+<script src="../js/astro.js"></script>
+<script src="../js/semaforo.js"></script>
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const HORA = 3600000;
+const SIMBOLO = { verde: "●", ambar: "▲", rojo: "■", ninguno: "○" };
+
+const estado = { prev: null, lat: 0, lon: 0, pestana: "atardecer", indice: 0, ahora: 0, listas: null, pestanaElegida: false };
+
+const hm = (ms) => ms == null ? "—" : new Date(ms).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+const pct = (v) => Math.round(v) + " %";
+const unida = (p) => (p || "").replace(/-/g, "‑");
+const mayus = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+
+/* ---------- Datos ---------- */
+
+function urlPrevision(lat, lon) {
+  const p = new URLSearchParams({
+    latitude: lat, longitude: lon,
+    hourly: ["cloud_cover", "cloud_cover_low", "cloud_cover_mid", "cloud_cover_high", "visibility",
+      "precipitation_probability", "precipitation", "weather_code"].join(","),
+    daily: "sunrise,sunset", timezone: "auto", past_days: 1, forecast_days: 4
+  });
+  return "https://api.open-meteo.com/v1/forecast?" + p;
+}
+
+// Listas de lo que se puede consultar: atardeceres que aún no han pasado y noches que aún no han acabado
+function construirListas(prev, ahora) {
+  const atardeceres = prev.dias.filter((d) => d.puesta + HORA / 2 > ahora).slice(0, 3);
+  const noches = [];
+  for (let i = 0; i < prev.dias.length - 1 && noches.length < 3; i++) {
+    const inicio = prev.dias[i].puesta, fin = prev.dias[i + 1].amanecer;
+    if (fin > ahora) noches.push({ fecha: prev.dias[i].fecha, inicio, fin });
+  }
+  return { atardeceres, noches };
+}
+
+function fechaLugar(ms, prev) { return new Date(ms + prev.desfaseMs).toISOString().slice(0, 10); }
+
+function etiquetaDia(x, prev, ahora, noche) {
+  const hoy = fechaLugar(ahora, prev);
+  const manana = fechaLugar(ahora + 24 * HORA, prev);
+  const d = new Date(x.fecha + "T12:00:00").toLocaleDateString("es-ES", { weekday: "long" });
+  if (noche) {
+    if (x.inicio <= ahora) return "Ahora";
+    return x.fecha === hoy ? "Esta noche" : x.fecha === manana ? "Mañana noche" : mayus(d) + " noche";
+  }
+  return x.fecha === hoy ? "Hoy" : x.fecha === manana ? "Mañana" : mayus(d);
+}
+
+/* ---------- Dibujos ---------- */
+
+function flecha(az) {
+  return `<svg width="64" height="64" viewBox="-32 -32 64 64" role="img" aria-label="Dirección: ${Math.round(az)} grados desde el norte">
+    <circle r="29" fill="none" stroke="var(--borde)" stroke-width="2"/>
+    <text y="-19" text-anchor="middle" font-size="9" fill="var(--suave)">N</text>
+    <g transform="rotate(${az.toFixed(1)})"><path d="M0 -22 L7 6 L0 1 L-7 6 Z" fill="var(--ambar)"/></g></svg>`;
+}
+
+function lunaSvg(fase, sur) {
+  const r = 34, c = Math.cos(2 * Math.PI * fase), rx = (r * Math.abs(c)).toFixed(2);
+  const luz = `M0 ${-r} A${r} ${r} 0 0 1 0 ${r} A${rx} ${r} 0 0 ${c > 0 ? 0 : 1} 0 ${-r} Z`;
+  const izquierda = (fase < 0.5) === !!sur;
+  return `<svg width="72" height="72" viewBox="-36 -36 72 72" role="img" aria-label="Fase de la luna">
+    <circle r="${r}" fill="var(--luna-sombra)" stroke="var(--borde)"/>
+    <path d="${luz}" fill="var(--luna-luz)" transform="${izquierda ? "scale(-1,1)" : ""}"/></svg>`;
+}
+
+const barra = (etq, v, color) => `<div class="capa"><span>${etq}</span>
+  <div class="barra" aria-hidden="true"><span style="width:${Math.round(v)}%;background:${color}"></span></div>
+  <span class="valor">${pct(v)}</span></div>`;
+
+const veredicto = (nivel, titulo, nota, texto) => `
+  <div class="veredicto ${nivel}">
+    <div class="titulo">${SIMBOLO[nivel]} ${titulo}</div>
+    <div class="nota">${nota}</div>
+    <p>${texto}</p>
+  </div>`;
+
+const avisos = (lista) => lista.length ? `<div class="avisos">${lista.map((a) => `<p>⚠ ${a}</p>`).join("")}</div>` : "";
+
+/* ---------- Pestaña Atardecer ---------- */
+
+function panelAtardecer(dia) {
+  const r = Semaforo.puntuarAtardecer(estado.prev, dia);
+  if (!r) return `<p>No hay previsión para esa hora todavía.</p>`;
+  const sol = Astro.calcularDia(new Date(dia.fecha + "T12:00:00"), estado.lat, estado.lon).sol;
+  const nombre = Semaforo.TEXTOS_NIVEL.atardecer[r.nivel];
+
+  const filas = r.horas.map((x) => `<tr><td>${hm(x.t)}</td>
+    <td class="num">${pct(x.bajas)}</td><td class="num">${pct(x.medias)}</td><td class="num">${pct(x.altas)}</td>
+    <td class="num">${x.lluvia.toFixed(1)}</td><td class="num">${pct(x.prob)}</td><td class="num">${x.vis.toFixed(0)}</td></tr>`).join("");
+
+  return `
+    <p class="subtitulo">Puesta de sol a las <strong>${hm(dia.puesta)}</strong> · hora dorada desde las ${hm(sol.horaDorada && sol.horaDorada.getTime())} · hora azul hasta las ${hm(sol.finHoraAzul && sol.finHoraAzul.getTime())}</p>
+    ${veredicto(r.nivel, nombre, r.total + " de 100 puntos", Semaforo.resumenAtardecer(r))}
+    ${avisos(r.avisos)}
+    <div class="brujula">${flecha(sol.azPuesta)}
+      <p>Al atardecer, mira hacia el <strong>${unida(sol.palabraPuesta)}</strong> (${Math.round(sol.azPuesta)}°).</p></div>
+
+    <h3>Qué pesa en la nota</h3>
+    <table>
+      <thead><tr><th>Factor</th><th>Qué significa</th><th class="num">Puntos</th></tr></thead>
+      <tbody>
+        <tr><td>Nubes bajas (${pct(r.bajas)})</td><td>${Semaforo.fraseBajas(r.bajas)}</td><td class="num">${r.pBajas} / 40</td></tr>
+        <tr><td>Nubes medias y altas (${pct(r.cielo)})</td><td>${Semaforo.fraseCielo(r.cielo)}</td><td class="num">${r.pCielo} / 50</td></tr>
+        <tr><td>Lluvia (${r.lluvia.toFixed(1)} mm/h)</td><td>${Semaforo.fraseLluvia(r.lluvia, r.tormenta, "a la hora de la puesta")}</td><td class="num">${r.pLluvia} / 10</td></tr>
+        <tr class="total"><td colspan="2">Total</td><td class="num">${r.total} / 100</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Capas de nubes</h3>
+    <div class="capas">${barra("Bajas", r.bajas, "var(--barra-baja)")}${barra("Medias", r.medias, "var(--barra-media)")}${barra("Altas", r.altas, "var(--barra-alta)")}</div>
+
+    <h3>Horas analizadas</h3>
+    <table><thead><tr><th>Hora</th><th class="num">Bajas</th><th class="num">Medias</th><th class="num">Altas</th>
+      <th class="num">mm/h</th><th class="num">Prob.</th><th class="num">Visib. km</th></tr></thead><tbody>${filas}</tbody></table>`;
+}
+
+/* ---------- Pestaña Luna ---------- */
+
+function panelLuna(noche) {
+  const lunaDia = Astro.calcularDia(new Date(noche.fecha + "T12:00:00"), estado.lat, estado.lon).luna;
+  const desde = noche.inicio <= estado.ahora ? estado.ahora : undefined;
+  const r = Semaforo.puntuarLuna(estado.prev, noche.inicio, noche.fin, estado.lat, estado.lon, lunaDia.fraccion, desde);
+  const nombre = r.yaPaso ? "Esta luna ya ha pasado" : Semaforo.TEXTOS_NIVEL.luna[r.nivel];
+
+  const sale = lunaDia.sale ? `${hm(lunaDia.sale.getTime())}<small>hacia el ${unida(lunaDia.palabraSale)}</small>` : "—<small>no sale este día</small>";
+  const pone = lunaDia.seSitua
+    ? `${hm(lunaDia.seSitua.getTime())}<small>${lunaDia.seSituaAlDiaSiguiente ? "ya de madrugada, " : ""}hacia el ${unida(lunaDia.palabraSeSitua)}</small>` : "—";
+
+  let nota, cuerpo = "";
+  if (r.nivel === "ninguno") {
+    nota = lunaDia.nombre;
+  } else {
+    nota = `Mejor hora: ${hm(r.mejorHora)} · nubes ${pct(r.nubes)}`;
+    const filas = r.horas.map((x) => `<tr class="${x.t === r.mejorHora ? "mejor" : ""}"><td>${hm(x.t)}</td>
+      <td class="num">${pct(x.total)}</td><td class="num">${x.lluvia.toFixed(1)}</td><td class="num">${pct(x.prob)}</td><td class="num">${x.vis.toFixed(0)}</td></tr>`).join("");
+    cuerpo = `
+      <h3>Qué pesa en la nota</h3>
+      <table><tbody>
+        <tr><td>Nubes en la mejor hora (${pct(r.nubes)})</td><td>${Semaforo.fraseNubesLuna(r.nubes)}</td></tr>
+        <tr><td>Lluvia (${r.lluvia.toFixed(1)} mm/h)</td><td>${Semaforo.fraseLluvia(r.lluvia, r.tormenta, "cuando la luna está alta")}</td></tr>
+        <tr><td>Luna alta</td><td>Entre las ${hm(r.primera)} y las ${hm(r.ultima)}</td></tr>
+      </tbody></table>
+      <h3>Horas con la luna alta</h3>
+      <table><thead><tr><th>Hora</th><th class="num">Nubes</th><th class="num">mm/h</th><th class="num">Prob.</th><th class="num">Visib. km</th></tr></thead><tbody>${filas}</tbody></table>`;
+  }
+
+  return `
+    <p class="subtitulo">${noche.inicio <= estado.ahora ? "Noche en curso" : "Noche"} del ${new Date(noche.fecha + "T12:00:00").toLocaleDateString("es-ES", { day: "numeric", month: "long" })}</p>
+    ${veredicto(r.nivel, nombre, nota, Semaforo.resumenLuna(r))}
+    ${avisos(r.avisos)}
+    <div class="luna-cab">${lunaSvg(lunaDia.fase, estado.lat < 0)}
+      <p><span class="luna-nombre">${lunaDia.nombre}</span><br>${Math.round(lunaDia.fraccion * 100)} % iluminada, ${lunaDia.creciente ? "creciendo" : "menguando"}</p></div>
+    <dl><dt>Sale</dt><dd>${sale}</dd><dt>Se pone</dt><dd>${pone}</dd></dl>
+    <p class="consejo">${lunaDia.consejo}</p>
+    ${cuerpo}`;
+}
+
+/* ---------- Pintado general ---------- */
+
+function pintar() {
+  const { listas, prev, ahora } = estado;
+  const noche = estado.pestana === "luna";
+  const lista = noche ? listas.noches : listas.atardeceres;
+  if (estado.indice >= lista.length) estado.indice = 0;
+
+  document.querySelectorAll(".pestanas button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.tab === estado.pestana)));
+  $("dias").innerHTML = lista.map((x, i) =>
+    `<button type="button" data-i="${i}" aria-pressed="${i === estado.indice}">${etiquetaDia(x, prev, ahora, noche)}</button>`).join("");
+
+  $("panel").innerHTML = lista.length
+    ? (noche ? panelLuna(lista[estado.indice]) : panelAtardecer(lista[estado.indice]))
+    : "<p>No hay previsión disponible para estos días.</p>";
+}
+
+// Pestaña por defecto: de 30 min después de la puesta hasta el amanecer, Luna; el resto del día, Atardecer
+function pestanaPorDefecto(listas, ahora) {
+  const n = listas.noches[0];
+  return n && ahora >= n.inicio + HORA / 2 && ahora < n.fin ? "luna" : "atardecer";
+}
+
+async function consultar(lat, lon) {
+  $("estado").textContent = "Consultando la previsión…";
+  $("panel").innerHTML = "";
+  try {
+    const resp = await fetch(urlPrevision(lat, lon));
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    const datos = await resp.json();
+    estado.prev = Semaforo.prepararPrevision(datos);
+    estado.lat = lat; estado.lon = lon;
+    estado.ahora = Date.now();
+    estado.listas = construirListas(estado.prev, estado.ahora);
+    if (!estado.pestanaElegida) estado.pestana = pestanaPorDefecto(estado.listas, estado.ahora);
+    estado.indice = 0;
+    // Si la noche en curso ya no tiene luna alta, se empieza por la siguiente
+    if (estado.pestana === "luna") {
+      const n = estado.listas.noches[0];
+      if (n && n.inicio <= estado.ahora) {
+        const f = Astro.calcularDia(new Date(n.fecha + "T12:00:00"), lat, lon).luna.fraccion;
+        const r = Semaforo.puntuarLuna(estado.prev, n.inicio, n.fin, lat, lon, f, estado.ahora);
+        if (r.nivel === "ninguno" && estado.listas.noches.length > 1) estado.indice = 1;
+      }
+    }
+    $("resumenLugar").textContent = `Lugar: ${datos.latitude.toFixed(3)}, ${datos.longitude.toFixed(3)} (cambiar)`;
+    $("estado").textContent = "Previsión de las " + hm(estado.ahora) + " · " + datos.timezone;
+    pintar();
+  } catch (e) {
+    $("estado").textContent = "No se han podido cargar los datos (" + e.message + "). Comprueba la conexión y vuelve a intentarlo.";
+  }
+}
+
+document.querySelector(".pestanas").addEventListener("click", (ev) => {
+  const b = ev.target.closest("button[data-tab]");
+  if (!b || !estado.listas) return;
+  estado.pestana = b.dataset.tab; estado.pestanaElegida = true; estado.indice = 0; pintar();
+});
+$("dias").addEventListener("click", (ev) => {
+  const b = ev.target.closest("button[data-i]");
+  if (!b) return;
+  estado.indice = Number(b.dataset.i); pintar();
+});
+$("lugar").addEventListener("submit", (ev) => {
+  ev.preventDefault();
+  const lat = parseFloat($("lat").value.replace(",", ".")), lon = parseFloat($("lon").value.replace(",", "."));
+  if (isNaN(lat) || isNaN(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) { $("estado").textContent = "Latitud o longitud no válidas."; return; }
+  $("detalleLugar").open = false;
+  consultar(lat, lon);
+});
+$("gps").addEventListener("click", () => {
+  if (!navigator.geolocation) { $("estado").textContent = "Este dispositivo no permite obtener la ubicación."; return; }
+  $("estado").textContent = "Buscando tu ubicación…";
+  navigator.geolocation.getCurrentPosition(
+    (pos) => { $("lat").value = pos.coords.latitude.toFixed(4); $("lon").value = pos.coords.longitude.toFixed(4); $("detalleLugar").open = false; consultar(pos.coords.latitude, pos.coords.longitude); },
+    () => { $("estado").textContent = "No se ha podido obtener la ubicación. Escríbela a mano."; });
+});
+
+consultar(42.2406, -8.7207);
+</script>
+</body>
+</html>

@@ -115,5 +115,13 @@
     return { sol, luna };
   }
 
-  return { puntoCardinal, nombreFase, calcularDia };
+  // Altura en grados sobre el horizonte del sol y de la luna en un instante
+  function alturas(fecha, lat, lon) {
+    return {
+      sol: SunCalc.getPosition(fecha, lat, lon).altitude,
+      luna: SunCalc.getMoonPosition(fecha, lat, lon).altitude
+    };
+  }
+
+  return { puntoCardinal, nombreFase, calcularDia, alturas };
 });
