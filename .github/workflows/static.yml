@@ -1,43 +1,118 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+# Publica el sitio en GitHub Pages.
+#
+# Mientras dura la migración a Svelte, el sitio se monta con DOS partes en una sola publicación
+# (GitHub Pages solo admite una publicación a la vez):
+#
+#   /luz-y-foto/        la versión actual, tal cual está en la rama master
+#   /luz-y-foto/beta/   la versión nueva (Svelte), compilada desde la rama migracion-svelte
+#
+# Si la versión nueva falla (datos mal escritos, pruebas rotas, error al compilar), la ejecución
+# sale en rojo pero la versión actual se publica igualmente: una rama a medias nunca bloquea master.
+#
+# Este archivo se sustituye por uno más simple (compilar y publicar) al pasar la rama nueva a master
+# (fase 5 de docs/migracion-svelte.md).
+name: Publicar sitio (master + beta)
 
 on:
-  # Runs on pushes targeting the default branch
   push:
+    branches: ["master", "migracion-svelte"]
+  # En una pull request solo se comprueba que la versión nueva compila y pasa las pruebas; no se publica.
+  pull_request:
     branches: ["master"]
-
-  # Allows you to run this workflow manually from the Actions tab
+  # Permite ejecutarlo a mano desde la pestaña Actions
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
+  # 1) Versión nueva: validar datos, pasar pruebas y compilar con la ruta de la vista previa
+  nueva:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar la rama migracion-svelte
+        uses: actions/checkout@v4
+        with:
+          ref: migracion-svelte
+          path: nueva
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: nueva/package-lock.json
+
+      - name: Instalar dependencias
+        working-directory: nueva
+        run: npm ci
+
+      - name: Validar los datos (data/)
+        working-directory: nueva
+        run: npm run validar
+
+      - name: Pruebas de lógica
+        working-directory: nueva
+        run: npm test
+
+      - name: Compilar para /luz-y-foto/beta/
+        working-directory: nueva
+        run: npm run build -- --base=/luz-y-foto/beta/
+
+      - name: Guardar la versión compilada
+        uses: actions/upload-artifact@v4
+        with:
+          name: beta
+          path: nueva/dist
+          if-no-files-found: error
+          retention-days: 7
+
+  # 2) Publicar: master tal cual + beta (si la versión nueva salió bien)
+  publicar:
+    needs: nueva
+    # Se ejecuta aunque «nueva» falle, para no dejar sin publicar la versión actual. No se publica en pull requests.
+    if: ${{ always() && github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    # Una sola publicación a la vez; las ya iniciadas se terminan, no se cancelan
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Descargar master
         uses: actions/checkout@v4
-      - name: Setup Pages
+        with:
+          ref: master
+          path: master
+
+      - name: Montar el sitio con la versión actual
+        run: rsync -a --exclude='.git' --exclude='.github' master/ sitio/
+
+      - name: Añadir la versión nueva en /beta/
+        if: ${{ needs.nueva.result == 'success' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: beta
+          path: sitio/beta
+
+      - name: Avisar si la versión nueva no se publica
+        if: ${{ needs.nueva.result != 'success' }}
+        run: echo "::warning title=Sin vista previa::La versión nueva falló o no se ejecutó; se publica solo la versión actual (master). Revisa el trabajo «nueva»."
+
+      - name: Configurar Pages
         uses: actions/configure-pages@v5
-      - name: Upload artifact
+
+      - name: Subir el sitio
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
+          path: sitio
+
+      - name: Publicar en GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
