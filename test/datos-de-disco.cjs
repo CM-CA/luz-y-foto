@@ -8,7 +8,9 @@ function cargarDatos(carpeta) {
   const indice = leer("generos.json");
   const generos = {};
   indice.orden.forEach((id) => { generos[id] = leer("generos/" + id + ".json"); });
-  return { comun: leer("comun.json"), indice, generos };
+  const recetas = { comun: leer("recetas/comun.json") };
+  indice.orden.forEach((id) => { recetas[id] = leer("recetas/" + id + ".json"); });
+  return { comun: leer("comun.json"), indice, generos, perfil: leer("perfil.json"), glosario: leer("glosario.json"), recetas };
 }
 
 module.exports = { cargarDatos };

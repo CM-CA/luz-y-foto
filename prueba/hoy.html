@@ -91,6 +91,34 @@
   dd small { display: block; font-weight: 400; color: var(--suave); }
   .consejo { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
 
+  .equipo { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; }
+  .equipo .etq { display: block; font-size: .8rem; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
+  .equipo strong { font-size: 1rem; font-weight: 600; }
+  .asistente { background: var(--tarjeta); border: 2px solid var(--texto); border-radius: 16px; padding: 20px; margin-bottom: 12px; }
+  .asistente[hidden] { display: none; }
+  .asistente h2 { font-size: 1.35rem; margin: 4px 0 8px; }
+  .asistente h2:focus { outline: none; }
+  .asistente .paso { color: var(--suave); font-size: .9rem; margin: 0; }
+  .asistente .ayuda { color: var(--suave); margin: 0 0 12px; }
+  .opciones { display: grid; gap: 8px; margin: 14px 0; }
+  .opciones button { text-align: left; padding: 14px 16px; border-width: 2px; }
+  .opciones button[aria-pressed="true"] { border-color: var(--texto); background: var(--gris-fondo); font-weight: 700; }
+  .opciones button[aria-pressed="true"]::before { content: "✓ "; }
+  .acciones { display: flex; gap: 8px; flex-wrap: wrap; justify-content: space-between; margin-top: 8px; }
+  .acciones .derecha { display: flex; gap: 8px; flex-wrap: wrap; }
+  button.enlace { border: none; background: none; text-decoration: underline; color: var(--suave); padding: 9px 6px; }
+
+  details.receta { margin-top: 16px; border: 2px solid var(--texto); border-radius: 12px; padding: 12px 16px; }
+  details.receta summary { cursor: pointer; font-weight: 700; font-size: 1.05rem; }
+  details.receta ol { padding-left: 22px; margin: 8px 0; }
+  details.receta li { margin-bottom: 10px; }
+  .aviso-fijo { margin: 6px 0; padding: 8px 12px; border-radius: 8px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
+  .tripode { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 0; }
+  .tripode button[aria-pressed="true"] { border: 2px solid var(--texto); font-weight: 700; }
+  button.termino { padding: 0 2px; border: none; border-bottom: 2px dotted var(--suave); border-radius: 0; background: none; font: inherit; color: inherit; }
+  .def { display: block; margin: 6px 0 2px; padding: 8px 12px; border-radius: 8px; background: var(--gris-fondo); font-size: .95rem; font-weight: 400; }
+  .suave { color: var(--suave); font-size: .95rem; }
+
   details.reglas { margin-top: 20px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 12px 16px; }
   details.reglas summary { cursor: pointer; font-weight: 600; }
   details.reglas h4 { margin: 16px 0 4px; }
@@ -117,6 +145,11 @@
     </form>
     <ul id="resultados"></ul>
   </section>
+  <div class="equipo">
+    <div><span class="etq">Mi equipo</span><strong id="resumenEquipo">…</strong></div>
+    <button type="button" id="editarEquipo">Editar</button>
+  </div>
+  <section class="asistente" id="asistente" aria-live="polite" hidden></section>
   <p id="estado" role="status" aria-live="polite"></p>
 
   <div class="pestanas" id="tabs" role="tablist" aria-label="Qué fotografiar"></div>
@@ -128,18 +161,21 @@
   <p class="pie">Previsión de <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0); sol y luna calculados en el dispositivo con SunCalc. La previsión no ve el horizonte: nunca es una garantía. Las horas son las de tu dispositivo. Tu lugar se guarda solo en tu dispositivo; para ponerle nombre se consulta OpenStreetMap con unas coordenadas aproximadas.</p>
 </main>
 
-<script src="../lib/suncalc.js?v=4"></script>
-<script src="../js/astro.js?v=4"></script>
-<script src="../js/datos.js?v=4"></script>
-<script src="../js/semaforo.js?v=4"></script>
-<script src="../js/lugar.js?v=4"></script>
+<script src="../lib/suncalc.js?v=5"></script>
+<script src="../js/astro.js?v=5"></script>
+<script src="../js/datos.js?v=5"></script>
+<script src="../js/semaforo.js?v=5"></script>
+<script src="../js/lugar.js?v=5"></script>
+<script src="../js/perfil.js?v=5"></script>
+<script src="../js/recetas.js?v=5"></script>
 <script>
 "use strict";
 const $ = (id) => document.getElementById(id);
 const HORA = 3600000;
 const SIMBOLO = { verde: "●", ambar: "▲", rojo: "■", ninguno: "○" };
 
-const estado = { lugar: null, peticion: 0, resultados: [], prev: null, lat: 0, lon: 0, pestana: null, indice: 0, ahora: 0, listas: null, pestanaElegida: false };
+const estado = { lugar: null, peticion: 0, resultados: [], prev: null, lat: 0, lon: 0, pestana: null, indice: 0, ahora: 0, listas: null, pestanaElegida: false,
+  perfil: null, asistente: null, tripodeHoy: "no", recetaAbierta: false };
 let config = null, S = null; // datos de data/ y motores configurados con ellos
 
 const hm = (ms) => ms == null ? "—" : new Date(ms).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
@@ -217,6 +253,143 @@ const veredicto = (nivel, titulo, nota, texto) => `
 
 const avisos = (lista) => lista.length ? `<div class="avisos">${lista.map((a) => `<p>⚠ ${a}</p>`).join("")}</div>` : "";
 
+/* ---------- Receta ---------- */
+
+// Texto con términos del glosario tocables
+function conTerminos(texto) {
+  return Recetas.partes(texto).map((p) => p.id
+    ? `<button type="button" class="termino" data-t="${escapar(p.id)}">${escapar(p.etiqueta)}</button>`
+    : escapar(p.texto)).join("");
+}
+
+function recetaHtml(g, nivelSemaforo) {
+  const ef = Perfil.efectivo(estado.perfil, estado.tripodeHoy);
+  const r = Recetas.construir(config, g.id, ef, nivelSemaforo);
+  if (!r) return "";
+  const T = config.recetas.comun;
+  const sinPerfil = !Perfil.estaConfigurado(estado.perfil);
+  const interruptor = estado.perfil.tripode === "aveces"
+    ? `<div class="tripode" role="group" aria-label="${escapar(T.tripodeHoy.pregunta)}"><span>${escapar(T.tripodeHoy.pregunta)}:</span>
+        <button type="button" data-tripode="si" aria-pressed="${estado.tripodeHoy === "si"}">${escapar(T.tripodeHoy.si)}</button>
+        <button type="button" data-tripode="no" aria-pressed="${estado.tripodeHoy !== "si"}">${escapar(T.tripodeHoy.no)}</button></div>` : "";
+  return `<details class="receta" id="receta"${estado.recetaAbierta ? " open" : ""}>
+    <summary>Ver receta · ${escapar(r.titulo)}</summary>
+    ${sinPerfil ? `<p class="suave">Estos consejos son para móvil y nivel «Empiezo». <button type="button" class="enlace" data-accion="equipo">Cuéntame tu equipo</button> para afinarlos.</p>` : ""}
+    ${interruptor}
+    ${r.segunSemaforo ? `<p class="consejo">${conTerminos(r.segunSemaforo)}</p>` : ""}
+    <h3>${escapar(T.titulos.pasos)}</h3>
+    <ol>${r.pasos.map((p) => `<li><strong>${escapar(p.titulo)}.</strong> ${conTerminos(p.texto)}</li>`).join("")}</ol>
+    ${r.nota ? `<p class="consejo">${conTerminos(r.nota)}</p>` : ""}
+    <h3>${escapar(T.titulos.avisos)}</h3>
+    ${r.avisos.map((a) => `<p class="aviso-fijo">⚠ ${conTerminos(a)}</p>`).join("")}
+  </details>`;
+}
+
+/* ---------- Perfil de equipo: asistente de una pregunta por pantalla ---------- */
+
+function pintarResumenEquipo() {
+  const t = Perfil.resumen(config.perfil, estado.perfil);
+  $("resumenEquipo").textContent = t || "Sin configurar";
+  $("editarEquipo").textContent = t ? "Editar" : "Configurar";
+}
+
+function pintarAsistente() {
+  const a = estado.asistente, caja = $("asistente"), def = config.perfil;
+  if (!a) { caja.hidden = true; caja.innerHTML = ""; return; }
+  caja.hidden = false;
+  if (a.paso < 0) {
+    const b = def.bienvenida;
+    caja.innerHTML = `<h2 tabindex="-1">${escapar(b.titulo)}</h2><p class="ayuda">${escapar(b.texto)}</p>
+      <div class="acciones"><button type="button" class="enlace" data-asis="saltar-todo">${escapar(b.saltar)}</button>
+      <button type="button" class="principal" data-asis="empezar">${escapar(b.empezar)}</button></div>`;
+  } else {
+    const visibles = Perfil.preguntasVisibles(def, estado.perfil);
+    const q = visibles[a.paso];
+    const actual = q.multiple ? estado.perfil[q.id] : [estado.perfil[q.id]];
+    const marcadas = estado.perfil.respondidas.includes(q.id);
+    caja.innerHTML = `<p class="paso">Pregunta ${a.paso + 1} de ${visibles.length}</p>
+      <h2 tabindex="-1">${escapar(q.titulo)}</h2>${q.ayuda ? `<p class="ayuda">${escapar(q.ayuda)}</p>` : ""}
+      <div class="opciones" role="group" aria-label="${escapar(q.titulo)}">${q.opciones.map((o) =>
+        `<button type="button" data-op="${escapar(o.id)}" aria-pressed="${marcadas && actual.includes(o.id)}">${escapar(o.texto)}</button>`).join("")}</div>
+      <div class="acciones"><button type="button" class="enlace" data-asis="atras"${a.paso === 0 && !a.conBienvenida ? " hidden" : ""}>← Atrás</button>
+      <span class="derecha"><button type="button" class="enlace" data-asis="saltar">Saltar</button>
+      ${q.multiple ? `<button type="button" class="principal" data-asis="siguiente">Siguiente</button>` : ""}</span></div>`;
+  }
+  const h = caja.querySelector("h2");
+  if (h && a.enfocar !== false) h.focus();
+}
+
+function cerrarAsistente() {
+  Perfil.guardar(estado.perfil);
+  estado.asistente = null;
+  pintarAsistente(); pintarResumenEquipo();
+  if (estado.listas) pintar();
+}
+
+function abrirAsistente(conBienvenida) {
+  estado.asistente = { paso: conBienvenida ? -1 : 0, conBienvenida: !!conBienvenida };
+  pintarAsistente();
+  $("asistente").scrollIntoView({ block: "nearest" });
+}
+
+function avanzar() {
+  const n = Perfil.preguntasVisibles(config.perfil, estado.perfil).length;
+  if (estado.asistente.paso + 1 >= n) cerrarAsistente();
+  else { estado.asistente.paso++; pintarAsistente(); }
+}
+
+$("editarEquipo").addEventListener("click", () => { if (config) abrirAsistente(false); });
+
+$("asistente").addEventListener("click", (ev) => {
+  const def = config.perfil, a = estado.asistente;
+  const op = ev.target.closest("button[data-op]");
+  if (op && a) {
+    const q = Perfil.preguntasVisibles(def, estado.perfil)[a.paso];
+    if (q.multiple) {
+      const lista = estado.perfil[q.id].slice(), i = lista.indexOf(op.dataset.op);
+      if (i >= 0) lista.splice(i, 1); else lista.push(op.dataset.op);
+      estado.perfil = Perfil.responder(def, estado.perfil, q.id, lista);
+      a.enfocar = false; pintarAsistente(); a.enfocar = true;
+    } else {
+      estado.perfil = Perfil.responder(def, estado.perfil, q.id, op.dataset.op);
+      Perfil.guardar(estado.perfil);
+      pintarResumenEquipo();
+      avanzar();
+    }
+    return;
+  }
+  const b = ev.target.closest("button[data-asis]");
+  if (!b || !a) return;
+  const que = b.dataset.asis;
+  if (que === "empezar") { a.paso = 0; pintarAsistente(); }
+  else if (que === "saltar-todo") cerrarAsistente(); // guarda el perfil sin responder: no se vuelve a mostrar la bienvenida
+  else if (que === "saltar") avanzar();
+  else if (que === "siguiente") avanzar();
+  else if (que === "atras") { if (a.paso > 0) { a.paso--; pintarAsistente(); } else { a.paso = -1; pintarAsistente(); } }
+});
+
+// Dentro del panel: glosario, interruptor de trípode y enlace para configurar el equipo
+$("panel").addEventListener("click", (ev) => {
+  const t = ev.target.closest("button[data-t]");
+  if (t) {
+    const donde = t.closest("li, p"), previo = donde.querySelector(".def"), id = t.dataset.t;
+    const mismo = previo && previo.dataset.id === id;
+    if (previo) previo.remove();
+    const x = config.glosario[id];
+    if (x && !mismo) {
+      const d = document.createElement("span");
+      d.className = "def"; d.dataset.id = id; d.setAttribute("role", "note");
+      d.innerHTML = `<strong>${escapar(x.termino)}.</strong> ${escapar(x.texto)}`;
+      donde.appendChild(d);
+    }
+    return;
+  }
+  const tr = ev.target.closest("button[data-tripode]");
+  if (tr) { estado.tripodeHoy = tr.dataset.tripode; estado.recetaAbierta = true; pintar(); return; }
+  if (ev.target.closest("button[data-accion='equipo']")) abrirAsistente(false);
+});
+$("panel").addEventListener("toggle", (ev) => { if (ev.target.id === "receta") estado.recetaAbierta = ev.target.open; }, true);
+
 /* ---------- Paneles (uno por motor: sirven para cualquier género que lo use) ---------- */
 
 function panelPuntos(g, item) {
@@ -238,6 +411,7 @@ function panelPuntos(g, item) {
     <p class="subtitulo">${Semaforo.plantilla(escapar(g.textoEvento), { hora: "<strong>" + hm(item.evento) + "</strong>", dorada: horaSol(sol.horaDorada), finAzul: horaSol(sol.finHoraAzul) })}</p>
     ${veredicto(r.nivel, escapar(r.titulo), r.total + " de 100 puntos", escapar(r.resumen))}
     ${avisos(r.avisos)}
+    ${recetaHtml(g, r.nivel)}
     <div class="brujula">${flecha(az)}
       <p>${Semaforo.plantilla(escapar(g.textoBrujula), { direccion: "<strong>" + unida(palabra) + "</strong>", grados: Math.round(az) })}</p></div>
 
@@ -285,6 +459,7 @@ function panelNocturno(g, item) {
     <p class="subtitulo">${item.inicio <= estado.ahora ? "Noche en curso" : "Noche"} del ${new Date(item.fecha + "T12:00:00").toLocaleDateString("es-ES", { day: "numeric", month: "long" })}</p>
     ${veredicto(r.nivel, escapar(r.titulo), escapar(nota), escapar(r.resumen))}
     ${avisos(r.avisos)}
+    ${recetaHtml(g, r.nivel)}
     <div class="luna-cab">${lunaSvg(lunaDia.fase, estado.lat < 0)}
       <p><span class="luna-nombre">${escapar(fase.nombre)}</span><br>${Math.round(lunaDia.fraccion * 100)} % iluminada, ${lunaDia.creciente ? "creciendo" : "menguando"}</p></div>
     <dl><dt>Sale</dt><dd>${sale}</dd><dt>Se pone</dt><dd>${pone}</dd></dl>
@@ -458,7 +633,8 @@ $("resultados").addEventListener("click", (ev) => {
 async function arrancar() {
   // Si el navegador conservó una versión antigua de algún archivo, se explica en vez de fallar
   if (typeof Astro === "undefined" || !(Astro.version >= 4) || typeof Datos === "undefined" ||
-      typeof Semaforo === "undefined" || typeof Semaforo.crear !== "function" || typeof Lugar === "undefined") {
+      typeof Semaforo === "undefined" || typeof Semaforo.crear !== "function" || typeof Lugar === "undefined" ||
+      typeof Perfil === "undefined" || typeof Recetas === "undefined") {
     $("panel").innerHTML = "<p><strong>Tu navegador tiene guardada una versión antigua de la página.</strong> Recárgala con Ctrl+F5 (en el móvil, cierra la pestaña y vuelve a abrirla).</p>";
     $("nombreLugar").textContent = "—";
     return;
@@ -475,6 +651,10 @@ async function arrancar() {
   }
   construirPestanas();
   construirExplicaciones();
+  const primeraVez = !Perfil.existe();
+  estado.perfil = Perfil.cargar(config.perfil);
+  pintarResumenEquipo();
+  if (primeraVez) abrirAsistente(true);
   const guardado = Lugar.cargar();
   if (guardado) {
     fijarLugar(guardado.lat, guardado.lon, guardado.nombre, guardado.origen);

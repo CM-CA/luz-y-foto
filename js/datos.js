@@ -33,7 +33,11 @@
     const [comun, indice] = await Promise.all([json("comun.json"), json("generos.json")]);
     const generos = {};
     await Promise.all(indice.orden.map(async (id) => { generos[id] = await json("generos/" + id + ".json"); }));
-    return { comun, indice, generos };
+    // Perfil, glosario y recetas (una por género, con el mismo id que el género)
+    const [perfil, glosario, recetasComun] = await Promise.all([json("perfil.json"), json("glosario.json"), json("recetas/comun.json")]);
+    const recetas = { comun: recetasComun };
+    await Promise.all(indice.orden.map(async (id) => { recetas[id] = await json("recetas/" + id + ".json"); }));
+    return { comun, indice, generos, perfil, glosario, recetas };
   }
 
   /* ---------- Validación ---------- */
@@ -169,6 +173,87 @@
     if (!(g.etiquetasDia || {}).ahora) errores.push(d + ".etiquetasDia.ahora: falta el texto");
   }
 
+  const NIVELES_USUARIO = ["empiezo", "defiendo", "controlo"];
+  const MARCAS_MODO = ["Av", "Tv"];
+  const reTermino = /\[\[([a-z0-9-]+)\|[^\]]+\]\]/g;
+  const terminosEn = (t) => { const r = []; let m; reTermino.lastIndex = 0; while ((m = reTermino.exec(t))) r.push(m[1]); return r; };
+
+  function validarPerfil(p, errores) {
+    if (!esObjeto(p)) { errores.push("perfil.json: falta o no es un objeto"); return; }
+    ["titulo", "texto", "empezar", "saltar"].forEach((k) => { if (!esTexto((p.bienvenida || {})[k])) errores.push("perfil.bienvenida." + k + ": falta el texto"); });
+    if (!Array.isArray(p.preguntas) || !p.preguntas.length) { errores.push("perfil.preguntas: debe ser una lista"); return; }
+    const ids = new Set();
+    p.preguntas.forEach((q, i) => {
+      const a = "perfil.preguntas[" + i + "]";
+      if (!esTexto(q.id)) errores.push(a + ".id: falta"); else ids.add(q.id);
+      if (!esTexto(q.titulo)) errores.push(a + ".titulo: falta el texto");
+      if (!Array.isArray(q.opciones) || q.opciones.length < 2) errores.push(a + ".opciones: debe haber al menos dos");
+      else q.opciones.forEach((o, j) => { if (!esTexto(o.id) || !esTexto(o.texto)) errores.push(a + ".opciones[" + j + "]: faltan id y texto"); });
+    });
+    const d = p.porDefecto || {};
+    p.preguntas.forEach((q) => {
+      if (!(q.id in d)) { errores.push("perfil.porDefecto." + q.id + ": falta el valor por defecto"); return; }
+      const validos = (q.opciones || []).map((o) => o.id);
+      const val = q.multiple ? d[q.id] : [d[q.id]];
+      if (!Array.isArray(val) || val.some((x) => !validos.includes(x))) errores.push("perfil.porDefecto." + q.id + ": debe ser una opción de la pregunta");
+    });
+    NIVELES_USUARIO.forEach((n) => { if (!((ids.has("nivel") && p.preguntas.find((q) => q.id === "nivel").opciones || []).some((o) => o.id === n))) errores.push("perfil: la pregunta «nivel» debe tener la opción «" + n + "»"); });
+    const marcas = p.marcas || {};
+    const ids_marca = ((p.preguntas.find((q) => q.id === "marca") || {}).opciones || []).map((o) => o.id);
+    ids_marca.forEach((m) => MARCAS_MODO.forEach((k) => { if (!esTexto((marcas[m] || {})[k])) errores.push("perfil.marcas." + m + "." + k + ": falta el nombre del modo"); }));
+    if (!marcas.desconocida) errores.push("perfil.marcas.desconocida: falta (se usa cuando no se sabe la marca)");
+  }
+
+  function validarRecetas(config, errores) {
+    const r = config.recetas || {};
+    const c = r.comun;
+    if (!esObjeto(c)) { errores.push("recetas/comun.json: falta o no es un objeto"); return; }
+    const avisos = c.avisos || {};
+    const gl = config.glosario || {};
+    Object.keys(gl).forEach((k) => { if (!esTexto(gl[k].termino) || !esTexto(gl[k].texto)) errores.push("glosario." + k + ": faltan «termino» y «texto»"); });
+    const revisar = (texto, donde) => {
+      const abiertos = (texto.match(/\[\[/g) || []).length;
+      if (abiertos !== terminosEn(texto).length) errores.push(donde + ": hay un término del glosario mal escrito (debe ser [[id|texto]])");
+      terminosEn(texto).forEach((t) => { if (!gl[t]) errores.push(donde + ": cita el término «" + t + "», que no está en glosario.json"); });
+    };
+    Object.keys(avisos).forEach((k) => { if (!esTexto(avisos[k])) errores.push("recetas/comun.avisos." + k + ": falta el texto"); else revisar(avisos[k], "recetas/comun.avisos." + k); });
+    (c.soloCamara || []).forEach((k) => { if (!esTexto(avisos[k])) errores.push("recetas/comun.soloCamara: «" + k + "» no es un aviso de recetas/comun.json"); });
+    ["pregunta", "si", "no"].forEach((k) => { if (!esTexto((c.tripodeHoy || {})[k])) errores.push("recetas/comun.tripodeHoy." + k + ": falta el texto"); });
+    ["pasos", "nota", "avisos", "segunSemaforo"].forEach((k) => { if (!esTexto((c.titulos || {})[k])) errores.push("recetas/comun.titulos." + k + ": falta el texto"); });
+
+    ((config.indice || {}).orden || []).forEach((id) => {
+      const g = r[id];
+      const d = "recetas/" + id;
+      if (!esObjeto(g)) { errores.push(d + ".json: el género «" + id + "» no tiene receta en data/recetas/"); return; }
+      (g.avisos || []).forEach((a) => { if (!esTexto(avisos[a])) errores.push(d + ".avisos: «" + a + "» no existe en recetas/comun.json"); });
+      ["verde", "ambar", "rojo"].forEach((k) => { if (!esTexto((g.segunSemaforo || {})[k])) errores.push(d + ".segunSemaforo." + k + ": falta el texto"); });
+      if (!Array.isArray(g.variantes) || !g.variantes.length) { errores.push(d + ".variantes: debe haber al menos una"); return; }
+      const ultima = g.variantes[g.variantes.length - 1];
+      g.variantes.forEach((v, i) => {
+        const a = d + ".variantes[" + i + "]";
+        if (!esTexto(v.id)) errores.push(a + ".id: falta");
+        if (!esTexto(v.titulo)) errores.push(a + ".titulo: falta el texto");
+        if (!esObjeto(v.si)) errores.push(a + ".si: falta (condiciones sobre el perfil)");
+        if (!Array.isArray(v.pasos) || !v.pasos.length) { errores.push(a + ".pasos: debe haber al menos uno"); return; }
+        v.pasos.forEach((p, j) => {
+          if (!esTexto(p.titulo)) errores.push(a + ".pasos[" + j + "].titulo: falta el texto");
+          NIVELES_USUARIO.forEach((n) => {
+            if (!esTexto(p[n])) errores.push(a + ".pasos[" + j + "]." + n + ": falta el texto para este nivel");
+            else revisar(p[n], a + ".pasos[" + j + "]." + n);
+          });
+        });
+        if (v.nota !== undefined) { if (!esTexto(v.nota)) errores.push(a + ".nota: debe ser un texto"); else revisar(v.nota, a + ".nota"); }
+      });
+      // Las variantes se prueban en orden: la última debe valer para una cámara o un móvil cualquiera
+      if (esObjeto(ultima) && esObjeto(ultima.si) && ultima.si.equipo !== "camara") {
+        errores.push(d + ".variantes: la última debe ser la general de cámara (si: {equipo: camara}) para que siempre haya receta");
+      }
+      if (!g.variantes.some((v) => esObjeto(v.si) && v.si.equipo === "movil" && Object.keys(v.si).length === 1)) {
+        errores.push(d + ".variantes: falta una variante para móvil (si: {equipo: movil})");
+      }
+    });
+  }
+
   // Devuelve una lista de errores en español (vacía si todo está bien)
   function validar(config) {
     const errores = [];
@@ -194,6 +279,8 @@
       if (g.motor === "puntos-ventana") validarPuntosVentana(g, d, errores);
       if (g.motor === "mejor-hora-nocturna") validarNocturno(g, d, errores);
     });
+    validarPerfil(config.perfil, errores);
+    validarRecetas(config, errores);
     return errores;
   }
 

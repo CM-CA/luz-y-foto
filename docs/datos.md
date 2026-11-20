@@ -10,8 +10,30 @@ Todo lo que cambia a menudo (umbrales, puntos, textos, consejos) está en la car
 | `data/comun.json` | Lo que comparten todos los géneros: umbrales de lluvia y niebla, cortes del semáforo, avisos de tormenta y llovizna |
 | `data/generos/atardecer.json` | Reglas y textos del atardecer |
 | `data/generos/luna.json` | Reglas y textos de la luna, y el nombre y consejo de cada fase |
+| `data/perfil.json` | Las preguntas del perfil de equipo (móvil o cámara, marca, objetivos, trípode, nivel), sus valores por defecto y cómo se llaman los modos Av y Tv en cada marca |
+| `data/glosario.json` | Los términos que se pueden tocar en las recetas (apertura, ISO, RAW…) |
+| `data/recetas/comun.json` | Lo común a todas las recetas: títulos, pregunta «¿llevas el trípode hoy?» y los avisos fijos |
+| `data/recetas/atardecer.json`, `luna.json` | Las recetas de cada género, una variante por tipo de equipo |
 
-La carpeta `recetas/` llegará con el perfil de equipo (cámara, objetivos, trípode), porque las recetas dependen de él.
+## Recetas y perfil
+
+Cada receta tiene una lista de **variantes**. Se prueban en orden y gana la primera cuya condición `si` se cumple con el perfil del usuario:
+
+```json
+{ "id": "camara-tele-tripode", "titulo": "Con teleobjetivo y trípode",
+  "si": { "equipo": "camara", "objetivos": "tele", "tripode": "si" },
+  "pasos": [ ... ] }
+```
+
+- `si` compara con las respuestas del perfil. Con una lista (como `objetivos`), basta con que la contenga.
+- La **primera** variante debe poder darse para el móvil (`"si": {"equipo": "movil"}`) y la **última** es la general de cámara (`"si": {"equipo": "camara"}`), para que siempre haya receta.
+- Cada **paso** tiene un `titulo` y un texto para cada nivel: `empiezo` (la acción, sin jerga), `defiendo` (con una frase de explicación) y `controlo` (solo el ajuste).
+- En los textos, `{Av}` y `{Tv}` se cambian por el nombre del modo de la marca (Canon: Av y Tv; Nikon y Sony: A y S). `[[iso|ISO]]` crea un término tocable que enseña la definición de `glosario.json`.
+- `avisos` lista los avisos fijos que se muestran (sus textos están en `recetas/comun.json`). Los que figuran en `soloCamara` no se enseñan a quien usa el móvil.
+- `segunSemaforo` es el consejo de «verde», «ámbar» y «rojo».
+- Con trípode «a veces», la pantalla ofrece un interruptor «¿Llevas el trípode hoy?».
+
+Para añadir una pregunta o una variante basta con editar estos archivos; para añadir una receta a un género nuevo, crea `data/recetas/<id>.json` con el mismo id del género. La validación avisa si falta algo, si un término no existe en el glosario o si un texto está mal escrito.
 
 ## Cosas que se pueden cambiar sin tocar código
 

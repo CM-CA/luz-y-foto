@@ -1,5 +1,7 @@
 # Recetas
 
+> **Los textos y valores vigentes están en [`data/recetas/`](../data/recetas/)** y se explican en [`datos.md`](datos.md). Este documento recoge el razonamiento y la tabla original.
+
 Orden fijo: modo, apertura, compensación, ISO, enfoque, medición, truco. Recomendar Av/Tv antes que M; M solo con trípode y luz estable (noche, luna).
 
 ## Atardecer (cámara)

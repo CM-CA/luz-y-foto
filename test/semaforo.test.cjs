@@ -283,6 +283,7 @@ prueba("datos: un género NUEVO (amanecer) se añade solo con datos", () => {
   amanecer.vetos[0].motivo = "Se espera lluvia fuerte al amanecer.";
   cfg.generos.amanecer = amanecer;
   cfg.indice.orden.push("amanecer");
+  cfg.recetas.amanecer = copia(cfg.recetas.atardecer); // cada género necesita también su receta
   assert.deepEqual(Datos.validar(cfg), [], "el género nuevo debería ser válido");
 
   const S2 = Semaforo.crear(cfg);

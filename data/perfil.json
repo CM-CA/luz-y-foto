@@ -1,0 +1,139 @@
+{
+  "bienvenida": {
+    "titulo": "Vamos a ajustar la app a tu equipo",
+    "texto": "Cinco preguntas cortas para que las recetas hablen de tu cámara o de tu móvil. Puedes saltarlas y cambiarlas cuando quieras.",
+    "empezar": "Empezar",
+    "saltar": "Saltar por ahora"
+  },
+  "preguntas": [
+    {
+      "id": "equipo",
+      "titulo": "¿Con qué haces las fotos?",
+      "opciones": [
+        {
+          "id": "movil",
+          "texto": "Con el móvil"
+        },
+        {
+          "id": "camara",
+          "texto": "Con una cámara"
+        }
+      ]
+    },
+    {
+      "id": "marca",
+      "titulo": "¿De qué marca es tu cámara?",
+      "ayuda": "Sirve para nombrar bien los modos de la rueda. Si no lo sabes, elige la última.",
+      "solo": {
+        "equipo": "camara"
+      },
+      "opciones": [
+        {
+          "id": "canon",
+          "texto": "Canon"
+        },
+        {
+          "id": "nikon",
+          "texto": "Nikon"
+        },
+        {
+          "id": "sony",
+          "texto": "Sony"
+        },
+        {
+          "id": "desconocida",
+          "texto": "No lo sé / otra"
+        }
+      ]
+    },
+    {
+      "id": "objetivos",
+      "titulo": "¿Qué objetivos tienes?",
+      "ayuda": "Puedes marcar varios. El objetivo es la «lente» de la cámara.",
+      "multiple": true,
+      "solo": {
+        "equipo": "camara"
+      },
+      "opciones": [
+        {
+          "id": "kit",
+          "texto": "El de kit (18-55 o parecido)"
+        },
+        {
+          "id": "tele",
+          "texto": "Un teleobjetivo (200 mm o más)"
+        },
+        {
+          "id": "angular",
+          "texto": "Un gran angular"
+        },
+        {
+          "id": "otro",
+          "texto": "Otro"
+        }
+      ]
+    },
+    {
+      "id": "tripode",
+      "titulo": "¿Tienes trípode?",
+      "opciones": [
+        {
+          "id": "si",
+          "texto": "Sí"
+        },
+        {
+          "id": "aveces",
+          "texto": "A veces"
+        },
+        {
+          "id": "no",
+          "texto": "No"
+        }
+      ]
+    },
+    {
+      "id": "nivel",
+      "titulo": "¿Cuánta experiencia tienes?",
+      "ayuda": "Cambia cuánto se explica en las recetas.",
+      "opciones": [
+        {
+          "id": "empiezo",
+          "texto": "Empiezo"
+        },
+        {
+          "id": "defiendo",
+          "texto": "Me defiendo"
+        },
+        {
+          "id": "controlo",
+          "texto": "Controlo bastante"
+        }
+      ]
+    }
+  ],
+  "porDefecto": {
+    "equipo": "movil",
+    "marca": "desconocida",
+    "objetivos": [],
+    "tripode": "no",
+    "nivel": "empiezo"
+  },
+  "marcas": {
+    "canon": {
+      "Av": "Av",
+      "Tv": "Tv"
+    },
+    "nikon": {
+      "Av": "A",
+      "Tv": "S"
+    },
+    "sony": {
+      "Av": "A",
+      "Tv": "S"
+    },
+    "desconocida": {
+      "Av": "Av (en Nikon y Sony se llama A)",
+      "Tv": "Tv (en Nikon y Sony se llama S)"
+    }
+  }
+}

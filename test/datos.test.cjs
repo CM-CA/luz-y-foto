@@ -84,10 +84,42 @@ prueba("cargar: lee todos los archivos y da lo mismo que el disco", async () => 
 });
 
 prueba("cargar: si falta un archivo dice cuál", async () => {
-  const buscar = async (url) => url.endsWith("luna.json")
+  const buscar = async (url) => url.endsWith("generos/luna.json")
     ? { ok: false, status: 404 }
     : { ok: true, json: async () => JSON.parse(fs.readFileSync(url, "utf8")) };
   await assert.rejects(Datos.cargar(path.join(__dirname, "..", "data") + "/", buscar), /generos\/luna\.json.*404/);
+});
+
+prueba("validar: un género sin receta, o sin variante de móvil", () => {
+  assert.ok(contiene(errores((c) => { delete c.recetas.luna; }), "«luna» no tiene receta"));
+  assert.ok(contiene(errores((c) => { c.recetas.atardecer.variantes = c.recetas.atardecer.variantes.slice(1); }), "falta una variante para móvil"));
+});
+
+prueba("validar: la última variante debe ser la general de cámara", () => {
+  assert.ok(contiene(errores((c) => { c.recetas.luna.variantes.reverse(); }), "la última debe ser la general de cámara"));
+});
+
+prueba("validar: cada paso necesita texto para los tres niveles", () => {
+  assert.ok(contiene(errores((c) => { delete c.recetas.atardecer.variantes[0].pasos[0].defiendo; }), "variantes[0].pasos[0].defiendo"));
+});
+
+prueba("validar: un término de glosario que no existe", () => {
+  const e = errores((c) => { c.recetas.atardecer.variantes[0].pasos[0].empiezo = "Mira [[bokeh|el bokeh]]"; });
+  assert.ok(contiene(e, "«bokeh», que no está en glosario.json"), e.join(" | "));
+});
+
+prueba("validar: un término del glosario mal escrito", () => {
+  const e = errores((c) => { c.recetas.luna.variantes[0].pasos[0].empiezo = "Mira [[iso|el ISO)"; });
+  assert.ok(contiene(e, "mal escrito"), e.join(" | "));
+});
+
+prueba("validar: aviso que no existe y marca sin nombres de modo", () => {
+  assert.ok(contiene(errores((c) => { c.recetas.luna.avisos.push("rayos"); }), "«rayos» no existe"));
+  assert.ok(contiene(errores((c) => { delete c.perfil.marcas.canon.Tv; }), "perfil.marcas.canon.Tv"));
+});
+
+prueba("validar: valor por defecto del perfil fuera de las opciones", () => {
+  assert.ok(contiene(errores((c) => { c.perfil.porDefecto.nivel = "experto"; }), "perfil.porDefecto.nivel"));
 });
 
 setTimeout(() => {

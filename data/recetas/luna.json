@@ -1,0 +1,169 @@
+{
+  "avisos": [
+    "seguridad",
+    "formato"
+  ],
+  "segunSemaforo": {
+    "verde": "Buen momento: sal a la hora indicada y dispara varias veces, porque las nubes pueden moverse.",
+    "ambar": "Puede salir bien si hay huecos entre nubes. Espera y dispara cuando la luna asome.",
+    "rojo": "Hoy lo normal es no salir. Si vas, prueba las nubes iluminadas por la luna."
+  },
+  "variantes": [
+    {
+      "id": "movil",
+      "titulo": "Con el móvil",
+      "si": {
+        "equipo": "movil"
+      },
+      "nota": "Sin teleobjetivo la luna saldrá pequeña. Funciona mejor incluida en un paisaje, con edificios o árboles.",
+      "pasos": [
+        {
+          "titulo": "Luz",
+          "empiezo": "Toca en la pantalla sobre la luna.",
+          "defiendo": "Al tocar sobre la luna el móvil mide la luz en ella y no en el cielo oscuro, que la dejaría como una mancha blanca.",
+          "controlo": "Tocar la luna (bloquear exposición y enfoque)"
+        },
+        {
+          "titulo": "Brillo",
+          "empiezo": "Baja el brillo hasta que se vean las manchas de la luna.",
+          "defiendo": "La luna es muy brillante; bajando el brillo se distinguen los cráteres.",
+          "controlo": "Exposición entre -1 y -2"
+        },
+        {
+          "titulo": "Pulso",
+          "empiezo": "Apoya el móvil y usa el temporizador de 2 segundos.",
+          "defiendo": "De noche el móvil tarda más en disparar; apoyado y con temporizador sale nítido.",
+          "controlo": "Apoyo + temporizador 2 s"
+        }
+      ]
+    },
+    {
+      "id": "camara-tele-tripode",
+      "titulo": "Con teleobjetivo y trípode",
+      "si": {
+        "equipo": "camara",
+        "objetivos": "tele",
+        "tripode": "si"
+      },
+      "pasos": [
+        {
+          "titulo": "Modo",
+          "empiezo": "Gira la rueda de modos a M.",
+          "defiendo": "En [[modo-m|M]] tú lo controlas todo. En automático la cámara sobreexpone la luna, porque la rodea el cielo oscuro.",
+          "controlo": "M"
+        },
+        {
+          "titulo": "Apertura",
+          "empiezo": "Sube el número f hasta f/8.",
+          "defiendo": "f/8: la [[apertura|apertura]] que da más nitidez en la mayoría de objetivos.",
+          "controlo": "f/8"
+        },
+        {
+          "titulo": "ISO",
+          "empiezo": "Pon el ISO en 100.",
+          "defiendo": "La luna da mucha luz: no hace falta un [[iso|ISO]] alto.",
+          "controlo": "ISO 100"
+        },
+        {
+          "titulo": "Velocidad",
+          "empiezo": "Pon la velocidad entre 1/250 y 1/500 segundos.",
+          "defiendo": "Con esa [[velocidad|velocidad]] la luna sale nítida aunque se mueva por el cielo.",
+          "controlo": "1/250–1/500"
+        },
+        {
+          "titulo": "Enfoque",
+          "empiezo": "Pasa el enfoque a manual, amplía la luna en la pantalla y gira hasta que los bordes se vean nítidos.",
+          "defiendo": "El [[enfoque-manual|enfoque manual]] funciona mejor que el automático con un objeto tan lejano y brillante.",
+          "controlo": "MF con zoom en pantalla"
+        },
+        {
+          "titulo": "Truco",
+          "empiezo": "Activa el disparador a 2 segundos.",
+          "defiendo": "El [[disparador|disparador]] evita que el dedo mueva la cámara.",
+          "controlo": "Disparador a 2 s"
+        }
+      ]
+    },
+    {
+      "id": "camara-con-tele",
+      "titulo": "Con teleobjetivo, sin trípode",
+      "si": {
+        "equipo": "camara",
+        "objetivos": "tele"
+      },
+      "nota": "Con teleobjetivo cualquier temblor se nota mucho. Busca un apoyo firme y dispara varias veces: alguna saldrá nítida.",
+      "pasos": [
+        {
+          "titulo": "Modo",
+          "empiezo": "Gira la rueda de modos a {Tv}.",
+          "defiendo": "En [[modo-tv|{Tv}]] tú eliges la velocidad, que es lo que importa sin trípode.",
+          "controlo": "{Tv}"
+        },
+        {
+          "titulo": "Velocidad",
+          "empiezo": "Pon la velocidad en 1/500 segundos.",
+          "defiendo": "Una [[velocidad|velocidad]] rápida compensa el temblor de las manos con el teleobjetivo.",
+          "controlo": "1/500 s"
+        },
+        {
+          "titulo": "Compensación",
+          "empiezo": "Baja la compensación de exposición a -2 (el botón con +/-).",
+          "defiendo": "[[compensacion|-2]]: oscurece un poco para que no se queme lo más claro.",
+          "controlo": "-2 EV"
+        },
+        {
+          "titulo": "ISO",
+          "empiezo": "Deja el ISO en automático y ponle un tope de 3200 en el menú.",
+          "defiendo": "El [[iso|ISO]] automático mantiene la velocidad rápida; el tope limita el grano.",
+          "controlo": "ISO auto, máx. 3200"
+        },
+        {
+          "titulo": "Truco",
+          "empiezo": "Apoya la cámara o el objetivo en una pared, un poste o una barandilla.",
+          "defiendo": "Cuanto más firme esté, más nítida saldrá.",
+          "controlo": "Apoyo firme"
+        }
+      ]
+    },
+    {
+      "id": "camara-sin-tele",
+      "titulo": "Con el objetivo normal",
+      "si": {
+        "equipo": "camara"
+      },
+      "nota": "Con el objetivo normal (por ejemplo 18-55) la luna será un punto pequeño. Funciona mejor incluida en un paisaje.",
+      "pasos": [
+        {
+          "titulo": "Modo",
+          "empiezo": "Gira la rueda de modos a {Av}.",
+          "defiendo": "Gira la rueda de modos a [[modo-av|{Av}]]: tú eliges la apertura y la cámara calcula el resto.",
+          "controlo": "{Av}"
+        },
+        {
+          "titulo": "Apertura",
+          "empiezo": "Sube el número f hasta f/8. Sin trípode, usa el número más bajo que tengas.",
+          "defiendo": "f/8 da buena nitidez; sin trípode conviene abrir al máximo para poder usar una [[apertura|apertura]] grande y velocidad rápida.",
+          "controlo": "f/8 (sin trípode, la máxima apertura)"
+        },
+        {
+          "titulo": "Compensación",
+          "empiezo": "Baja la compensación de exposición a -2 (el botón con +/-).",
+          "defiendo": "[[compensacion|-2]]: oscurece un poco para que no se queme lo más claro.",
+          "controlo": "-2 EV"
+        },
+        {
+          "titulo": "ISO",
+          "empiezo": "Con trípode, ISO 100. Sin trípode, ISO automático con tope de 3200.",
+          "defiendo": "Con trípode el [[iso|ISO]] puede ser bajo; sin él, el automático mantiene la velocidad y el tope limita el grano.",
+          "controlo": "ISO 100 (sin trípode, auto máx. 3200)"
+        },
+        {
+          "titulo": "Truco",
+          "empiezo": "Con trípode, activa el disparador a 2 segundos. Sin él, apoya la cámara en algo firme.",
+          "defiendo": "El [[disparador|disparador]] o un apoyo firme evitan que la foto salga movida.",
+          "controlo": "Disparador 2 s / apoyo firme"
+        }
+      ]
+    }
+  ]
+}

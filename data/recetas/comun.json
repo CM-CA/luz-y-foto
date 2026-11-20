@@ -1,0 +1,21 @@
+{
+  "titulos": {
+    "pasos": "Pasos",
+    "nota": "Ten en cuenta",
+    "avisos": "Avisos",
+    "segunSemaforo": "Según el semáforo"
+  },
+  "tripodeHoy": {
+    "pregunta": "¿Llevas el trípode hoy?",
+    "si": "Sí, hoy lo llevo",
+    "no": "No, hoy no"
+  },
+  "soloCamara": [
+    "formato"
+  ],
+  "avisos": {
+    "seguridad": "Sal con luz, lleva una linterna y, si el mirador está solitario, avisa a alguien de dónde vas.",
+    "sol": "Nunca mires al sol por el visor de la cámara, y menos con teleobjetivo: puede dañarte la vista.",
+    "formato": "Si no vas a editar las fotos, sácalas en [[jpeg|JPEG]]. Si quieres aprender a editar, usa [[raw|RAW]]."
+  }
+}

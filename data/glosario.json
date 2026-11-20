@@ -1,0 +1,58 @@
+{
+  "apertura": {
+    "termino": "Apertura (f/)",
+    "texto": "Lo abierto que está el agujero por el que entra la luz. Número pequeño (f/2,8) = muy abierto: entra mucha luz y el fondo sale borroso. Número grande (f/11) = cerrado: todo sale nítido."
+  },
+  "compensacion": {
+    "termino": "Compensación de exposición (EV)",
+    "texto": "Un ajuste para decirle a la cámara «hazlo más oscuro» (números negativos, como -1) o «más claro» (positivos). En un atardecer, oscurecer un poco evita que el cielo se queme."
+  },
+  "iso": {
+    "termino": "ISO",
+    "texto": "La sensibilidad a la luz. ISO bajo (100) = foto limpia pero necesita más luz o más tiempo. ISO alto (1600 o más) = permite fotos con poca luz, pero con más grano."
+  },
+  "velocidad": {
+    "termino": "Velocidad de obturación",
+    "texto": "El tiempo que el sensor recibe luz. 1/500 s es muy rápido (congela el movimiento); 1 s es muy lento y exige trípode."
+  },
+  "modo-av": {
+    "termino": "Modo Av / A",
+    "texto": "Tú eliges la apertura y la cámara elige lo demás. Se llama Av en Canon y A en Nikon y Sony. Es el modo más cómodo para empezar a controlar la foto."
+  },
+  "modo-tv": {
+    "termino": "Modo Tv / S",
+    "texto": "Tú eliges la velocidad y la cámara elige lo demás. Se llama Tv en Canon y S en Nikon y Sony."
+  },
+  "modo-m": {
+    "termino": "Modo M (manual)",
+    "texto": "Tú eliges todo: apertura, velocidad e ISO. Solo conviene cuando la luz no cambia, como con la luna de noche y la cámara sobre un trípode."
+  },
+  "medicion": {
+    "termino": "Medición de la luz",
+    "texto": "La forma en que la cámara decide cuánta luz hay. «Evaluativa» mira toda la escena y sirve casi siempre. «Puntual» mira solo un punto pequeño: útil para medir el cielo junto al sol."
+  },
+  "enfoque-manual": {
+    "termino": "Enfoque manual",
+    "texto": "Enfocar tú mismo con el aro del objetivo. Con la luna, amplía la imagen en la pantalla y gira hasta que los bordes y los cráteres se vean nítidos."
+  },
+  "disparador": {
+    "termino": "Disparador a 2 segundos",
+    "texto": "Un retardo para que la cámara dispare dos segundos después de pulsar y no se mueva con el dedo. Se activa en el icono del reloj en el menú de disparo."
+  },
+  "raw": {
+    "termino": "RAW",
+    "texto": "Un archivo con toda la información del sensor, pensado para editar después. Ocupa más y necesita un programa de edición."
+  },
+  "jpeg": {
+    "termino": "JPEG",
+    "texto": "La foto ya procesada por la cámara. Ocupa poco y se puede compartir directamente."
+  },
+  "hora-dorada": {
+    "termino": "Hora dorada",
+    "texto": "La hora antes de la puesta de sol, cuando la luz es cálida y suave."
+  },
+  "hora-azul": {
+    "termino": "Hora azul",
+    "texto": "El rato después de la puesta, cuando el cielo se vuelve azul intenso antes de oscurecer del todo."
+  }
+}

@@ -47,4 +47,6 @@ Sin conexión (última previsión con su hora), sin GPS (elegir a mano), cargand
 Fuentes de datos (SunCalc en el dispositivo, Open-Meteo, ubicación del navegador con nombre de ciudad) y estructura de `data/` (ver [`datos.md`](datos.md)).
 
 ## Pendiente
-Caché sin conexión (service worker), diseño visual definitivo (daltonismo, modo oscuro), perfil de equipo y recetas (`data/recetas/`), lugares guardados.
+Hecho: perfil de equipo y recetas (`data/perfil.json`, `data/recetas/`).
+
+Pendiente: tutorial de la rueda de modos, exportar/importar copia, glosario como página, lugares guardados, caché sin conexión (service worker), diseño visual definitivo (daltonismo, modo oscuro).
