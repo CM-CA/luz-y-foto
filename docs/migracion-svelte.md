@@ -43,7 +43,7 @@ Los datos de `data/` se **incluyen al compilar** (no se piden al abrir la págin
 - Las pruebas de navegador están en el repositorio (`test/e2e/`), con servidor, previsión simulada y reloj fijos, y separadas en `comportamiento/` (ubicación, perfil y recetas; deben pasar en cualquier versión) y `version-actual/` (mecánica de datos de la web actual).
 - Capturas de referencia a 320, 360 y 390 px, en claro y oscuro (`test/e2e/referencia/`; se regeneran con `node test/e2e/capturas.cjs`). Reflejan los defectos actuales: en todos los anchos la página desborda en horizontal por la tabla «Horas analizadas».
 - Las pruebas se pueden dirigir a otra versión con `E2E_BASE_URL` y `E2E_HOY_URL` (se usará en la fase 3).
-- `master` etiquetada como `v-vanilla-1`: punto de vuelta atrás.
+- Punto de vuelta atrás: el commit `5fb6eb2` de `master` (la web actual con su workflow de publicación). La etiqueta `v-vanilla-1` no se pudo subir desde la sesión de trabajo (GitHub rechazó crear etiquetas); si se quiere, se crea a mano en GitHub (Releases → Draft a new release → nueva etiqueta sobre `5fb6eb2`).
 - **Listo cuando**: las pruebas de navegador pasan contra la web actual y están en el repositorio. ✔
 
 ### Fase 1: esqueleto y publicación
@@ -73,11 +73,11 @@ Los datos de `data/` se **incluyen al compilar** (no se piden al abrir la págin
 
 ### Fase 5: traspaso a `master`
 1. Traer lo último de `master` a la rama y repasar la lista de comprobación.
-2. Etiquetar `master` como `v-vanilla-final`.
+2. Anotar el commit de `master` en ese momento como `v-vanilla-final` (etiqueta creada a mano en GitHub, o simplemente el número del commit).
 3. Unir `migracion-svelte` en `master` (conserva todo el historial).
 4. Sustituir el workflow actual (`static.yml`, que publica los archivos tal cual) por el de compilación. El origen de Pages ya está en **GitHub Actions** desde el 2026-11-20, así que no hay nada que cambiar en los ajustes.
 5. Comprobar la web publicada en el móvil.
-6. **Vuelta atrás**: devolver `master` a la etiqueta `v-vanilla-final`; el workflow estático de esa etiqueta vuelve a publicar la web anterior. Son unos minutos.
+6. **Vuelta atrás**: devolver `master` al commit `v-vanilla-final` (o a `5fb6eb2` para la versión anterior a la migración); el workflow estático de esa etiqueta vuelve a publicar la web anterior. Son unos minutos.
 
 ### Fase 6: pantallas nuevas
 Lugares, Glosario, Ajustes (editar equipo, copia de seguridad, enlace de donación) y tutorial de la rueda de modos.
