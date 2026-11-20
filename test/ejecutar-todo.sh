@@ -4,8 +4,8 @@
 #   bash test/ejecutar-todo.sh            lógica + navegador
 #   bash test/ejecutar-todo.sh rapido     solo la lógica (sin navegador)
 #
-# Si hay node_modules (se instalan con `npm ci`), también valida los datos al compilar, compila la
-# app nueva con la ruta de la vista previa (/luz-y-foto/beta/) y prueba la versión compilada.
+# Si hay node_modules (se instalan con `npm ci`), también pasa las pruebas de la lógica nueva (Vitest), valida
+# los datos al compilar, compila la app nueva con la ruta de la vista previa (/luz-y-foto/beta/) y prueba la versión compilada.
 #
 # Para probar otra versión de la app en el navegador (por ejemplo, la compilada con Svelte):
 #   E2E_BASE_URL=http://localhost:4173/luz-y-foto/ E2E_HOY_URL=http://localhost:4173/luz-y-foto/#/hoy bash test/ejecutar-todo.sh
@@ -22,7 +22,11 @@ correr() {
 
 echo "Lógica"
 for t in astro semaforo datos lugar perfil-recetas; do correr "$t" node "test/$t.test.cjs"; done
-if [ -d node_modules ]; then correr "validar-datos" node test/validar-datos.test.cjs; fi
+if [ -d node_modules ]; then
+  echo "Lógica nueva (Vitest: pruebas y paridad con la lógica actual)"
+  correr "vitest" npx vitest run
+  correr "validar-datos" node test/validar-datos.test.cjs
+fi
 
 if [ "${1:-}" != "rapido" ]; then
   echo "Navegador: comportamiento"
