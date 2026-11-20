@@ -46,13 +46,15 @@ Los datos de `data/` se **incluyen al compilar** (no se piden al abrir la págin
 - Punto de vuelta atrás: el commit `5fb6eb2` de `master` (la web actual con su workflow de publicación). La etiqueta `v-vanilla-1` no se pudo subir desde la sesión de trabajo (GitHub rechazó crear etiquetas); si se quiere, se crea a mano en GitHub (Releases → Draft a new release → nueva etiqueta sobre `5fb6eb2`).
 - **Listo cuando**: las pruebas de navegador pasan contra la web actual y están en el repositorio. ✔
 
-### Fase 1: esqueleto y publicación
-- Proyecto Vite + Svelte con `package.json` y versiones fijadas (`package-lock.json`).
-- Comandos: `dev`, `build`, `test` y `validar` (datos).
-- Flujo de GitHub Actions que instala, pasa las pruebas, valida los datos y compila.
-- Decidir cómo ver la rama en el móvil antes de publicarla (ver «Pendiente de decidir»).
-- Sustituir las pruebas de `version-actual/` por equivalentes de compilación: que un JSON mal editado haga fallar `validar`, y que un género añadido solo con datos aparezca como pestaña.
-- **Listo cuando**: una pantalla mínima se compila y se ve a través de la ruta base de GitHub Pages.
+### Fase 1: esqueleto y publicación (hecha el 2026-11-20)
+- Proyecto Vite 8 + Svelte 5 con `package.json` y versiones exactas (`package-lock.json`; Node 22).
+- Comandos: `npm run dev`, `build`, `preview`, `validar` (datos), `test` (lógica) y `test:todo` (lógica + navegador).
+- `data/` se incluye al compilar (`import.meta.glob`) y se valida con las mismas reglas que la web actual (`scripts/validar-datos.mjs` reutiliza `js/datos.js`): un JSON mal editado hace fallar `validar` y `build`, y no se genera nada que publicar.
+- Flujo de GitHub Actions (`.github/workflows/static.yml`): trabajo `nueva` (instala, valida, pasa las pruebas de lógica y compila con la ruta `/luz-y-foto/beta/`) y trabajo `publicar` (monta `master` tal cual + `/beta/` y lo despliega). Si `nueva` falla, se publica solo `master` y la ejecución sale en rojo.
+- Pruebas nuevas: `test/validar-datos.test.cjs` (datos reales correctos; un error en los datos se explica y detiene `validar` y `build`) y `test/e2e/compilada/ruta-base.e2e.cjs` (la versión compilada se sirve bajo `/luz-y-foto/beta/`: todos los archivos responden 200, lee los datos incluidos, ruta desconocida avisada, sin desbordamiento horizontal a 320, 360 y 390 px).
+- Pendiente de la sustitución de `version-actual/`: la prueba «un género añadido solo con datos aparece como pestaña» se hace en la fase 3, cuando existan las pestañas reales de Hoy.
+- Las pruebas de navegador en Actions (instalar Chromium con la misma versión de Playwright) se añaden en la fase 3, cuando haya pantalla que probar.
+- **Listo cuando**: una pantalla mínima se compila y se ve a través de la ruta base de GitHub Pages. ✔ (comprobado en local con la ruta `/luz-y-foto/beta/`; falta verlo publicado, ver más abajo)
 
 ### Fase 2: lógica a módulos modernos
 - Pasar `astro`, `semaforo`, `datos`, `perfil`, `recetas` y `lugar` a `src/` con `import`/`export`; separar los proveedores externos.
@@ -94,11 +96,14 @@ Lugares, Glosario, Ajustes (editar equipo, copia de seguridad, enlace de donaci�
 | Dependencias que cambian o se rompen | `package-lock.json`, versiones fijas, actualizar por separado y no durante una fase |
 | Datos mal editados | Validación al compilar: si falla, no se publica |
 | Que el flujo de Actions no se pueda subir desde aquí (puede faltar permiso para escribir en `.github/workflows`) | Se detecta en la fase 1; si ocurre, se pega el archivo desde la web de GitHub |
+| Una rama a medias impide publicar `master` | `publicar` se ejecuta aunque `nueva` falle (solo sale sin `/beta/` y con aviso) |
 | Cambiar de proveedor de previsión o de nombres de lugar (monetización, límites) | Cada uno en un solo módulo de `proveedores/` |
 | Añadir funciones a mitad de camino | Regla: nada nuevo hasta la fase 5 |
 
-## Cómo ver la rama en el móvil (fase 1)
+## Cómo ver la rama en el móvil
 
-Pages ya publica con GitHub Actions (`.github/workflows/static.yml`, que sube la carpeta del repositorio tal cual). En la fase 1 se amplía ese workflow para que, además de la raíz actual, compile la rama `migracion-svelte` y la publique en **`/beta/`**. La web de la raíz no cambia y `/beta/` desaparece en el traspaso.
+La web nueva se publica en **`https://cm-ca.github.io/luz-y-foto/beta/`** y la actual sigue en `https://cm-ca.github.io/luz-y-foto/` (ver `.github/workflows/static.yml`). Pages solo admite una publicación a la vez, así que el flujo monta las dos partes juntas: `master` tal cual y, en `/beta/`, la compilación de `migracion-svelte`. `/beta/` desaparece en el traspaso.
 
-Puntos a comprobar en ese momento: que el entorno `github-pages` permita desplegar desde la rama `migracion-svelte` (Settings → Environments) y que el token de la sesión pueda escribir en `.github/workflows` (si no, se pega el archivo desde la web de GitHub).
+Ajustes que hacen falta una sola vez en GitHub:
+- **Settings → Environments → github-pages → Deployment branches and tags**: permitir también `migracion-svelte` (si solo permite `master`, la publicación desde la rama se rechaza).
+- El archivo del flujo tiene que ser el mismo en `master` y en `migracion-svelte`. Si no, un push a `master` ejecuta la versión vieja del flujo y publica solo la raíz, y `/beta/` desaparece hasta la siguiente publicación desde la rama. Para publicar a mano: Actions → «Publicar sitio (master + beta)» → Run workflow.

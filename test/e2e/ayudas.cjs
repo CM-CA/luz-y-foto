@@ -29,22 +29,28 @@ function playwright() {
   try { return require("playwright"); } catch (e) { return require("/opt/npm-tools/node_modules/playwright"); }
 }
 
-// Servidor estático con la carpeta del repositorio. Se usa 127.0.0.1 porque el navegador lo trata
-// como contexto seguro, y la ubicación (GPS) solo funciona en contextos seguros.
-function servir() {
+// Servidor estático. Por defecto sirve la carpeta del repositorio; con {carpeta, prefijo} sirve otra
+// carpeta (por ejemplo, la compilada) bajo una ruta (por ejemplo, /luz-y-foto/beta/), como hace GitHub Pages.
+// Se usa 127.0.0.1 porque el navegador lo trata como contexto seguro, y la ubicación (GPS) solo
+// funciona en contextos seguros.
+function servir(opciones = {}) {
   if (process.env.E2E_BASE_URL) return Promise.resolve({ base: process.env.E2E_BASE_URL.replace(/\/?$/, "/"), cerrar() {} });
+  const carpeta = path.resolve(opciones.carpeta || RAIZ);
+  const prefijo = opciones.prefijo || "/";
   return new Promise((resolver) => {
     const s = http.createServer((q, r) => {
-      const ruta = decodeURIComponent(new URL(q.url, "http://x").pathname);
-      let f = path.join(RAIZ, ruta);
-      if (!f.startsWith(RAIZ)) { r.writeHead(403); return r.end(); }
+      let ruta = decodeURIComponent(new URL(q.url, "http://x").pathname);
+      if (!ruta.startsWith(prefijo)) { r.writeHead(404); return r.end("fuera de la ruta base"); }
+      ruta = "/" + ruta.slice(prefijo.length);
+      let f = path.join(carpeta, ruta);
+      if (!f.startsWith(carpeta)) { r.writeHead(403); return r.end(); }
       if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, "index.html");
       fs.readFile(f, (e, d) => {
         if (e) { r.writeHead(404); return r.end("no encontrado"); }
         r.writeHead(200, { "content-type": TIPOS[path.extname(f)] || "application/octet-stream", "cache-control": "no-cache" });
         r.end(d);
       });
-    }).listen(0, "127.0.0.1", () => resolver({ base: "http://127.0.0.1:" + s.address().port + "/", cerrar: () => s.close() }));
+    }).listen(0, "127.0.0.1", () => resolver({ base: "http://127.0.0.1:" + s.address().port + prefijo, cerrar: () => s.close() }));
   });
 }
 
@@ -111,8 +117,8 @@ const ok = (condicion, mensaje) => {
 const titulo = (t) => console.log("== " + t);
 
 // Ejecuta una prueba completa: levanta servidor y navegador, y sale con código 1 si algo falla
-async function ejecutar(nombre, cuerpo) {
-  const servidor = await servir();
+async function ejecutar(nombre, cuerpo, opcionesServidor) {
+  const servidor = await servir(opcionesServidor);
   const navegador = await playwright().chromium.launch();
   try { await cuerpo({ b: navegador, base: servidor.base, hoy: urlHoy(servidor.base) }); }
   catch (e) { fallos++; console.log("FALLA (excepción en " + nombre + "):", e.message); }
