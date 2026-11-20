@@ -1,0 +1,38 @@
+/* Colores definidos una vez, con su versión para modo oscuro. */
+:root {
+  color-scheme: light dark;
+  --fondo: #f6f4ef;
+  --tarjeta: #ffffff;
+  --texto: #1d2230;
+  --texto-suave: #5b6272;
+  --borde: #d9d5cb;
+  --acento: #1d4ed8;
+  --aviso-fondo: #fff4d6;
+  --aviso-borde: #e0b43f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #14161d;
+    --tarjeta: #1d2029;
+    --texto: #eceef4;
+    --texto-suave: #a3a9b8;
+    --borde: #343948;
+    --acento: #8fb4ff;
+    --aviso-fondo: #3a3016;
+    --aviso-borde: #8a7020;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+a { color: var(--acento); }

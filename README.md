@@ -6,7 +6,7 @@ Webapp (PWA) solo frontend para ayudar a principiantes a hacer mejores fotos: te
 - Sol y luna se calculan en el móvil (funciona sin conexión).
 - Meteorología con Open-Meteo (sin clave).
 
-Estado: fase de diseño. Las decisiones están en [`docs/`](docs/).
+Estado: en migración a Svelte + Vite (rama `migracion-svelte`, plan en [`docs/migracion-svelte.md`](docs/migracion-svelte.md)). La web actual sigue publicada en la raíz; la versión nueva se ve en [`/beta/`](https://cm-ca.github.io/luz-y-foto/beta/). Las decisiones están en [`docs/`](docs/).
 
 ## Páginas de prueba
 
@@ -16,6 +16,21 @@ Se abren desde GitHub Pages (`cm-ca.github.io/luz-y-foto/prueba/...`):
 - [`prueba/hoy.html`](prueba/hoy.html): **pantalla «Hoy»** con pestañas Atardecer y Luna, semáforo grande y los tres próximos días.
 - [`prueba/sol-luna.html`](prueba/sol-luna.html): sol y luna calculados en el dispositivo (sin conexión), con dirección de la puesta, fases y consejo de la luna.
 
+## Desarrollo (versión nueva, Svelte)
+
+Hace falta Node 22.12 o superior.
+
+```
+npm ci              instala las dependencias (versiones exactas del package-lock.json)
+npm run dev         servidor de desarrollo con recarga
+npm run validar     comprueba los archivos de data/ con las mismas reglas que la web
+npm test            pruebas de lógica (rápidas, sin navegador)
+npm run test:todo   lógica + navegador + versión compilada (necesita Playwright)
+npm run build       compila en dist/ (valida data/ antes; si hay un error, no genera nada)
+```
+
+La web actual (`prueba/`, `js/`) no necesita instalar nada: se abre sirviendo la carpeta.
+
 ## Estructura
 
 - `js/astro.js`: cálculos de sol y luna (usa SunCalc).
@@ -24,4 +39,6 @@ Se abren desde GitHub Pages (`cm-ca.github.io/luz-y-foto/prueba/...`):
 - `js/lugar.js`: ubicación del dispositivo, nombre de la ciudad y búsqueda por nombre.
 - `js/semaforo.js`: reglas del semáforo (atardecer y luna).
 - `lib/suncalc.js`: [SunCalc](https://github.com/mourner/suncalc) 2.1.4, incluida con su licencia.
-- `test/`: pruebas. Se ejecutan con `TZ=Europe/Madrid node test/astro.test.cjs` `TZ=Europe/Madrid node test/semaforo.test.cjs`, `node test/datos.test.cjs` y `node test/lugar.test.cjs`.
+- `src/`, `index.html`, `public/`, `vite.config.mjs`: la versión nueva (Svelte 5 + Vite). Todavía es un esqueleto: la pantalla Hoy completa llega en la fase 3.
+- `scripts/validar-datos.mjs`: valida `data/` (lo usan `npm run validar` y la compilación).
+- `test/`: pruebas. Todas se lanzan con `bash test/ejecutar-todo.sh` (o `npm run test:todo`); con `rapido` solo la lógica. Las de navegador están en `test/e2e/`.

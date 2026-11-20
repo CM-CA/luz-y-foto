@@ -14,7 +14,8 @@ Rama de trabajo: `migracion-svelte`. La rama `master` sigue publicando la web ac
 
 1. `master` no se toca. Un fallo urgente de la web actual se corrige en `master` y se trae a la rama (`git merge master`).
 2. **Paridad antes que mejoras.** Cada fase termina con todas las pruebas en verde y se puede parar ahí sin dejar nada a medias.
-3. **Las pruebas de navegador no se modifican** durante la migración: si pasan sin tocarlas, la nueva pantalla se comporta igual.
+3. **Las pruebas de `test/e2e/comportamiento/` no se modifican** durante la migración: si pasan sin tocarlas, la nueva pantalla se comporta igual. Las de `test/e2e/version-actual/` comprueban la mecánica de la web actual (datos pedidos al abrir la página, caché de scripts antiguos, errores de validación en pantalla) y se sustituyen por equivalentes en la compilación.
+5. Todas las pruebas se ejecutan con `bash test/ejecutar-todo.sh` (con `rapido`, solo la lógica).
 4. Un commit por paso, con un mensaje que diga qué cambia.
 
 ## Organización final
@@ -38,18 +39,22 @@ Los datos de `data/` se **incluyen al compilar** (no se piden al abrir la págin
 
 ## Fases
 
-### Fase 0: red de seguridad
-- Traer al repositorio (`test/e2e/`) las pruebas de navegador que hoy están fuera de él: ubicación, asistente de perfil y recetas.
-- Guardar capturas de referencia de la pantalla actual a 320, 360 y 390 px (sirven también para el responsive).
-- Etiquetar `master` como `v-vanilla-1`: punto de vuelta atrás.
-- **Listo cuando**: las pruebas de navegador pasan contra la web actual y están en el repositorio.
+### Fase 0: red de seguridad (hecha el 2026-11-20)
+- Las pruebas de navegador están en el repositorio (`test/e2e/`), con servidor, previsión simulada y reloj fijos, y separadas en `comportamiento/` (ubicación, perfil y recetas; deben pasar en cualquier versión) y `version-actual/` (mecánica de datos de la web actual).
+- Capturas de referencia a 320, 360 y 390 px, en claro y oscuro (`test/e2e/referencia/`; se regeneran con `node test/e2e/capturas.cjs`). Reflejan los defectos actuales: en todos los anchos la página desborda en horizontal por la tabla «Horas analizadas».
+- Las pruebas se pueden dirigir a otra versión con `E2E_BASE_URL` y `E2E_HOY_URL` (se usará en la fase 3).
+- Punto de vuelta atrás: el commit `5fb6eb2` de `master` (la web actual con su workflow de publicación). La etiqueta `v-vanilla-1` no se pudo subir desde la sesión de trabajo (GitHub rechazó crear etiquetas); si se quiere, se crea a mano en GitHub (Releases → Draft a new release → nueva etiqueta sobre `5fb6eb2`).
+- **Listo cuando**: las pruebas de navegador pasan contra la web actual y están en el repositorio. ✔
 
-### Fase 1: esqueleto y publicación
-- Proyecto Vite + Svelte con `package.json` y versiones fijadas (`package-lock.json`).
-- Comandos: `dev`, `build`, `test` y `validar` (datos).
-- Flujo de GitHub Actions que instala, pasa las pruebas, valida los datos y compila.
-- Decidir cómo ver la rama en el móvil antes de publicarla (ver «Pendiente de decidir»).
-- **Listo cuando**: una pantalla mínima se compila y se ve a través de la ruta base de GitHub Pages.
+### Fase 1: esqueleto y publicación (hecha el 2026-11-20)
+- Proyecto Vite 8 + Svelte 5 con `package.json` y versiones exactas (`package-lock.json`; Node 22).
+- Comandos: `npm run dev`, `build`, `preview`, `validar` (datos), `test` (lógica) y `test:todo` (lógica + navegador).
+- `data/` se incluye al compilar (`import.meta.glob`) y se valida con las mismas reglas que la web actual (`scripts/validar-datos.mjs` reutiliza `js/datos.js`): un JSON mal editado hace fallar `validar` y `build`, y no se genera nada que publicar.
+- Flujo de GitHub Actions (`.github/workflows/static.yml`): trabajo `nueva` (instala, valida, pasa las pruebas de lógica y compila con la ruta `/luz-y-foto/beta/`) y trabajo `publicar` (monta `master` tal cual + `/beta/` y lo despliega). Si `nueva` falla, se publica solo `master` y la ejecución sale en rojo.
+- Pruebas nuevas: `test/validar-datos.test.cjs` (datos reales correctos; un error en los datos se explica y detiene `validar` y `build`) y `test/e2e/compilada/ruta-base.e2e.cjs` (la versión compilada se sirve bajo `/luz-y-foto/beta/`: todos los archivos responden 200, lee los datos incluidos, ruta desconocida avisada, sin desbordamiento horizontal a 320, 360 y 390 px).
+- Pendiente de la sustitución de `version-actual/`: la prueba «un género añadido solo con datos aparece como pestaña» se hace en la fase 3, cuando existan las pestañas reales de Hoy.
+- Las pruebas de navegador en Actions (instalar Chromium con la misma versión de Playwright) se añaden en la fase 3, cuando haya pantalla que probar.
+- **Listo cuando**: una pantalla mínima se compila y se ve a través de la ruta base de GitHub Pages. ✔ (comprobado en local con la ruta `/luz-y-foto/beta/`; falta verlo publicado, ver más abajo)
 
 ### Fase 2: lógica a módulos modernos
 - Pasar `astro`, `semaforo`, `datos`, `perfil`, `recetas` y `lugar` a `src/` con `import`/`export`; separar los proveedores externos.
@@ -70,11 +75,11 @@ Los datos de `data/` se **incluyen al compilar** (no se piden al abrir la págin
 
 ### Fase 5: traspaso a `master`
 1. Traer lo último de `master` a la rama y repasar la lista de comprobación.
-2. Etiquetar `master` como `v-vanilla-final`.
+2. Anotar el commit de `master` en ese momento como `v-vanilla-final` (etiqueta creada a mano en GitHub, o simplemente el número del commit).
 3. Unir `migracion-svelte` en `master` (conserva todo el historial).
-4. En GitHub, Settings → Pages, cambiar el origen a **GitHub Actions** (lo haces tú una vez).
+4. Sustituir el workflow actual (`static.yml`, que publica los archivos tal cual) por el de compilación. El origen de Pages ya está en **GitHub Actions** desde el 2026-11-20, así que no hay nada que cambiar en los ajustes.
 5. Comprobar la web publicada en el móvil.
-6. **Vuelta atrás**: volver a la etiqueta `v-vanilla-final` y devolver el origen de Pages a «master». Son unos minutos.
+6. **Vuelta atrás**: devolver `master` al commit `v-vanilla-final` (o a `5fb6eb2` para la versión anterior a la migración); el workflow estático de esa etiqueta vuelve a publicar la web anterior. Son unos minutos.
 
 ### Fase 6: pantallas nuevas
 Lugares, Glosario, Ajustes (editar equipo, copia de seguridad, enlace de donación) y tutorial de la rueda de modos.
@@ -91,14 +96,14 @@ Lugares, Glosario, Ajustes (editar equipo, copia de seguridad, enlace de donaci�
 | Dependencias que cambian o se rompen | `package-lock.json`, versiones fijas, actualizar por separado y no durante una fase |
 | Datos mal editados | Validación al compilar: si falla, no se publica |
 | Que el flujo de Actions no se pueda subir desde aquí (puede faltar permiso para escribir en `.github/workflows`) | Se detecta en la fase 1; si ocurre, se pega el archivo desde la web de GitHub |
+| Una rama a medias impide publicar `master` | `publicar` se ejecuta aunque `nueva` falle (solo sale sin `/beta/` y con aviso) |
 | Cambiar de proveedor de previsión o de nombres de lugar (monetización, límites) | Cada uno en un solo módulo de `proveedores/` |
 | Añadir funciones a mitad de camino | Regla: nada nuevo hasta la fase 5 |
 
-## Pendiente de decidir (fase 1)
+## Cómo ver la rama en el móvil
 
-**Cómo ver la rama en el móvil sin tocar la web publicada.** GitHub Pages solo publica un origen a la vez. Opciones:
-1. Que el flujo de Actions publique la compilación de la rama en una carpeta `/beta/` de `master` (la web de la raíz no cambia; se borra en el traspaso).
-2. Un repositorio aparte, solo para la vista previa.
-3. Mirar capturas y pruebas hasta el traspaso.
+La web nueva se publica en **`https://cm-ca.github.io/luz-y-foto/beta/`** y la actual sigue en `https://cm-ca.github.io/luz-y-foto/` (ver `.github/workflows/static.yml`). Pages solo admite una publicación a la vez, así que el flujo monta las dos partes juntas: `master` tal cual y, en `/beta/`, la compilación de `migracion-svelte`. `/beta/` desaparece en el traspaso.
 
-Recomendación: la opción 1.
+Ajustes que hacen falta una sola vez en GitHub:
+- **Settings → Environments → github-pages → Deployment branches and tags**: permitir también `migracion-svelte` (si solo permite `master`, la publicación desde la rama se rechaza).
+- El archivo del flujo tiene que ser el mismo en `master` y en `migracion-svelte`. Si no, un push a `master` ejecuta la versión vieja del flujo y publica solo la raíz, y `/beta/` desaparece hasta la siguiente publicación desde la rama. Para publicar a mano: Actions → «Publicar sitio (master + beta)» → Run workflow.
