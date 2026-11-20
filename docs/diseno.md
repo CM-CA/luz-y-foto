@@ -49,4 +49,6 @@ Fuentes de datos (SunCalc en el dispositivo, Open-Meteo, ubicación del navegado
 ## Pendiente
 Hecho: perfil de equipo y recetas (`data/perfil.json`, `data/recetas/`).
 
+Pendiente (anotado 2026-11-20): **revisar que sea responsive**. En un móvil (captura del usuario, navegador en modo oscuro) la tabla «Horas analizadas» se sale de la tarjeta y la página se desplaza en horizontal; las barras de «Capas de nubes» casi no se ven en oscuro. Probar anchos de 320, 360 y 390 px, y modo claro y oscuro.
+
 Pendiente: tutorial de la rueda de modos, exportar/importar copia, glosario como página, lugares guardados, caché sin conexión (service worker), diseño visual definitivo (daltonismo, modo oscuro).
