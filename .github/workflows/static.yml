@@ -3,7 +3,7 @@
 # Mientras dura la migración a Svelte, el sitio se monta con DOS partes en una sola publicación
 # (GitHub Pages solo admite una publicación a la vez):
 #
-#   /luz-y-foto/        la versión actual, tal cual está en la rama master
+#   /luz-y-foto/        la versión actual (carpetas prueba/, js/, lib/ y data/ de master)
 #   /luz-y-foto/beta/   la versión nueva (Svelte), compilada desde la rama migracion-svelte
 #
 # Si la versión nueva falla (datos mal escritos, pruebas rotas, error al compilar), la ejecución
@@ -91,8 +91,12 @@ jobs:
           ref: master
           path: master
 
+      # Solo lo que usa la web actual. Así el código de la versión nueva (index.html, src/, package.json…),
+      # que ya está en master, no se publica ni sustituye a la raíz.
       - name: Montar el sitio con la versión actual
-        run: rsync -a --exclude='.git' --exclude='.github' master/ sitio/
+        run: |
+          mkdir sitio
+          cp -r master/prueba master/js master/lib master/data sitio/
 
       - name: Añadir la versión nueva en /beta/
         if: ${{ needs.nueva.result == 'success' }}
