@@ -5,8 +5,12 @@ import tarde from "./cielo-tarde.webp";
 import tardeCubierta from "./cielo-tarde-cubierta.webp";
 import noche from "./cielo-noche.webp";
 import nocheCubierta from "./cielo-noche-cubierta.webp";
+import amanecer from "./cielo-amanecer.webp";
+import amanecerCubierta from "./cielo-amanecer-cubierta.webp";
 
-export const CIELOS = { tarde, "tarde-cubierta": tardeCubierta, noche, "noche-cubierta": nocheCubierta };
+export const CIELOS = {
+  tarde, "tarde-cubierta": tardeCubierta, noche, "noche-cubierta": nocheCubierta, amanecer, "amanecer-cubierta": amanecerCubierta
+};
 
 // Las 16 fases de la luna, en orden: el índice es el que da indiceFaseLuna() (0 nueva, 4 cuarto creciente, 8 llena, 12 cuarto menguante)
 const lunas = import.meta.glob("./luna-*.webp", { eager: true, import: "default" });

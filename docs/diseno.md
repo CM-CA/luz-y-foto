@@ -13,7 +13,7 @@ Principiantes y aficionados sin mucha experiencia.
 ## Diseño visual: «La luz de ahora» (hecho el 2026-11-21)
 Propuesta y decisiones en [`superpowers/specs/2026-11-21-la-luz-de-ahora-design.md`](superpowers/specs/2026-11-21-la-luz-de-ahora-design.md); el plan con lo que se hizo en cada paso, en [`superpowers/plans/2026-11-21-la-luz-de-ahora.md`](superpowers/plans/2026-11-21-la-luz-de-ahora.md). Idea: la cabecera es un cielo que cambia con el momento y con la previsión; debajo todo queda tranquilo y el semáforo es lo que más se ve.
 
-- **Cielo** (cabecera de 262 px): cuatro imágenes WebP (tarde, tarde cubierta, noche, noche cubierta). Manda la pestaña (Atardecer = tarde, Luna = noche; sin previsión, la hora del dispositivo) y el semáforo del día elegido (rojo = cubierto). En Luna lleva además la luna de esa noche con su **fase real** (16 imágenes; al revés en el hemisferio sur; apagada si la noche está cubierta). `src/nucleo/cielo.js` decide cuál; `scripts/generar-cielos.mjs` las dibuja.
+- **Cielo** (cabecera de 262 px): seis imágenes WebP (amanecer, amanecer cubierto, tarde, tarde cubierta, noche, noche cubierta). Manda la pestaña: un género de «puntos en una ventana» tiene cielo de amanecer si su `evento` es `amanecer` y de tarde en cualquier otro caso; la luna, cielo de noche (sin previsión, manda la hora del dispositivo). Después manda el semáforo del día elegido (rojo = cubierto). En Noche lleva además la luna de esa noche con su **fase real** (16 imágenes; al revés en el hemisferio sur; apagada si la noche está cubierta). `src/nucleo/cielo.js` decide cuál; `scripts/generar-cielos.mjs` las dibuja.
 - **Tipografía**: Young Serif para el título, los títulos de sección, el veredicto y el nombre de la fase de la luna; Figtree (variable) para todo lo demás. Las dos van dentro de la app (`src/fuentes/`, con su licencia) y en la caché del service worker.
 - **Paleta** (claro / oscuro; los nombres están en `src/estilos.css`): fondo `#f3eff4` / `#0f1626`, tarjeta `#ffffff` / `#18213a`, texto `#1f2740` / `#ecebf5`; verde `#1b7a47` / `#78d9a3`, ámbar `#8f5a00` (símbolo `#b06b00`) / `#f5c867`, rojo `#a9362f` / `#f7a199`, gris `#59607f` / `#a8afcb`. Para la franja de luz: oro, sol, violeta y azul de la hora azul. Los pares de colores de texto y fondo cumplen 4,5:1 (lo comprueba `paleta.e2e.cjs`); los símbolos, 3:1.
 - **Cuatro detalles**: el cielo reacciona a la previsión; «La luz de hoy» (franja de la hora dorada a la hora azul, con la puesta y un «●» donde estás ahora); el medidor de puntos, solo en Atardecer (la luna no puntúa); y la luna de la cabecera con su fase real.
@@ -22,8 +22,8 @@ Propuesta y decisiones en [`superpowers/specs/2026-11-21-la-luz-de-ahora-design.
 - **Peso**: fuentes e imágenes suman menos de 160 000 bytes y todas van en la caché del service worker (lo comprueba `pwa.e2e.cjs`).
 - **Iconos y colores de la app**: fondo `#1f2740`, sol `#ee7d2f`, horizonte `#7f9be0`; `theme-color` y `background_color` del manifiesto, `#f3eff4` (claro) y `#0f1626` (oscuro).
 
-## La brújula (Atardecer y Luna)
-Un solo componente (`src/componentes/Brujula.svelte`) en las dos pestañas: una flecha, la dirección en palabras y grados («Mira hacia el sur (174°).») y, en Luna, la altura («47° sobre el horizonte, unos 5 puños con el brazo estirado»; 1 puño ≈ 10°) y a qué momento apunta: la luna **de ahora** si la noche elegida está en curso y la luna está en el cielo; si no, la de la **mejor hora** (con la hora escrita); si no, la del **anochecer**; si no, donde **sale**. En Atardecer apunta al azimut de la puesta del día elegido. La lógica está en `src/nucleo/rumbo.js` (con SunCalc) y los textos en `data/generos/luna.json` (`brujula`). «Ahora» usa el reloj del dispositivo y se refresca cada minuto. Todo lo que dice el dibujo está también en el texto.
+## La brújula (Amanecer, Atardecer y Noche)
+Un solo componente (`src/componentes/Brujula.svelte`) en las tres pestañas: una flecha, la dirección en palabras y grados («Mira hacia el sur (174°).») y, en Noche, la altura («47° sobre el horizonte, unos 5 puños con el brazo estirado»; 1 puño ≈ 10°) y a qué momento apunta: la luna **de ahora** si la noche elegida está en curso y la luna está en el cielo; si no, la de la **mejor hora** (con la hora escrita); si no, la del **anochecer**; si no, donde **sale**. En Atardecer apunta al azimut de la puesta del día elegido y en Amanecer al de la salida del sol («Al amanecer, mira hacia el sureste (118°).»). La lógica está en `src/nucleo/rumbo.js` (con SunCalc) y los textos en `data/generos/luna.json` (`brujula`). «Ahora» usa el reloj del dispositivo y se refresca cada minuto. Todo lo que dice el dibujo está también en el texto.
 
 **La brújula del móvil** (botón «Usar la brújula del móvil», opcional; sin ella queda la flecha fija): el dial gira −rumbo y la flecha queda hacia arriba cuando el móvil mira al objetivo. Cómo se saca el rumbo (`rumboDe` en `src/nucleo/rumbo.js`, estado en `src/estado/orientacion.svelte.js`):
 - **iPhone (Safari):** `DeviceOrientationEvent.requestPermission()` solo se puede llamar desde un toque (el botón); da `webkitCompassHeading` en `deviceorientation`.
@@ -46,8 +46,9 @@ Un solo componente (`src/componentes/Brujula.svelte`) en las dos pestañas: una 
 
 ## Uso diario
 - **Hoy** (principal): lugar activo, semáforo GRANDE con veredicto y porqué, cuándo salir, brújula (flecha y palabra), botón "Ver receta", tira de 3 días.
-  - Pestañas por género: Atardecer y Luna (siempre visibles). Cada pestaña lleva su semáforo.
-  - Pestaña por defecto según la hora: hasta 30 min después de la puesta, Atardecer; después, Luna. Si el usuario toca otra pestaña, se respeta.
+  - Pestañas por género: **Amanecer – Atardecer – Noche** (siempre visibles, en una sola fila también a 320 px). Cada pestaña lleva su semáforo. «Noche» es solo el nombre que se ve: el género sigue llamándose `luna` por dentro.
+  - Pestaña por defecto según la hora, con tres franjas (los números están en `data/generos.json`): **Noche** desde 30 min después de la puesta hasta 120 min antes del amanecer; **Amanecer** desde 120 min antes hasta 60 min después de la salida del sol; el resto del día, **Atardecer**. Si el usuario toca otra pestaña, se respeta.
+  - Amanecer: su semáforo, su brújula hacia la salida del sol, su receta, tres días y dos cielos. Por la tarde el primer día es «Mañana». **La niebla es una ventaja**: con poca visibilidad el factor de nubes bajas da sus puntos y su veto no se aplica, y la pantalla lo cuenta con un aviso; la lluvia y las tormentas siguen vetando.
 - **Receta**: pasos en orden (modo, apertura, compensación, ISO, enfoque, truco), términos tocables, aviso RAW/JPEG y aviso de seguridad.
 - **Lugares**: GPS y guardados, con ajuste en minutos de la puesta real (monte, edificios).
 - **Glosario** y **Ajustes** (editar perfil, repetir tutorial, exportar/importar copia, instalar en pantalla de inicio).
@@ -63,7 +64,7 @@ Sin conexión (última previsión con su hora: hecho en la versión nueva), sin 
 - Demasiado a la vez: versión 1 acotada.
 
 ## Versiones
-- **v1**: perfil, tutorial, Hoy (Atardecer y Luna), receta, lugares, glosario, exportar/importar.
+- **v1**: perfil, tutorial, Hoy (Atardecer y Luna; en la versión nueva, Amanecer, Atardecer y Noche), receta, lugares, glosario, exportar/importar.
 - **v2**: urbana, alineaciones sol/luna con lugares, segundo punto meteorológico hacia la puesta.
 - **v3**: flores e insectos, diario local, "Mi foto salió...", calendario .ics, eventos astronómicos.
 

@@ -104,6 +104,56 @@ prueba("atardecer: niebla avisa", () => {
   assert.ok(r.avisos.some((a) => /niebla/.test(a)));
 });
 
+/* ---------- Niebla como ventaja (nieblaVentaja) ---------- */
+
+// Un motor sobre una copia de los datos reales en la que el atardecer pide la niebla como ventaja del factor de nubes bajas.
+// Así se prueba el motor por sí solo, sin depender del género Amanecer.
+const FRASE_NIEBLA = "Niebla baja: no verás salir el sol, pero puede dar buenas fotos.";
+const configNiebla = structuredClone(cargarDatos());
+configNiebla.generos.atardecer.nieblaVentaja = { factor: "bajas", frase: FRASE_NIEBLA };
+const SN = Semaforo.crear(configNiebla);
+const conNiebla = (cambios) => { const p = SN.prepararPrevision(respuesta("2026-11-18", 3, { medias: 30, altas: 50, ...cambios })); return SN.evaluar("atardecer", p, { dia: p.dias[1] }); };
+const factorBajas = (r) => r.factores.find((f) => f.id === "bajas");
+
+prueba("niebla ventaja: con niebla el factor de nubes bajas da su máximo y no veta", () => {
+  const r = conNiebla({ bajas: 95, vis: 2000 });
+  assert.equal(factorBajas(r).puntos, 40);
+  assert.equal(factorBajas(r).frase, FRASE_NIEBLA);
+  assert.notEqual(r.nivel, "rojo");
+  assert.equal(r.motivoVeto, null);
+  assert.ok(r.avisos.includes(configNiebla.generos.atardecer.avisoNiebla));
+});
+
+prueba("niebla ventaja: sin niebla el mismo cielo cerrado sigue vetando", () => {
+  assert.equal(conNiebla({ bajas: 95, vis: 25000 }).nivel, "rojo");
+});
+
+prueba("niebla ventaja: la lluvia fuerte con niebla sigue vetando", () => {
+  const r = conNiebla({ bajas: 95, vis: 2000, lluvia: 10 });
+  assert.equal(r.nivel, "rojo");
+  assert.match(r.motivoVeto, /lluvia fuerte/);
+});
+
+prueba("niebla ventaja: la tormenta con niebla sigue en ámbar con su aviso", () => {
+  const r = conNiebla({ vis: 2000, codigo: 95 });
+  assert.equal(r.nivel, "ambar");
+  assert.ok(r.avisos.includes(configNiebla.comun.avisos.tormenta));
+});
+
+prueba("el atardecer real no cambia con niebla", () => {
+  const { r } = ATARDECER(respuesta("2026-11-18", 3, { bajas: 95, medias: 30, altas: 50, vis: 2000 }));
+  assert.equal(r.nivel, "rojo");
+  assert.equal(factorBajas(r).puntos, 4);
+});
+
+prueba("explicar: un género con nieblaVentaja lo cuenta", () => {
+  const con = SN.explicar("atardecer").filter((l) => /niebla/.test(l));
+  assert.equal(con.length, 1, con.join(" | "));
+  assert.match(con[0], /Nubes bajas/);
+  assert.match(con[0], /40/);
+  assert.equal(S.explicar("atardecer").filter((l) => /niebla/.test(l)).length, 0);
+});
+
 prueba("atardecer: la ventana son las horas de 17 a 18 más la de las 18 (1 h antes a 30 min después)", () => {
   const p = S.prepararPrevision(respuesta("2026-11-18", 3, {}));
   const horas = ventanaAtardecer(p, p.dias[1]).map((x) => new Date(x.t + 3600000).toISOString().slice(11, 13));
@@ -120,6 +170,47 @@ prueba("atardecer: con el caso real del 19 de noviembre (llovizna y cielo bajo) 
   const r = puntuarAtardecer(S.prepararPrevision(datos), S.prepararPrevision(datos).dias[1]);
   assert.equal(r.motivoVeto, null);
   assert.ok(["ambar", "rojo"].includes(r.nivel));
+});
+
+/* ---------- Amanecer ---------- */
+
+const AMANECER = (datos) => { const p = S.prepararPrevision(datos); return { p, r: S.evaluar("amanecer", p, { dia: p.dias[1] }) }; };
+const CIELO_BUENO = { bajas: 10, medias: 30, altas: 50, lluvia: 0 };
+
+prueba("amanecer: la ventana va de 30 min antes a 60 min después de la salida del sol", () => {
+  const p = S.prepararPrevision(respuesta("2026-11-18", 3, {}));
+  const salida = p.dias[1].amanecer;
+  const horas = S.ventana("amanecer", p, { dia: p.dias[1] });
+  assert.ok(horas.length >= 1 && horas.length <= 3, "horas: " + horas.length);
+  horas.forEach((x) => assert.ok(x.t + 3600000 > salida - 30 * 60000 && x.t <= salida + 60 * 60000, "fuera de la ventana: " + new Date(x.t).toISOString()));
+});
+
+prueba("amanecer: nubes medias y altas moderadas, aire limpio y sin lluvia da verde", () => {
+  const { r } = AMANECER(respuesta("2026-11-18", 3, CIELO_BUENO));
+  assert.equal(r.nivel, "verde");
+});
+
+prueba("amanecer: cielo bajo cerrado es rojo con motivo", () => {
+  const { r } = AMANECER(respuesta("2026-11-18", 3, { ...CIELO_BUENO, bajas: 95 }));
+  assert.equal(r.nivel, "rojo");
+  assert.match(r.motivoVeto, /cielo bajo/);
+});
+
+prueba("amanecer: con niebla y el cielo bajo cerrado no es rojo y avisa", () => {
+  const g = S.genero("amanecer");
+  const { r } = AMANECER(respuesta("2026-11-18", 3, { ...CIELO_BUENO, bajas: 95, vis: 2000 }));
+  assert.notEqual(r.nivel, "rojo");
+  assert.equal(r.motivoVeto, null);
+  assert.ok(r.avisos.includes(g.avisoNiebla));
+  const bajas = r.factores.find((f) => f.id === "bajas");
+  assert.equal(bajas.puntos, 40);
+  assert.equal(bajas.frase, g.nieblaVentaja.frase);
+});
+
+prueba("amanecer: con niebla y lluvia fuerte sigue en rojo", () => {
+  const { r } = AMANECER(respuesta("2026-11-18", 3, { ...CIELO_BUENO, bajas: 95, vis: 2000, lluvia: 10 }));
+  assert.equal(r.nivel, "rojo");
+  assert.match(r.motivoVeto, /lluvia fuerte/);
 });
 
 /* ---------- Luna ---------- */

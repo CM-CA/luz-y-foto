@@ -70,7 +70,13 @@ function tramos(valores, f) {
 }
 const paso = (desde, hasta, p) => { const xs = []; for (let i = 0; desde + i * p <= hasta + 1e-9; i++) xs.push(Number((desde + i * p).toFixed(6))); return xs; };
 
-export const datosReales = () => cargarDeDisco();
+// Los datos de data/ sin `nieblaVentaja`: la web antigua no sabe la niebla como ventaja (es nueva, de Amanecer), así que la paridad
+// compara todo lo demás con los mismos datos. La niebla como ventaja la cubren las pruebas de test/nucleo/semaforo.test.js.
+export const datosReales = () => {
+  const config = cargarDeDisco();
+  Object.values(config.generos).forEach((g) => { delete g.nieblaVentaja; });
+  return config;
+};
 
 /* ---------- Sol y luna ---------- */
 
@@ -293,7 +299,8 @@ function datos({ Datos, datosCargados }) {
     Object.entries(ejemplos).forEach(([nombre, cambiar]) => { const c = structuredClone(config); cambiar(c); salida.casosEscritos[nombre] = intentar(() => Datos.validar(c)); });
 
     // Datos que la versión actual (js/) no conoce y que, por tanto, no valida: no se comparan sus mutaciones
-    const NUEVOS = ["generos.luna.brujula"];
+    // (las tres franjas de la pestaña por defecto; y indice.orden.0, que ahora es «amanecer», el género al que apunta porDefectoDeAmanecer)
+    const NUEVOS = ["generos.luna.brujula", "indice.porDefectoDeAmanecer", "indice.amanecerAntesMin", "indice.amanecerDespuesMin", "indice.orden.0"];
     for (const ruta of recorrer(config)) {
       if (NUEVOS.some((n) => ruta.join(".") === n || ruta.join(".").startsWith(n + "."))) continue;
       ["quitar", "malo", "vacio"].forEach((tipo) => {
@@ -493,7 +500,8 @@ function pantalla({ Semaforo, pantalla: P }) {
   const S = Semaforo.crear(config);
   const real = JSON.parse(fs.readFileSync(path.join(RAIZ, "test", "e2e", "fixtures", "open-meteo-simulada.json"), "utf8"));
   const generos = config.indice.orden;
-  const INDICES = [config.indice, { ...config.indice, nocheDespuesPuestaMin: 0 }, { ...config.indice, nocheDespuesPuestaMin: 240 }];
+  // La pestaña por defecto ya no se compara con la web antigua: ahora sigue tres franjas (amanecer, día y noche) a propósito.
+  // La cubren las pruebas de test/nucleo/pantalla.test.js.
   const salida = { formato: {}, fixture: {}, previsiones: [] };
 
   salida.formato.hm = [null, undefined, 0, 1e12, 1763560800000, Date.UTC(2026, 5, 1, 23, 59), NaN].map((x) => P.hm(x));
@@ -502,7 +510,7 @@ function pantalla({ Semaforo, pantalla: P }) {
   salida.formato.mayus = ["", "lunes", "ñandú", "Ya", "x"].map((x) => P.mayus(x));
 
   const vista = (prev, ahora) => {
-    const r = { ahora, fechaLugar: P.fechaLugar(ahora, prev), noches: P.nochesDe(prev, ahora), pestanas: INDICES.map((i) => P.pestanaPorDefecto(i, prev, ahora)), generos: {} };
+    const r = { ahora, fechaLugar: P.fechaLugar(ahora, prev), noches: P.nochesDe(prev, ahora), generos: {} };
     generos.forEach((id) => {
       const g = config.generos[id];
       const lista = P.listaDe(g, prev, ahora);

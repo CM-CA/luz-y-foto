@@ -41,7 +41,7 @@ ejecutar("prevision-guardada", async ({ b, base }) => {
   await p.reload(); await p.waitForSelector(aviso);
   ok(await p.locator(".veredicto").isVisible(), "se ve el veredicto de siempre");
   ok(await texto(p, ".veredicto") === veredictoOnline, "y es el mismo que con conexión");
-  ok(await p.locator("[data-tab]").count() === 2 && await p.locator(".dias button").count() >= 2, "con sus pestañas y días");
+  ok(await p.locator("[data-tab]").count() === 3 && await p.locator(".dias button").count() >= 2, "con sus pestañas y días");
   const a = await texto(p, aviso);
   ok(/No he podido actualizar la previsión/.test(a) && /hoy a las 1[45]:\d\d/.test(a) && /hace (un momento|\d+ min)/.test(a) && /puede haber cambiado/.test(a), "aviso: " + a.replace(/\n/g, " "));
   ok(/^Previsión guardada hoy a las \d\d:\d\d · Europe\/Madrid$/.test(await texto(p, "#estado")), "estado: " + await texto(p, "#estado"));

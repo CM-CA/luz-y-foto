@@ -137,6 +137,11 @@ Punto de partida: las PR #5 y #6 de `migracion-svelte` ya estaban en `master` (e
 
 Queda: comprobar la web publicada en el móvil y, solo entonces, retirar `js/`, `lib/`, `prueba/` y las pruebas que comparaban con la web antigua (`test/paridad/`, las de `test/*.test.cjs`).
 
+### Tras la fase 5: Amanecer y la pestaña Noche (2026-11-21)
+La primera función nueva de la fase 6 es **Amanecer**: pestañas Amanecer – Atardecer – Noche (la luna se ve como «Noche»; su `id` sigue siendo `luna`), con semáforo, brújula hacia la salida del sol, receta, tres días y dos cielos nuevos, la niebla como ventaja con su aviso y una pestaña por defecto con tres franjas según la hora. Diseño: [`superpowers/specs/2026-11-21-amanecer-design.md`](superpowers/specs/2026-11-21-amanecer-design.md); plan: [`superpowers/plans/2026-11-21-amanecer.md`](superpowers/plans/2026-11-21-amanecer.md); los datos están descritos en [`datos.md`](datos.md).
+
+Para la retirada de la web antigua: la **paridad** (`test/paridad/`) ya no compara la pestaña por defecto (la web antigua solo conocía dos franjas) ni los datos que ella no conoce (`nieblaVentaja`, el género amanecer, `porDefectoDeAmanecer` y las franjas del amanecer).
+
 ### Fase 6: pantallas nuevas
 Lugares, Glosario, Ajustes (editar equipo, copia de seguridad, enlace de donación) y tutorial de la rueda de modos.
 

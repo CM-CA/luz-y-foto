@@ -1,0 +1,87 @@
+{
+  "id": "amanecer",
+  "nombre": "Amanecer",
+  "motor": "puntos-ventana",
+  "evento": "amanecer",
+  "eventoNombre": "el amanecer",
+  "ventana": { "antesMin": 30, "despuesMin": 60 },
+
+  "factores": [
+    {
+      "id": "bajas",
+      "etiqueta": "Nubes bajas",
+      "campos": ["bajas"],
+      "agregado": "media",
+      "max": 40,
+      "tramos": [
+        { "menosDe": 20, "puntos": 40 },
+        { "menosDe": 40, "puntos": 28 },
+        { "menosDe": 60, "puntos": 18 },
+        { "menosDe": 75, "puntos": 10 },
+        { "puntos": 4 }
+      ],
+      "frases": [
+        { "menosDe": 20, "texto": "Casi sin nubes bajas: el sol se verá bien en el horizonte." },
+        { "menosDe": 40, "texto": "Pocas nubes bajas: el horizonte estará bastante despejado." },
+        { "menosDe": 60, "texto": "Nubes bajas a ratos: el sol puede quedar tapado un rato." },
+        { "menosDe": 75, "texto": "Muchas nubes bajas: es probable que tapen el sol cerca del horizonte." },
+        { "texto": "Cielo bajo muy cubierto: poco hueco para ver el sol." }
+      ]
+    },
+    {
+      "id": "cielo",
+      "etiqueta": "Nubes medias y altas",
+      "campos": ["medias", "altas"],
+      "agregado": "media",
+      "combinar": "maximo",
+      "max": 50,
+      "tramos": [
+        { "desde": 20, "hasta": 70, "puntos": 50 },
+        { "desde": 10, "menosDe": 20, "puntos": 25 },
+        { "masDe": 70, "hasta": 85, "puntos": 25 },
+        { "puntos": 5 }
+      ],
+      "frases": [
+        { "desde": 20, "hasta": 70, "texto": "Nubes medias o altas en buena cantidad: son las que se tiñen de naranja y rosa." },
+        { "menosDe": 20, "texto": "Casi sin nubes altas: el cielo será bonito pero sin mucho color." },
+        { "texto": "Cielo alto muy cubierto: los colores saldrán apagados." }
+      ]
+    },
+    {
+      "id": "lluvia",
+      "tipo": "lluvia",
+      "etiqueta": "Lluvia",
+      "max": 10,
+      "momento": "a la hora del amanecer",
+      "puntos": { "sin": 10, "llovizna": 7, "moderada": 2, "fuerte": 0 }
+    }
+  ],
+
+  "vetos": [
+    { "factor": "lluvia", "nivel": "fuerte", "motivo": "Se espera lluvia fuerte a la hora del amanecer." },
+    { "factor": "bajas", "masDe": 88, "motivo": "El cielo bajo está casi cerrado: el sol no se verá salir en el horizonte." }
+  ],
+  "ambarSiLluviaDesde": "moderada",
+
+  "nieblaVentaja": {
+    "factor": "bajas",
+    "frase": "Niebla o bruma baja: no verás salir el sol, pero la luz suave y la niebla pueden dar fotos muy bonitas."
+  },
+
+  "niveles": {
+    "verde": "Prometedor",
+    "ambar": "Posible, pero incierto",
+    "rojo": "Poco probable"
+  },
+  "resumenes": {
+    "verde": "Buena combinación de nubes y sin lluvia importante. Merece la pena madrugar.",
+    "ambar": "Hay posibilidades, pero algún factor juega en contra. Si sales, ten un plan B (siluetas, nubes, hora azul).",
+    "rojo": "Los factores juegan en contra. Mejor un plan B (detalles, reflejos, blanco y negro) o quedarse en casa.",
+    "tormenta": "Con tormenta eléctrica se puede salir, pero solo con precaución. La nota depende de lo que dejen ver las nubes."
+  },
+  "avisoNiebla": "Poca visibilidad (niebla): no verás salir el sol, pero la ría con niebla al amanecer puede dar buenas fotos.",
+
+  "textoEvento": "Amanecer a las {hora}",
+  "textoBrujula": "Al amanecer, mira hacia el {direccion} ({grados}°).",
+  "etiquetasDia": { "hoy": "Hoy", "manana": "Mañana", "otro": "{dia}" }
+}

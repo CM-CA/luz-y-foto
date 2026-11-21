@@ -1,6 +1,6 @@
-// Los cuatro cielos de la cabecera, como dibujos SVG de 390 × 262. `generar-cielos.mjs` los convierte en las imágenes
+// Los seis cielos de la cabecera, como dibujos SVG de 390 × 262. `generar-cielos.mjs` los convierte en las imágenes
 // WebP de src/imagenes/ (780 × 524). Son la propuesta de diseño «La luz de ahora»: tarde despejada (semáforo verde o
-// ámbar), tarde cubierta (rojo), noche y noche cubierta. La luna NO está en los cielos: se superpone en la cabecera
+// ámbar), tarde cubierta (rojo), noche y noche cubierta, y amanecer y amanecer cubierto. La luna NO está en los cielos: se superpone en la cabecera
 // con la fase real de esa noche (src/imagenes/luna-*.webp, dibujadas por lunaSvg).
 
 const envolver = (contenido) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 262" width="390" height="262">${contenido}</svg>`;
@@ -62,7 +62,46 @@ export const ESCENAS = {
       <path d="M0 228 C28 214 52 206 92 211 C122 215 140 226 168 222 C198 218 214 202 250 198 C282 195 300 209 330 218 C356 226 376 222 390 216 L390 300 L0 300Z" fill="#141c3b"/>
       <path d="M0 262 L0 242 C40 234 74 238 116 236 C160 234 188 244 232 242 C276 240 312 230 348 234 C368 236 380 240 390 238 L390 300 L0 300Z" fill="#080e22"/>
       <path d="M262 236 L296 236 L289 242 L269 242Z" fill="#080e22"/><path d="M279 235 L279 210 L294 232Z" fill="#080e22"/>
-    </g>`)
+    </g>`),
+
+  // Amanecer: la misma familia de dibujo que la tarde (colinas y árbol volteados, el sol sale por la derecha), más fría
+  // arriba para que el texto blanco de la cabecera se lea.
+  amanecer: envolver(`
+  <defs>
+    <linearGradient id="a1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#22397a"/><stop offset=".30" stop-color="#3f66a8"/><stop offset=".47" stop-color="#8fb0dc"/><stop offset=".63" stop-color="#f1cbb6"/><stop offset=".78" stop-color="#f2a58e"/><stop offset="1" stop-color="#f2a58e"/>
+    </linearGradient>
+    <radialGradient id="a2" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff4cf" stop-opacity=".95"/><stop offset=".35" stop-color="#ffdca0" stop-opacity=".5"/><stop offset="1" stop-color="#ffd0a0" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="390" height="300" fill="url(#a1)"/><g transform="translate(0,-30)">
+  <ellipse cx="304" cy="205" rx="150" ry="95" fill="url(#a2)"/>
+  <circle cx="304" cy="213" r="17" fill="#fff6dc"/>
+  <path d="M30 100 C80 92 140 96 190 106 C140 112 80 112 30 100Z" fill="#fbd9cf" opacity=".55"/>
+  <path d="M10 128 C60 120 120 124 170 134 C120 140 60 140 10 128Z" fill="#fff0dc" opacity=".5"/>
+  <path d="M230 88 C270 82 320 84 370 92 C320 98 270 98 230 88Z" fill="#f7c3c8" opacity=".45"/>
+  <g transform="translate(390,0) scale(-1,1)">
+    <path d="M0 224 C28 210 52 200 92 206 C122 211 140 222 168 218 C198 214 214 196 250 192 C282 189 300 204 330 214 C356 222 376 218 390 212 L390 300 L0 300Z" fill="#8a93b8"/>
+    <path d="M0 240 C34 232 70 236 110 234 C150 232 182 242 226 240 C270 238 306 228 346 232 C366 234 380 238 390 236 L390 300 L0 300Z" fill="#5a6890" opacity=".95"/>
+    <ellipse cx="190" cy="236" rx="230" ry="12" fill="#f6e4dc" opacity=".35"/>
+    <path d="M0 262 L0 238 C40 230 74 234 116 232 C160 230 188 240 232 238 C276 236 312 226 348 230 C368 232 380 236 390 234 L390 300 L0 300Z" fill="#26304f"/>
+    <path d="M262 232 L296 232 L289 238 L269 238Z" fill="#26304f"/><path d="M279 231 L279 204 L294 228Z" fill="#26304f"/><path d="M275 231 L275 213 L264 229Z" fill="#26304f"/>
+  </g>
+  </g>`),
+
+  "amanecer-cubierta": envolver(`
+  <defs>
+    <linearGradient id="b1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a4668"/><stop offset=".45" stop-color="#65769a"/><stop offset=".8" stop-color="#aab1c4"/><stop offset="1" stop-color="#d6c2bf"/>
+    </linearGradient>
+  </defs>
+  <rect width="390" height="300" fill="url(#b1)"/><g transform="translate(0,-30)">
+  <g fill="#38425f" opacity=".5"><ellipse cx="320" cy="70" rx="120" ry="30"/><ellipse cx="140" cy="52" rx="140" ry="28"/><ellipse cx="40" cy="120" rx="110" ry="30"/><ellipse cx="270" cy="140" rx="130" ry="26"/></g>
+  <g fill="#e3d2cf" opacity=".45"><ellipse cx="200" cy="105" rx="150" ry="22"/><ellipse cx="350" cy="190" rx="110" ry="20"/><ellipse cx="90" cy="180" rx="120" ry="20"/></g>
+  <g transform="translate(390,0) scale(-1,1)">
+    <path d="M0 226 C28 212 52 204 92 209 C122 213 140 224 168 220 C198 216 214 200 250 196 C282 193 300 207 330 216 C356 224 376 220 390 214 L390 300 L0 300Z" fill="#7a82a0" opacity=".9"/>
+    <path d="M0 262 L0 240 C40 232 74 236 116 234 C160 232 188 242 232 240 C276 238 312 228 348 232 C368 234 380 238 390 236 L390 300 L0 300Z" fill="#323a58"/>
+  </g>
+  </g>`)
 };
 
 /**

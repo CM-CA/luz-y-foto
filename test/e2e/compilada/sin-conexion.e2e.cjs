@@ -64,7 +64,7 @@ ejecutar("sin-conexion", async ({ b, base }) => {
   await p.reload(); await p.waitForSelector("[data-tab]");
   ok(await tituloDe(p) === "Luz y foto", "carga la página sin red: «" + await tituloDe(p) + "»");
   const pestanas = (await p.locator("[data-tab]").allInnerTexts()).join(",");
-  ok(pestanas === "Atardecer,Luna", "con sus pestañas: " + pestanas);
+  ok(pestanas === "Amanecer,Atardecer,Noche", "con sus pestañas: " + pestanas);
   ok(await p.evaluate(() => getComputedStyle(document.querySelector("main")).maxWidth) === "760px", "con sus estilos");
   await p.goto(base + "#/nada");
   ok(/No encuentro esa pantalla/.test(await p.locator("main").innerText()), "las rutas internas también funcionan");

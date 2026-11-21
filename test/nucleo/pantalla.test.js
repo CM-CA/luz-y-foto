@@ -63,6 +63,14 @@ it("etiquetas de los días: Hoy, Mañana, el día de la semana y «ahora» en un
   assert.equal(etiquetaDia(l, listaDe(l, prev, de3)[0], prev, de3), l.etiquetasDia.ahora);
 });
 
+it("lista de días de amanecer: por la tarde el primero es «Mañana» y a las 09:00 todavía «Hoy»", () => {
+  const g = config.generos.amanecer;
+  const etiquetas = (h) => { const ahora = instante(h); return listaDe(g, prev, ahora).map((x) => etiquetaDia(g, x, prev, ahora)); };
+  assert.deepEqual(etiquetas("2026-11-19T15:00"), ["Mañana", "Sábado"]);
+  assert.equal(etiquetas("2026-11-20T09:00")[0], "Hoy", "la ventana sigue abierta hasta 60 min después de la salida del sol");
+  assert.equal(etiquetas("2026-11-20T10:00")[0], "Mañana");
+});
+
 it("evaluarDia: cada día de la lista da su semáforo, el mismo que el panel grande", () => {
   const ahora = instante("2026-11-19T15:00");
   const NIVELES = ["verde", "ambar", "rojo", "ninguno"];
@@ -87,7 +95,28 @@ it("evaluarDia: cada día de la lista da su semáforo, el mismo que el panel gra
 it("pestaña por defecto: la normal de día y la nocturna de noche", () => {
   assert.equal(pestanaPorDefecto(config.indice, prev, instante("2026-11-19T15:00")), config.indice.porDefecto);
   assert.equal(pestanaPorDefecto(config.indice, prev, instante("2026-11-19T23:00")), config.indice.porDefectoDeNoche);
-  assert.equal(pestanaPorDefecto(config.indice, prev, instante("2026-11-20T09:00")), config.indice.porDefecto);
+  assert.equal(pestanaPorDefecto(config.indice, prev, instante("2026-11-20T09:00")), config.indice.porDefectoDeAmanecer, "a las 09:00 aún es la franja del amanecer");
+  assert.equal(pestanaPorDefecto(config.indice, prev, instante("2026-11-20T10:00")), config.indice.porDefecto);
+});
+
+it("pestaña por defecto: franjas del día", () => {
+  // El 19 de noviembre sale el sol a las 08:30 y se pone a las 18:10 (fixture de Vigo)
+  const en = (h) => pestanaPorDefecto(config.indice, prev, instante("2026-11-19T" + h));
+  assert.equal(en("06:29"), "luna");
+  assert.equal(en("06:30"), "amanecer", "120 min antes de la salida del sol: el límite entra");
+  assert.equal(en("09:29"), "amanecer");
+  assert.equal(en("10:00"), "atardecer");
+  assert.equal(en("18:39"), "atardecer");
+  assert.equal(en("18:40"), "luna", "30 min después de la puesta");
+});
+
+it("pestaña por defecto: sin franja de noche gana el día", () => {
+  // Dos días seguidos con salida a las 02:00 y puesta a las 23:45: la noche dura 2 h 15 min y su franja (de 00:15 a 00:00) queda vacía
+  const D = Date.UTC(2026, 5, 21), H = 3600000, M = 60000;
+  const dia = (n) => ({ amanecer: D + n * 24 * H + 2 * H, puesta: D + n * 24 * H + 23 * H + 45 * M });
+  const corta = { dias: [dia(0), dia(1)] };
+  assert.equal(pestanaPorDefecto(config.indice, corta, D + 24 * H + 20 * M), "amanecer", "a las 00:20 del segundo día");
+  assert.equal(pestanaPorDefecto(config.indice, corta, D + 23 * H + 50 * M), "atardecer", "a las 23:50 del primero");
 });
 
 it("vista: tras recibir la previsión, atardecer de día y primera noche si es de noche", () => {
@@ -96,6 +125,11 @@ it("vista: tras recibir la previsión, atardecer de día y primera noche si es d
   assert.equal(v.indice, 0);
   assert.deepEqual(Object.keys(v.listas), config.indice.orden);
   assert.equal(vista("2026-11-19T23:00").pestana, "luna");
+});
+
+it("vista: a las 06:45 se abre Amanecer", () => {
+  assert.equal(vista("2026-11-19T06:45").pestana, "amanecer");
+  assert.equal(vista("2026-11-19T06:45", { pestanaElegida: true, pestana: "luna" }).pestana, "luna", "la pestaña elegida se respeta");
 });
 
 it("vista: si el usuario ya eligió pestaña, se respeta", () => {

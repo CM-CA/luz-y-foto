@@ -120,6 +120,13 @@ function validarPuntosVentana(g, d, errores) {
     }
   });
   if (!NIVELES_LLUVIA.includes(g.ambarSiLluviaDesde)) errores.push(d + ".ambarSiLluviaDesde: usa " + NIVELES_LLUVIA.join(", "));
+
+  // Opcional: con niebla, un factor de nubes da sus puntos máximos y no veta (la niebla como ventaja)
+  if (g.nieblaVentaja !== undefined) {
+    const n = g.nieblaVentaja || {};
+    if (!g.factores.some((f) => f.id === n.factor && f.tipo !== "lluvia")) errores.push(d + ".nieblaVentaja.factor: «" + n.factor + "» no es un factor de nubes de este género");
+    if (!esTexto(n.frase)) errores.push(d + ".nieblaVentaja.frase: falta el texto");
+  }
 }
 
 function validarNocturno(g, d, errores) {
@@ -250,6 +257,10 @@ function validar(config) {
   if (!idx.orden.includes(idx.porDefecto)) errores.push("generos.json: «porDefecto» debe ser uno de los géneros de «orden»");
   if (!esNumero(idx.nocheDespuesPuestaMin) || idx.nocheDespuesPuestaMin < 0) errores.push("generos.json: «nocheDespuesPuestaMin» debe ser un número de minutos (desde cuándo se considera de noche)");
   if (!idx.orden.includes(idx.porDefectoDeNoche)) errores.push("generos.json: «porDefectoDeNoche» debe ser uno de los géneros de «orden»");
+  if (!idx.orden.includes(idx.porDefectoDeAmanecer)) errores.push("generos.json: «porDefectoDeAmanecer» debe ser uno de los géneros de «orden»");
+  ["amanecerAntesMin", "amanecerDespuesMin"].forEach((k) => {
+    if (!esNumero(idx[k]) || idx[k] < 0) errores.push("generos.json: «" + k + "» debe ser un número de minutos (0 o más) respecto a la salida del sol");
+  });
 
   idx.orden.forEach((id) => {
     const g = (config.generos || {})[id];

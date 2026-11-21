@@ -6,7 +6,7 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
-const { RAIZ, VIGO, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, VIGO, previsionConCambios, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
@@ -18,6 +18,8 @@ const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode:
 const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const LARGO = { ...LUGAR, nombre: "Santiago de Compostela, A Coruña, Galicia (comarca de Santiago)" };
 const A = "**/api.open-meteo.com/**";
+// Un día despejado de verdad, con buena visibilidad (el 20 de noviembre, el primer amanecer de la lista a las 15:00 del 19)
+const DESPEJADO = { cloud_cover_low: 10, cloud_cover_mid: 40, cloud_cover_high: 40, precipitation: 0, precipitation_probability: 10, visibility: 25000, weather_code: 3 };
 const LETRA_ANCHA = "* { font-family: 'DejaVu Sans', sans-serif !important; }";
 // El nombre del archivo de la imagen lleva el cielo; el hash de Vite tiene 8 caracteres, y así «tarde» no se confunde con «tarde-cubierta»
 const archivoDe = (id) => new RegExp("/cielo-" + id + "-[A-Za-z0-9_-]{8}\\.webp$");
@@ -42,7 +44,7 @@ ejecutar("cabecera", async ({ b, base }) => {
     ok(/^Previsión de las \d\d:\d\d/.test(c.estado), "la hora de la previsión: " + c.estado);
     ok(c.lugar === "Vigo, Galicia", "el lugar: " + c.lugar);
 
-    for (const [pestana, base_] of [["atardecer", "tarde"], ["luna", "noche"]]) {
+    for (const [pestana, base_] of [["amanecer", "amanecer"], ["atardecer", "tarde"], ["luna", "noche"]]) {
       await p.click("[data-tab=" + pestana + "]");
       const dias = await p.locator("#dias button").count();
       ok(dias >= 2, pestana + ": hay " + dias + " días");
@@ -143,13 +145,17 @@ ejecutar("cabecera", async ({ b, base }) => {
     }, { con, sin, cajas });
   };
   for (const ancho of [320, 390]) {
-    for (const [nombre, preparar] of [
+    for (const [nombre, preparar, datos, cielo] of [
+      ["Amanecer, día despejado (cielo de amanecer)", async (p) => { await p.waitForSelector(".veredicto"); await p.click("[data-tab=amanecer]"); }, previsionConCambios(DESPEJADO), "amanecer"],
+      ["Amanecer, día rojo (cielo de amanecer cubierto)", async (p) => { await p.waitForSelector(".veredicto"); await p.click("[data-tab=amanecer]"); }, previsionConCambios({ ...DESPEJADO, cloud_cover_low: 95 }), "amanecer-cubierta"],
       ["Atardecer, día despejado (cielo de tarde)", async (p) => { await p.waitForSelector(".veredicto"); await p.click("#dias button[data-i='0']"); }],
       ["Atardecer, día rojo (cielo de tarde cubierto)", async (p) => { await p.waitForSelector(".veredicto"); await p.click("#dias button[data-i='1']"); }],
-      ["Luna, noche despejada (cielo de noche)", async (p) => { await p.waitForSelector(".veredicto"); await p.click("[data-tab=luna]"); await p.click("#dias button[data-i='1']"); }]
+      ["Noche, noche despejada (cielo de noche)", async (p) => { await p.waitForSelector(".veredicto"); await p.click("[data-tab=luna]"); await p.click("#dias button[data-i='1']"); }]
     ]) {
       const { ctx, p } = await nuevaPagina(b, { viewport: { width: ancho, height: 900 }, perfil: PERFIL, lugar: LUGAR, colorScheme: "light" });
+      if (datos) await p.route(A, (r) => r.fulfill({ contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify(datos) }));
       await p.goto(base + "#/hoy"); await preparar(p); await p.waitForTimeout(400);
+      if (cielo) ok(await p.locator("header.cabecera").getAttribute("data-cielo") === cielo, nombre + ", " + ancho + " px: el cielo es «" + cielo + "»");
       const c = await contrasteDe(p);
       ok(c.h1.letras > 100 && c["#estado"].letras > 100, nombre + ", " + ancho + " px: se han encontrado las letras (" + c.h1.letras + " y " + c["#estado"].letras + ")");
       ok(c.h1.contraste >= 4.5, nombre + ", " + ancho + " px, título: " + c.h1.contraste.toFixed(2) + " : 1");

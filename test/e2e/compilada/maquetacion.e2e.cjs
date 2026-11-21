@@ -28,7 +28,7 @@ const LETRAS = [["la del sistema", null], ["una letra ancha", "'DejaVu Sans', sa
 ejecutar("maquetacion", async ({ b, base }) => {
   // Una página cargada con cada combinación; se miden la página y cada bloque del panel
   const casos = [];
-  for (const genero of ["atardecer", "luna"]) for (const [nombreLetra, letra] of LETRAS) for (const esquema of ["light", "dark"]) for (const ancho of ANCHOS) casos.push({ genero, nombreLetra, letra, esquema, ancho });
+  for (const genero of ["amanecer", "atardecer", "luna"]) for (const [nombreLetra, letra] of LETRAS) for (const esquema of ["light", "dark"]) for (const ancho of ANCHOS) casos.push({ genero, nombreLetra, letra, esquema, ancho });
 
   let anterior = "";
   for (const { genero, nombreLetra, letra, esquema, ancho } of casos) {
@@ -52,7 +52,7 @@ ejecutar("maquetacion", async ({ b, base }) => {
       const cab = document.querySelector("header.cabecera").getBoundingClientRect(), tabs = document.querySelector("#tabs").getBoundingClientRect();
       return { solape: cab.bottom - tabs.top, dentro: tabs.left >= 0 && tabs.right <= document.documentElement.clientWidth + 0.5, altos: [...document.querySelectorAll("#tabs button")].map((x) => x.getBoundingClientRect().height) };
     });
-    ok(t.solape >= 26 && t.solape <= 28 && t.dentro && t.altos.length === 2 && t.altos.every((h) => h >= 44), "  pestañas: solapan " + t.solape.toFixed(1) + " px el cielo, dentro de la pantalla: " + t.dentro + ", altos " + t.altos.map((h) => h.toFixed(0)).join("/") + " px");
+    ok(t.solape >= 26 && t.solape <= 28 && t.dentro && t.altos.length === 3 && t.altos.every((h) => h >= 44), "  pestañas: solapan " + t.solape.toFixed(1) + " px el cielo, dentro de la pantalla: " + t.dentro + ", altos " + t.altos.map((h) => h.toFixed(0)).join("/") + " px");
     // Los botones de día: una sola fila, con el nombre más largo posible («Miércoles») en el último y ese día elegido
     // (con la ✓ y la negrita, que ensanchan), y sin que nada se salga de su botón. El símbolo lleva el color de su nivel.
     const d = await p.evaluate(async () => {

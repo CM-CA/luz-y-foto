@@ -86,7 +86,7 @@ ejecutar("lugar", async ({ b, hoy }) => {
   await p.click("#cambiar"); await p.click("#cambiar"); ok(await p.locator("#selector").isHidden(), "Cambiar cierra");
   await ctx.close();
 
-  titulo("M: lluvia fuerte toda la noche en la pestaña Luna (antes salía «nubes NaN»)");
+  titulo("M: lluvia fuerte toda la noche en la pestaña Noche (antes salía «nubes NaN»)");
   ({ ctx, p } = await nuevo(b, { permisos: true, geo: VIGO }));
   await p.route("**/api.open-meteo.com/**", (r) => {
     const j = simulada(); j.hourly.precipitation = j.hourly.precipitation.map(() => 6);

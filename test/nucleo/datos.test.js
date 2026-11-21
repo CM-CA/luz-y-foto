@@ -15,9 +15,9 @@ prueba("los datos reales de data/ son válidos", () => {
   assert.deepEqual(Datos.validar(cargarDatos()), []);
 });
 
-prueba("los dos géneros actuales existen y usan motores conocidos", () => {
+prueba("los tres géneros actuales existen y usan motores conocidos", () => {
   const c = cargarDatos();
-  assert.deepEqual(c.indice.orden, ["atardecer", "luna"]);
+  assert.deepEqual(c.indice.orden, ["amanecer", "atardecer", "luna"]);
   c.indice.orden.forEach((id) => assert.ok(Datos.MOTORES.includes(c.generos[id].motor)));
 });
 
@@ -78,12 +78,25 @@ prueba("validar: cada texto de la brújula de la luna es obligatorio", () => {
 
 prueba("validar: género listado sin archivo, o por defecto desconocido", () => {
   assert.ok(contiene(errores((c) => { c.indice.orden.push("surf"); }), "«surf» no tiene archivo"));
-  assert.ok(contiene(errores((c) => { c.indice.porDefecto = "amanecer"; }), "«porDefecto»"));
+  assert.ok(contiene(errores((c) => { c.indice.porDefecto = "noexiste"; }), "«porDefecto»"));
   assert.ok(contiene(errores((c) => { c.generos.luna.id = "otra"; }), "debe ser «luna»"));
+});
+
+prueba("validar: franjas de la pestaña por defecto", () => {
+  assert.ok(contiene(errores((c) => { c.indice.porDefectoDeAmanecer = "noexiste"; }), "porDefectoDeAmanecer"));
+  assert.ok(contiene(errores((c) => { c.indice.amanecerAntesMin = -1; }), "amanecerAntesMin"));
+  assert.ok(contiene(errores((c) => { c.indice.amanecerDespuesMin = "x"; }), "amanecerDespuesMin"));
 });
 
 prueba("validar: vetos que apuntan a un factor inexistente", () => {
   assert.ok(contiene(errores((c) => { c.generos.atardecer.vetos[1].factor = "viento"; }), "«viento» no es un factor"));
+});
+
+prueba("validar: nieblaVentaja con un factor que no existe o sin frase", () => {
+  assert.ok(contiene(errores((c) => { c.generos.atardecer.nieblaVentaja = { factor: "viento", frase: "x" }; }), "nieblaVentaja"));
+  assert.ok(contiene(errores((c) => { c.generos.atardecer.nieblaVentaja = { factor: "bajas" }; }), "nieblaVentaja"));
+  assert.ok(contiene(errores((c) => { c.generos.atardecer.nieblaVentaja = { factor: "lluvia", frase: "x" }; }), "nieblaVentaja"));
+  assert.deepEqual(errores((c) => { c.generos.atardecer.nieblaVentaja = { factor: "bajas", frase: "x" }; }), []);
 });
 
 prueba("validar: un campo de nubes que no existe", () => {

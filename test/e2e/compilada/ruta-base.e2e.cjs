@@ -25,7 +25,7 @@ ejecutar("compilada", async ({ b, base }) => {
 
   titulo("lee los datos incluidos en la compilación");
   const pestanas = await p.locator("[data-tab]").allInnerTexts();
-  ok(pestanas.join(",") === "Atardecer,Luna", "pestañas desde data/generos.json: " + pestanas.join(", "));
+  ok(pestanas.join(",") === "Amanecer,Atardecer,Noche", "pestañas desde data/generos.json: " + pestanas.join(", "));
 
   titulo("sin aviso de vista previa");
   ok(await p.locator("[data-testid=aviso-beta]").count() === 0, "la raíz no lleva el aviso de vista previa");

@@ -113,6 +113,9 @@ function crear(config) {
     const tormenta = hayTormenta(v);
     const vis = minimo(v, (x) => x.vis);
     const valores = {};
+    // Con niebla (poca visibilidad), un género puede pedir que un factor de nubes dé sus puntos máximos y no vete: la niebla es una
+    // ventaja (el sol no se verá, pero la bruma puede dar buenas fotos). La lluvia y la tormenta siguen igual.
+    const ventaja = vis < comun.nieblaKm && g.nieblaVentaja ? g.nieblaVentaja : null;
 
     const factores = g.factores.map((f) => {
       if (f.tipo === "lluvia") {
@@ -124,6 +127,7 @@ function crear(config) {
       const porCampo = f.campos.map((c) => agregar(c, f.agregado));
       const valor = f.combinar === "maximo" ? Math.max(...porCampo) : porCampo[0];
       valores[f.id] = valor;
+      if (ventaja && f.id === ventaja.factor) return { id: f.id, etiqueta: f.etiqueta, valor, puntos: f.max, max: f.max, frase: ventaja.frase };
       return { id: f.id, etiqueta: f.etiqueta, valor, puntos: tramoDe(f.tramos, valor).puntos, max: f.max,
         frase: tramoDe(f.frases, valor).texto };
     });
@@ -138,7 +142,7 @@ function crear(config) {
       avisos.push(comun.avisos.tormenta);
     } else {
       const veto = (g.vetos || []).find((x) => x.factor === "lluvia"
-        ? lluviaDesde(lluviaMm, x.nivel) : valores[x.factor] > x.masDe);
+        ? lluviaDesde(lluviaMm, x.nivel) : !(ventaja && x.factor === ventaja.factor) && valores[x.factor] > x.masDe);
       if (veto) { nivel = "rojo"; motivoVeto = veto.motivo; }
       else if (nivel === "verde" && lluviaDesde(lluviaMm, g.ambarSiLluviaDesde)) nivel = "ambar";
     }
@@ -270,6 +274,10 @@ function crear(config) {
         const cond = v.factor === "lluvia" ? "lluvia " + v.nivel : g.factores.find((f) => f.id === v.factor).etiqueta.toLowerCase() + " por encima de " + num(v.masDe) + " %";
         lineas.push("Rojo directo con " + cond + ".");
       });
+      if (g.nieblaVentaja) {
+        const f = g.factores.find((x) => x.id === g.nieblaVentaja.factor);
+        lineas.push("Con visibilidad por debajo de " + num(comun.nieblaKm) + " km (niebla), " + f.etiqueta + " da sus " + f.max + " puntos y su veto no se aplica.");
+      }
       lineas.push("La lluvia " + g.ambarSiLluviaDesde + " o más limita el resultado a ámbar.");
     } else {
       const n = g.nubes;
