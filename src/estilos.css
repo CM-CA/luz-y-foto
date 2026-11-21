@@ -52,7 +52,11 @@ button.principal { background: var(--texto); color: var(--fondo); border-color: 
 .pestanas button[aria-selected="true"] { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
 .dias { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
 .dias button { padding: 7px 14px; border-radius: 999px; font-size: .95rem; }
-.dias button[aria-pressed="true"] { border-color: var(--texto); border-width: 2px; font-weight: 700; }
+.dias button[aria-pressed="true"] { background: var(--texto); color: var(--fondo); border-color: var(--texto); border-width: 2px; font-weight: 700; }
+/* Lo elegido se marca con el color invertido, negrita y una ✓: así no depende solo del color (hay navegadores que
+   oscurecen por su cuenta los fondos y los bordes, y personas que no distinguen bien los colores). La ✓ es un texto
+   y se pinta con el color del texto; el texto alternativo vacío evita que un lector de pantalla la lea. */
+.pestanas button[aria-selected="true"]::before, .dias button[aria-pressed="true"]::before, .tripode button[aria-pressed="true"]::before { content: "✓ " / ""; }
 
 .panel[hidden] { display: none; }
 .panel { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 16px; padding: 20px; }
@@ -128,7 +132,7 @@ details.receta ol { padding-left: 22px; margin: 8px 0; }
 details.receta li { margin-bottom: 10px; }
 .aviso-fijo { margin: 6px 0; padding: 8px 12px; border-radius: 8px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
 .tripode { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 0; }
-.tripode button[aria-pressed="true"] { border: 2px solid var(--texto); font-weight: 700; }
+.tripode button[aria-pressed="true"] { background: var(--texto); color: var(--fondo); border: 2px solid var(--texto); font-weight: 700; }
 button.termino { padding: 0 2px; border: none; border-bottom: 2px dotted var(--suave); border-radius: 0; background: none; font: inherit; color: inherit; }
 .def { display: block; margin: 6px 0 2px; padding: 8px 12px; border-radius: 8px; background: var(--gris-fondo); font-size: .95rem; font-weight: 400; }
 .suave { color: var(--suave); font-size: .95rem; }
