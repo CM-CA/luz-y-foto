@@ -18,7 +18,6 @@
   --gris: #59607f; --gris-fondo: #e9e4ee;
   --oro: #f4b94f; --sol: #ee7d2f; --violeta: #6d5aa6; --azul-hora: #3f5fa8;
   --barra-baja: #55657a; --barra-media: #2b6cb0; --barra-alta: #8e44ad;
-  --luna-luz: #f3efe2; --luna-sombra: #3a4150;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -29,7 +28,6 @@
     --gris: #a8afcb; --gris-fondo: #232c47;
     --oro: #f4b94f; --sol: #f08a3a; --violeta: #9985d8; --azul-hora: #7f9be0;
     --barra-baja: #9db0c4; --barra-media: #6aa9ff; --barra-alta: #c792ea;
-    --luna-luz: #ece7d6; --luna-sombra: #2b313c;
   }
 }
 * { box-sizing: border-box; }
@@ -142,7 +140,9 @@ tr.mejor td { font-weight: 700; background: var(--verde-fondo); }
 .barra span { display: block; height: 100%; overflow: hidden; white-space: nowrap; font-size: 14px; line-height: 12px; letter-spacing: -1px; user-select: none; }
 .capa .valor { text-align: right; }
 
-.luna-cab { display: flex; align-items: center; gap: 14px; margin-top: 14px; }
+.luna-cab { display: flex; align-items: center; gap: 16px; margin-top: 20px; }
+.luna-cab img { width: 66px; height: 66px; flex: none; }
+.luna-cab img.sur { transform: scaleX(-1); } /* en el hemisferio sur la luna se ve al revés */
 .luna-cab p { margin: 0; }
 .brujula { display: flex; align-items: center; gap: 16px; margin-top: 22px; }
 .brujula svg { width: 62px; height: 62px; flex: none; }
@@ -164,11 +164,18 @@ tr.mejor td { font-weight: 700; background: var(--verde-fondo); }
 .luz-de-hoy .horas b { display: block; font: 800 18px/1.2 var(--cuerpo); color: var(--texto); }
 .luz-de-hoy .horas div:nth-child(2) { text-align: center; }
 .luz-de-hoy .horas div:last-child { text-align: right; }
-.luna-nombre { font-size: 1.15rem; font-weight: 700; }
-dl { margin: 12px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; }
-dt { color: var(--suave); font-size: .95rem; }
-dd { margin: 0; font-weight: 600; text-align: right; }
-dd small { display: block; font-weight: 400; color: var(--suave); }
+.luna-nombre { display: block; font: 400 22px/1.15 var(--display); }
+.luna-detalle { display: block; margin-top: 2px; color: var(--suave); font-size: 16px; }
+dl.sale { margin: 16px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; font-size: 16px; }
+dl.sale dt { color: var(--suave); }
+dl.sale dd { margin: 0; font-weight: 800; text-align: right; }
+dl.sale dd small { display: block; font-weight: 500; font-size: 14px; color: var(--suave); }
+
+/* La luna del cielo (la de la fase de esa noche) va en el 75 % del ancho y el 33 % del alto de la cabecera, por detrás del título y
+   del lugar; con la noche cubierta se apaga. */
+.cabecera .luna-cielo { position: absolute; left: 75%; top: 33%; width: 64px; height: 64px; margin: -32px 0 0 -32px; filter: drop-shadow(0 0 18px rgba(246, 239, 210, .5)); pointer-events: none; }
+.cabecera .luna-cielo.sur { transform: scaleX(-1); }
+.cabecera[data-cielo="noche-cubierta"] .luna-cielo { opacity: .4; }
 .consejo { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
 
 .equipo { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; }

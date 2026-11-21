@@ -24,3 +24,14 @@ export function elegirCielo({ motor = null, nivel = null, hora = null } = {}) {
   const cubierto = nivel === "rojo";
   return (noche ? "noche" : "tarde") + (cubierto ? "-cubierta" : "");
 }
+
+/**
+ * Qué imagen de luna (de 16) corresponde a una fase. Se reparte el ciclo en 16: 0 luna nueva, 4 cuarto creciente, 8 llena y
+ * 12 cuarto menguante. Basta la fase (0 a 1): la luna crece mientras `fase < 0.5` y mengua después.
+ * @param {number} fase  0 a 1 (fuera de ese intervalo se lleva al ciclo); lo que no es un número finito da luna nueva
+ * @returns {number} 0 a 15
+ */
+export function indiceFaseLuna(fase) {
+  if (typeof fase !== "number" || !Number.isFinite(fase)) return 0;
+  return Math.round((((fase % 1) + 1) % 1) * 16) % 16;
+}

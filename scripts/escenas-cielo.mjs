@@ -1,7 +1,7 @@
 // Los cuatro cielos de la cabecera, como dibujos SVG de 390 × 262. `generar-cielos.mjs` los convierte en las imágenes
 // WebP de src/imagenes/ (780 × 524). Son la propuesta de diseño «La luz de ahora»: tarde despejada (semáforo verde o
-// ámbar), tarde cubierta (rojo), noche y noche cubierta. La luna NO está dibujada aquí: se superpone en la cabecera
-// con la fase real de esa noche (src/imagenes/luna-*.webp).
+// ámbar), tarde cubierta (rojo), noche y noche cubierta. La luna NO está en los cielos: se superpone en la cabecera
+// con la fase real de esa noche (src/imagenes/luna-*.webp, dibujadas por lunaSvg).
 
 const envolver = (contenido) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 262" width="390" height="262">${contenido}</svg>`;
 
@@ -64,3 +64,22 @@ export const ESCENAS = {
       <path d="M262 236 L296 236 L289 242 L269 242Z" fill="#080e22"/><path d="M279 235 L279 210 L294 232Z" fill="#080e22"/>
     </g>`)
 };
+
+/**
+ * La luna en una de sus 16 fases (0 nueva, 4 cuarto creciente, 8 llena, 12 cuarto menguante), como un dibujo SVG de 132 × 132
+ * con el disco de radio 52 en el centro. Es el hemisferio norte y sin inclinación: la parte iluminada queda a la derecha mientras
+ * crece (fase < 0,5) y a la izquierda mientras mengua; el terminador es una elipse. La app voltea la imagen en el hemisferio sur.
+ * Los tres cráteres están fijos en el disco y solo se ven donde hay luz.
+ */
+export function lunaSvg(i) {
+  const fase = i / 16, r = 52, c = Math.cos(2 * Math.PI * fase), rx = (r * Math.abs(c)).toFixed(2);
+  const luz = `M0 ${-r} A${r} ${r} 0 0 1 0 ${r} A${rx} ${r} 0 0 ${c > 0 ? 0 : 1} 0 ${-r} Z`;
+  const voltear = fase >= 0.5 ? ' transform="scale(-1,1)"' : "";
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-66 -66 132 132" width="132" height="132">
+      <defs><clipPath id="luz"><path d="${luz}"${voltear}/></clipPath></defs>
+      <circle r="${r}" fill="#2a3556"/>
+      <path d="${luz}"${voltear} fill="#f4eed8"/>
+      <g clip-path="url(#luz)"><circle cx="18" cy="-8" r="11" fill="#e0d9bd" opacity=".8"/><circle cx="26" cy="24" r="8" fill="#e0d9bd" opacity=".7"/><circle cx="12" cy="-28" r="6" fill="#e0d9bd" opacity=".7"/></g>
+      <circle r="${r}" fill="none" stroke="#f4eed8" stroke-opacity=".25" stroke-width="3"/>
+    </svg>`;
+}

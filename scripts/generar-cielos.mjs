@@ -1,4 +1,5 @@
-// Genera las imágenes de la cabecera (src/imagenes/cielo-*.webp) a partir de los dibujos de scripts/escenas-cielo.mjs.
+// Genera las imágenes de la cabecera (src/imagenes/cielo-*.webp) y las 16 fases de la luna (src/imagenes/luna-00.webp … luna-15.webp)
+// a partir de los dibujos de scripts/escenas-cielo.mjs.
 //
 //   node scripts/generar-cielos.mjs
 //
@@ -11,7 +12,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
-import { ESCENAS } from "./escenas-cielo.mjs";
+import { ESCENAS, lunaSvg } from "./escenas-cielo.mjs";
 
 const salida = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "src", "imagenes");
 fs.mkdirSync(salida, { recursive: true });
@@ -41,4 +42,15 @@ try {
     fs.writeFileSync(path.join(salida, archivo), bytes);
     console.log("escrito src/imagenes/" + archivo + " (" + ANCHO + " × " + ALTO + ", " + bytes.length + " bytes)");
   }
+
+  // Las 16 fases de la luna: 132 × 132 con fondo transparente (WebP con alfa). Cada archivo debe quedarse por debajo de 4 000 bytes.
+  let demasiado = 0;
+  for (let i = 0; i < 16; i++) {
+    const bytes = Buffer.from(await svgAWebp(pagina, lunaSvg(i), 132, 132), "base64");
+    const archivo = "luna-" + String(i).padStart(2, "0") + ".webp";
+    fs.writeFileSync(path.join(salida, archivo), bytes);
+    console.log("escrito src/imagenes/" + archivo + " (132 × 132, " + bytes.length + " bytes)");
+    if (bytes.length >= 4000) { demasiado++; console.log("  DEMASIADO GRANDE: debe pesar menos de 4 000 bytes"); }
+  }
+  if (demasiado) process.exitCode = 1;
 } finally { await navegador.close(); }

@@ -40,10 +40,11 @@ let peticion = 0; // para descartar el nombre de un lugar si mientras tanto se e
 export const generoActual = () => (hoy.pestana ? config.generos[hoy.pestana] : null);
 export const listaActual = () => { const g = generoActual(); return g && hoy.listas ? hoy.listas[g.id] : []; };
 export const indiceActual = () => (hoy.indice >= listaActual().length ? 0 : hoy.indice);
+export const itemActual = () => listaActual()[indiceActual()];
 
 // El semáforo del día elegido (null si todavía no hay previsión). Lo usa la cabecera para elegir el cielo.
 export function resultadoActual() {
-  const g = generoActual(), item = listaActual()[indiceActual()];
+  const g = generoActual(), item = itemActual();
   if (!g || !item || !hoy.prev) return null;
   return evaluarDia({ S, g, prev: hoy.prev, item, lat: hoy.lat, lon: hoy.lon, ahora: hoy.ahora });
 }

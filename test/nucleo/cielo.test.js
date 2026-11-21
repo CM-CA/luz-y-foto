@@ -1,7 +1,7 @@
 // Qué cielo se pinta en la cabecera: depende de la pestaña (atardecer o luna) y del semáforo del día elegido.
 import assert from "node:assert/strict";
 import { it } from "vitest";
-import { elegirCielo, CIELOS } from "../../src/nucleo/cielo.js";
+import { elegirCielo, indiceFaseLuna, CIELOS } from "../../src/nucleo/cielo.js";
 
 const TARDE = "puntos-ventana", NOCHE = "mejor-hora-nocturna";
 
@@ -43,4 +43,24 @@ it("valores raros no fallan: nivel o género desconocidos", () => {
   assert.equal(elegirCielo({ motor: "x", nivel: "verde", hora: 2 }), "noche");
   assert.equal(elegirCielo({ motor: "x", nivel: undefined, hora: undefined }), "tarde");
   assert.equal(elegirCielo(), "tarde");
+});
+
+it("la fase de la luna (0 a 1) se reparte en 16 imágenes: 0 nueva, 4 cuarto creciente, 8 llena, 12 cuarto menguante", () => {
+  assert.equal(indiceFaseLuna(0), 0);
+  assert.equal(indiceFaseLuna(0.25), 4);
+  assert.equal(indiceFaseLuna(0.5), 8);
+  assert.equal(indiceFaseLuna(0.75), 12);
+});
+
+it("la fase de la luna: el redondeo cambia de imagen a mitad de camino y da la vuelta al final del ciclo", () => {
+  assert.equal(indiceFaseLuna(0.03), 0);
+  assert.equal(indiceFaseLuna(0.04), 1);
+  assert.equal(indiceFaseLuna(0.99), 0);
+  assert.equal(indiceFaseLuna(1), 0);
+});
+
+it("la fase de la luna: fuera de [0, 1) se lleva al ciclo; lo que no es un número finito da luna nueva", () => {
+  assert.equal(indiceFaseLuna(-0.25), 12);
+  assert.equal(indiceFaseLuna(1.25), 4);
+  for (const raro of [NaN, undefined, null, Infinity, -Infinity, "0.5"]) assert.equal(indiceFaseLuna(raro), 0, String(raro));
 });
