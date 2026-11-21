@@ -154,9 +154,9 @@ button.termino { padding: 0 2px; border: none; border-bottom: 2px dotted var(--s
 .def { display: block; margin: 6px 0 2px; padding: 8px 12px; border-radius: 8px; background: var(--gris-fondo); font-size: .95rem; font-weight: 400; }
 .suave { color: var(--suave); font-size: .95rem; }
 
-details.reglas { margin-top: 20px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 12px 16px; }
-details.reglas summary { cursor: pointer; font-weight: 600; }
-details.reglas h4 { margin: 16px 0 4px; }
+details.reglas, details.instalar { margin-top: 20px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 12px 16px; }
+details.reglas summary, details.instalar summary { cursor: pointer; font-weight: 600; }
+details.reglas h4, details.instalar h4 { margin: 16px 0 4px; }
 details.reglas ul { padding-left: 20px; }
 a { color: inherit; }
 .pie { color: var(--suave); font-size: .85rem; margin-top: 24px; }
@@ -177,3 +177,10 @@ a { color: inherit; }
 .aviso-sin-conexion p { margin: 0 0 8px; }
 .aviso-sin-conexion button { font-weight: 700; }
 .aviso-sin-conexion button:disabled { opacity: .7; cursor: default; }
+
+/* Informe de instalación: la marca (✓ ✗ •) es texto, no color de fondo */
+.informe { list-style: none; padding-left: 0; margin: 4px 0 0; }
+.informe li { margin: 4px 0; overflow-wrap: anywhere; }
+.informe .marca { display: inline-block; width: 1.2em; font-weight: 700; }
+.informe [data-estado=si] .marca { color: var(--verde); }
+.informe [data-estado=no] .marca { color: var(--rojo); }
