@@ -9,6 +9,7 @@
   // Los cielos de noche llevan la luna de la noche elegida, con su fase real (si esa noche no tiene datos, no hay luna).
   const cielo = $derived(elegirCielo({
     motor: generoActual()?.motor ?? null,
+    evento: generoActual()?.evento ?? null,
     nivel: resultadoActual()?.nivel ?? null,
     hora: new Date(hoy.ahora || Date.now()).getHours()
   }));

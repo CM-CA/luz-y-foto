@@ -5,8 +5,25 @@ import { elegirCielo, indiceFaseLuna, CIELOS } from "../../src/nucleo/cielo.js";
 
 const TARDE = "puntos-ventana", NOCHE = "mejor-hora-nocturna";
 
-it("hay cuatro cielos", () => {
-  assert.deepEqual(CIELOS, ["tarde", "tarde-cubierta", "noche", "noche-cubierta"]);
+it("hay seis cielos", () => {
+  assert.deepEqual(CIELOS, ["tarde", "tarde-cubierta", "noche", "noche-cubierta", "amanecer", "amanecer-cubierta"]);
+});
+
+it("amanecer: despejado salvo con semáforo rojo", () => {
+  assert.equal(elegirCielo({ motor: TARDE, evento: "amanecer", nivel: "verde" }), "amanecer");
+  assert.equal(elegirCielo({ motor: TARDE, evento: "amanecer", nivel: "ambar" }), "amanecer");
+  assert.equal(elegirCielo({ motor: TARDE, evento: "amanecer", nivel: "ninguno" }), "amanecer");
+  assert.equal(elegirCielo({ motor: TARDE, evento: "amanecer", nivel: "rojo" }), "amanecer-cubierta");
+});
+
+it("el atardecer sigue con cielo de tarde", () => {
+  assert.equal(elegirCielo({ motor: TARDE, evento: "puesta", nivel: "verde" }), "tarde");
+  assert.equal(elegirCielo({ motor: TARDE, nivel: "rojo" }), "tarde-cubierta");
+});
+
+it("manda la pestaña, no la hora, también en amanecer", () => {
+  assert.equal(elegirCielo({ motor: TARDE, evento: "amanecer", nivel: "verde", hora: 20 }), "amanecer");
+  assert.equal(elegirCielo({ motor: TARDE, evento: "amanecer", nivel: "verde", hora: 3 }), "amanecer");
 });
 
 it("atardecer: despejado salvo con semáforo rojo", () => {
