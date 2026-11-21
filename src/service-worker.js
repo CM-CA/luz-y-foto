@@ -20,7 +20,12 @@ const PAGINA = new URL("index.html", self.location).href;
 
 self.addEventListener("install", (evento) => {
   // cache: "reload" evita copiar de la caché del navegador una versión vieja de un archivo
-  evento.waitUntil(caches.open(CACHE).then((c) => c.addAll(ARCHIVOS.map((a) => new Request(a, { cache: "reload" })))));
+  evento.waitUntil(
+    caches.open(CACHE)
+      .then((c) => c.addAll(ARCHIVOS.map((a) => new Request(a, { cache: "reload" }))))
+      // Si falta o falla un archivo, la instalación se descarta entera y no se deja una caché vacía
+      .catch((e) => caches.delete(CACHE).then(() => { throw e; }))
+  );
 });
 
 self.addEventListener("activate", (evento) => {
@@ -33,7 +38,10 @@ self.addEventListener("activate", (evento) => {
 });
 
 self.addEventListener("message", (evento) => {
-  if (evento.data && evento.data.tipo === "saltar-espera") self.skipWaiting();
+  const tipo = evento.data && evento.data.tipo;
+  if (tipo === "saltar-espera") self.skipWaiting();
+  // La app pregunta qué versión es (para enseñarla en «Instalar la app y uso sin conexión»)
+  if (tipo === "version" && evento.ports && evento.ports[0]) evento.ports[0].postMessage(VERSION);
 });
 
 self.addEventListener("fetch", (evento) => {

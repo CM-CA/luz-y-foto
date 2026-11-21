@@ -6,13 +6,53 @@
  * pulsa «Actualizar» se le dice al nuevo que tome el relevo y se recarga la página (una sola vez).
  * Si el navegador no admite service workers o el registro falla, la app funciona igual, solo que sin uso sin conexión.
  */
-export const version = $state({ nueva: false, actualizando: false });
+export const version = $state({
+  nueva: false, actualizando: false,
+  // Estado del uso sin conexión, para enseñarlo en pantalla (si algo falla, el motivo se ve y no se queda callado):
+  // estado: "sin-comprobar" | "sin-soporte" | "registrando" | "instalando" | "listo" | "error"
+  sw: { estado: "sin-comprobar", detalle: "", version: "" }
+});
 
 let esperando = null;      // el service worker nuevo, a la espera de que se pulse «Actualizar»
 let recargando = false;
 
+// Le pregunta a un service worker qué versión es (los antiguos no contestan: se espera 3 s)
+function pedirVersion(worker) {
+  return new Promise((resolver) => {
+    const canal = new MessageChannel();
+    const plazo = setTimeout(() => resolver(""), 3000);
+    canal.port1.onmessage = (e) => { clearTimeout(plazo); resolver(typeof e.data === "string" ? e.data : ""); };
+    try { worker.postMessage({ tipo: "version" }, [canal.port2]); } catch (e) { clearTimeout(plazo); resolver(""); }
+  });
+}
+
+const motivo = (e) => (e && e.name ? e.name + ": " : "") + ((e && e.message) || String(e));
+
+// Pone en `version.sw` en qué punto está la instalación del service worker
+function seguirInstalacion(reg) {
+  const revisar = () => {
+    if (reg.active && reg.active.state === "activated") {
+      version.sw.estado = "listo";
+      pedirVersion(reg.active).then((v) => { version.sw.version = v; });
+    } else if (reg.installing || reg.waiting) version.sw.estado = "instalando";
+  };
+  const vigilar = (w) => w.addEventListener("statechange", () => {
+    if (w.state === "redundant" && !reg.active) {
+      version.sw.estado = "error";
+      version.sw.detalle = "El navegador descartó el service worker al instalarlo (suele ser que no pudo descargar alguno de los archivos de la app).";
+    } else revisar();
+  });
+  if (reg.installing) vigilar(reg.installing);
+  reg.addEventListener("updatefound", () => { if (reg.installing) vigilar(reg.installing); });
+  revisar();
+}
+
 export function registrarServiceWorker(base = import.meta.env.BASE_URL) {
-  if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) return Promise.resolve(null);
+  if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) {
+    version.sw.estado = "sin-soporte";
+    return Promise.resolve(null);
+  }
+  version.sw.estado = "registrando";
 
   const avisarSiHayNuevo = (reg) => {
     // Sin service worker que controle esta página es la primera instalación: no hay nada que actualizar
@@ -27,6 +67,12 @@ export function registrarServiceWorker(base = import.meta.env.BASE_URL) {
   });
 
   return navigator.serviceWorker.register(base + "sw.js", { scope: base }).then((reg) => {
+    if (!reg) { // algunos navegadores con los service workers bloqueados no fallan: no devuelven nada
+      version.sw.estado = "error";
+      version.sw.detalle = "el navegador no ha creado el registro (los service workers están bloqueados, por ejemplo por la configuración de privacidad o el modo de ahorro de datos)";
+      return null;
+    }
+    seguirInstalacion(reg);
     avisarSiHayNuevo(reg);
     reg.addEventListener("updatefound", () => {
       const nuevo = reg.installing;
@@ -37,7 +83,7 @@ export function registrarServiceWorker(base = import.meta.env.BASE_URL) {
     document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") buscar(); });
     setInterval(buscar, 60 * 60 * 1000);
     return reg;
-  }).catch(() => null);
+  }).catch((e) => { version.sw.estado = "error"; version.sw.detalle = motivo(e); return null; });
 }
 
 export function actualizar() {
