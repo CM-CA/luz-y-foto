@@ -7,11 +7,11 @@ Webapp (PWA) solo frontend para ayudar a principiantes a hacer mejores fotos: te
 - La versión nueva se puede instalar en la pantalla de inicio, abre sin conexión y, si no puede actualizar la previsión, enseña la última guardada (avisando de la hora).
 - Meteorología con Open-Meteo (sin clave).
 
-Estado: en migración a Svelte + Vite (rama `migracion-svelte`, plan en [`docs/migracion-svelte.md`](docs/migracion-svelte.md)). La web actual sigue publicada en la raíz; la versión nueva se ve en [`/beta/`](https://cm-ca.github.io/luz-y-foto/beta/). Las decisiones están en [`docs/`](docs/).
+Estado: la web publicada en [cm-ca.github.io/luz-y-foto](https://cm-ca.github.io/luz-y-foto/) es la versión nueva (Svelte + Vite, PWA) desde el traspaso del 2026-11-21 ([`docs/migracion-svelte.md`](docs/migracion-svelte.md)); `/beta/` y las direcciones viejas llevan a ella. Las decisiones están en [`docs/`](docs/).
 
 ## Páginas de prueba
 
-Se abren desde GitHub Pages (`cm-ca.github.io/luz-y-foto/prueba/...`):
+Son los prototipos de la web anterior. **Ya no se publican en GitHub Pages** (la app los sustituye y sus direcciones llevan a ella); se abren sirviendo la carpeta en local. Se retirarán tras comprobar el traspaso en el móvil.
 
 - [`prueba/open-meteo.html`](prueba/open-meteo.html): previsión de Open-Meteo y semáforo del atardecer.
 - [`prueba/hoy.html`](prueba/hoy.html): **pantalla «Hoy»** con pestañas Atardecer y Luna, semáforo grande y los tres próximos días.
@@ -35,7 +35,7 @@ node scripts/generar-iconos.mjs   vuelve a generar los iconos de public/ (solo s
 node scripts/generar-cielos.mjs   vuelve a generar los cielos de la cabecera y las 16 fases de la luna de src/imagenes/ (solo si cambia algún dibujo de scripts/escenas-cielo.mjs)
 ```
 
-La web actual (`prueba/`, `js/`) no necesita instalar nada: se abre sirviendo la carpeta.
+La web anterior (`prueba/`, `js/`) no necesita instalar nada: se abre sirviendo la carpeta.
 
 ## Estructura
 
@@ -45,6 +45,6 @@ La web actual (`prueba/`, `js/`) no necesita instalar nada: se abre sirviendo la
 - `js/lugar.js`: ubicación del dispositivo, nombre de la ciudad y búsqueda por nombre.
 - `js/semaforo.js`: reglas del semáforo (atardecer y luna).
 - `lib/suncalc.js`: [SunCalc](https://github.com/mourner/suncalc) 2.1.4, incluida con su licencia.
-- `src/`, `index.html`, `public/`, `vite.config.mjs`: la versión nueva (Svelte 5 + Vite). `src/nucleo/` (sol, luna, semáforo, datos, perfil, recetas, lugar) y `src/proveedores/` (Open-Meteo, Nominatim, geocodificación, GPS) ya están, y la pantalla Hoy completa está en `src/pantallas/`, `src/componentes/` y `src/estado/` (se ve en `/beta/`).
+- `src/`, `index.html`, `public/`, `vite.config.mjs`: la versión nueva (Svelte 5 + Vite). `src/nucleo/` (sol, luna, semáforo, datos, perfil, recetas, lugar) y `src/proveedores/` (Open-Meteo, Nominatim, geocodificación, GPS) ya están, y la pantalla Hoy completa está en `src/pantallas/`, `src/componentes/` y `src/estado/` (es la web publicada).
 - `scripts/validar-datos.mjs`: valida `data/` (lo usan `npm run validar` y la compilación).
 - `test/`: pruebas. Todas se lanzan con `bash test/ejecutar-todo.sh` (o `npm run test:todo`); con `rapido` solo la lógica. `test/nucleo/` (Vitest) prueba la lógica nueva, `test/paridad/` comprueba que da lo mismo que la actual, y las de navegador están en `test/e2e/`.
