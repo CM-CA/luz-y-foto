@@ -47,7 +47,7 @@ function servir(opciones = {}) {
       if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, "index.html");
       fs.readFile(f, (e, d) => {
         if (e) { r.writeHead(404); return r.end("no encontrado"); }
-        r.writeHead(200, { "content-type": TIPOS[path.extname(f)] || "application/octet-stream", "cache-control": "no-cache" });
+        r.writeHead(200, { "content-type": TIPOS[path.extname(f)] || "application/octet-stream", "cache-control": opciones.cacheControl || "no-cache" });
         r.end(d);
       });
     }).listen(0, "127.0.0.1", () => resolver({ base: "http://127.0.0.1:" + s.address().port + prefijo, cerrar: () => s.close() }));
@@ -63,7 +63,8 @@ const simulada = () => JSON.parse(fs.readFileSync(path.join(__dirname, "fixtures
 /*
  * Abre una página con el reloj, el GPS y los servicios externos simulados.
  * Opciones: permisos (GPS concedido, por defecto sí), geo, nominatim ("ok" | "error"),
- *           lugar y perfil (lo que ya hay guardado en el dispositivo), fecha, viewport, colorScheme.
+ *           lugar y perfil (lo que ya hay guardado en el dispositivo), fecha, viewport, colorScheme,
+ *           serviceWorkers ("block" por defecto, para que la caché no interfiera; "allow" en las pruebas de uso sin conexión).
  */
 async function nuevaPagina(b, o = {}) {
   const ctx = await b.newContext({
@@ -71,7 +72,8 @@ async function nuevaPagina(b, o = {}) {
     viewport: o.viewport || { width: 390, height: 900 },
     colorScheme: o.colorScheme || "light",
     permissions: o.permisos === false ? [] : ["geolocation"],
-    geolocation: o.geo || VIGO
+    geolocation: o.geo || VIGO,
+    serviceWorkers: o.serviceWorkers || "block"
   });
   const p = await ctx.newPage();
   p.errores = [];

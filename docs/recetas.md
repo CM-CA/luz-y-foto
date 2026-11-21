@@ -36,6 +36,7 @@ Tocar el cielo junto al sol, bajar brillo, no usar zoom digital, apoyar el móvi
 - RAW/JPEG: si no editas, JPEG; si quieres aprender, RAW.
 
 ## Niveles
-- Empiezo: acciones ("Gira la rueda a Av, baja la compensación a -1").
-- Me defiendo: añade apertura e ISO con una frase de explicación.
-- Controlo bastante: "Av f/11, -1 EV, ISO 100, puntual".
+El usuario los ve como Principiante, Medio y Experto (en los datos, `empiezo`, `defiendo` y `controlo`: los identificadores no cambian para no perder los perfiles guardados). La receta dice para cuál está explicada y solo se muestra si el equipo está configurado.
+- Principiante (`empiezo`): acciones ("Gira la rueda a Av, baja la compensación a -1").
+- Medio (`defiendo`): añade apertura e ISO con una frase de explicación.
+- Experto (`controlo`): "Av f/11, -1 EV, ISO 100, puntual".

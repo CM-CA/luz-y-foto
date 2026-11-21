@@ -16,7 +16,7 @@ Principiantes y aficionados sin mucha experiencia.
    - Móvil o cámara
    - Si cámara: marca (Canon, Nikon, Sony, No lo sé) y objetivos
    - Trípode: sí / a veces / no
-   - Experiencia: Empiezo / Me defiendo / Controlo bastante
+   - Experiencia: Principiante / Medio / Experto (antes: Empiezo / Me defiendo / Controlo bastante)
    - Lugar: GPS o a mano
 3. Tutorial de 4 pantallas sobre la rueda de modos (Auto, P, Av/Tv, M), con "Saltar" y repetible desde Ajustes. Para móvil, tutorial distinto (tocar para exponer, brillo, modo noche).
 
@@ -30,7 +30,7 @@ Principiantes y aficionados sin mucha experiencia.
 - Barra inferior: Hoy, Lugares, Glosario, Ajustes.
 
 ## Estados a diseñar
-Sin conexión (última previsión con su hora), sin GPS (elegir a mano), cargando (esqueleto), primera vez sin previsión.
+Sin conexión (última previsión con su hora: hecho en la versión nueva), sin GPS (elegir a mano), cargando (esqueleto), primera vez sin previsión.
 
 ## Riesgos y respuestas
 - Pérdida de datos: `navigator.storage.persist()`, exportar/importar JSON, recordatorio de copia, instalar la app.
@@ -51,4 +51,6 @@ Hecho: perfil de equipo y recetas (`data/perfil.json`, `data/recetas/`).
 
 Pendiente (anotado 2026-11-20): **revisar que sea responsive**. En un móvil (captura del usuario, navegador en modo oscuro) la tabla «Horas analizadas» se sale de la tarjeta y la página se desplaza en horizontal; las barras de «Capas de nubes» casi no se ven en oscuro. Probar anchos de 320, 360 y 390 px, y modo claro y oscuro.
 
-Pendiente: tutorial de la rueda de modos, exportar/importar copia, glosario como página, lugares guardados, caché sin conexión (service worker), diseño visual definitivo (daltonismo, modo oscuro).
+Hecho en la versión nueva (fase 4 de la migración): manifiesto e iconos, service worker con la app en caché, aviso «hay una versión nueva» y última previsión guardada sin conexión (ver [`migracion-svelte.md`](migracion-svelte.md)).
+
+Pendiente: tutorial de la rueda de modos, exportar/importar copia, glosario como página, lugares guardados, diseño visual definitivo (daltonismo, modo oscuro).

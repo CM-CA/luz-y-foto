@@ -7,8 +7,8 @@
 #
 # Si hay node_modules (se instalan con `npm ci`), también pasa las pruebas de la lógica nueva (Vitest), valida
 # los datos al compilar, compila la app nueva con la ruta de la vista previa (/luz-y-foto/beta/), la sirve y le pasa
-# las MISMAS pruebas de comportamiento que a la web actual, más las propias de la versión compilada
-# (capturas frente a las de referencia, género nuevo solo con datos, ruta base).
+# las mismas pruebas de comportamiento que a la web actual (salvo `perfil`, que cambió a propósito), más las propias de la versión compilada
+# (maquetación en móvil, género nuevo solo con datos, ruta base).
 #
 # Para probar otra versión de la app en el navegador (por ejemplo, la compilada con Svelte):
 #   E2E_BASE_URL=http://localhost:4173/luz-y-foto/ E2E_HOY_URL=http://localhost:4173/luz-y-foto/#/hoy bash test/ejecutar-todo.sh
@@ -38,7 +38,13 @@ fi
 if [ "$modo" != "rapido" ]; then
   if [ "$modo" != "compilada" ]; then
     echo "Navegador: comportamiento (versión actual)"
-    for f in test/e2e/comportamiento/*.e2e.cjs; do correr "$(basename "$f" .e2e.cjs)" node "$f"; done
+    for f in test/e2e/comportamiento/*.e2e.cjs; do
+      nombre="$(basename "$f" .e2e.cjs)"
+      # El perfil y las recetas cambiaron a propósito en la versión compilada (niveles Principiante/Medio/Experto, receta solo
+      # con el equipo configurado): la web actual ya no se mide con esa prueba, solo la compilada
+      [ "$nombre" = "perfil" ] && continue
+      correr "$nombre" node "$f"
+    done
   fi
   if [ -z "${E2E_BASE_URL:-}" ]; then
     if [ "$modo" != "compilada" ]; then

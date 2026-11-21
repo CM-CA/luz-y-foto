@@ -1,8 +1,8 @@
 <script>
+  import { SIMBOLO } from "../nucleo/niveles.js";
+
   // El semáforo: nivel (verde, ambar, rojo o ninguno), título, nota corta y explicación
   let { nivel, titulo, nota, texto } = $props();
-
-  const SIMBOLO = { verde: "●", ambar: "▲", rojo: "■", ninguno: "○" };
 </script>
 
 <div class="veredicto {nivel}">

@@ -35,7 +35,7 @@
     { "texto": "Cielo cubierto: la luna apenas se dejará ver." }
   ],
   "avisoNiebla": "Poca visibilidad (niebla): la luna se verá borrosa.",
-  "etiquetasDia": { "ahora": "Ahora", "hoy": "Esta noche", "manana": "Mañana noche", "otro": "{dia} noche" },
+  "etiquetasDia": { "ahora": "Ahora", "hoy": "Hoy", "manana": "Mañana", "otro": "{dia}" },
 
   "fases": {
     "nueva": { "nombre": "Luna nueva", "consejo": "Casi no se ve. Noche buena para estrellas, no para fotografiar la luna." },

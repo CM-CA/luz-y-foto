@@ -27,6 +27,19 @@ function listaDe(g, prev, ahora) {
   return nochesDe(prev, ahora).slice(0, 3);
 }
 
+/*
+ * El resultado del semáforo para un día (atardecer) o una noche (luna) de la lista. Lo usan el panel grande y los
+ * botones de día (cada uno lleva su semáforo), para que nunca puedan discrepar. Puede ser null si aún no hay previsión
+ * para esa hora (solo en géneros de «puntos en una ventana»).
+ *   S: el semáforo creado con la configuración; item: un elemento de `listaDe`; lat, lon, ahora: lugar e instante.
+ */
+function evaluarDia({ S, g, prev, item, lat, lon, ahora }) {
+  if (g.motor === "puntos-ventana") return S.evaluar(g.id, prev, { dia: item.dia });
+  const fraccion = Astro.calcularDia(new Date(item.fecha + "T12:00:00"), lat, lon).luna.fraccion;
+  const enCurso = item.inicio <= ahora; // una noche en curso se evalúa solo desde ahora
+  return S.evaluar(g.id, prev, { inicio: item.inicio, fin: item.fin, lat, lon, fraccion, desde: enCurso ? ahora : undefined });
+}
+
 function fechaLugar(ms, prev) { return new Date(ms + prev.desfaseMs).toISOString().slice(0, 10); }
 
 function etiquetaDia(g, x, prev, ahora) {
@@ -59,12 +72,11 @@ function prepararVista({ config, S, datos, lat, lon, ahora, pestanaElegida, pest
   if (g.motor === "mejor-hora-nocturna") {
     const n = listas[g.id][0];
     if (n && n.inicio <= ahora) {
-      const fraccion = Astro.calcularDia(new Date(n.fecha + "T12:00:00"), lat, lon).luna.fraccion;
-      const r = S.evaluar(g.id, prev, { inicio: n.inicio, fin: n.fin, lat, lon, fraccion, desde: ahora });
+      const r = evaluarDia({ S, g, prev, item: n, lat, lon, ahora });
       if (r.nivel === "ninguno" && listas[g.id].length > 1) indice = 1;
     }
   }
   return { prev, listas, pestana: pestanaFinal, indice, ahora };
 }
 
-export { nochesDe, listaDe, fechaLugar, etiquetaDia, pestanaPorDefecto, prepararVista };
+export { nochesDe, listaDe, evaluarDia, fechaLugar, etiquetaDia, pestanaPorDefecto, prepararVista };

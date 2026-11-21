@@ -188,7 +188,10 @@
       if (!esTexto(q.id)) errores.push(a + ".id: falta"); else ids.add(q.id);
       if (!esTexto(q.titulo)) errores.push(a + ".titulo: falta el texto");
       if (!Array.isArray(q.opciones) || q.opciones.length < 2) errores.push(a + ".opciones: debe haber al menos dos");
-      else q.opciones.forEach((o, j) => { if (!esTexto(o.id) || !esTexto(o.texto)) errores.push(a + ".opciones[" + j + "]: faltan id y texto"); });
+      else q.opciones.forEach((o, j) => {
+        if (!esTexto(o.id) || !esTexto(o.texto)) errores.push(a + ".opciones[" + j + "]: faltan id y texto");
+        if (o && typeof o === "object" && "resumen" in o && !esTexto(o.resumen)) errores.push(a + ".opciones[" + j + "].resumen: si está, debe ser un texto");
+      });
     });
     const d = p.porDefecto || {};
     p.preguntas.forEach((q) => {

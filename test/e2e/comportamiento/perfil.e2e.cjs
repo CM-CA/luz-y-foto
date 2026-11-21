@@ -1,4 +1,6 @@
-// Comportamiento del perfil de equipo y las recetas. Debe pasar igual en cualquier versión de la app.
+// Comportamiento del perfil de equipo y las recetas. Desde el 2026-11-21 solo se ejecuta contra la versión compilada (Svelte):
+// los niveles pasaron a llamarse Principiante / Medio / Experto y la receta solo se muestra con el equipo configurado,
+// cambios pedidos a propósito que la web actual (prueba/hoy.html) no tiene.
 // Ejecutar: node test/e2e/comportamiento/perfil.e2e.cjs
 "use strict";
 const { nuevaPagina: nuevo, ok, titulo, ejecutar } = require("../ayudas.cjs");
@@ -21,10 +23,12 @@ ejecutar("perfil", async ({ b, hoy }) => {
   ok(await p.locator("[data-op=tele][aria-pressed=true]").count() === 1, "multi-selección marca tele");
   await p.click("[data-asis=siguiente]");
   await p.click("[data-op=aveces]");
+  const niveles = (await p.locator("#asistente [data-op]").allInnerTexts()).map((s) => s.trim());
+  ok(niveles.join("|") === "Principiante|Medio|Experto", "la pregunta del nivel ofrece Principiante, Medio y Experto: " + niveles.join("|"));
   await p.click("[data-op=defiendo]");
   ok(await p.locator("#asistente").isHidden(), "al terminar se cierra el asistente");
   const res = await txt(p, "#resumenEquipo");
-  ok(res === "Con una cámara · Nikon · El de kit (18-55 o parecido), Un teleobjetivo (200 mm o más) · A veces · Me defiendo", "resumen: " + res);
+  ok(res === "Con una cámara · Nikon · El de kit (18-55 o parecido), Un teleobjetivo (200 mm o más) · A veces · Nivel medio", "resumen: " + res);
   const guardado = await p.evaluate(() => JSON.parse(localStorage.getItem("luz-y-foto:perfil")));
   ok(guardado.equipo === "camara" && guardado.marca === "nikon" && guardado.nivel === "defiendo" && guardado.tripode === "aveces", "guardado: " + JSON.stringify(guardado));
 
@@ -33,6 +37,7 @@ ejecutar("perfil", async ({ b, hoy }) => {
   await p.click("#receta summary");
   const rec = await txt(p, "#receta");
   ok(/Con cámara, sin trípode/.test(rec), "variante sin trípode");
+  ok(/Explicada para nivel medio/.test(await txt(p, "#receta summary")), "la receta dice para qué nivel está explicada: " + (await txt(p, "#receta summary")).replace(/\n/g, " / "));
   ok(/modos a A:/.test(rec), "el modo usa el nombre de Nikon (A): " + rec.split("\n").find((l) => /rueda/.test(l)));
   ok(await p.locator("#receta [data-tripode]").count() === 2, "interruptor de trípode hoy visible (a veces)");
   await p.click("#receta [data-tripode=si]");
@@ -52,7 +57,8 @@ ejecutar("perfil", async ({ b, hoy }) => {
   ok(await p.locator("#asistente").isHidden(), "no vuelve a aparecer el asistente");
   await p.click("[data-tab=luna]"); await p.click("#receta summary");
   const l = await txt(p, "#receta");
-  ok(/teleobjetivo y trípode/.test(l) && /1\/250–1\/500/.test(l), "luna con tele y trípode, nivel controlo");
+  ok(/teleobjetivo y trípode/.test(l) && /1\/250–1\/500/.test(l), "luna con tele y trípode, nivel experto");
+  ok(/Explicada para nivel experto/.test(await txt(p, "#receta summary")), "la receta de un experto lo dice");
   ok(await p.locator("#receta [data-tripode]").count() === 0, "sin interruptor (trípode: sí)");
   ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
   await ctx.close();
@@ -63,24 +69,36 @@ ejecutar("perfil", async ({ b, hoy }) => {
   await p.click("[data-asis=saltar-todo]");
   ok(await p.locator("#asistente").isHidden(), "se cierra");
   ok(await p.evaluate(() => localStorage.getItem("luz-y-foto:perfil")) !== null, "queda guardado (no vuelve la bienvenida)");
-  await p.click("[data-tab=atardecer]"); await p.click("#receta summary");
-  ok(/Con el móvil/.test(await txt(p, "#receta summary")) && /Cuéntame tu equipo/.test(await txt(p, "#receta")), "receta de móvil + invitación a configurar");
-  await p.click("#receta [data-accion=equipo]");
+  await p.click("[data-tab=atardecer]");
+  ok(await p.locator("#receta").count() === 0, "sin el equipo configurado no hay receta");
+  ok(/Cuéntame tu equipo/.test(await txt(p, "#panel")), "en su lugar, una invitación a configurarlo");
+  await p.click("[data-accion=equipo]");
   ok(await p.locator("#asistente").isVisible(), "el enlace abre el asistente");
   ok(/Pregunta 1 de 3/.test(await txt(p, "#asistente .paso")), "empieza en la primera pregunta (sin bienvenida)");
   await p.click("[data-asis=saltar]"); await p.click("[data-asis=saltar]"); await p.click("[data-asis=saltar]");
   ok(await p.locator("#asistente").isHidden(), "saltando las 3 preguntas se cierra");
+  ok(await p.locator("#receta").count() === 0, "saltando las preguntas sigue sin haber receta");
   await p.click("#editarEquipo");
   await p.click("[data-asis=saltar]"); await p.click("[data-asis=atras]");
   ok(/Pregunta 1 de 3/.test(await txt(p, "#asistente .paso")), "atrás vuelve a la anterior");
+  await p.click("[data-op=movil]"); await p.click("[data-asis=saltar]"); await p.click("[data-asis=saltar]");
+  ok(await p.locator("#asistente").isHidden(), "al contestar y terminar se cierra");
+  await p.click("#receta summary");
+  ok(/Con el móvil/.test(await txt(p, "#receta summary")) && /Explicada para nivel principiante/.test(await txt(p, "#receta summary")), "contestando una pregunta ya hay receta, con el nivel por defecto: " + (await txt(p, "#receta summary")).replace(/\n/g, " / "));
   ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
   await ctx.close();
 
   titulo("D: un perfil guardado roto o con valores raros no rompe la página");
-  ({ ctx, p } = await nuevo(b, { perfil: { equipo: "dron", marca: 7, objetivos: "tele", nivel: null, respondidas: "x" } }));
+  ({ ctx, p } = await nuevo(b, { perfil: { equipo: "dron", marca: 7, objetivos: "tele", nivel: null, respondidas: ["equipo"] } }));
   await p.goto(hoy); await p.waitForSelector(".veredicto");
   await p.click("[data-tab=atardecer]"); await p.click("#receta summary");
   ok(/Con el móvil/.test(await txt(p, "#receta summary")), "usa los valores por defecto");
+  ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
+  await ctx.close();
+  ({ ctx, p } = await nuevo(b, { perfil: { equipo: "dron", marca: 7, objetivos: "tele", nivel: null, respondidas: "x" } }));
+  await p.goto(hoy); await p.waitForSelector(".veredicto");
+  await p.click("[data-tab=atardecer]");
+  ok(await p.locator("#receta").count() === 0 && await p.locator("[data-accion=equipo]").count() === 1, "si no consta ninguna respuesta, se trata como sin configurar");
   ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
   await ctx.close();
 });

@@ -2,6 +2,7 @@
   import { S } from "../estado/datos.js";
   import { hoy } from "../estado/hoy.svelte.js";
   import * as Astro from "../nucleo/astro.js";
+  import { evaluarDia } from "../nucleo/dias.js";
   import { hm, pct, unida } from "../nucleo/formato.js";
   import Veredicto from "./Veredicto.svelte";
   import Avisos from "./Avisos.svelte";
@@ -14,9 +15,7 @@
   const lunaDia = $derived(Astro.calcularDia(new Date(item.fecha + "T12:00:00"), hoy.lat, hoy.lon).luna);
   const fase = $derived(g.fases[lunaDia.faseId]);
   const enCurso = $derived(item.inicio <= hoy.ahora);
-  const r = $derived(S.evaluar(g.id, hoy.prev, {
-    inicio: item.inicio, fin: item.fin, lat: hoy.lat, lon: hoy.lon, fraccion: lunaDia.fraccion, desde: enCurso ? hoy.ahora : undefined
-  }));
+  const r = $derived(evaluarDia({ S, g, prev: hoy.prev, item, lat: hoy.lat, lon: hoy.lon, ahora: hoy.ahora }));
   const conHoras = $derived(r.nivel !== "ninguno" && !r.sinUtiles);
   const nota = $derived(conHoras ? `Mejor hora: ${hm(r.mejorHora)} · nubes ${pct(r.nubes)}` : fase.nombre);
   const fecha = $derived(new Date(item.fecha + "T12:00:00").toLocaleDateString("es-ES", { day: "numeric", month: "long" }));
@@ -47,11 +46,17 @@
     </tbody>
   </table>
   <h3>Horas con la luna alta</h3>
-  <table>
+  <table class="horas" style="--columnas: 2">
     <thead><tr><th>Hora</th><th class="num">Nubes</th><th class="num">mm/h</th><th class="num">Prob.</th><th class="num">Visib. km</th></tr></thead>
     <tbody>
       {#each r.horas as x}
-        <tr class:mejor={x.t === r.mejorHora}><td>{hm(x.t)}</td><td class="num">{pct(x.total)}</td><td class="num">{x.lluvia.toFixed(1)}</td><td class="num">{pct(x.prob)}</td><td class="num">{x.vis.toFixed(0)}</td></tr>
+        <tr class:mejor={x.t === r.mejorHora}>
+          <td>{hm(x.t)}</td>
+          <td class="num" data-label="Nubes">{pct(x.total)}</td>
+          <td class="num" data-label="mm/h">{x.lluvia.toFixed(1)}</td>
+          <td class="num" data-label="Prob.">{pct(x.prob)}</td>
+          <td class="num" data-label="Visib. km">{x.vis.toFixed(0)}</td>
+        </tr>
       {/each}
     </tbody>
   </table>
