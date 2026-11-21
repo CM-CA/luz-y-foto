@@ -42,7 +42,7 @@ ejecutar("maquetacion", async ({ b, base }) => {
     await p.click("#reglas summary");
     const r = await p.evaluate(() => {
       const panel = document.querySelector("#panel").getBoundingClientRect();
-      const fuera = [...document.querySelectorAll("#panel table, #panel .veredicto, #panel details, #panel .capas, #panel .avisos, #panel .brujula, #panel .luna-cab")]
+      const fuera = [...document.querySelectorAll("#panel table, #panel .veredicto, #panel details, #panel .capas, #panel .avisos, #panel .luz-de-hoy, #panel .brujula, #panel .luna-cab")]
         .filter((e) => e.getBoundingClientRect().right > panel.right + 0.5).map((e) => e.className || e.tagName);
       return { pagina: document.documentElement.scrollWidth - document.documentElement.clientWidth, fuera };
     });

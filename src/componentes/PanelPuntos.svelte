@@ -2,12 +2,14 @@
   import { S } from "../estado/datos.js";
   import { hoy } from "../estado/hoy.svelte.js";
   import * as Astro from "../nucleo/astro.js";
-  import { evaluarDia } from "../nucleo/dias.js";
+  import { evaluarDia, fechaLugar } from "../nucleo/dias.js";
   import { hm, pct, unida } from "../nucleo/formato.js";
+  import { franja } from "../nucleo/franja.js";
   import Veredicto from "./Veredicto.svelte";
   import Avisos from "./Avisos.svelte";
   import Receta from "./Receta.svelte";
   import Flecha from "./Flecha.svelte";
+  import LuzDeHoy from "./LuzDeHoy.svelte";
   import Barra from "./Barra.svelte";
   import Plantilla from "./Plantilla.svelte";
 
@@ -20,19 +22,26 @@
   const az = $derived(alAmanecer ? sol.azAmanecer : sol.azPuesta);
   const palabra = $derived(alAmanecer ? sol.palabraAmanecer : sol.palabraPuesta);
   const horaSol = (d) => hm(d && d.getTime());
+  // «La luz de hoy» (la franja de la hora dorada a la hora azul) solo tiene sentido en un género con puesta de sol y cuando
+  // se conocen las tres horas; en cualquier otro caso queda la línea de texto de siempre.
+  const ms = (d) => d ? d.getTime() : null;
+  const luz = $derived(g.evento === "puesta"
+    ? franja({ dorada: ms(sol.horaDorada), puesta: item.evento, azul: ms(sol.finHoraAzul), ahora: hoy.ahora, esHoy: item.fecha === fechaLugar(hoy.ahora, hoy.prev) })
+    : null);
 </script>
 
 {#if !r}
   <p>No hay previsión para esa hora todavía.</p>
 {:else}
-  <p class="subtitulo"><Plantilla texto={g.textoEvento} valores={{ hora: hm(item.evento), dorada: horaSol(sol.horaDorada), finAzul: horaSol(sol.finHoraAzul) }} negrita={["hora"]} /></p>
+  {#if !luz}<p class="subtitulo"><Plantilla texto={g.textoEvento} valores={{ hora: hm(item.evento), dorada: horaSol(sol.horaDorada), finAzul: horaSol(sol.finHoraAzul) }} negrita={["hora"]} /></p>{/if}
   <Veredicto nivel={r.nivel} titulo={r.titulo} nota="{r.total} de 100 puntos" puntos={r.total} texto={r.resumen} />
   <Avisos lista={r.avisos} />
-  <Receta {g} nivel={r.nivel} />
+  {#if luz}<LuzDeHoy {item} {sol} {luz} />{/if}
   <div class="brujula">
     <Flecha {az} />
     <p><Plantilla texto={g.textoBrujula} valores={{ direccion: unida(palabra), grados: Math.round(az) }} negrita={["direccion"]} /></p>
   </div>
+  <Receta {g} nivel={r.nivel} />
 
   <h3>Qué pesa en la nota</h3>
   <table>
