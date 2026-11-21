@@ -130,7 +130,7 @@
   - **J. iPhone concedido:** con `requestPermission` → `"granted"`, `webkitCompassHeading: 200` da «Estás mirando al sur-suroeste (200°).».
   - **K. iPhone denegado:** `"denied"` y también una excepción → «Sin permiso para la brújula…», botón otra vez disponible, sin errores en consola.
   - **L. Sin lecturas:** evento vacío (`alpha`, `beta`, `gamma` a `null`) o ninguno; tras `p.clock.runFor(2100)` → «Este dispositivo no da la brújula.» y ya no hay escuchas.
-  - **M. Limpieza:** con la brújula activa, cambiar de pestaña (Atardecer ↔ Luna), de noche/día, de lugar y esconder la página (`visibilitychange` con `document.hidden` simulado) deja el recuento de escuchas a 0 y apaga el estado; volver a pulsar el botón la enciende de nuevo; el objetivo de la flecha es el del día elegido.
+  - **M. Limpieza:** con la brújula activa, cambiar de pestaña (Atardecer ↔ Luna), de noche/día y de lugar la mantiene encendida con **una sola** escucha y el mismo rumbo (el objetivo de la flecha es el del día elegido); esconder la página (`visibilitychange`) o salir de la pantalla de Hoy la apaga y deja el recuento de escuchas a 0; volver a pulsar el botón la enciende de nuevo. *(Corregido al implementar: ver el ruling de la nota de diseño, punto 8. En el e2e son las secciones F–L.)*
   - **N. Apagar:** «Dejar de usar…» quita las escuchas y vuelve a la flecha fija.
   - **O. Medidas:** 320/360/390 px, claro y oscuro, letra ancha: la zona viva no desborda ni pisa nada; sin errores.
 - [ ] **Paso 2:** compilar y `node test/e2e/compilada/brujula.e2e.cjs` → FALLA en I a O (no hay botón).

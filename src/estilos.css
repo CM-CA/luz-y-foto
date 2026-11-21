@@ -150,6 +150,11 @@ tr.mejor td { font-weight: 700; background: var(--verde-fondo); }
 .brujula p { margin: 0; line-height: 1.35; }
 .brujula p + p { margin-top: 4px; }
 .brujula strong { font-weight: 800; }
+/* La brújula del móvil: el botón y lo que dice, debajo de la flecha fija */
+.brujula-viva { margin-top: 6px; }
+.brujula-viva button { min-height: 44px; padding: 9px 0; text-align: left; }
+.brujula-viva p { margin: 4px 0 0; line-height: 1.35; }
+.brujula-viva .nota { font-size: 14px; color: var(--suave); }
 
 /* «La luz de hoy»: franja de 48 bloques de texto «█» (cada uno con su color), el marcador de ahora (otro texto) y las tres horas. */
 .luz-de-hoy h3 { margin-top: 26px; }

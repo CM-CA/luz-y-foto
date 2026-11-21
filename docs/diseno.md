@@ -22,6 +22,18 @@ Propuesta y decisiones en [`superpowers/specs/2026-11-21-la-luz-de-ahora-design.
 - **Peso**: fuentes e imágenes suman menos de 160 000 bytes y todas van en la caché del service worker (lo comprueba `pwa.e2e.cjs`).
 - **Iconos y colores de la app**: fondo `#1f2740`, sol `#ee7d2f`, horizonte `#7f9be0`; `theme-color` y `background_color` del manifiesto, `#f3eff4` (claro) y `#0f1626` (oscuro).
 
+## La brújula (Atardecer y Luna)
+Un solo componente (`src/componentes/Brujula.svelte`) en las dos pestañas: una flecha, la dirección en palabras y grados («Mira hacia el sur (174°).») y, en Luna, la altura («47° sobre el horizonte, unos 5 puños con el brazo estirado»; 1 puño ≈ 10°) y a qué momento apunta: la luna **de ahora** si la noche elegida está en curso y la luna está en el cielo; si no, la de la **mejor hora** (con la hora escrita); si no, la del **anochecer**; si no, donde **sale**. En Atardecer apunta al azimut de la puesta del día elegido. La lógica está en `src/nucleo/rumbo.js` (con SunCalc) y los textos en `data/generos/luna.json` (`brujula`). «Ahora» usa el reloj del dispositivo y se refresca cada minuto. Todo lo que dice el dibujo está también en el texto.
+
+**La brújula del móvil** (botón «Usar la brújula del móvil», opcional; sin ella queda la flecha fija): el dial gira −rumbo y la flecha queda hacia arriba cuando el móvil mira al objetivo. Cómo se saca el rumbo (`rumboDe` en `src/nucleo/rumbo.js`, estado en `src/estado/orientacion.svelte.js`):
+- **iPhone (Safari):** `DeviceOrientationEvent.requestPermission()` solo se puede llamar desde un toque (el botón); da `webkitCompassHeading` en `deviceorientation`.
+- **Android (Chrome):** evento `deviceorientationabsolute` (`absolute: true`); el rumbo es hacia donde mira la **cámara trasera** compensando la inclinación (fórmula del W3C con `alpha`, `beta` y `gamma`). Los Chrome recientes también tienen `requestPermission`: si existe se pide; si se concede se escucha el mismo evento.
+- **Por qué el móvil «de pie»:** el rumbo es el de la cámara trasera, que es como se apunta al cielo para encontrar la luna o el sol. Con el móvil plano sobre la mesa se usa el rumbo de la parte de arriba del móvil.
+- **Sin lecturas:** un ordenador dispara un evento con todo a `null`: no cuenta. A los 2 s sin ninguna lectura válida: «Este dispositivo no da la brújula.» y se deja de escuchar.
+- **Ahorro:** solo se escucha mientras hay una brújula encendida en pantalla (se apaga al esconder la página, al salir de Hoy y con el botón). Cambiar de día o de pestaña no la apaga. Un cambio de menos de 1° es ruido y no repinta.
+- **Precisión:** los sensores de móvil se desvían 10–20° con imanes, fundas metálicas o sin calibrar; la pantalla lo avisa («gira el móvil en un ocho para calibrarla»). Por eso la brújula orienta, no mide.
+- **Lo que hay que comprobar a mano** (no se puede en la nube: el sensor real es de cada móvil): en **Android**, que al pulsar el botón aparezca «Estás mirando al…» y la flecha gire al girar el móvil de pie, y que al esconder la pantalla y volver esté apagada; en **iPhone**, que el primer toque pida permiso, que al darlo funcione y que, si se niega, salga el mensaje y se pueda volver a intentar (en Ajustes → Safari → Movimiento y orientación); que el norte coincida con la brújula del sistema (con 10–20° de margen).
+
 ## Primer arranque
 1. Bienvenida (con "Importar copia" si no hay datos).
 2. Perfil corto, una pregunta por pantalla, con "Saltar" y editable siempre:
