@@ -51,6 +51,7 @@ ejecutar("luna", async ({ b, base }) => {
     ok((await leer(p)).cielos === 0, "en Atardecer no hay luna en el cielo");
     await p.click("[data-tab=luna]");
     await p.waitForSelector(".luna-cab img");
+    await p.waitForFunction(() => [...document.querySelectorAll("img.luna-cielo, .luna-cab img")].every((i) => i.complete)); // las imágenes pueden tardar bajo carga
     const r = await leer(p);
     ok(r.cielos === 1 && r.cielo, "en Luna hay una luna en el cielo (" + r.cielos + ")");
     const fase = r.cielo && faseDe(r.cielo.src);

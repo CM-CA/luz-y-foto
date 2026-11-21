@@ -292,7 +292,10 @@ function datos({ Datos, datosCargados }) {
     };
     Object.entries(ejemplos).forEach(([nombre, cambiar]) => { const c = structuredClone(config); cambiar(c); salida.casosEscritos[nombre] = intentar(() => Datos.validar(c)); });
 
+    // Datos que la versión actual (js/) no conoce y que, por tanto, no valida: no se comparan sus mutaciones
+    const NUEVOS = ["generos.luna.brujula"];
     for (const ruta of recorrer(config)) {
+      if (NUEVOS.some((n) => ruta.join(".") === n || ruta.join(".").startsWith(n + "."))) continue;
       ["quitar", "malo", "vacio"].forEach((tipo) => {
         const errores = intentar(() => Datos.validar(mutar(config, ruta, tipo)));
         salida.mutaciones[ruta.join(".") + "#" + tipo] = Array.isArray(errores) ? errores.length + ":" + hash(errores) : "EXC:" + hash(errores);

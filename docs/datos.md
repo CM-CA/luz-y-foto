@@ -65,6 +65,14 @@ El código solo conoce dos formas de calcular. Cada género elige una con `"moto
 - **`puntos-ventana`**: suma puntos de varios factores (nubes bajas, nubes medias y altas, lluvia…) sobre las horas alrededor de un evento del sol. Lo usa el atardecer.
 - **`mejor-hora-nocturna`**: busca las horas de la noche con la luna alta y valora la de menos nubes. Lo usa la luna.
 
+### La brújula de la luna
+
+El panel de la luna lleva una brújula con la dirección y la altura de la luna. Sus textos están en `luna.brujula` y son todos obligatorios:
+
+- `texto`: la frase de la dirección, con `{direccion}` y `{grados}`.
+- `altura`, `alturaUnPuno` y `alturaBaja`: cómo se dice la altura (con `{altura}` y `{punos}`; un puño son unos 10° con el brazo estirado; `alturaBaja` se usa cuando la luna está casi en el horizonte).
+- `momentos.ahora`, `momentos.mejor`, `momentos.anochecer` y `momentos.sale`: a qué momento apunta la flecha (con `{hora}`): la luna de ahora, la de la mejor hora de la noche, la del anochecer (si ya estaba en el cielo) o la de su salida.
+
 ## Añadir un género
 
 **Si encaja en un motor existente, solo hace falta añadir datos.** Ejemplo, un amanecer:

@@ -5,8 +5,12 @@
   import { indiceFaseLuna } from "../nucleo/cielo.js";
   import { LUNAS } from "../imagenes/cielos.js";
   import { hm, pct, unida } from "../nucleo/formato.js";
+  import { puntoCardinal } from "../nucleo/astro.js";
+  import { momentoDeLaLuna, punos } from "../nucleo/rumbo.js";
   import Veredicto from "./Veredicto.svelte";
   import Avisos from "./Avisos.svelte";
+  import Brujula from "./Brujula.svelte";
+  import Plantilla from "./Plantilla.svelte";
   import Receta from "./Receta.svelte";
 
   // Género de «mejor hora de la noche» (luna): fase, salida y puesta, y las horas con la luna alta
@@ -19,11 +23,29 @@
   const conHoras = $derived(r.nivel !== "ninguno" && !r.sinUtiles);
   const nota = $derived(conHoras ? `Mejor hora: ${hm(r.mejorHora)} · nubes ${pct(r.nubes)}` : fase.nombre);
   const fecha = $derived(new Date(item.fecha + "T12:00:00").toLocaleDateString("es-ES", { day: "numeric", month: "long" }));
+
+  // La brújula: a qué momento de la noche apunta la flecha (ahora, la mejor hora, el anochecer o la salida de la luna). «Ahora» es el
+  // reloj del dispositivo, no la hora de la previsión, y se recalcula cada minuto mientras el panel está en pantalla.
+  let reloj = $state(Date.now());
+  $effect(() => {
+    const id = setInterval(() => { reloj = Date.now(); }, 60000);
+    return () => clearInterval(id);
+  });
+  const momento = $derived(momentoDeLaLuna({ inicio: item.inicio, fin: item.fin, ahora: reloj, mejorHora: conHoras ? r.mejorHora : null, lat: hoy.lat, lon: hoy.lon }));
+  const nPunos = $derived(momento ? punos(momento.alt) : 0);
+  const textoAltura = $derived(nPunos === 0 ? g.brujula.alturaBaja : nPunos === 1 ? g.brujula.alturaUnPuno : g.brujula.altura);
 </script>
 
 <p class="subtitulo">{enCurso ? "Noche en curso" : "Noche"} del {fecha}</p>
 <Veredicto nivel={r.nivel} titulo={r.titulo} {nota} texto={r.resumen} />
 <Avisos lista={r.avisos} />
+{#if momento}
+  <Brujula az={momento.az}>
+    <p><Plantilla texto={g.brujula.texto} valores={{ direccion: unida(puntoCardinal(momento.az)), grados: Math.round(momento.az) }} negrita={["direccion"]} /></p>
+    <p><Plantilla texto={textoAltura} valores={{ altura: Math.round(momento.alt), punos: nPunos }} /></p>
+    <p><Plantilla texto={g.brujula.momentos[momento.tipo]} valores={{ hora: hm(momento.t) }} negrita={["hora"]} /></p>
+  </Brujula>
+{/if}
 <Receta {g} nivel={r.nivel} />
 <div class="luna-cab">
   <img class:sur={hoy.lat < 0} src={LUNAS[indiceFaseLuna(lunaDia.fase)]} alt="" width="66" height="66">

@@ -37,6 +37,18 @@
   "avisoNiebla": "Poca visibilidad (niebla): la luna se verá borrosa.",
   "etiquetasDia": { "ahora": "Ahora", "hoy": "Hoy", "manana": "Mañana", "otro": "{dia}" },
 
+  "brujula": {
+    "texto": "Mira hacia el {direccion} ({grados}°).",
+    "altura": "Altura: {altura}° sobre el horizonte, unos {punos} puños con el brazo estirado.",
+    "alturaUnPuno": "Altura: {altura}° sobre el horizonte, más o menos un puño con el brazo estirado.",
+    "alturaBaja": "Altura: casi a ras del horizonte.",
+    "momentos": {
+      "ahora": "Ahora, a las {hora}.",
+      "mejor": "A las {hora}, la mejor hora de la noche.",
+      "anochecer": "Al anochecer, a las {hora}.",
+      "sale": "La luna sale a las {hora}."
+    }
+  },
   "fases": {
     "nueva": { "nombre": "Luna nueva", "consejo": "Casi no se ve. Noche buena para estrellas, no para fotografiar la luna." },
     "creciente": { "nombre": "Creciente", "consejo": "Luz suave con el borde bien marcado. Buena para una luna fina sobre el paisaje." },
