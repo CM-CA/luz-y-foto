@@ -299,7 +299,8 @@ function datos({ Datos, datosCargados }) {
     Object.entries(ejemplos).forEach(([nombre, cambiar]) => { const c = structuredClone(config); cambiar(c); salida.casosEscritos[nombre] = intentar(() => Datos.validar(c)); });
 
     // Datos que la versión actual (js/) no conoce y que, por tanto, no valida: no se comparan sus mutaciones
-    const NUEVOS = ["generos.luna.brujula"];
+    // (las tres franjas de la pestaña por defecto; y indice.orden.0, que ahora es «amanecer», el género al que apunta porDefectoDeAmanecer)
+    const NUEVOS = ["generos.luna.brujula", "indice.porDefectoDeAmanecer", "indice.amanecerAntesMin", "indice.amanecerDespuesMin", "indice.orden.0"];
     for (const ruta of recorrer(config)) {
       if (NUEVOS.some((n) => ruta.join(".") === n || ruta.join(".").startsWith(n + "."))) continue;
       ["quitar", "malo", "vacio"].forEach((tipo) => {
