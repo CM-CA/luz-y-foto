@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { erroresDeDatos } from "./scripts/validar-datos.mjs";
+import { servicioSinConexion } from "./scripts/pwa.mjs";
 
 // Si los datos de data/ tienen un error, la compilación se detiene y lo explica:
 // así un JSON mal editado no llega nunca a publicarse.
@@ -22,6 +23,6 @@ function validarDatos() {
 // y se indica al compilar: `vite build --base=/luz-y-foto/beta/`.
 export default defineConfig(({ command }) => ({
   base: command === "build" ? "/luz-y-foto/" : "/",
-  plugins: [svelte(), validarDatos()],
+  plugins: [svelte(), validarDatos(), servicioSinConexion()],
   build: { target: "es2022" }
 }));

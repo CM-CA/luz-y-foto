@@ -2,6 +2,7 @@
   import { ruta } from "./estado/ruta.svelte.js";
   import Hoy from "./pantallas/Hoy.svelte";
   import PruebaCielo from "./pantallas/PruebaCielo.svelte";
+  import AvisoVersion from "./componentes/AvisoVersion.svelte";
 
   // El aviso solo sale en la vista previa (publicada en /beta/), no en la versión definitiva
   const esVistaPrevia = import.meta.env.BASE_URL.endsWith("/beta/");
@@ -15,6 +16,8 @@
       <p>Vista previa de la nueva versión, en construcción. <a href={versionActual}>Ir a la versión actual</a></p>
     </div>
   {/if}
+
+  <AvisoVersion />
 
   {#if ruta.actual === "hoy"}
     <Hoy />
