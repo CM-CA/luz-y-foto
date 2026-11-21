@@ -1,7 +1,6 @@
 <script>
   import { ruta } from "./estado/ruta.svelte.js";
   import Hoy from "./pantallas/Hoy.svelte";
-  import PruebaCielo from "./pantallas/PruebaCielo.svelte";
   import AvisoVersion from "./componentes/AvisoVersion.svelte";
 
   // El aviso solo sale en la vista previa (publicada en /beta/), no en la versión definitiva
@@ -21,8 +20,6 @@
 
   {#if ruta.actual === "hoy"}
     <Hoy />
-  {:else if ruta.actual === "prueba-cielo"}
-    <div class="pagina"><PruebaCielo /></div>
   {:else}
     <div class="pagina">
       <h1>No encuentro esa pantalla</h1>

@@ -32,6 +32,7 @@ npm run test:navegador  la versión compilada en el navegador (necesita el naveg
 npm run test:todo   lógica + navegador (web actual y versión compilada)
 npm run build       compila en dist/ (valida data/ antes; si hay un error, no genera nada) y escribe dist/sw.js (el service worker)
 node scripts/generar-iconos.mjs   vuelve a generar los iconos de public/ (solo si cambia el dibujo o los colores)
+node scripts/generar-cielos.mjs   vuelve a generar los cielos de la cabecera y las 16 fases de la luna de src/imagenes/ (solo si cambia algún dibujo de scripts/escenas-cielo.mjs)
 ```
 
 La web actual (`prueba/`, `js/`) no necesita instalar nada: se abre sirviendo la carpeta.

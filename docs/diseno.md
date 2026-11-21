@@ -10,6 +10,18 @@ Principiantes y aficionados sin mucha experiencia.
 - Textos, reglas y recetas en archivos de datos (`data/`), separados del código, para añadir géneros sin tocar código.
 - Honestidad: no prometer lo que el equipo o la previsión no pueden dar.
 
+## Diseño visual: «La luz de ahora» (hecho el 2026-11-21)
+Propuesta y decisiones en [`superpowers/specs/2026-11-21-la-luz-de-ahora-design.md`](superpowers/specs/2026-11-21-la-luz-de-ahora-design.md); el plan con lo que se hizo en cada paso, en [`superpowers/plans/2026-11-21-la-luz-de-ahora.md`](superpowers/plans/2026-11-21-la-luz-de-ahora.md). Idea: la cabecera es un cielo que cambia con el momento y con la previsión; debajo todo queda tranquilo y el semáforo es lo que más se ve.
+
+- **Cielo** (cabecera de 262 px): cuatro imágenes WebP (tarde, tarde cubierta, noche, noche cubierta). Manda la pestaña (Atardecer = tarde, Luna = noche; sin previsión, la hora del dispositivo) y el semáforo del día elegido (rojo = cubierto). En Luna lleva además la luna de esa noche con su **fase real** (16 imágenes; al revés en el hemisferio sur; apagada si la noche está cubierta). `src/nucleo/cielo.js` decide cuál; `scripts/generar-cielos.mjs` las dibuja.
+- **Tipografía**: Young Serif para el título, los títulos de sección, el veredicto y el nombre de la fase de la luna; Figtree (variable) para todo lo demás. Las dos van dentro de la app (`src/fuentes/`, con su licencia) y en la caché del service worker.
+- **Paleta** (claro / oscuro; los nombres están en `src/estilos.css`): fondo `#f3eff4` / `#0f1626`, tarjeta `#ffffff` / `#18213a`, texto `#1f2740` / `#ecebf5`; verde `#1b7a47` / `#78d9a3`, ámbar `#8f5a00` (símbolo `#b06b00`) / `#f5c867`, rojo `#a9362f` / `#f7a199`, gris `#59607f` / `#a8afcb`. Para la franja de luz: oro, sol, violeta y azul de la hora azul. Los pares de colores de texto y fondo cumplen 4,5:1 (lo comprueba `paleta.e2e.cjs`); los símbolos, 3:1.
+- **Cuatro detalles**: el cielo reacciona a la previsión; «La luz de hoy» (franja de la hora dorada a la hora azul, con la puesta y un «●» donde estás ahora); el medidor de puntos, solo en Atardecer (la luna no puntúa); y la luna de la cabecera con su fase real.
+- **Lugar y equipo sin tarjeta propia**: el lugar es una pastilla en la cabecera (abre el selector debajo); el equipo vive en la receta (el resumen debajo del título y «Editar mi equipo» dentro) o, sin configurar, en una invitación con un único botón.
+- **Restricción del modo oscuro forzado** (hay navegadores de móvil, como el que se probó en Android, que oscurecen las webs por su cuenta aplastando fondos, bordes, degradados y SVG en línea): **ninguna información depende de un fondo, un borde, un degradado o un dibujo en SVG**. Los símbolos del semáforo (●▲■○) y la ✓ son texto con el color del nivel; las barras (capas de nubes, medidor de puntos) y la franja de luz son bloques «█» de texto cuyo color es el del texto; el cielo y las fases de la luna son imágenes (no se oscurecen). Los fondos y los bordes son solo adorno. Además, `color-scheme: light dark` avisa al navegador de que la web ya tiene tema oscuro.
+- **Peso**: fuentes e imágenes suman menos de 160 000 bytes y todas van en la caché del service worker (lo comprueba `pwa.e2e.cjs`).
+- **Iconos y colores de la app**: fondo `#1f2740`, sol `#ee7d2f`, horizonte `#7f9be0`; `theme-color` y `background_color` del manifiesto, `#f3eff4` (claro) y `#0f1626` (oscuro).
+
 ## Primer arranque
 1. Bienvenida (con "Importar copia" si no hay datos).
 2. Perfil corto, una pregunta por pantalla, con "Saltar" y editable siempre:
@@ -49,8 +61,10 @@ Fuentes de datos (SunCalc en el dispositivo, Open-Meteo, ubicación del navegado
 ## Pendiente
 Hecho: perfil de equipo y recetas (`data/perfil.json`, `data/recetas/`).
 
-Pendiente (anotado 2026-11-20): **revisar que sea responsive**. En un móvil (captura del usuario, navegador en modo oscuro) la tabla «Horas analizadas» se sale de la tarjeta y la página se desplaza en horizontal; las barras de «Capas de nubes» casi no se ven en oscuro. Probar anchos de 320, 360 y 390 px, y modo claro y oscuro.
+Hecho (2026-11-21, con el rediseño): lo de ser responsive que se anotó el 2026-11-20. Las pruebas de maquetación de la versión compilada recorren 320, 360 y 390 px, en claro y oscuro, con la letra del sistema y con una ancha; las tablas largas se reordenan en tarjetas y las barras llevan el color también como texto.
 
 Hecho en la versión nueva (fase 4 de la migración): manifiesto e iconos, service worker con la app en caché, aviso «hay una versión nueva» y última previsión guardada sin conexión (ver [`migracion-svelte.md`](migracion-svelte.md)).
 
-Pendiente: tutorial de la rueda de modos, exportar/importar copia, glosario como página, lugares guardados, diseño visual definitivo (daltonismo, modo oscuro).
+Hecho: diseño visual definitivo «La luz de ahora» (ver arriba; falta probarlo en el móvil real y en la tablet).
+
+Pendiente: tutorial de la rueda de modos, exportar/importar copia, glosario como página, lugares guardados, daltonismo (hoy el semáforo ya no depende solo del color: lleva símbolo y palabra, pero falta probarlo con un simulador).

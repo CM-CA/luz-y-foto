@@ -39,7 +39,7 @@ h1, h3 { font-family: var(--display); font-weight: 400; color: var(--texto); }
 h1 { font-size: 1.6rem; margin: 0 0 4px; }
 h3 { font-size: 21px; line-height: 1.2; margin: 26px 0 12px; }
 
-.selector { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 14px; margin-top: 12px; }
+.selector { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 20px; padding: 14px; margin-top: 12px; }
 .selector[hidden] { display: none; }
 .selector form { display: flex; gap: 8px; margin: 12px 0 0; }
 .selector input { flex: 1; min-width: 0; font: inherit; padding: 10px 12px; border: 1px solid var(--borde); border-radius: 8px; background: var(--fondo); color: var(--texto); }
@@ -178,7 +178,7 @@ dl.sale dd small { display: block; font-weight: 500; font-size: 14px; color: var
 .cabecera[data-cielo="noche-cubierta"] .luna-cielo { opacity: .4; }
 .consejo { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
 
-.asistente { background: var(--tarjeta); border: 2px solid var(--texto); border-radius: 16px; padding: 20px; margin: 12px 0; }
+.asistente { background: var(--tarjeta); border: 2px solid var(--texto); border-radius: 20px; padding: 20px; margin: 12px 0; }
 .asistente[hidden] { display: none; }
 .asistente h2 { font-size: 1.35rem; margin: 4px 0 8px; }
 .asistente h2:focus { outline: none; }
@@ -230,7 +230,8 @@ a { color: inherit; }
 /* Aviso de «hay una versión nueva» (service worker): fijo abajo para que se vea estés donde estés en la página.
    Todo lo que lo identifica es texto y borde del color del texto: el navegador del móvil puede oscurecer fondos y bordes. */
 .aviso-version { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 10; max-width: 736px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px 10px 16px; border-radius: 12px; background: var(--tarjeta); color: var(--texto); border: 2px solid var(--texto); box-shadow: 0 6px 24px rgba(0, 0, 0, .25); }
-.aviso-version p { margin: 0; font-weight: 700; }
+.aviso-version p { margin: 0; font: 700 15px/1.3 var(--cuerpo); }
+main:has(.aviso-version) { padding-bottom: 130px; } /* con el aviso fijo a la vista, sitio de sobra para que no tape el final de la página */
 .aviso-version button { flex: none; font-weight: 700; background: var(--texto); color: var(--fondo); border-color: var(--texto); }
 .aviso-version button:disabled { opacity: .7; cursor: default; }
 
