@@ -145,6 +145,10 @@ function validarNocturno(g, d, errores) {
     if (!x || !esTexto(x.nombre) || !esTexto(x.consejo)) errores.push(d + ".fases." + f + ": faltan el nombre y el consejo");
   });
   if (!(g.etiquetasDia || {}).ahora) errores.push(d + ".etiquetasDia.ahora: falta el texto");
+  // La brújula del panel: la frase, las tres formas de decir la altura y las cuatro de decir a qué momento apunta
+  const b = g.brujula || {};
+  ["texto", "altura", "alturaUnPuno", "alturaBaja"].forEach((k) => { if (!esTexto(b[k])) errores.push(d + ".brujula." + k + ": falta el texto"); });
+  ["ahora", "mejor", "anochecer", "sale"].forEach((k) => { if (!esTexto((b.momentos || {})[k])) errores.push(d + ".brujula.momentos." + k + ": falta el texto"); });
 }
 
 const NIVELES_USUARIO = ["empiezo", "defiendo", "controlo"];

@@ -54,6 +54,28 @@ prueba("validar: textos que faltan o están vacíos", () => {
   assert.ok(contiene(errores((c) => { c.comun.avisos.tormenta = "  "; }), "comun.avisos.tormenta"));
 });
 
+// La brújula de la luna: la frase, las tres formas de decir la altura y las cuatro de decir a qué momento apunta
+const CLAVES_BRUJULA_LUNA = ["texto", "altura", "alturaUnPuno", "alturaBaja", "momentos.ahora", "momentos.mejor", "momentos.anochecer", "momentos.sale"];
+
+prueba("la luna trae los ocho textos de su brújula, con los huecos que usa el panel", () => {
+  const b = cargarDatos().generos.luna.brujula;
+  assert.ok(b, "falta luna.brujula");
+  CLAVES_BRUJULA_LUNA.forEach((clave) => { const t = clave.split(".").reduce((x, k) => (x || {})[k], b); assert.ok(typeof t === "string" && t.trim(), "falta " + clave); });
+  assert.match(b.texto, /\{direccion\}.*\{grados\}/);
+  assert.match(b.altura, /\{altura\}.*\{punos\}/);
+  assert.match(b.alturaUnPuno, /\{altura\}/);
+  ["ahora", "mejor", "anochecer", "sale"].forEach((k) => assert.match(b.momentos[k], /\{hora\}/, "momentos." + k));
+});
+
+prueba("validar: cada texto de la brújula de la luna es obligatorio", () => {
+  CLAVES_BRUJULA_LUNA.forEach((clave) => {
+    const e = errores((c) => { const [a, b] = clave.split("."); if (b) c.generos.luna.brujula[a][b] = ""; else c.generos.luna.brujula[a] = ""; });
+    assert.ok(contiene(e, "luna.brujula." + clave + ": falta el texto"), clave + " → " + e.join(" | "));
+  });
+  const sin = errores((c) => { delete c.generos.luna.brujula; });
+  CLAVES_BRUJULA_LUNA.forEach((clave) => assert.ok(contiene(sin, "luna.brujula." + clave + ": falta el texto"), "sin brujula, falta aviso de " + clave));
+});
+
 prueba("validar: género listado sin archivo, o por defecto desconocido", () => {
   assert.ok(contiene(errores((c) => { c.indice.orden.push("surf"); }), "«surf» no tiene archivo"));
   assert.ok(contiene(errores((c) => { c.indice.porDefecto = "amanecer"; }), "«porDefecto»"));
