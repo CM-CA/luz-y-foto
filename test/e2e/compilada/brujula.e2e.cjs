@@ -1,4 +1,4 @@
-// La brújula de Atardecer y de Luna: una flecha con la dirección en palabras y en grados. En Luna, además, la altura (en grados y en
+// La brújula de Atardecer y de Noche (la luna): una flecha con la dirección en palabras y en grados. En Noche, además, la altura (en grados y en
 // puños) y a qué momento apunta: la luna de ahora, la de la mejor hora de la noche, la del anochecer o la de su salida. La brújula
 // del móvil (un botón que la enciende; la flecha gira con el móvil) se prueba con lecturas del sensor simuladas: Android
 // (`deviceorientationabsolute`), iPhone (`webkitCompassHeading` y permiso), permiso denegado, un ordenador que no da lecturas,
@@ -101,7 +101,7 @@ ejecutar("brujula", async ({ b, base }) => {
     await ctx.close();
   }
 
-  titulo("B: Luna, noche en curso con la luna en el cielo: apunta a la luna de ahora");
+  titulo("B: Noche, noche en curso con la luna en el cielo: apunta a la luna de ahora");
   {
     const { ctx, p } = await nuevaPagina(b, { fecha: A_LAS_21, perfil: PERFIL, lugar: LUGAR });
     await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
@@ -132,7 +132,7 @@ ejecutar("brujula", async ({ b, base }) => {
     await ctx.close();
   }
 
-  titulo("C: Luna, noche sin empezar: apunta a la mejor hora, con la hora escrita (y cambia con la noche elegida)");
+  titulo("C: Noche, noche sin empezar: apunta a la mejor hora, con la hora escrita (y cambia con la noche elegida)");
   {
     const { ctx, p } = await nuevaPagina(b, { perfil: PERFIL, lugar: LUGAR });
     await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
@@ -193,7 +193,7 @@ ejecutar("brujula", async ({ b, base }) => {
     }
   }
 
-  // Prepara una página de Luna a las 21:00 (la noche del 19 en curso) con el sensor simulado
+  // Prepara una página de Noche a las 21:00 (la noche del 19 en curso) con el sensor simulado
   const luna21 = async (opciones, { ancho = 390, esquema = "light" } = {}) => {
     const { ctx, p } = await nuevaPagina(b, { fecha: A_LAS_21, viewport: { width: ancho, height: 900 }, colorScheme: esquema, perfil: PERFIL, lugar: LUGAR });
     await conSensor(p, opciones);
@@ -203,7 +203,7 @@ ejecutar("brujula", async ({ b, base }) => {
     return { ctx, p };
   };
 
-  titulo("F: Android: el botón enciende la brújula del móvil y la flecha gira con el móvil (Luna y Atardecer)");
+  titulo("F: Android: el botón enciende la brújula del móvil y la flecha gira con el móvil (Noche y Atardecer)");
   {
     const { ctx, p } = await luna21();
     let v = await viva(p);

@@ -60,6 +60,14 @@ const urlHoy = (base) => process.env.E2E_HOY_URL || base + "prueba/hoy.html";
 // y una noche despejada (la del 20 al 21) para que haya un semáforo verde.
 const simulada = () => JSON.parse(fs.readFileSync(path.join(__dirname, "fixtures", "open-meteo-simulada.json"), "utf8"));
 
+// La previsión simulada con otros valores durante todo un día (por defecto el 20 de noviembre, el primer amanecer de la lista a las
+// 15:00 del 19). `cambios` son campos de `hourly` (cloud_cover_low, visibility, precipitation…). Se sirve con p.route después de nuevaPagina.
+const previsionConCambios = (cambios, dia = "2026-11-20") => {
+  const d = simulada();
+  d.hourly.time.forEach((t, i) => { if (t.startsWith(dia)) Object.entries(cambios).forEach(([k, v]) => { d.hourly[k][i] = v; }); });
+  return d;
+};
+
 /*
  * Abre una página con el reloj, el GPS y los servicios externos simulados.
  * Opciones: permisos (GPS concedido, por defecto sí), geo, nominatim ("ok" | "error"),
@@ -129,4 +137,4 @@ async function ejecutar(nombre, cuerpo, opcionesServidor) {
   process.exit(fallos ? 1 : 0);
 }
 
-module.exports = { RAIZ, VIGO, PONTE, playwright, servir, urlHoy, simulada, nuevaPagina, ok, titulo, ejecutar };
+module.exports = { RAIZ, VIGO, PONTE, playwright, servir, urlHoy, simulada, previsionConCambios, nuevaPagina, ok, titulo, ejecutar };

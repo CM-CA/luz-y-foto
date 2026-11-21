@@ -1,4 +1,4 @@
-// La luna con su fase real: en la pestaña Luna, el cielo de la cabecera lleva la luna de esa noche (una de 16 imágenes) y el
+// La luna con su fase real: en la pestaña Noche, el cielo de la cabecera lleva la luna de esa noche (una de 16 imágenes) y el
 // panel la repite junto al nombre de la fase. En el hemisferio sur se ven al revés, y con la noche cubierta (semáforo rojo)
 // la luna de la cabecera se apaga. En Atardecer no hay luna en el cielo.
 //
@@ -43,7 +43,7 @@ const leer = (p) => p.evaluate(() => {
 const matriz = (t) => { const m = /^matrix\(([^)]+)\)$/.exec(t || ""); return m ? m[1].split(",").map(Number) : null; };
 
 ejecutar("luna", async ({ b, base }) => {
-  titulo("A: pestaña Luna en Vigo (19 de noviembre de 2026): la luna de esa noche en el cielo y en el panel");
+  titulo("A: pestaña Noche en Vigo (19 de noviembre de 2026): la luna de esa noche en el cielo y en el panel");
   {
     const { ctx, p } = await nuevaPagina(b, { perfil: PERFIL, lugar: LUGAR });
     await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
@@ -53,7 +53,7 @@ ejecutar("luna", async ({ b, base }) => {
     await p.waitForSelector(".luna-cab img");
     await p.waitForFunction(() => [...document.querySelectorAll("img.luna-cielo, .luna-cab img")].every((i) => i.complete)); // las imágenes pueden tardar bajo carga
     const r = await leer(p);
-    ok(r.cielos === 1 && r.cielo, "en Luna hay una luna en el cielo (" + r.cielos + ")");
+    ok(r.cielos === 1 && r.cielo, "en Noche hay una luna en el cielo (" + r.cielos + ")");
     const fase = r.cielo && faseDe(r.cielo.src);
     ok(fase !== null && fase >= 5 && fase <= 8, "es una luna gibosa creciente (imagen " + fase + " de 16; archivo " + (r.cielo && r.cielo.src) + ")");
     ok(r.panel && r.cielo && r.panel.src === r.cielo.src, "el panel enseña la misma luna que el cielo (" + (r.panel && r.panel.src) + ")");

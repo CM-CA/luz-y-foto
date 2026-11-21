@@ -79,7 +79,7 @@ ejecutar("pwa", async ({ b, base }) => {
   const recorrer = (dir) => { for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const ruta = path.join(dir, e.name); if (e.isDirectory()) recorrer(ruta); else if (/\.(woff2|webp)$/.test(e.name)) archivos.push(ruta); } };
   recorrer(dist);
   const total = archivos.reduce((suma, a) => suma + fs.statSync(a).size, 0);
-  ok(archivos.length >= 22 && total < 160000, archivos.length + " archivos .woff2 y .webp, " + total + " bytes (límite 160 000)");
+  ok(archivos.length >= 24 && total < 160000, archivos.length + " archivos .woff2 y .webp, " + total + " bytes (límite 160 000)");
   const sw = fs.readFileSync(path.join(dist, "sw.js"), "utf8");
   const lista = JSON.parse(/const ARCHIVOS = (\[[\s\S]*?\]);/.exec(sw)[1]);
   const sinCachear = archivos.map((a) => path.relative(dist, a).split(path.sep).join("/")).filter((a) => !lista.includes(a));

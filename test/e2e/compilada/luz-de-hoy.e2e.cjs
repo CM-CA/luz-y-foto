@@ -142,7 +142,7 @@ ejecutar("luz-de-hoy", async ({ b, base }) => {
     await ctx.close();
   }
 
-  titulo("D: en Luna no hay franja ni «La luz de hoy»");
+  titulo("D: en Noche no hay franja ni «La luz de hoy»");
   {
     const { ctx, p } = await nuevaPagina(b, { perfil: PERFIL, lugar: LUGAR });
     await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");

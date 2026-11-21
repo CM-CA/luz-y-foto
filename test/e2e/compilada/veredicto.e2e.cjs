@@ -1,6 +1,6 @@
 // El veredicto es un bloque grande con el símbolo y la palabra del semáforo en texto (el borde y el fondo son solo adorno).
 // En Atardecer lleva además el medidor de puntos, hecho con bloques «█» de texto como las barras de nubes (así se ve aunque
-// el navegador oscurezca los fondos por su cuenta); en Luna no hay medidor, porque la luna no puntúa.
+// el navegador oscurezca los fondos por su cuenta); en Noche no hay medidor, porque la luna no puntúa.
 //
 // Ejecutar: node test/e2e/compilada/veredicto.e2e.cjs   (antes: npm run build)
 "use strict";
@@ -55,13 +55,13 @@ ejecutar("veredicto", async ({ b, base }) => {
     await ctx.close();
   }
 
-  titulo("Luna: sin medidor, pero con el mismo bloque");
+  titulo("Noche: sin medidor, pero con el mismo bloque");
   {
     const { ctx, p } = await nuevaPagina(b, { perfil: PERFIL, lugar: LUGAR });
     await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
     await p.click("[data-tab=luna]");
     const r = await p.evaluate(() => ({ barras: document.querySelectorAll(".veredicto .barra").length, titulo: document.querySelector(".veredicto .titulo").textContent.trim() }));
-    ok(r.barras === 0, "no hay medidor en Luna (" + r.barras + ")");
+    ok(r.barras === 0, "no hay medidor en Noche (" + r.barras + ")");
     ok(/^[●▲■○] \S/.test(r.titulo), "el título empieza por el símbolo: «" + r.titulo + "»");
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
