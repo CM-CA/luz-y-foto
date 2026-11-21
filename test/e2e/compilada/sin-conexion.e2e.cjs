@@ -115,4 +115,4 @@ ejecutar("sin-conexion", async ({ b, base }) => {
   await ctx.close();
 
   fs.rmSync(copia, { recursive: true, force: true });
-}, { carpeta: copia, prefijo: PREFIJO });
+}, { carpeta: copia, prefijo: PREFIJO, cacheControl: "max-age=600" }); // max-age=600: lo mismo que manda GitHub Pages

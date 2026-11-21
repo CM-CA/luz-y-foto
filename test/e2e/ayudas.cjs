@@ -47,7 +47,7 @@ function servir(opciones = {}) {
       if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, "index.html");
       fs.readFile(f, (e, d) => {
         if (e) { r.writeHead(404); return r.end("no encontrado"); }
-        r.writeHead(200, { "content-type": TIPOS[path.extname(f)] || "application/octet-stream", "cache-control": "no-cache" });
+        r.writeHead(200, { "content-type": TIPOS[path.extname(f)] || "application/octet-stream", "cache-control": opciones.cacheControl || "no-cache" });
         r.end(d);
       });
     }).listen(0, "127.0.0.1", () => resolver({ base: "http://127.0.0.1:" + s.address().port + prefijo, cerrar: () => s.close() }));
