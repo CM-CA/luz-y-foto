@@ -8,7 +8,7 @@
   import Veredicto from "./Veredicto.svelte";
   import Avisos from "./Avisos.svelte";
   import Receta from "./Receta.svelte";
-  import Flecha from "./Flecha.svelte";
+  import Brujula from "./Brujula.svelte";
   import LuzDeHoy from "./LuzDeHoy.svelte";
   import Barra from "./Barra.svelte";
   import Plantilla from "./Plantilla.svelte";
@@ -37,10 +37,9 @@
   <Veredicto nivel={r.nivel} titulo={r.titulo} nota="{r.total} de 100 puntos" puntos={r.total} texto={r.resumen} />
   <Avisos lista={r.avisos} />
   {#if luz}<LuzDeHoy {item} {sol} {luz} />{/if}
-  <div class="brujula">
-    <Flecha {az} />
+  <Brujula {az}>
     <p><Plantilla texto={g.textoBrujula} valores={{ direccion: unida(palabra), grados: Math.round(az) }} negrita={["direccion"]} /></p>
-  </div>
+  </Brujula>
   <Receta {g} nivel={r.nivel} />
 
   <h3>Qué pesa en la nota</h3>

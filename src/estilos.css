@@ -146,7 +146,9 @@ tr.mejor td { font-weight: 700; background: var(--verde-fondo); }
 .luna-cab p { margin: 0; }
 .brujula { display: flex; align-items: center; gap: 16px; margin-top: 22px; }
 .brujula svg { width: 62px; height: 62px; flex: none; }
+.brujula-texto { flex: 1 1 0; min-width: 0; }
 .brujula p { margin: 0; line-height: 1.35; }
+.brujula p + p { margin-top: 4px; }
 .brujula strong { font-weight: 800; }
 
 /* «La luz de hoy»: franja de 48 bloques de texto «█» (cada uno con su color), el marcador de ahora (otro texto) y las tres horas. */

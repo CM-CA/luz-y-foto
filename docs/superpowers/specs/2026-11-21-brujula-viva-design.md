@@ -48,8 +48,9 @@ a la derecha» en vez de obligar a orientarse con el norte.
    4. Si no, y la luna sale durante la noche → el punto por donde **sale**, con la hora.
    5. Si la luna no está sobre el horizonte en toda la noche → no hay brújula (el panel ya dice «no sale este día»).
    En el código, la función se llama `momentoDeLaLuna` y los tipos son `ahora`, `mejor`, `anochecer` y `sale`.
-3. **Altura.** En Luna la frase añade la altura sobre el horizonte en grados y en puños a brazo extendido (1 puño ≈ 10°),
-   salvo cuando apunta a la salida (en el horizonte). En Atardecer no hay altura: la puesta está en el horizonte.
+3. **Altura.** En Luna la frase añade la altura sobre el horizonte en grados y en puños a brazo extendido (1 puño ≈ 10°);
+   si la luna está casi en el horizonte (menos de 5°, como al salir) dice «casi a ras del horizonte». En Atardecer no hay
+   altura: la puesta está en el horizonte.
 4. **Reloj.** «Ahora» es el reloj del dispositivo, no la hora de la previsión; se recalcula cada minuto mientras el panel
    está en pantalla.
 5. **Textos en `data/`.** La frase de Luna va en `data/generos/luna.json` (`textoBrujula` con `{direccion}`, `{grados}`,
