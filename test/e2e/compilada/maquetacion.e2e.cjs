@@ -50,7 +50,7 @@ ejecutar("maquetacion", async ({ b, base }) => {
     await ctx.close();
   }
 
-  titulo("las barras de nubes se distinguen de su fondo (contraste mínimo 3:1, como pide la accesibilidad para gráficos)");
+  titulo("las barras de nubes resaltan sobre su fondo (contraste mínimo 4,5:1; la accesibilidad pide 3:1 para gráficos)");
   for (const esquema of ["light", "dark"]) {
     const { ctx, p } = await nuevaPagina(b, { viewport: { width: 390, height: 800 }, colorScheme: esquema, perfil: PERFIL, lugar: LUGAR });
     await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
@@ -65,8 +65,19 @@ ejecutar("maquetacion", async ({ b, base }) => {
       return ["--barra-baja", "--barra-media", "--barra-alta"].map((n) => [n, contraste(variable(n), variable("--fondo")), contraste(variable(n), variable("--tarjeta"))]);
     });
     for (const [nombre, sobreFondo, sobreTarjeta] of contrastes) {
-      ok(sobreFondo >= 3 && sobreTarjeta >= 3, esquema + " " + nombre + ": " + sobreFondo.toFixed(2) + " sobre el fondo de la barra, " + sobreTarjeta.toFixed(2) + " sobre la tarjeta");
+      ok(sobreFondo >= 4.5 && sobreTarjeta >= 4.5, esquema + " " + nombre + ": " + sobreFondo.toFixed(2) + " sobre el fondo de la barra, " + sobreTarjeta.toFixed(2) + " sobre la tarjeta");
     }
+    await ctx.close();
+  }
+
+  titulo("el navegador sabe que la web tiene tema claro y oscuro (así no la oscurece por su cuenta)");
+  {
+    const { ctx, p } = await nuevaPagina(b, { permisos: false });
+    await p.goto(base);
+    const meta = await p.evaluate(() => (document.querySelector("meta[name=color-scheme]") || {}).content);
+    const css = await p.evaluate(() => getComputedStyle(document.documentElement).colorScheme);
+    ok(/light/.test(meta || "") && /dark/.test(meta || ""), "<meta color-scheme>: " + meta);
+    ok(/light/.test(css) && /dark/.test(css), "color-scheme en el CSS: " + css);
     await ctx.close();
   }
 }, { carpeta: dist, prefijo: "/luz-y-foto/beta/" });

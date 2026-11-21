@@ -4,12 +4,13 @@
  * Cuando se corrija el responsive (fase 3, al final) y se pasen a cada componente, se explicará en el commit.
  */
 :root {
+  color-scheme: light dark; /* la web tiene tema claro y oscuro: el navegador no debe oscurecerla por su cuenta */
   --fondo: #f6f4ef; --tarjeta: #ffffff; --texto: #1f2328; --suave: #5b6470; --borde: #dcd8cf;
   --verde: #1f7a3f; --verde-fondo: #e3f3e8;
   --ambar: #8a5a00; --ambar-fondo: #fdf0d0;
   --rojo: #a52a2a; --rojo-fondo: #f9e0e0;
   --gris: #4a5260; --gris-fondo: #e9e9ec;
-  --barra-baja: #6c7a89; --barra-media: #5f7fa3; --barra-alta: #9c6fb4;
+  --barra-baja: #55657a; --barra-media: #2b6cb0; --barra-alta: #8e44ad;
   --luna-luz: #f3efe2; --luna-sombra: #3a4150;
 }
 @media (prefers-color-scheme: dark) {
@@ -19,7 +20,7 @@
     --ambar: #f0c060; --ambar-fondo: #3a2f14;
     --rojo: #f08a8a; --rojo-fondo: #3b1d1d;
     --gris: #c3c8d0; --gris-fondo: #2a2f37;
-    --barra-baja: #6c7a89; --barra-media: #8fa3b8; --barra-alta: #c9a6d6;
+    --barra-baja: #9db0c4; --barra-media: #6aa9ff; --barra-alta: #c792ea;
     --luna-luz: #ece7d6; --luna-sombra: #2b313c;
   }
 }
