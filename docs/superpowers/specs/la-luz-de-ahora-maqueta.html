@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Luz y foto · propuesta de diseño</title>
+<style>
+@font-face { font-family: "Young Serif"; src: url("node_modules/@fontsource/young-serif/files/young-serif-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Figtree"; src: url("node_modules/@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2") format("woff2"); font-weight: 300 900; }
+
+/* ---------- Tokens ---------- */
+.tel {
+  --bg: #f3eff4; --papel: #ffffff; --tinta: #1f2740; --suave: #59607f; --borde: #d8d1df;
+  --verde: #1b7a47; --verde-t: #ddf1e5; --ambar: #8f5a00; --ambar-s: #b06b00; --ambar-t: #fbe9c0; --rojo: #a9362f; --rojo-t: #f8dcd8; --gris: #59607f;
+  --oro: #f4b94f; --sol: #ee7d2f; --azul-hora: #3f5fa8;
+  --display: "Young Serif", Georgia, serif; --texto: "Figtree", system-ui, sans-serif;
+}
+.tel.oscuro {
+  --bg: #0f1626; --papel: #18213a; --tinta: #ecebf5; --suave: #a8afcb; --borde: #2c3658;
+  --verde: #78d9a3; --verde-t: #173a2b; --ambar: #f5c867; --ambar-s: #f5c867; --ambar-t: #3a2f17; --rojo: #f7a199; --rojo-t: #40201f; --gris: #a8afcb;
+  --oro: #f4b94f; --sol: #f08a3a; --azul-hora: #7f9be0;
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: #e7e2ea; font-family: "Figtree", sans-serif; padding: 44px 48px 40px; width: max-content; }
+.lienzo { display: flex; gap: 48px; align-items: flex-start; }
+.col { width: 390px; }
+.pie { margin-top: 18px; color: #3b3f58; font: 500 17px/1.4 "Figtree"; width: 390px; }
+.pie b { font-weight: 800; color: #1f2740; }
+.titulo-lienzo { font: 400 30px/1.1 "Young Serif"; color: #1f2740; margin-bottom: 6px; }
+.sub-lienzo { font: 500 18px/1.4 "Figtree"; color: #4a4f6c; margin-bottom: 30px; max-width: 900px; }
+
+.tel { position: relative; width: 390px; height: 925px; border-radius: 40px; overflow: hidden; background: var(--bg); color: var(--tinta);
+  font: 400 17px/1.5 var(--texto); box-shadow: 0 22px 50px rgba(40, 30, 70, .28), 0 0 0 1px rgba(31, 39, 64, .08); }
+
+/* ---------- El cielo ---------- */
+.cielo { position: relative; height: 262px; overflow: hidden; color: #fff; }
+.cielo svg.escena { position: absolute; left: 0; bottom: 0; width: 390px; height: 262px; }
+.cielo .barra { position: absolute; z-index: 2; left: 20px; right: 16px; top: 26px; display: flex; justify-content: space-between; align-items: flex-start; }
+.marca { font: 400 27px/1 var(--display); letter-spacing: .2px; text-shadow: 0 1px 10px rgba(20, 15, 50, .35); }
+.marca small { display: block; font: 600 14px/1.3 var(--texto); margin-top: 6px; opacity: .92; letter-spacing: 0; }
+.lugar { display: inline-flex; align-items: center; gap: 6px; font: 700 15px/1 var(--texto); padding: 9px 13px 9px 11px; border-radius: 999px; background: rgba(18, 16, 48, .38); color: #fff; }
+.lugar svg { width: 15px; height: 15px; }
+
+/* ---------- Pestañas ---------- */
+.pestanas { position: relative; z-index: 3; margin: -27px 16px 0; padding: 5px; border-radius: 22px; background: var(--papel); display: grid; grid-template-columns: 1fr 1fr; gap: 4px; box-shadow: 0 8px 22px rgba(30, 24, 64, .2); }
+.pestanas div { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 8px; border-radius: 17px; font: 700 18px/1.2 var(--texto); color: var(--tinta); }
+.pestanas div svg { width: 19px; height: 19px; flex: none; }
+.pestanas .sel { background: var(--tinta); color: var(--bg); }
+.tel.oscuro .pestanas .sel { background: #ecebf5; color: #0f1626; }
+
+/* ---------- Días ---------- */
+.dias { margin: 14px 16px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.dia { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px 10px; border-radius: 16px; border: 2px solid var(--borde); background: var(--papel); }
+.dia .m { font-size: 23px; line-height: 1; }
+.dia .e { padding: 2px 10px; border-radius: 999px; font: 500 16px/1.25 var(--texto); }
+.dia.sel { border-color: var(--tinta); }
+.dia.sel .e { background: var(--tinta); color: var(--bg); font-weight: 800; }
+.tel.oscuro .dia.sel { border-color: #ecebf5; }
+.tel.oscuro .dia.sel .e { background: #ecebf5; color: #0f1626; }
+.dia.sel .m::before { content: "✓ "; color: var(--tinta); font-size: 18px; font-weight: 800; }
+.tel.oscuro .dia.sel .m::before { color: #ecebf5; }
+.v { color: var(--verde); } .a { color: var(--ambar-s); } .r { color: var(--rojo); } .n { color: var(--gris); }
+
+/* ---------- Contenido ---------- */
+.cont { padding: 18px 20px 0; }
+.veredicto { padding: 20px 20px 20px; border-radius: 26px; }
+.veredicto.v { background: var(--verde-t); color: var(--verde); }
+.veredicto.a { background: var(--ambar-t); color: var(--ambar); }
+.veredicto.r { background: var(--rojo-t); color: var(--rojo); }
+.veredicto .t { font: 400 37px/1.05 var(--display); display: flex; gap: 12px; align-items: baseline; }
+.veredicto .t i { font-style: normal; font-family: var(--texto); font-size: 27px; line-height: 1; transform: translateY(2px); }
+.veredicto .nota { font: 700 16.5px/1.3 var(--texto); margin-top: 7px; }
+.veredicto p { color: var(--tinta); margin-top: 10px; font-size: 17px; line-height: 1.45; }
+.medidor { height: 10px; border-radius: 6px; background: rgba(31, 39, 64, .12); margin-top: 11px; overflow: hidden; }
+.tel.oscuro .medidor { background: rgba(255, 255, 255, .14); }
+.medidor span { display: block; height: 100%; border-radius: 6px; background: currentColor; }
+
+h3 { font: 400 21px/1.2 var(--display); margin: 26px 0 12px; }
+.franja { position: relative; height: 14px; border-radius: 8px; background: linear-gradient(90deg, #f7d27a 0%, #f4a24a 45%, #ee7d2f 59%, #6d5aa6 61%, #3f5fa8 100%); }
+.franja i { position: absolute; left: 59%; top: -5px; width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: #fff6d6; box-shadow: 0 0 0 4px rgba(238, 125, 47, .35); }
+.horas { display: flex; justify-content: space-between; margin-top: 10px; font-size: 15px; line-height: 1.3; color: var(--suave); }
+.horas b { display: block; font: 800 18px/1.2 var(--texto); color: var(--tinta); }
+.horas div:nth-child(2) { text-align: center; margin-left: -10px; } .horas div:last-child { text-align: right; }
+
+.brujula { display: flex; align-items: center; gap: 16px; margin-top: 22px; }
+.brujula svg { width: 62px; height: 62px; flex: none; }
+.brujula b { font-weight: 800; } .brujula span { color: var(--suave); }
+
+.receta { margin-top: 22px; border-radius: 20px; border: 2px solid var(--tinta); padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 17.5px; }
+.receta small { display: block; font-weight: 500; color: var(--suave); font-size: 14.5px; }
+
+.aviso { margin-top: 12px; padding: 12px 16px; border-radius: 18px; background: var(--ambar-t); color: var(--tinta); font-size: 16.5px; line-height: 1.4; }
+.aviso b { color: var(--ambar); }
+
+.luna { display: flex; align-items: center; gap: 16px; margin-top: 20px; }
+.luna svg { width: 66px; height: 66px; flex: none; }
+.luna .n1 { font: 400 22px/1.15 var(--display); }
+.luna .n2 { color: var(--suave); font-size: 16px; margin-top: 2px; }
+.sale { margin-top: 16px; display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; font-size: 16px; }
+.sale dt { color: var(--suave); } .sale dd { text-align: right; font-weight: 800; } .sale dd small { display: block; font-weight: 500; color: var(--suave); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="titulo-lienzo">Luz y foto · propuesta «La luz de ahora»</div>
+<div class="sub-lienzo">La cabecera es un cielo que cambia con el momento y con la previsión. Debajo, todo queda tranquilo y el semáforo es lo que más se ve.</div>
+
+<div class="lienzo">
+
+<!-- ============ 1 · Atardecer prometedor ============ -->
+<div class="col">
+<div class="tel tarde">
+  <div class="cielo">
+    <svg class="escena" viewBox="0 0 390 262" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="cielo1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2f4a8c"/><stop offset=".30" stop-color="#7a63ad"/><stop offset=".55" stop-color="#e5819f"/><stop offset=".78" stop-color="#f6a65a"/><stop offset="1" stop-color="#ffd884"/>
+        </linearGradient>
+        <radialGradient id="brillo1" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff3c4" stop-opacity=".95"/><stop offset=".35" stop-color="#ffd27a" stop-opacity=".55"/><stop offset="1" stop-color="#ffb35a" stop-opacity="0"/></radialGradient>
+      </defs>
+      <rect width="390" height="300" fill="url(#cielo1)"/><g transform="translate(0,-30)">
+      <ellipse cx="86" cy="205" rx="150" ry="95" fill="url(#brillo1)"/>
+      <circle cx="86" cy="213" r="21" fill="#fff6d2"/>
+      <!-- nubes largas, rosadas -->
+      <path d="M200 98 C240 88 300 92 340 102 C300 108 250 108 200 98Z" fill="#ffd0c4" opacity=".55"/>
+      <path d="M230 128 C270 120 330 124 380 134 C330 140 270 140 230 128Z" fill="#ffe0c0" opacity=".55"/>
+      <path d="M20 90 C60 84 110 86 150 94 C110 100 60 100 20 90Z" fill="#f7b5c4" opacity=".5"/>
+      <!-- islas lejanas -->
+      <path d="M0 224 C28 210 52 200 92 206 C122 211 140 222 168 218 C198 214 214 196 250 192 C282 189 300 204 330 214 C356 222 376 218 390 212 L390 300 L0 300Z" fill="#94668f"/>
+      <!-- costa cercana y velero -->
+      <path d="M0 262 L0 238 C40 230 74 234 116 232 C160 230 188 240 232 238 C276 236 312 226 348 230 C368 232 380 236 390 234 L390 300Z" fill="#2b2147"/>
+      <path d="M262 232 L296 232 L289 238 L269 238Z" fill="#2b2147"/><path d="M279 231 L279 204 L294 228Z" fill="#2b2147"/><path d="M275 231 L275 213 L264 229Z" fill="#2b2147"/>
+    </g></svg>
+    <div class="barra">
+      <div class="marca">Luz y foto<small>Previsión de las 17:05</small></div>
+      <div class="lugar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>Vigo, Galicia</div>
+    </div>
+  </div>
+
+  <div class="pestanas">
+    <div class="sel"><span>✓</span> Atardecer</div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z"/></svg>Luna</div>
+  </div>
+
+  <div class="dias">
+    <div class="dia sel"><span class="m v">●</span><span class="e">Hoy</span></div>
+    <div class="dia"><span class="m a">▲</span><span class="e">Mañana</span></div>
+    <div class="dia"><span class="m r">■</span><span class="e">Lunes</span></div>
+  </div>
+
+  <div class="cont">
+    <div class="veredicto v">
+      <div class="t"><i>●</i>Prometedor</div>
+      <div class="nota">82 de 100 puntos</div>
+      <div class="medidor"><span style="width:82%"></span></div>
+      <p>Buena combinación de nubes y sin lluvia importante. Merece la pena salir.</p>
+    </div>
+
+    <h3>La luz de hoy</h3>
+    <div class="franja"><i></i></div>
+    <div class="horas">
+      <div><b>17:27</b>Hora dorada</div>
+      <div><b>18:10</b>Puesta</div>
+      <div><b>18:40</b>Hora azul</div>
+    </div>
+
+    <div class="brujula">
+      <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="none" stroke="var(--borde)" stroke-width="3"/><path d="M32 6v7" stroke="var(--suave)" stroke-width="3" stroke-linecap="round"/>
+        <g transform="rotate(232 32 32)"><path d="M32 7 L42 36 L32 30 L22 36Z" fill="#ee7d2f"/><path d="M32 57 L40 38 L32 42 L24 38Z" fill="var(--suave)" opacity=".45"/></g></svg>
+      <div><b>Mira hacia el suroeste</b><br><span>232° desde el norte</span></div>
+    </div>
+
+    <div class="receta"><div>Receta para tu cámara<small>Canon · teleobjetivo · trípode a veces</small></div><span>▾</span></div>
+  </div>
+</div>
+<div class="pie"><b>1 · Tarde despejada.</b> Cielo dorado con la puesta sobre las islas. El día elegido lleva ✓ y los tres días llevan su semáforo.</div>
+</div>
+
+<!-- ============ 2 · Atardecer poco probable ============ -->
+<div class="col">
+<div class="tel tarde">
+  <div class="cielo">
+    <svg class="escena" viewBox="0 0 390 262" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="cielo2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#4b5271"/><stop offset=".45" stop-color="#7d7f9b"/><stop offset=".8" stop-color="#b3a3b4"/><stop offset="1" stop-color="#d4b9b3"/>
+        </linearGradient>
+      </defs>
+      <rect width="390" height="300" fill="url(#cielo2)"/><g transform="translate(0,-30)">
+      <g fill="#3f4562" opacity=".5"><ellipse cx="70" cy="70" rx="120" ry="30"/><ellipse cx="250" cy="52" rx="140" ry="28"/><ellipse cx="350" cy="120" rx="110" ry="30"/><ellipse cx="120" cy="140" rx="130" ry="26"/></g>
+      <g fill="#c7bccb" opacity=".45"><ellipse cx="190" cy="105" rx="150" ry="22"/><ellipse cx="40" cy="190" rx="110" ry="20"/><ellipse cx="300" cy="180" rx="120" ry="20"/></g>
+      <path d="M0 226 C28 212 52 204 92 209 C122 213 140 224 168 220 C198 216 214 200 250 196 C282 193 300 207 330 216 C356 224 376 220 390 214 L390 300 L0 300Z" fill="#6c6483" opacity=".9"/>
+      <path d="M0 262 L0 240 C40 232 74 236 116 234 C160 232 188 242 232 240 C276 238 312 228 348 232 C368 234 380 238 390 236 L390 300Z" fill="#37324f"/>
+    </g></svg>
+    <div class="barra">
+      <div class="marca">Luz y foto<small>Previsión de las 17:05</small></div>
+      <div class="lugar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>Vigo, Galicia</div>
+    </div>
+  </div>
+
+  <div class="pestanas">
+    <div class="sel"><span>✓</span> Atardecer</div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z"/></svg>Luna</div>
+  </div>
+
+  <div class="dias">
+    <div class="dia sel"><span class="m r">■</span><span class="e">Hoy</span></div>
+    <div class="dia"><span class="m v">●</span><span class="e">Mañana</span></div>
+    <div class="dia"><span class="m a">▲</span><span class="e">Lunes</span></div>
+  </div>
+
+  <div class="cont">
+    <div class="veredicto r">
+      <div class="t"><i>■</i>Poco probable</div>
+      <div class="nota">28 de 100 puntos</div>
+      <div class="medidor"><span style="width:28%"></span></div>
+      <p>Los factores juegan en contra. Mejor un plan B (detalles, reflejos, blanco y negro) o quedarse en casa.</p>
+    </div>
+
+    <h3>La luz de hoy</h3>
+    <div class="franja" style="filter: saturate(.45) brightness(.95)"><i></i></div>
+    <div class="horas">
+      <div><b>17:27</b>Hora dorada</div>
+      <div><b>18:10</b>Puesta</div>
+      <div><b>18:40</b>Hora azul</div>
+    </div>
+
+    <div class="brujula">
+      <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="none" stroke="var(--borde)" stroke-width="3"/><path d="M32 6v7" stroke="var(--suave)" stroke-width="3" stroke-linecap="round"/>
+        <g transform="rotate(232 32 32)"><path d="M32 7 L42 36 L32 30 L22 36Z" fill="#ee7d2f"/><path d="M32 57 L40 38 L32 42 L24 38Z" fill="var(--suave)" opacity=".45"/></g></svg>
+      <div><b>Mira hacia el suroeste</b><br><span>232° desde el norte</span></div>
+    </div>
+
+    <div class="receta"><div>Receta para tu cámara<small>Canon · teleobjetivo · trípode a veces</small></div><span>▾</span></div>
+  </div>
+</div>
+<div class="pie"><b>2 · Tarde cubierta.</b> El cielo se apaga y se queda sin sol. Se entiende la previsión antes de leer nada.</div>
+</div>
+
+<!-- ============ 3 · Luna de noche (tema oscuro) ============ -->
+<div class="col">
+<div class="tel oscuro noche">
+  <div class="cielo">
+    <svg class="escena" viewBox="0 0 390 262" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="cielo3" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0a1128"/><stop offset=".55" stop-color="#16244e"/><stop offset=".85" stop-color="#2c4079"/><stop offset="1" stop-color="#46598f"/>
+        </linearGradient>
+        <radialGradient id="halo3" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#f6efd2" stop-opacity=".55"/><stop offset="1" stop-color="#f6efd2" stop-opacity="0"/></radialGradient>
+      </defs>
+      <rect width="390" height="300" fill="url(#cielo3)"/><g transform="translate(0,-30)">
+      <g fill="#fff" opacity=".9"><circle cx="96" cy="118" r="1.1"/><circle cx="220" cy="92" r="1.1"/><circle cx="330" cy="86" r="1.1"/><circle cx="360" cy="150" r="1.3"/><circle cx="60" cy="168" r="1"/><circle cx="188" cy="150" r="1"/><circle cx="300" cy="170" r="1"/><circle cx="120" cy="86" r="1"/><circle cx="238" cy="132" r="1.2"/></g>
+      <circle cx="292" cy="116" r="74" fill="url(#halo3)"/>
+      <g transform="translate(292,116)"><circle r="26" fill="#2a3556"/><path d="M0 -26 A26 26 0 0 1 0 26 A17 26 0 0 1 0 -26Z" fill="#f4eed8"/><path d="M0 -26 A26 26 0 0 1 0 26 A13 26 0 0 0 0 -26Z" fill="#f4eed8"/>
+        <circle cx="9" cy="-4" r="5.5" fill="#e0d9bd" opacity=".8"/><circle cx="13" cy="12" r="4" fill="#e0d9bd" opacity=".7"/><circle cx="6" cy="-14" r="3" fill="#e0d9bd" opacity=".7"/></g>
+      <path d="M0 228 C28 214 52 206 92 211 C122 215 140 226 168 222 C198 218 214 202 250 198 C282 195 300 209 330 218 C356 226 376 222 390 216 L390 300 L0 300Z" fill="#101a3c"/>
+      <path d="M0 262 L0 242 C40 234 74 238 116 236 C160 234 188 244 232 242 C276 240 312 230 348 234 C368 236 380 240 390 238 L390 300Z" fill="#080e22"/>
+      <path d="M262 236 L296 236 L289 242 L269 242Z" fill="#080e22"/><path d="M279 235 L279 210 L294 232Z" fill="#080e22"/>
+    </g></svg>
+    <div class="barra">
+      <div class="marca">Luz y foto<small>Previsión de las 03:29</small></div>
+      <div class="lugar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>Vigo, Galicia</div>
+    </div>
+  </div>
+
+  <div class="pestanas">
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>Atardecer</div>
+    <div class="sel"><span>✓</span> Luna</div>
+  </div>
+
+  <div class="dias">
+    <div class="dia sel"><span class="m a">▲</span><span class="e">Ahora</span></div>
+    <div class="dia"><span class="m v">●</span><span class="e">Hoy</span></div>
+    <div class="dia"><span class="m a">▲</span><span class="e">Mañana</span></div>
+  </div>
+
+  <div class="cont">
+    <div class="veredicto a">
+      <div class="t"><i>▲</i>Posible entre nubes</div>
+      <div class="nota">Mejor hora: 03:00 · nubes 45 %</div>
+      <p>Habrá nubes, pero puede abrir algún hueco. Si sales, ten paciencia y mira las nubes cada poco.</p>
+    </div>
+    <div class="aviso"><b>▲</b> Puede haber llovizna: lleva algo para proteger la cámara.</div>
+
+    <div class="luna">
+      <svg viewBox="-33 -33 66 66"><circle r="26" fill="#2a3556"/><path d="M0 -26 A26 26 0 0 1 0 26 A13 26 0 0 0 0 -26Z" fill="#f4eed8"/><path d="M0 -26 A26 26 0 0 1 0 26 A17 26 0 0 1 0 -26Z" fill="#f4eed8"/><circle r="26" fill="none" stroke="#f4eed8" stroke-opacity=".25" stroke-width="1.5"/></svg>
+      <div><div class="n1">Gibosa creciente</div><div class="n2">78 % iluminada, creciendo</div></div>
+    </div>
+    <dl class="sale">
+      <dt>Sale</dt><dd>14:12<small>hacia el este-sureste</small></dd>
+      <dt>Se pone</dt><dd>01:48<small>ya de madrugada, hacia el oeste-noroeste</small></dd>
+    </dl>
+  </div>
+</div>
+<div class="pie"><b>3 · Noche con luna.</b> Mismo diseño en tema oscuro: el cielo es azul de noche y la luna lleva la fase de esa noche.</div>
+</div>
+
+</div>
+</body>
+</html>

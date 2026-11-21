@@ -1,6 +1,6 @@
 # Diseño visual «La luz de ahora»
 
-Estado: **pendiente de aprobación** (2026-11-21). Hasta que se apruebe no se construye nada.
+Estado: **aprobado** (2026-11-21, «Adelante»), con las dos decisiones abiertas resueltas como se proponían: el ámbar usa el cielo despejado y las tarjetas Lugar y Mi equipo pasan a la pastilla de la cabecera y a la tarjeta de la receta.
 Propuesta que se aprobó con la imagen: [`docs/img/la-luz-de-ahora-propuesta.jpg`](../../img/la-luz-de-ahora-propuesta.jpg).
 
 ## Para qué

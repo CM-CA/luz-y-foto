@@ -1,35 +1,43 @@
 /*
- * Estilos de la pantalla Hoy. Son los de prueba/hoy.html tal cual (paridad antes que mejoras), con tres cambios:
- * el panel sin contenido se oculta con el atributo hidden en vez de :empty, y se añade el aviso de la vista previa.
- * Cuando se corrija el responsive (fase 3, al final) y se pasen a cada componente, se explicará en el commit.
+ * Estilos de la app: «La luz de ahora» (docs/superpowers/specs/2026-11-21-la-luz-de-ahora-design.md).
+ *
+ * Regla de oro: ninguna información depende de un fondo, un borde, un degradado o un dibujo en SVG, porque hay navegadores
+ * de móvil que los oscurecen por su cuenta. Los símbolos (●▲■○ ✓) son texto con el color del nivel, las barras son
+ * bloques «█» de texto, y el cielo y las fases de la luna son imágenes. Los fondos y los bordes son solo adorno.
  */
+@font-face { font-family: "Young Serif"; font-style: normal; font-weight: 400; font-display: swap; src: url("./fuentes/young-serif-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-weight: 300 900; font-display: swap; src: url("./fuentes/figtree-latin-wght-normal.woff2") format("woff2"); }
 :root {
   color-scheme: light dark; /* la web tiene tema claro y oscuro: el navegador no debe oscurecerla por su cuenta */
-  --fondo: #f6f4ef; --tarjeta: #ffffff; --texto: #1f2328; --suave: #5b6470; --borde: #dcd8cf;
-  --verde: #1f7a3f; --verde-fondo: #e3f3e8;
-  --ambar: #8a5a00; --ambar-fondo: #fdf0d0;
-  --rojo: #a52a2a; --rojo-fondo: #f9e0e0;
-  --gris: #4a5260; --gris-fondo: #e9e9ec;
+  --display: "Young Serif", Georgia, serif;
+  --cuerpo: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fondo: #f3eff4; --tarjeta: #ffffff; --texto: #1f2740; --suave: #59607f; --borde: #d8d1df;
+  --verde: #1b7a47; --verde-fondo: #ddf1e5;
+  --ambar: #8f5a00; --ambar-fondo: #fbe9c0; --ambar-simbolo: #b06b00; /* el símbolo es gráfico: basta 3:1 sobre el fondo */
+  --rojo: #a9362f; --rojo-fondo: #f8dcd8;
+  --gris: #59607f; --gris-fondo: #e9e4ee;
+  --oro: #f4b94f; --sol: #ee7d2f; --violeta: #6d5aa6; --azul-hora: #3f5fa8;
   --barra-baja: #55657a; --barra-media: #2b6cb0; --barra-alta: #8e44ad;
   --luna-luz: #f3efe2; --luna-sombra: #3a4150;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --fondo: #15181c; --tarjeta: #1f2329; --texto: #e8eaed; --suave: #a3abb5; --borde: #333a43;
-    --verde: #6fcf8e; --verde-fondo: #1b3324;
-    --ambar: #f0c060; --ambar-fondo: #3a2f14;
-    --rojo: #f08a8a; --rojo-fondo: #3b1d1d;
-    --gris: #c3c8d0; --gris-fondo: #2a2f37;
+    --fondo: #0f1626; --tarjeta: #18213a; --texto: #ecebf5; --suave: #a8afcb; --borde: #2c3658;
+    --verde: #78d9a3; --verde-fondo: #173a2b;
+    --ambar: #f5c867; --ambar-fondo: #3a2f17; --ambar-simbolo: #f5c867;
+    --rojo: #f7a199; --rojo-fondo: #40201f;
+    --gris: #a8afcb; --gris-fondo: #232c47;
+    --oro: #f4b94f; --sol: #f08a3a; --violeta: #9985d8; --azul-hora: #7f9be0;
     --barra-baja: #9db0c4; --barra-media: #6aa9ff; --barra-alta: #c792ea;
     --luna-luz: #ece7d6; --luna-sombra: #2b313c;
   }
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--fondo); color: var(--texto);
-  font: 18px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+body { margin: 0; background: var(--fondo); color: var(--texto); font: 17px/1.5 var(--cuerpo); }
 main { max-width: 760px; margin: 0 auto; padding: 20px 16px 64px; }
+h1, h3 { font-family: var(--display); font-weight: 400; color: var(--texto); }
 h1 { font-size: 1.6rem; margin: 0 0 4px; }
-h3 { font-size: 1rem; margin: 22px 0 8px; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
+h3 { font-size: 21px; line-height: 1.2; margin: 26px 0 12px; }
 .intro { color: var(--suave); margin: 0 0 16px; }
 
 .lugar { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; }

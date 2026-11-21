@@ -22,7 +22,7 @@ const FECHA = "2026-11-19T15:00:00+01:00";
 const TIPOS = {
   ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".json": "application/json; charset=utf-8",
   ".css": "text/css; charset=utf-8", ".png": "image/png", ".svg": "image/svg+xml", ".md": "text/markdown; charset=utf-8",
-  ".webmanifest": "application/manifest+json"
+  ".webmanifest": "application/manifest+json", ".woff2": "font/woff2", ".webp": "image/webp"
 };
 
 function playwright() {
