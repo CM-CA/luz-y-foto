@@ -56,11 +56,19 @@ Los datos de `data/` se **incluyen al compilar** (no se piden al abrir la págin
 - Las pruebas de navegador en Actions (instalar Chromium con la misma versión de Playwright) se añaden en la fase 3, cuando haya pantalla que probar.
 - **Listo cuando**: una pantalla mínima se compila y se ve a través de la ruta base de GitHub Pages. ✔ (comprobado en local con la ruta `/luz-y-foto/beta/`; falta verlo publicado, ver más abajo)
 
-### Fase 2: lógica a módulos modernos
-- Pasar `astro`, `semaforo`, `datos`, `perfil`, `recetas` y `lugar` a `src/` con `import`/`export`; separar los proveedores externos.
-- Las mismas pruebas, con las mismas comprobaciones (se ejecutan con Vitest, que viene con Vite).
-- Prueba de paridad: se guardan los resultados de la lógica actual para muchas fechas y lugares, y la nueva debe dar exactamente lo mismo.
-- **Listo cuando**: todas las pruebas de lógica pasan y la paridad es exacta.
+### Fase 2: lógica a módulos modernos (hecha el 2026-11-20)
+- **Dónde está ahora**: `src/nucleo/` (`astro`, `semaforo`, `datos`, `perfil`, `recetas`, `lugar`) y `src/proveedores/` (`open-meteo`, `nominatim`, `geocodificacion`, `gps`, y `http` para la petición con límite de tiempo). Los seis módulos del núcleo se pasaron de forma mecánica (misma lógica, solo cambia el envoltorio UMD por `import`/`export`). Los módulos actuales de `js/` siguen intactos y publicados hasta el traspaso.
+- **Prueba de paridad** (`test/paridad/`): `generar-referencia.mjs` ejecutó la lógica **actual** (`js/`) con miles de casos y guardó el resultado en `referencia/` (516 KB, determinista: dos generaciones dan lo mismo). Son: sol y luna en seis lugares (incluidos los polares) y 129 fechas (con los cambios de hora); 120 previsiones inventadas con situaciones límite (lluvia justo en los umbrales, niebla, tormenta, huecos), 3.480 evaluaciones del semáforo, más seis variantes de los datos; 432 perfiles de equipo con todas sus recetas y 235 textos del glosario; 1.896 modificaciones de `data/` para la validación; y los proveedores con red y GPS simulados. `paridad.test.js` ejecuta lo mismo con la lógica **nueva** y exige resultados idénticos, incluidos los mensajes de error. Se comprobó que detecta el fallo cambiando a propósito un detalle en cada módulo (11 de 11 detectados).
+- **Las mismas pruebas**: las 92 pruebas de `test/*.test.cjs` están en `test/nucleo/*.test.js` (Vitest) con las mismas comprobaciones, sobre `src/`. Las `.cjs` siguen ejecutándose contra `js/` hasta el traspaso.
+- **Cambios a propósito (ninguno altera un resultado)**:
+  - `Datos.cargar()` (pedir los JSON con `fetch` al abrir la página) no existe en `src/`: los datos van incluidos al compilar. Sus dos pruebas se sustituyen por «los datos incluidos son los del disco y pasan la validación».
+  - SunCalc pasa a ser la dependencia `suncalc@2.1.4` (la misma versión; su `suncalc.cjs` es idéntico byte a byte a `lib/suncalc.js`).
+  - `Lugar` se reparte: núcleo (coordenadas, distancia, último lugar guardado), proveedores (Nominatim, geocodificación) y GPS. `guardar`/`cargar` aceptan un almacén opcional (como ya hacía `Perfil`) para poder probarlos.
+  - `urlPrevision` sale de `prueba/hoy.html` a `src/proveedores/open-meteo.js` (la paridad compara la URL exacta).
+  - `npm run validar` y la compilación validan con `src/nucleo/datos.js` en vez de `js/datos.js`. Para que Node lea `src/` como módulos sin tocar el resto del proyecto, `src/package.json` declara `"type": "module"` (en el traspaso se pasa a la raíz).
+- **Qué no se movió**: la lógica de la pantalla que vive dentro de `hoy.html` (`nochesDe`, `listaDe`, `etiquetaDia`, `pestanaPorDefecto`, `fechaLugar`, y el ensamblado de la previsión). Va en la fase 3, junto con los componentes.
+- **Mientras haya dos copias de la lógica**: un arreglo de lógica urgente en `master` hay que repetirlo en `src/nucleo/`. La referencia de paridad es la de la lógica de antes del arreglo; cuando un cambio de comportamiento sea intencionado, se regenera con `TZ=Europe/Madrid node test/paridad/generar-referencia.mjs` (solo posible mientras exista `js/`) y se explica en el commit. Después del traspaso, `referencia/` queda como prueba de regresión congelada.
+- **Listo cuando**: todas las pruebas de lógica pasan y la paridad es exacta. ✔
 
 ### Fase 3: pantalla Hoy en componentes
 - Componentes con los **mismos identificadores y atributos** que usa hoy el HTML (para que las pruebas de navegador pasen sin cambios) y el mismo CSS.

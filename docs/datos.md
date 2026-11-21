@@ -79,7 +79,7 @@ La pestaña aparece con su semáforo, su brújula y su explicación. Hay una pru
 
 ## Qué pasa si te equivocas al editar
 
-Al cargar, la página **valida** los datos (`js/datos.js`) y, si hay un error, lo dice con la ruta exacta en lugar de romperse:
+Al cargar, la página **valida** los datos (`js/datos.js`) y, si hay un error, lo dice con la ruta exacta en lugar de romperse (en la versión nueva, `src/nucleo/datos.js` valida al compilar, con las mismas reglas: `npm run validar`):
 
 > Hay un error en los datos: generos/luna.nubes: verdeMenosDe debe ser un número menor o igual que ambarHasta
 

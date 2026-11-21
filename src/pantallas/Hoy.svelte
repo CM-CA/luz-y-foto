@@ -1,50 +1,29 @@
 <script>
-  import { datosIncluidos } from "../datos-incluidos.js";
+  import { onMount } from "svelte";
+  import { hoy, arrancar } from "../estado/hoy.svelte.js";
+  import Lugar from "../componentes/Lugar.svelte";
+  import Equipo from "../componentes/Equipo.svelte";
+  import Asistente from "../componentes/Asistente.svelte";
+  import Pestanas from "../componentes/Pestanas.svelte";
+  import Dias from "../componentes/Dias.svelte";
+  import Panel from "../componentes/Panel.svelte";
+  import Reglas from "../componentes/Reglas.svelte";
 
-  const datos = datosIncluidos();
-  const generos = datos.indice.orden.map((id) => datos.generos[id]);
+  onMount(() => { arrancar(); });
 </script>
 
 <h1>Hoy</h1>
-<p class="subtitulo">¿Merece la pena salir con la cámara?</p>
+<p class="intro">¿Merece la pena salir con la cámara? Elige qué quieres fotografiar.</p>
 
-<nav class="pestanas" aria-label="Qué quieres fotografiar">
-  {#each generos as genero (genero.id)}
-    <button type="button" data-tab={genero.id}>{genero.nombre}</button>
-  {/each}
-</nav>
+<Lugar />
+<Equipo />
+<Asistente />
+<p id="estado" role="status" aria-live="polite">{hoy.estado}</p>
 
-<p class="pendiente">
-  Aquí irá la pantalla Hoy completa (fase 3 de la migración). Por ahora solo se comprueba que la
-  aplicación se compila, se publica en la ruta correcta y lee los datos de <code>data/</code>.
-</p>
+<Pestanas />
+<Dias />
+<Panel />
 
-<style>
-  h1 { margin: 0; font-size: 1.6rem; }
-  .subtitulo { margin: 0.2rem 0 1rem; color: var(--texto-suave); }
+<Reglas />
 
-  .pestanas {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .pestanas button {
-    padding: 0.7rem;
-    font: inherit;
-    font-weight: 600;
-    color: var(--texto);
-    background: var(--tarjeta);
-    border: 1px solid var(--borde);
-    border-radius: 0.6rem;
-  }
-
-  .pendiente {
-    padding: 0.8rem;
-    background: var(--tarjeta);
-    border: 1px solid var(--borde);
-    border-radius: 0.6rem;
-    color: var(--texto-suave);
-  }
-</style>
+<p class="pie">Previsión de <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0); sol y luna calculados en el dispositivo con SunCalc. La previsión no ve el horizonte: nunca es una garantía. Las horas son las de tu dispositivo. Tu lugar se guarda solo en tu dispositivo; para ponerle nombre se consulta OpenStreetMap con unas coordenadas aproximadas.</p>

@@ -1,5 +1,5 @@
 /*
- * Valida la carpeta data/ con las mismas reglas que usa la web (js/datos.js).
+ * Valida la carpeta data/ con las reglas de src/nucleo/datos.js.
  *
  *   npm run validar                  valida data/
  *   DATOS_DIR=ruta npm run validar   valida otra carpeta (lo usan las pruebas)
@@ -7,22 +7,18 @@
  * Termina con código 1 y la lista de errores si algo está mal. La compilación (vite build)
  * llama a esta misma función, así que un JSON mal editado no llega a publicarse.
  */
-import { createRequire } from "node:module";
-import { fileURLToPath, pathToFileURL } from "node:url";
 import path from "node:path";
-
-const require = createRequire(import.meta.url);
-const aqui = path.dirname(fileURLToPath(import.meta.url));
+import { pathToFileURL } from "node:url";
+import { validar } from "../src/nucleo/datos.js";
+import { cargarDeDisco, CARPETA_DATOS as CARPETA_POR_DEFECTO } from "./datos-de-disco.mjs";
 
 // DATOS_DIR permite validar otra carpeta (lo usan las pruebas); por defecto, data/
-export const CARPETA_DATOS = process.env.DATOS_DIR ? path.resolve(process.env.DATOS_DIR) : path.join(aqui, "..", "data");
+export const CARPETA_DATOS = process.env.DATOS_DIR ? path.resolve(process.env.DATOS_DIR) : CARPETA_POR_DEFECTO;
 
 // Devuelve la lista de errores (vacía si todo está bien). Si un archivo no se puede leer, es un error más.
 export function erroresDeDatos(carpeta = CARPETA_DATOS) {
-  const { cargarDatos } = require("../test/datos-de-disco.cjs");
-  const Datos = require("../js/datos.js");
   try {
-    return Datos.validar(cargarDatos(carpeta));
+    return validar(cargarDeDisco(carpeta));
   } catch (e) {
     return ["No se pudieron leer los datos de " + carpeta + ": " + e.message];
   }

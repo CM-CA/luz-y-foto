@@ -11,11 +11,12 @@ const path = require("node:path");
 const fs = require("node:fs");
 const { nuevaPagina, ejecutar, ok, titulo } = require("./ayudas.cjs");
 
-const salida = path.resolve(process.argv[2] || path.join(__dirname, "referencia"));
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
 const LUGAR = { lat: 42.2328, lon: -8.7226, nombre: "Vigo, Galicia", origen: "busqueda" };
+const REFERENCIA = path.join(__dirname, "referencia");
 
-ejecutar("capturas", async ({ b, hoy }) => {
+// Hace las seis capturas (320, 360 y 390 px, claro y oscuro) de la pantalla Hoy que hay en `hoy` y las guarda en `salida`
+async function capturar(b, hoy, salida) {
   fs.mkdirSync(salida, { recursive: true });
   for (const esquema of ["claro", "oscuro"]) {
     for (const ancho of [320, 360, 390]) {
@@ -32,4 +33,11 @@ ejecutar("capturas", async ({ b, hoy }) => {
       await ctx.close();
     }
   }
-});
+}
+
+module.exports = { capturar, REFERENCIA };
+
+if (require.main === module) {
+  const salida = path.resolve(process.argv[2] || REFERENCIA);
+  ejecutar("capturas", ({ b, hoy }) => capturar(b, hoy, salida));
+}
