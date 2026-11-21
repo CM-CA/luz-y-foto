@@ -6,9 +6,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { it } from "vitest";
 import { cargarDeDisco } from "../../scripts/datos-de-disco.mjs";
+import * as Astro from "../../src/nucleo/astro.js";
 import * as Semaforo from "../../src/nucleo/semaforo.js";
 import { hm, pct, unida, mayus, trozosDePlantilla } from "../../src/nucleo/formato.js";
-import { nochesDe, listaDe, etiquetaDia, pestanaPorDefecto, prepararVista } from "../../src/nucleo/dias.js";
+import { nochesDe, listaDe, evaluarDia, etiquetaDia, pestanaPorDefecto, prepararVista } from "../../src/nucleo/dias.js";
 import { pedirPrevision, urlPrevision } from "../../src/proveedores/open-meteo.js";
 
 const aqui = path.dirname(fileURLToPath(import.meta.url));
@@ -57,9 +58,30 @@ it("etiquetas de los días: Hoy, Mañana, el día de la semana y «ahora» en un
   const g = config.generos.atardecer;
   assert.deepEqual(listaDe(g, prev, ahora).map((x) => etiquetaDia(g, x, prev, ahora)), ["Hoy", "Mañana", "Sábado"]);
   const l = config.generos.luna;
-  assert.deepEqual(listaDe(l, prev, ahora).map((x) => etiquetaDia(l, x, prev, ahora)), ["Esta noche", "Mañana noche"]);
+  assert.deepEqual(listaDe(l, prev, ahora).map((x) => etiquetaDia(l, x, prev, ahora)), ["Hoy", "Mañana"]);
   const de3 = instante("2026-11-20T03:00");
   assert.equal(etiquetaDia(l, listaDe(l, prev, de3)[0], prev, de3), l.etiquetasDia.ahora);
+});
+
+it("evaluarDia: cada día de la lista da su semáforo, el mismo que el panel grande", () => {
+  const ahora = instante("2026-11-19T15:00");
+  const NIVELES = ["verde", "ambar", "rojo", "ninguno"];
+  for (const id of config.indice.orden) {
+    const g = config.generos[id];
+    const lista = listaDe(g, prev, ahora);
+    assert.ok(lista.length > 0, id + ": hay días");
+    for (const item of lista) {
+      const r = evaluarDia({ S, g, prev, item, lat: LAT, lon: LON, ahora });
+      assert.ok(r && NIVELES.includes(r.nivel), id + " " + item.fecha + ": nivel " + (r && r.nivel));
+      assert.ok(r.titulo, id + " " + item.fecha + ": tiene título");
+    }
+  }
+  // Una noche en curso se evalúa solo desde ahora: da lo mismo que pedirlo a mano
+  const l = config.generos.luna, deNoche = instante("2026-11-20T03:00"), n = listaDe(l, prev, deNoche)[0];
+  assert.ok(n.inicio <= deNoche, "la primera noche está en curso");
+  const fraccion = Astro.calcularDia(new Date(n.fecha + "T12:00:00"), LAT, LON).luna.fraccion;
+  assert.deepEqual(evaluarDia({ S, g: l, prev, item: n, lat: LAT, lon: LON, ahora: deNoche }),
+    S.evaluar(l.id, prev, { inicio: n.inicio, fin: n.fin, lat: LAT, lon: LON, fraccion, desde: deNoche }));
 });
 
 it("pestaña por defecto: la normal de día y la nocturna de noche", () => {

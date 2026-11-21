@@ -1,5 +1,6 @@
-// Maquetación de la versión compilada: nada se sale de la pantalla ni de su tarjeta en móvil, y las barras de
-// nubes se distinguen bien de su fondo, en modo claro y oscuro.
+// Maquetación de la versión compilada: nada se sale de la pantalla ni de su tarjeta en móvil, los botones de día
+// caben siempre en una fila (también con el nombre de día más largo y con el día elegido), y las barras de nubes
+// se distinguen bien de su fondo, en modo claro y oscuro.
 //
 // Sustituye a la prueba de capturas frente a la web anterior (que sirvió para demostrar que la migración se veía
 // igual, con un 0,014 % de píxeles distintos) en cuanto el responsive empezó a cambiar el aspecto a propósito.
@@ -46,6 +47,33 @@ ejecutar("maquetacion", async ({ b, base }) => {
       return { pagina: document.documentElement.scrollWidth - document.documentElement.clientWidth, fuera };
     });
     ok(r.pagina <= 0 && r.fuera.length === 0, ancho + " px, " + esquema + (r.pagina > 0 ? " (la página desborda " + r.pagina + " px)" : "") + (r.fuera.length ? " (fuera de la tarjeta: " + r.fuera.join(", ") + ")" : ""));
+    // Los botones de día: una sola fila, con el nombre más largo posible («Miércoles») en el último y ese día elegido
+    // (con la ✓ y la negrita, que ensanchan), y sin que nada se salga de su botón. El símbolo lleva el color de su nivel.
+    const d = await p.evaluate(async () => {
+      const botones = [...document.querySelectorAll("#dias button")];
+      const ultimo = botones[botones.length - 1];
+      ultimo.click(); await new Promise((r) => setTimeout(r, 60));
+      ultimo.querySelector(".etq").textContent = "Miércoles";
+      const fila = document.querySelector("#dias").getBoundingClientRect();
+      const cajas = botones.map((x) => x.getBoundingClientRect());
+      const dentro = (hijo, padre) => hijo.left >= padre.left - 0.5 && hijo.right <= padre.right + 0.5;
+      const colores = botones.map((x) => {
+        const m = x.querySelector(".marca"), sonda = document.createElement("i");
+        const variable = { verde: "--verde", ambar: "--ambar", rojo: "--rojo", ninguno: "--gris" }[x.dataset.nivel];
+        sonda.style.color = "var(" + variable + ")"; document.body.appendChild(sonda);
+        const esperado = getComputedStyle(sonda).color; sonda.remove();
+        return { nivel: x.dataset.nivel, simbolo: m.textContent.replace("✓", "").trim(), color: getComputedStyle(m).color, esperado };
+      });
+      return {
+        cuantos: botones.length,
+        unaFila: Math.max(...cajas.map((c) => c.top)) - Math.min(...cajas.map((c) => c.top)) <= 1,
+        dentroDeLaFila: cajas.every((c) => dentro(c, fila)),
+        textoDentro: botones.every((x, i) => dentro(x.querySelector(".etq").getBoundingClientRect(), cajas[i]) && x.scrollWidth <= x.clientWidth + 1),
+        colores
+      };
+    });
+    ok(d.cuantos >= 2 && d.unaFila && d.dentroDeLaFila && d.textoDentro, "  días: " + d.cuantos + " botones en una fila, con «Miércoles» elegido" + (d.unaFila ? "" : " (no caben en una fila)") + (d.dentroDeLaFila ? "" : " (se salen de la fila)") + (d.textoDentro ? "" : " (el nombre se sale del botón)"));
+    ok(d.colores.every((c) => c.color === c.esperado && ["●", "▲", "■", "○"].includes(c.simbolo)), "  días: cada símbolo lleva el color de su nivel (" + d.colores.map((c) => c.nivel + " " + c.simbolo).join(", ") + ")");
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
   }

@@ -1,5 +1,6 @@
 // Lo que está elegido (pestaña, día, trípode de hoy) tiene que verse distinto de lo demás, en claro y oscuro, y sin
-// depender solo del color: lleva una ✓ (texto), negrita y colores invertidos. Un navegador que oscurece las webs por su
+// depender solo del color: lleva una ✓ (texto), negrita y colores invertidos. En los días, la ✓ va junto al símbolo
+// del semáforo y la inversión y la negrita en el nombre del día (el símbolo conserva su color). Un navegador que oscurece las webs por su
 // cuenta aplasta fondos y bordes, pero respeta el texto, y hay personas que no distinguen bien los colores.
 //
 // Ejecutar: node test/e2e/compilada/seleccion.e2e.cjs   (antes: npm run build -- --base=/luz-y-foto/beta/)
@@ -16,10 +17,11 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
 const LUGAR = { lat: 42.2328, lon: -8.7226, nombre: "Vigo, Galicia", origen: "busqueda" };
+// [nombre, botones, atributo de «elegido», ¿se exige negrita?, dónde está la ✓ dentro del botón, qué elemento cambia de fondo y de peso]
 const GRUPOS = [
-  ["pestañas", "#tabs button", "aria-selected", false], // las pestañas van siempre en negrita
-  ["días", "#dias button", "aria-pressed", true],
-  ["trípode de hoy", ".tripode button", "aria-pressed", true]
+  ["pestañas", "#tabs button", "aria-selected", false, null, null], // las pestañas van siempre en negrita
+  ["días", "#dias button", "aria-pressed", true, ".marca", ".etq"],
+  ["trípode de hoy", ".tripode button", "aria-pressed", true, null, null]
 ];
 
 ejecutar("seleccion", async ({ b, base }) => {
@@ -30,15 +32,15 @@ ejecutar("seleccion", async ({ b, base }) => {
       await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
       await p.click("[data-tab=" + genero + "]");
       await p.click("#receta summary");
-      for (const [nombre, selector, atributo, conNegrita] of GRUPOS) {
-        const r = await p.evaluate(([sel, attr]) => {
+      for (const [nombre, selector, atributo, conNegrita, dentroMarca, dentroFondo] of GRUPOS) {
+        const r = await p.evaluate(([sel, attr, dMarca, dFondo]) => {
           const botones = [...document.querySelectorAll(sel)];
           const datos = botones.map((x) => {
-            const e = getComputedStyle(x), marca = getComputedStyle(x, "::before").content;
+            const e = getComputedStyle(dFondo ? x.querySelector(dFondo) : x), marca = getComputedStyle(dMarca ? x.querySelector(dMarca) : x, "::before").content;
             return { elegido: x.getAttribute(attr) === "true", marca: marca !== "none" && marca !== "normal" && marca.includes("✓"), fondo: e.backgroundColor, peso: Number(e.fontWeight) };
           });
           return datos;
-        }, [selector, atributo]);
+        }, [selector, atributo, dentroMarca, dentroFondo]);
         const elegidos = r.filter((x) => x.elegido), otros = r.filter((x) => !x.elegido);
         ok(r.length >= 2 && elegidos.length === 1, nombre + ": hay " + r.length + " botones y exactamente uno elegido");
         if (elegidos.length !== 1) continue;

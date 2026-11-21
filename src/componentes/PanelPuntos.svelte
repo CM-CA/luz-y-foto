@@ -2,6 +2,7 @@
   import { S } from "../estado/datos.js";
   import { hoy } from "../estado/hoy.svelte.js";
   import * as Astro from "../nucleo/astro.js";
+  import { evaluarDia } from "../nucleo/dias.js";
   import { hm, pct, unida } from "../nucleo/formato.js";
   import Veredicto from "./Veredicto.svelte";
   import Avisos from "./Avisos.svelte";
@@ -13,7 +14,7 @@
   // Género de «puntos en una ventana de horas» (atardecer): nota por factores y capas de nubes
   let { g, item } = $props();
 
-  const r = $derived(S.evaluar(g.id, hoy.prev, { dia: item.dia }));
+  const r = $derived(evaluarDia({ S, g, prev: hoy.prev, item, lat: hoy.lat, lon: hoy.lon, ahora: hoy.ahora }));
   const sol = $derived(Astro.calcularDia(new Date(item.fecha + "T12:00:00"), hoy.lat, hoy.lon).sol);
   const alAmanecer = $derived(g.evento === "amanecer");
   const az = $derived(alAmanecer ? sol.azAmanecer : sol.azPuesta);

@@ -2,6 +2,7 @@
   import { S } from "../estado/datos.js";
   import { hoy } from "../estado/hoy.svelte.js";
   import * as Astro from "../nucleo/astro.js";
+  import { evaluarDia } from "../nucleo/dias.js";
   import { hm, pct, unida } from "../nucleo/formato.js";
   import Veredicto from "./Veredicto.svelte";
   import Avisos from "./Avisos.svelte";
@@ -14,9 +15,7 @@
   const lunaDia = $derived(Astro.calcularDia(new Date(item.fecha + "T12:00:00"), hoy.lat, hoy.lon).luna);
   const fase = $derived(g.fases[lunaDia.faseId]);
   const enCurso = $derived(item.inicio <= hoy.ahora);
-  const r = $derived(S.evaluar(g.id, hoy.prev, {
-    inicio: item.inicio, fin: item.fin, lat: hoy.lat, lon: hoy.lon, fraccion: lunaDia.fraccion, desde: enCurso ? hoy.ahora : undefined
-  }));
+  const r = $derived(evaluarDia({ S, g, prev: hoy.prev, item, lat: hoy.lat, lon: hoy.lon, ahora: hoy.ahora }));
   const conHoras = $derived(r.nivel !== "ninguno" && !r.sinUtiles);
   const nota = $derived(conHoras ? `Mejor hora: ${hm(r.mejorHora)} · nubes ${pct(r.nubes)}` : fase.nombre);
   const fecha = $derived(new Date(item.fecha + "T12:00:00").toLocaleDateString("es-ES", { day: "numeric", month: "long" }));
