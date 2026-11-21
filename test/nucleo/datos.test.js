@@ -15,9 +15,9 @@ prueba("los datos reales de data/ son válidos", () => {
   assert.deepEqual(Datos.validar(cargarDatos()), []);
 });
 
-prueba("los dos géneros actuales existen y usan motores conocidos", () => {
+prueba("los tres géneros actuales existen y usan motores conocidos", () => {
   const c = cargarDatos();
-  assert.deepEqual(c.indice.orden, ["atardecer", "luna"]);
+  assert.deepEqual(c.indice.orden, ["amanecer", "atardecer", "luna"]);
   c.indice.orden.forEach((id) => assert.ok(Datos.MOTORES.includes(c.generos[id].motor)));
 });
 
@@ -78,7 +78,7 @@ prueba("validar: cada texto de la brújula de la luna es obligatorio", () => {
 
 prueba("validar: género listado sin archivo, o por defecto desconocido", () => {
   assert.ok(contiene(errores((c) => { c.indice.orden.push("surf"); }), "«surf» no tiene archivo"));
-  assert.ok(contiene(errores((c) => { c.indice.porDefecto = "amanecer"; }), "«porDefecto»"));
+  assert.ok(contiene(errores((c) => { c.indice.porDefecto = "noexiste"; }), "«porDefecto»"));
   assert.ok(contiene(errores((c) => { c.generos.luna.id = "otra"; }), "debe ser «luna»"));
 });
 

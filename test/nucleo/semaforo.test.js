@@ -172,6 +172,47 @@ prueba("atardecer: con el caso real del 19 de noviembre (llovizna y cielo bajo) 
   assert.ok(["ambar", "rojo"].includes(r.nivel));
 });
 
+/* ---------- Amanecer ---------- */
+
+const AMANECER = (datos) => { const p = S.prepararPrevision(datos); return { p, r: S.evaluar("amanecer", p, { dia: p.dias[1] }) }; };
+const CIELO_BUENO = { bajas: 10, medias: 30, altas: 50, lluvia: 0 };
+
+prueba("amanecer: la ventana va de 30 min antes a 60 min después de la salida del sol", () => {
+  const p = S.prepararPrevision(respuesta("2026-11-18", 3, {}));
+  const salida = p.dias[1].amanecer;
+  const horas = S.ventana("amanecer", p, { dia: p.dias[1] });
+  assert.ok(horas.length >= 1 && horas.length <= 3, "horas: " + horas.length);
+  horas.forEach((x) => assert.ok(x.t + 3600000 > salida - 30 * 60000 && x.t <= salida + 60 * 60000, "fuera de la ventana: " + new Date(x.t).toISOString()));
+});
+
+prueba("amanecer: nubes medias y altas moderadas, aire limpio y sin lluvia da verde", () => {
+  const { r } = AMANECER(respuesta("2026-11-18", 3, CIELO_BUENO));
+  assert.equal(r.nivel, "verde");
+});
+
+prueba("amanecer: cielo bajo cerrado es rojo con motivo", () => {
+  const { r } = AMANECER(respuesta("2026-11-18", 3, { ...CIELO_BUENO, bajas: 95 }));
+  assert.equal(r.nivel, "rojo");
+  assert.match(r.motivoVeto, /cielo bajo/);
+});
+
+prueba("amanecer: con niebla y el cielo bajo cerrado no es rojo y avisa", () => {
+  const g = S.genero("amanecer");
+  const { r } = AMANECER(respuesta("2026-11-18", 3, { ...CIELO_BUENO, bajas: 95, vis: 2000 }));
+  assert.notEqual(r.nivel, "rojo");
+  assert.equal(r.motivoVeto, null);
+  assert.ok(r.avisos.includes(g.avisoNiebla));
+  const bajas = r.factores.find((f) => f.id === "bajas");
+  assert.equal(bajas.puntos, 40);
+  assert.equal(bajas.frase, g.nieblaVentaja.frase);
+});
+
+prueba("amanecer: con niebla y lluvia fuerte sigue en rojo", () => {
+  const { r } = AMANECER(respuesta("2026-11-18", 3, { ...CIELO_BUENO, bajas: 95, vis: 2000, lluvia: 10 }));
+  assert.equal(r.nivel, "rojo");
+  assert.match(r.motivoVeto, /lluvia fuerte/);
+});
+
 /* ---------- Luna ---------- */
 
 // Noche del 18 de noviembre: de la puesta del 18 al amanecer del 19

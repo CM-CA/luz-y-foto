@@ -15,6 +15,7 @@
   ],
   "avisos": {
     "seguridad": "Sal con luz, lleva una linterna y, si el mirador está solitario, avisa a alguien de dónde vas.",
+    "seguridadAmanecer": "Vas a salir con poca luz: lleva una linterna y, si el mirador está solitario, avisa a alguien de dónde vas.",
     "sol": "Nunca mires al sol por el visor de la cámara, y menos con teleobjetivo: puede dañarte la vista.",
     "formato": "Si no vas a editar las fotos, sácalas en [[jpeg|JPEG]]. Si quieres aprender a editar, usa [[raw|RAW]]."
   }

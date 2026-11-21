@@ -1,0 +1,153 @@
+{
+  "avisos": [
+    "sol",
+    "seguridadAmanecer",
+    "formato"
+  ],
+  "segunSemaforo": {
+    "verde": "Receta base. Llega 30 minutos antes de la salida del sol y quédate 30 minutos después: la [[hora-azul|hora azul]] y la [[hora-dorada|hora dorada]] de la mañana suelen dar las mejores fotos.",
+    "ambar": "Ve igualmente. Si el cielo no se tiñe, hay plan B: siluetas, nubes dramáticas o la hora azul.",
+    "rojo": "Hoy lo normal es no madrugar. Si vas, busca detalles, reflejos o blanco y negro en vez del cielo."
+  },
+  "variantes": [
+    {
+      "id": "movil",
+      "titulo": "Con el móvil",
+      "si": {
+        "equipo": "movil"
+      },
+      "pasos": [
+        {
+          "titulo": "Luz",
+          "empiezo": "Toca en la pantalla el cielo, justo donde va a salir el sol.",
+          "defiendo": "Toca el cielo junto al sol: el móvil mide la luz ahí y los colores no salen quemados.",
+          "controlo": "Tocar el cielo junto al sol (bloquear exposición)"
+        },
+        {
+          "titulo": "Brillo",
+          "empiezo": "Baja un poco el brillo con el icono del sol que aparece al tocar.",
+          "defiendo": "Oscurecer un poco hace los colores más intensos y evita el cielo blanco.",
+          "controlo": "Exposición -1"
+        },
+        {
+          "titulo": "Zoom",
+          "empiezo": "No uses el zoom con los dedos. Si quieres acercarte, usa los botones 2x o 3x, o recorta después.",
+          "defiendo": "El zoom digital estropea la nitidez; los botones 2x o 3x usan otra lente.",
+          "controlo": "Sin zoom digital"
+        },
+        {
+          "titulo": "Pulso",
+          "empiezo": "Apoya el móvil en una pared o un poste y usa el temporizador de 2 segundos.",
+          "defiendo": "Con poca luz el móvil tarda más en disparar: si te mueves, sale borroso.",
+          "controlo": "Apoyo + temporizador 2 s"
+        }
+      ],
+      "nota": "Con el frío y la humedad la lente se empaña: lleva un paño suave y límpiala antes de empezar."
+    },
+    {
+      "id": "camara-tripode",
+      "titulo": "Con cámara y trípode",
+      "si": {
+        "equipo": "camara",
+        "tripode": "si"
+      },
+      "pasos": [
+        {
+          "titulo": "Modo",
+          "empiezo": "Gira la rueda de modos a {Av}.",
+          "defiendo": "Gira la rueda de modos a [[modo-av|{Av}]]: tú eliges la apertura y la cámara calcula el resto.",
+          "controlo": "{Av}"
+        },
+        {
+          "titulo": "Apertura",
+          "empiezo": "Sube el número f hasta f/11: gira la rueda hasta que la pantalla muestre f/11.",
+          "defiendo": "f/11: cierra el diafragma, así todo sale nítido y el sol se ve como una estrella ([[apertura|más sobre la apertura]]).",
+          "controlo": "f/11"
+        },
+        {
+          "titulo": "Compensación",
+          "empiezo": "Baja la compensación de exposición a -1 (el botón con +/-).",
+          "defiendo": "[[compensacion|-1]]: oscurece un poco para que no se queme lo más claro.",
+          "controlo": "-1 EV"
+        },
+        {
+          "titulo": "ISO",
+          "empiezo": "Pon el ISO en 100.",
+          "defiendo": "ISO 100: con trípode puedes usar un [[iso|ISO]] bajo; la foto sale limpia aunque tarde más.",
+          "controlo": "ISO 100"
+        },
+        {
+          "titulo": "Enfoque",
+          "empiezo": "Enfoca un punto en el horizonte, no en el sol.",
+          "defiendo": "Enfoca el horizonte para que todo quede nítido; después no muevas la cámara.",
+          "controlo": "AF puntual en el horizonte"
+        },
+        {
+          "titulo": "Medición",
+          "empiezo": "Mide la luz en el cielo, junto al sol (medición puntual, si tu cámara la tiene).",
+          "defiendo": "La [[medicion|medición puntual]] sobre el cielo evita que la escena salga oscura por culpa del sol.",
+          "controlo": "Puntual en el cielo junto al sol"
+        },
+        {
+          "titulo": "Truco",
+          "empiezo": "Activa el disparador a 2 segundos.",
+          "defiendo": "El [[disparador|disparador]] evita que el dedo mueva la cámara.",
+          "controlo": "Disparador a 2 s"
+        }
+      ],
+      "nota": "Con el frío y la humedad la lente se empaña: lleva un paño suave y límpiala antes de empezar."
+    },
+    {
+      "id": "camara-sin-tripode",
+      "titulo": "Con cámara, sin trípode",
+      "si": {
+        "equipo": "camara"
+      },
+      "nota": "Si la velocidad baja de 1/(distancia focal × 1,6) segundos (en una cámara de sensor APS-C), la foto saldrá movida: sube el ISO o abre más el diafragma (un número f/ menor).",
+      "pasos": [
+        {
+          "titulo": "Modo",
+          "empiezo": "Gira la rueda de modos a {Av}.",
+          "defiendo": "Gira la rueda de modos a [[modo-av|{Av}]]: tú eliges la apertura y la cámara calcula el resto.",
+          "controlo": "{Av}"
+        },
+        {
+          "titulo": "Apertura",
+          "empiezo": "Sube el número f hasta f/8.",
+          "defiendo": "f/8: deja la escena nítida sin pedir tanta luz como f/11 ([[apertura|más sobre la apertura]]).",
+          "controlo": "f/8"
+        },
+        {
+          "titulo": "Compensación",
+          "empiezo": "Baja la compensación de exposición a -1 (el botón con +/-).",
+          "defiendo": "[[compensacion|-1]]: oscurece un poco para que no se queme lo más claro.",
+          "controlo": "-1 EV"
+        },
+        {
+          "titulo": "ISO",
+          "empiezo": "Deja el ISO en automático y ponle un tope de 800 en el menú.",
+          "defiendo": "Sin trípode necesitas velocidad: el [[iso|ISO]] automático la mantiene y el tope evita demasiado grano.",
+          "controlo": "ISO auto, máx. 800"
+        },
+        {
+          "titulo": "Enfoque",
+          "empiezo": "Enfoca un punto en el horizonte, no en el sol.",
+          "defiendo": "Enfoca el horizonte para que todo quede nítido.",
+          "controlo": "AF puntual en el horizonte"
+        },
+        {
+          "titulo": "Medición",
+          "empiezo": "Deja la medición como viene (evaluativa).",
+          "defiendo": "La [[medicion|medición evaluativa]] mira toda la escena y no pide tanto pulso.",
+          "controlo": "Evaluativa"
+        },
+        {
+          "titulo": "Truco",
+          "empiezo": "Apoya la cámara en una pared o un poste y pega los codos al cuerpo.",
+          "defiendo": "Cuanto más firme esté, menos probabilidad de que salga movida.",
+          "controlo": "Apoyo firme, codos pegados"
+        }
+      ]
+    }
+  ]
+}

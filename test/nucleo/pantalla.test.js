@@ -63,6 +63,14 @@ it("etiquetas de los días: Hoy, Mañana, el día de la semana y «ahora» en un
   assert.equal(etiquetaDia(l, listaDe(l, prev, de3)[0], prev, de3), l.etiquetasDia.ahora);
 });
 
+it("lista de días de amanecer: por la tarde el primero es «Mañana» y a las 09:00 todavía «Hoy»", () => {
+  const g = config.generos.amanecer;
+  const etiquetas = (h) => { const ahora = instante(h); return listaDe(g, prev, ahora).map((x) => etiquetaDia(g, x, prev, ahora)); };
+  assert.deepEqual(etiquetas("2026-11-19T15:00"), ["Mañana", "Sábado"]);
+  assert.equal(etiquetas("2026-11-20T09:00")[0], "Hoy", "la ventana sigue abierta hasta 60 min después de la salida del sol");
+  assert.equal(etiquetas("2026-11-20T10:00")[0], "Mañana");
+});
+
 it("evaluarDia: cada día de la lista da su semáforo, el mismo que el panel grande", () => {
   const ahora = instante("2026-11-19T15:00");
   const NIVELES = ["verde", "ambar", "rojo", "ninguno"];
