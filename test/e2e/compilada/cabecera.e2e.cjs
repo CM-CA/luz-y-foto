@@ -108,8 +108,12 @@ ejecutar("cabecera", async ({ b, base }) => {
     ok(await p.getAttribute("#cambiar", "aria-expanded") === "true" && await p.isVisible("#selector"), "al pulsarla se abre");
     const caja = await p.evaluate(() => ({ cab: document.querySelector("header.cabecera").getBoundingClientRect().bottom, sel: document.querySelector("#selector").getBoundingClientRect().top }));
     ok(caja.sel >= caja.cab - 1, "el selector queda debajo de la cabecera (" + Math.round(caja.sel) + " ≥ " + Math.round(caja.cab) + ")");
+    const separadas = await p.evaluate(() => document.querySelector("#tabs").getBoundingClientRect().top - document.querySelector("#selector").getBoundingClientRect().bottom);
+    ok(separadas >= 0, "con el selector abierto las pestañas van debajo de él, sin solaparlo (" + Math.round(separadas) + " px)");
     await p.click("#cambiar");
     ok(await p.isHidden("#selector"), "al pulsarla otra vez se cierra");
+    const solape = await p.evaluate(() => document.querySelector("header.cabecera").getBoundingClientRect().bottom - document.querySelector("#tabs").getBoundingClientRect().top);
+    ok(solape >= 26 && solape <= 28, "cerrado el selector, las pestañas vuelven a solapar el cielo 27 px (" + solape.toFixed(1) + ")");
     await ctx.close();
   }
 

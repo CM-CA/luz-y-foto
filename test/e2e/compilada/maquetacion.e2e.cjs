@@ -47,6 +47,12 @@ ejecutar("maquetacion", async ({ b, base }) => {
       return { pagina: document.documentElement.scrollWidth - document.documentElement.clientWidth, fuera };
     });
     ok(r.pagina <= 0 && r.fuera.length === 0, ancho + " px, " + esquema + (r.pagina > 0 ? " (la página desborda " + r.pagina + " px)" : "") + (r.fuera.length ? " (fuera de la tarjeta: " + r.fuera.join(", ") + ")" : ""));
+    // Las pestañas: dentro de la pantalla, cómodas de pulsar (44 px) y montadas 27 px sobre el cielo de la cabecera
+    const t = await p.evaluate(() => {
+      const cab = document.querySelector("header.cabecera").getBoundingClientRect(), tabs = document.querySelector("#tabs").getBoundingClientRect();
+      return { solape: cab.bottom - tabs.top, dentro: tabs.left >= 0 && tabs.right <= document.documentElement.clientWidth + 0.5, altos: [...document.querySelectorAll("#tabs button")].map((x) => x.getBoundingClientRect().height) };
+    });
+    ok(t.solape >= 26 && t.solape <= 28 && t.dentro && t.altos.length === 2 && t.altos.every((h) => h >= 44), "  pestañas: solapan " + t.solape.toFixed(1) + " px el cielo, dentro de la pantalla: " + t.dentro + ", altos " + t.altos.map((h) => h.toFixed(0)).join("/") + " px");
     // Los botones de día: una sola fila, con el nombre más largo posible («Miércoles») en el último y ese día elegido
     // (con la ✓ y la negrita, que ensanchan), y sin que nada se salga de su botón. El símbolo lleva el color de su nivel.
     const d = await p.evaluate(async () => {
@@ -59,7 +65,7 @@ ejecutar("maquetacion", async ({ b, base }) => {
       const dentro = (hijo, padre) => hijo.left >= padre.left - 0.5 && hijo.right <= padre.right + 0.5;
       const colores = botones.map((x) => {
         const m = x.querySelector(".marca"), sonda = document.createElement("i");
-        const variable = { verde: "--verde", ambar: "--ambar", rojo: "--rojo", ninguno: "--gris" }[x.dataset.nivel];
+        const variable = { verde: "--verde", ambar: "--ambar-simbolo", rojo: "--rojo", ninguno: "--gris" }[x.dataset.nivel];
         sonda.style.color = "var(" + variable + ")"; document.body.appendChild(sonda);
         const esperado = getComputedStyle(sonda).color; sonda.remove();
         return { nivel: x.dataset.nivel, simbolo: m.textContent.replace("✓", "").trim(), color: getComputedStyle(m).color, esperado };
