@@ -24,5 +24,7 @@ function validarDatos() {
 export default defineConfig(({ command }) => ({
   base: command === "build" ? "/luz-y-foto/" : "/",
   plugins: [svelte(), validarDatos(), servicioSinConexion()],
-  build: { target: "es2022" }
+  // assetsInlineLimit: 0 -> las imágenes pequeñas (las lunas, algún cielo) no se meten dentro del JS en base64:
+  // cada una es un archivo de dist/ y el service worker la guarda por separado.
+  build: { target: "es2022", assetsInlineLimit: 0 }
 }));

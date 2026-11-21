@@ -22,9 +22,11 @@
   {#if ruta.actual === "hoy"}
     <Hoy />
   {:else if ruta.actual === "prueba-cielo"}
-    <PruebaCielo />
+    <div class="pagina"><PruebaCielo /></div>
   {:else}
-    <h1>No encuentro esa pantalla</h1>
-    <p><a href="#/hoy">Volver a Hoy</a></p>
+    <div class="pagina">
+      <h1>No encuentro esa pantalla</h1>
+      <p><a href="#/hoy">Volver a Hoy</a></p>
+    </div>
   {/if}
 </main>

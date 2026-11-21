@@ -34,16 +34,14 @@
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--fondo); color: var(--texto); font: 17px/1.5 var(--cuerpo); }
-main { max-width: 760px; margin: 0 auto; padding: 20px 16px 64px; }
+main { max-width: 760px; margin: 0 auto; padding: 0 0 64px; }
+.pagina { padding: 20px 16px 0; }   /* pantallas sin cabecera */
+.cuerpo { padding: 0 16px; }        /* lo que va bajo la cabecera, que ocupa todo el ancho */
 h1, h3 { font-family: var(--display); font-weight: 400; color: var(--texto); }
 h1 { font-size: 1.6rem; margin: 0 0 4px; }
 h3 { font-size: 21px; line-height: 1.2; margin: 26px 0 12px; }
-.intro { color: var(--suave); margin: 0 0 16px; }
 
-.lugar { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; }
-.lugar .etq { display: block; font-size: .8rem; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
-.lugar strong { font-size: 1.15rem; }
-.selector { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 14px; margin-bottom: 8px; }
+.selector { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 14px; margin-top: 12px; }
 .selector[hidden] { display: none; }
 .selector form { display: flex; gap: 8px; margin: 12px 0 0; }
 .selector input { flex: 1; min-width: 0; font: inherit; padding: 10px 12px; border: 1px solid var(--borde); border-radius: 8px; background: var(--fondo); color: var(--texto); }
@@ -53,9 +51,21 @@ h3 { font-size: 21px; line-height: 1.2; margin: 26px 0 12px; }
 #msgLugar { margin: 0; min-height: 1.4em; color: var(--suave); font-size: .95rem; }
 button { font: inherit; padding: 9px 16px; border-radius: 8px; cursor: pointer; border: 1px solid var(--borde); background: var(--tarjeta); color: var(--texto); }
 button.principal { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
-#estado { min-height: 1.5em; color: var(--suave); margin: 6px 0 12px; font-size: .9rem; }
 
-.pestanas { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; margin-bottom: 12px; }
+/* La cabecera: un cielo (imagen) con el título, la hora de la previsión y el lugar encima. Todo lo que se lee es texto blanco
+   con sombra: el cielo es solo adorno y la imagen no cambia de color aunque el navegador oscurezca la web. */
+.cabecera { position: relative; height: 262px; overflow: hidden; color: #fff; background: #2f4a8c; }
+.cabecera .cielo { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+.cabecera .fila { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 26px 16px 0 20px; }
+.cabecera .rotulo { flex: 1 1 0; min-width: 0; }
+.cabecera h1 { margin: 0; font-size: 27px; line-height: 1; letter-spacing: .2px; color: #fff; text-shadow: 0 1px 10px rgba(20, 15, 50, .5); }
+#estado { margin: 6px 0 0; font: 600 14px/1.3 var(--cuerpo); }
+.cabecera #estado { color: #fff; text-shadow: 0 1px 8px rgba(20, 15, 50, .6); overflow-wrap: anywhere; }
+.lugar .flecha { margin-left: .4em; }
+.lugar { flex: 0 1 auto; max-width: 55%; min-height: 44px; padding: 9px 13px; border: 0; border-radius: 18px; background: rgba(18, 16, 48, .45); color: #fff; font: 700 15px/1.2 var(--cuerpo); text-align: left; text-shadow: 0 1px 6px rgba(20, 15, 50, .5); overflow-wrap: anywhere; }
+
+
+.pestanas { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; margin: 14px 0 12px; }
 .pestanas button { padding: 14px 10px; font-weight: 700; font-size: 1.1rem; border-width: 2px; }
 .pestanas button[aria-selected="true"] { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
 /* Los días van siempre en una sola fila (tres columnas iguales). Cada botón lleva arriba el semáforo de ese día
@@ -132,10 +142,10 @@ dd { margin: 0; font-weight: 600; text-align: right; }
 dd small { display: block; font-weight: 400; color: var(--suave); }
 .consejo { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
 
-.equipo { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; }
+.equipo { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; }
 .equipo .etq { display: block; font-size: .8rem; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
 .equipo strong { font-size: 1rem; font-weight: 600; }
-.asistente { background: var(--tarjeta); border: 2px solid var(--texto); border-radius: 16px; padding: 20px; margin-bottom: 12px; }
+.asistente { background: var(--tarjeta); border: 2px solid var(--texto); border-radius: 16px; padding: 20px; margin: 12px 0; }
 .asistente[hidden] { display: none; }
 .asistente h2 { font-size: 1.35rem; margin: 4px 0 8px; }
 .asistente h2:focus { outline: none; }
@@ -170,7 +180,7 @@ a { color: inherit; }
 .pie { color: var(--suave); font-size: .85rem; margin-top: 24px; }
 
 /* Aviso de la vista previa (solo en /beta/) */
-.aviso-beta { margin: 0 0 12px; padding: 8px 12px; border-radius: 8px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .9rem; }
+.aviso-beta { margin: 0; padding: 8px 16px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .9rem; }
 .aviso-beta p { margin: 0; }
 
 /* Aviso de «hay una versión nueva» (service worker): fijo abajo para que se vea estés donde estés en la página.
