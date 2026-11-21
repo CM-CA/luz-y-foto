@@ -110,7 +110,7 @@ ejecutar("maquetacion", async ({ b, base }) => {
     await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
     if (letra) await p.addStyleTag({ content: "* { font-family: " + letra + " !important; }" });
     await p.click("[data-tab=atardecer]");
-    const r = await p.evaluate(() => [...document.querySelectorAll(".barra span")].map((relleno) => {
+    const r = await p.evaluate(() => [...document.querySelectorAll(".capas .barra span")].map((relleno) => {
       relleno.style.width = "100%"; // la barra más larga posible
       const caja = document.createRange(); caja.selectNodeContents(relleno);
       const e = getComputedStyle(relleno);

@@ -26,7 +26,7 @@
   <p>No hay previsión para esa hora todavía.</p>
 {:else}
   <p class="subtitulo"><Plantilla texto={g.textoEvento} valores={{ hora: hm(item.evento), dorada: horaSol(sol.horaDorada), finAzul: horaSol(sol.finHoraAzul) }} negrita={["hora"]} /></p>
-  <Veredicto nivel={r.nivel} titulo={r.titulo} nota="{r.total} de 100 puntos" texto={r.resumen} />
+  <Veredicto nivel={r.nivel} titulo={r.titulo} nota="{r.total} de 100 puntos" puntos={r.total} texto={r.resumen} />
   <Avisos lista={r.avisos} />
   <Receta {g} nivel={r.nivel} />
   <div class="brujula">
