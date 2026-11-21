@@ -67,8 +67,8 @@ a la derecha» en vez de obligar a orientarse con el norte.
    compensación de la inclinación; en iPhone `webkitCompassHeading`.
 8. **Ahorro y limpieza.** Solo se escucha el sensor mientras hay una brújula activa en pantalla. Se deja de escuchar al
    apagarla, al ocultar la página y al salir de la pantalla de Hoy (o si el panel deja de tener brújula). Cambiar de
-   pestaña, de día o de lugar **no** la apaga: el panel se vuelve a pintar entero y la brújula sigue encendida, con una sola
-   escucha. Una lectura solo se aplica si el rumbo cambia 1° o más (el resto es ruido del sensor).
+   pestaña o de día **no** la apaga: el panel se vuelve a pintar entero y la brújula sigue encendida, con una sola
+   escucha. Cambiar de lugar sí la apaga: se pide la previsión del lugar nuevo y el panel desaparece mientras tanto. Una lectura solo se aplica si el rumbo cambia 1° o más (el resto es ruido del sensor).
    *(Cambio respecto a la primera versión de esta nota, que apagaba la brújula al cambiar de pestaña y limitaba las
    lecturas a una por fotograma: con el panel repintándose, apagarla en cada cambio obligaba a volver a pulsar, y con
    el margen de 1° ya no hace falta limitar por fotograma.)*

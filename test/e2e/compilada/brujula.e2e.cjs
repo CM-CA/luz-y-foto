@@ -301,7 +301,7 @@ ejecutar("brujula", async ({ b, base }) => {
     await ctx.close();
   }
 
-  titulo("J: encendida, aguanta cambiar de pestaña, de día y de lugar; se apaga al esconder la página y al salir de la pantalla");
+  titulo("J: encendida, aguanta cambiar de pestaña y de día; se apaga al esconder la página y al salir de la pantalla");
   {
     const { ctx, p } = await luna21();
     await p.click("#brujulaMovil"); await android(p, 120);
@@ -328,6 +328,22 @@ ejecutar("brujula", async ({ b, base }) => {
     await p.evaluate(() => { location.hash = "#/hoy"; });
     await p.waitForSelector("#panel .brujula-bloque");
     ok((await viva(p)).boton === "Usar la brújula del móvil" && await escuchas(p) === 0, "y al volver a Hoy está apagada");
+    ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
+    await ctx.close();
+  }
+
+  titulo("J2: cambiar de lugar la apaga (la previsión del lugar nuevo se pide de cero y el panel desaparece mientras tanto): sin escuchas colgadas ni errores");
+  {
+    const { ctx, p } = await luna21();
+    await p.click("#brujulaMovil"); await android(p, 120);
+    ok(await escuchas(p) === 1, "encendida, una escucha");
+    await p.click("#cambiar"); await p.fill("#ciudad", "Vigo"); await p.press("#ciudad", "Enter");
+    await p.click("#resultados button[data-i='0']");
+    await p.waitForSelector("#panel .brujula-bloque");
+    const v = await viva(p);
+    ok(v.boton === "Usar la brújula del móvil" && v.dial === null && v.lineas.length === 0 && await escuchas(p) === 0, "con el lugar nuevo está apagada, con la flecha fija y sin escuchas (" + await escuchas(p) + ")");
+    await p.click("#brujulaMovil"); await android(p, 300);
+    ok((await viva(p)).lineas[0].startsWith("Estás mirando") && await escuchas(p) === 1, "y se puede volver a encender");
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
   }
