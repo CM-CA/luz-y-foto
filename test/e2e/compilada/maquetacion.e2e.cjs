@@ -70,6 +70,23 @@ ejecutar("maquetacion", async ({ b, base }) => {
     await ctx.close();
   }
 
+  titulo("las barras llevan el color también como texto (se ven aunque el navegador oscurezca los fondos por su cuenta) y el texto cubre toda la barra");
+  for (const [nombreLetra, letra] of LETRAS) {
+    const { ctx, p } = await nuevaPagina(b, { viewport: { width: 1200, height: 800 }, perfil: PERFIL, lugar: LUGAR });
+    await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
+    if (letra) await p.addStyleTag({ content: "* { font-family: " + letra + " !important; }" });
+    await p.click("[data-tab=atardecer]");
+    const r = await p.evaluate(() => [...document.querySelectorAll(".barra span")].map((relleno) => {
+      relleno.style.width = "100%"; // la barra más larga posible
+      const caja = document.createRange(); caja.selectNodeContents(relleno);
+      const e = getComputedStyle(relleno);
+      return { mismoColor: e.color === e.backgroundColor, texto: caja.getBoundingClientRect().width, barra: relleno.clientWidth };
+    }));
+    ok(r.length === 3 && r.every((x) => x.mismoColor), nombreLetra + ": las 3 barras tienen el mismo color de texto y de fondo");
+    ok(r.every((x) => x.texto >= x.barra), nombreLetra + ": el texto cubre la barra entera (" + r.map((x) => Math.round(x.texto) + "/" + x.barra).join(", ") + " px)");
+    await ctx.close();
+  }
+
   titulo("el navegador sabe que la web tiene tema claro y oscuro (así no la oscurece por su cuenta)");
   {
     const { ctx, p } = await nuevaPagina(b, { permisos: false });

@@ -93,7 +93,7 @@ tr.mejor td { font-weight: 700; background: var(--verde-fondo); }
 .capas { display: grid; gap: 8px; }
 .capa { display: grid; grid-template-columns: 5em 1fr 3.2em; gap: 10px; align-items: center; font-size: .95rem; }
 .barra { height: 14px; background: var(--fondo); border: 1px solid var(--borde); border-radius: 7px; overflow: hidden; }
-.barra span { display: block; height: 100%; }
+.barra span { display: block; height: 100%; overflow: hidden; white-space: nowrap; font-size: 14px; line-height: 12px; letter-spacing: -1px; user-select: none; }
 .capa .valor { text-align: right; }
 
 .brujula, .luna-cab { display: flex; align-items: center; gap: 14px; margin-top: 14px; }
