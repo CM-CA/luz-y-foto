@@ -14,7 +14,7 @@ Estado: la web publicada en [cm-ca.github.io/luz-y-foto](https://cm-ca.github.io
 Son los prototipos de la web anterior. **Ya no se publican en GitHub Pages** (la app los sustituye y sus direcciones llevan a ella); se abren sirviendo la carpeta en local. Se retirarán tras comprobar el traspaso en el móvil.
 
 - [`prueba/open-meteo.html`](prueba/open-meteo.html): previsión de Open-Meteo y semáforo del atardecer.
-- [`prueba/hoy.html`](prueba/hoy.html): **pantalla «Hoy»** con pestañas Atardecer y Luna, semáforo grande y los tres próximos días.
+- [`prueba/hoy.html`](prueba/hoy.html): **pantalla «Hoy»** con pestañas Atardecer y Luna (en la app nueva: Amanecer, Atardecer y Noche), semáforo grande y los tres próximos días.
 - [`prueba/sol-luna.html`](prueba/sol-luna.html): sol y luna calculados en el dispositivo (sin conexión), con dirección de la puesta, fases y consejo de la luna.
 
 ## Desarrollo (versión nueva, Svelte)
