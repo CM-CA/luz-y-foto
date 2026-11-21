@@ -1,8 +1,8 @@
 # Reglas de puntuación: por qué son así
 
-**Los valores actuales (umbrales, puntos y textos) están en [`data/`](../data/)** y se explican en [`datos.md`](datos.md). Este documento recoge el razonamiento, no los números, para que no haya dos sitios que mantener. La página [`prueba/hoy.html`](../prueba/hoy.html) tiene un apartado «Cómo se calcula» generado desde los mismos datos.
+**Los valores actuales (umbrales, puntos y textos) están en [`data/`](../data/)** y se explican en [`datos.md`](datos.md). Este documento recoge el razonamiento, no los números, para que no haya dos sitios que mantener. La pantalla Hoy tiene un apartado «Cómo se calcula» generado desde los mismos datos.
 
-Código: [`js/semaforo.js`](../js/semaforo.js) (los motores) y [`js/astro.js`](../js/astro.js) (sol y luna).
+Código: [`src/nucleo/semaforo.js`](../src/nucleo/semaforo.js) (los motores) y [`src/nucleo/astro.js`](../src/nucleo/astro.js) (sol y luna).
 
 Datos de Open-Meteo por hora: nubes bajas, medias, altas y totales; lluvia en mm/h, probabilidad de lluvia, código de tiempo y visibilidad. Sol y luna se calculan en el dispositivo (SunCalc).
 

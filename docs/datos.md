@@ -113,13 +113,13 @@ Para un amanecer (y cualquier género que lo quiera), la niebla no es mala notic
 2. Cambia `"id"`, `"nombre"`, `"eventoNombre"` y los textos que nombren el amanecer (`textoEvento`, `textoBrujula`, `avisoNiebla`, `nieblaVentaja.frase`, el motivo del veto de lluvia). Si miras el atardecer, `"evento": "puesta"`.
 3. Añade el `id` a la lista `orden` de `data/generos.json` y una receta en `data/recetas/` (cópiala de `amanecer.json`).
 
-La pestaña aparece con su semáforo, su brújula y su explicación. Hay una prueba automática que lo comprueba (`test/e2e/compilada/genero-nuevo.e2e.cjs`, y `test/semaforo.test.cjs`, «un género NUEVO», en la web antigua).
+La pestaña aparece con su semáforo, su brújula y su explicación. Hay una prueba automática que lo comprueba (`test/e2e/compilada/genero-nuevo.e2e.cjs`).
 
-**Si necesita otra forma de calcular** (por ejemplo, flores o insectos, que dependen del viento y la temperatura y no de un evento del sol), hay que añadir un motor nuevo en `js/semaforo.js` y su panel en la página. Los datos no pueden sustituir eso.
+**Si necesita otra forma de calcular** (por ejemplo, flores o insectos, que dependen del viento y la temperatura y no de un evento del sol), hay que añadir un motor nuevo en `src/nucleo/semaforo.js` y su panel en `src/componentes/`. Los datos no pueden sustituir eso.
 
 ## Qué pasa si te equivocas al editar
 
-Al cargar, la página **valida** los datos (`js/datos.js`) y, si hay un error, lo dice con la ruta exacta en lugar de romperse (en la versión nueva, `src/nucleo/datos.js` valida al compilar, con las mismas reglas: `npm run validar`):
+Al compilar se **validan** los datos (`src/nucleo/datos.js`) y, si hay un error, se dice con la ruta exacta y no se genera nada (`npm run validar` lo hace sin compilar):
 
 > Hay un error en los datos: generos/luna.nubes: verdeMenosDe debe ser un número menor o igual que ambarHasta
 

@@ -55,7 +55,7 @@ Un solo componente (`src/componentes/Brujula.svelte`) en las tres pestañas: una
 - Barra inferior: Hoy, Lugares, Glosario, Ajustes.
 
 ## Estados a diseñar
-Sin conexión (última previsión con su hora: hecho en la versión nueva), sin GPS (elegir a mano), cargando (esqueleto), primera vez sin previsión.
+Sin conexión (última previsión con su hora: hecho), sin GPS (elegir a mano), cargando (esqueleto), primera vez sin previsión.
 
 ## Riesgos y respuestas
 - Pérdida de datos: `navigator.storage.persist()`, exportar/importar JSON, recordatorio de copia, instalar la app.
@@ -64,7 +64,7 @@ Sin conexión (última previsión con su hora: hecho en la versión nueva), sin 
 - Demasiado a la vez: versión 1 acotada.
 
 ## Versiones
-- **v1**: perfil, tutorial, Hoy (Atardecer y Luna; en la versión nueva, Amanecer, Atardecer y Noche), receta, lugares, glosario, exportar/importar.
+- **v1**: perfil, tutorial, Hoy (hoy con tres pestañas: Amanecer, Atardecer y Noche), receta, lugares, glosario, exportar/importar.
 - **v2**: urbana, alineaciones sol/luna con lugares, segundo punto meteorológico hacia la puesta.
 - **v3**: flores e insectos, diario local, "Mi foto salió...", calendario .ics, eventos astronómicos.
 
@@ -76,7 +76,7 @@ Hecho: perfil de equipo y recetas (`data/perfil.json`, `data/recetas/`).
 
 Hecho (2026-11-21, con el rediseño): lo de ser responsive que se anotó el 2026-11-20. Las pruebas de maquetación de la versión compilada recorren 320, 360 y 390 px, en claro y oscuro, con la letra del sistema y con una ancha; las tablas largas se reordenan en tarjetas y las barras llevan el color también como texto.
 
-Hecho en la versión nueva (fase 4 de la migración): manifiesto e iconos, service worker con la app en caché, aviso «hay una versión nueva» y última previsión guardada sin conexión (ver [`migracion-svelte.md`](migracion-svelte.md)).
+Hecho (fase 4 de la migración): manifiesto e iconos, service worker con la app en caché, aviso «hay una versión nueva» y última previsión guardada sin conexión (ver [`migracion-svelte.md`](migracion-svelte.md)).
 
 Hecho: diseño visual definitivo «La luz de ahora» (ver arriba; falta probarlo en el móvil real y en la tablet).
 
