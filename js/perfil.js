@@ -105,7 +105,7 @@
   function resumen(def, perfil) {
     return preguntasVisibles(def, perfil).filter((q) => perfil.respondidas.includes(q.id)).map((q) => {
       const valores = q.multiple ? perfil[q.id] : [perfil[q.id]];
-      return q.opciones.filter((o) => valores.includes(o.id)).map((o) => o.texto).join(", ");
+      return q.opciones.filter((o) => valores.includes(o.id)).map((o) => o.resumen || o.texto).join(", ");
     }).filter(Boolean).join(" · ");
   }
 

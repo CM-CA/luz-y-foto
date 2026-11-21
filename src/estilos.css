@@ -143,6 +143,8 @@ button.enlace { border: none; background: none; text-decoration: underline; colo
 
 details.receta { margin-top: 16px; border: 2px solid var(--texto); border-radius: 12px; padding: 12px 16px; }
 details.receta summary { cursor: pointer; font-weight: 700; font-size: 1.05rem; }
+.nivel-receta { display: block; margin-top: 2px; font-size: .9rem; font-weight: 400; color: var(--suave); }
+.invitacion { margin: 16px 0 0; padding: 12px 16px; border: 2px dashed var(--suave); border-radius: 12px; color: var(--suave); }
 details.receta ol { padding-left: 22px; margin: 8px 0; }
 details.receta li { margin-bottom: 10px; }
 .aviso-fijo { margin: 6px 0; padding: 8px 12px; border-radius: 8px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }

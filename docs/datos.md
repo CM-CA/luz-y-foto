@@ -10,7 +10,7 @@ Todo lo que cambia a menudo (umbrales, puntos, textos, consejos) está en la car
 | `data/comun.json` | Lo que comparten todos los géneros: umbrales de lluvia y niebla, cortes del semáforo, avisos de tormenta y llovizna |
 | `data/generos/atardecer.json` | Reglas y textos del atardecer |
 | `data/generos/luna.json` | Reglas y textos de la luna, y el nombre y consejo de cada fase |
-| `data/perfil.json` | Las preguntas del perfil de equipo (móvil o cámara, marca, objetivos, trípode, nivel), sus valores por defecto y cómo se llaman los modos Av y Tv en cada marca |
+| `data/perfil.json` | Las preguntas del perfil de equipo (móvil o cámara, marca, objetivos, trípode, nivel), sus valores por defecto y cómo se llaman los modos Av y Tv en cada marca. Cada opción tiene `id` y `texto`; si hace falta un texto distinto para la línea «Mi equipo» y para la receta (por ejemplo «Nivel medio» en vez de «Medio»), se pone en `resumen` |
 | `data/glosario.json` | Los términos que se pueden tocar en las recetas (apertura, ISO, RAW…) |
 | `data/recetas/comun.json` | Lo común a todas las recetas: títulos, pregunta «¿llevas el trípode hoy?» y los avisos fijos |
 | `data/recetas/atardecer.json`, `luna.json` | Las recetas de cada género, una variante por tipo de equipo |

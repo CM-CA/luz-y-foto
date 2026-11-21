@@ -16,7 +16,7 @@ Principiantes y aficionados sin mucha experiencia.
    - Móvil o cámara
    - Si cámara: marca (Canon, Nikon, Sony, No lo sé) y objetivos
    - Trípode: sí / a veces / no
-   - Experiencia: Empiezo / Me defiendo / Controlo bastante
+   - Experiencia: Principiante / Medio / Experto (antes: Empiezo / Me defiendo / Controlo bastante)
    - Lugar: GPS o a mano
 3. Tutorial de 4 pantallas sobre la rueda de modos (Auto, P, Av/Tv, M), con "Saltar" y repetible desde Ajustes. Para móvil, tutorial distinto (tocar para exponer, brillo, modo noche).
 

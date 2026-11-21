@@ -96,6 +96,12 @@ prueba("validar: cada paso necesita texto para los tres niveles", () => {
   assert.ok(contiene(errores((c) => { delete c.recetas.atardecer.variantes[0].pasos[0].defiendo; }), "variantes[0].pasos[0].defiendo"));
 });
 
+prueba("validar: el «resumen» de una opción del perfil es opcional, pero si está debe ser un texto", () => {
+  assert.deepEqual(errores((c) => { delete c.perfil.preguntas[4].opciones[0].resumen; }), []);
+  assert.ok(contiene(errores((c) => { c.perfil.preguntas[4].opciones[0].resumen = ""; }), "opciones[0].resumen: si está, debe ser un texto"));
+  assert.ok(contiene(errores((c) => { c.perfil.preguntas[4].opciones[1].resumen = 7; }), "opciones[1].resumen"));
+});
+
 prueba("validar: un término de glosario que no existe", () => {
   const e = errores((c) => { c.recetas.atardecer.variantes[0].pasos[0].empiezo = "Mira [[bokeh|el bokeh]]"; });
   assert.ok(contiene(e, "«bokeh», que no está en glosario.json"), e.join(" | "));

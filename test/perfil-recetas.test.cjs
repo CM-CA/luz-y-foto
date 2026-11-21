@@ -78,13 +78,13 @@ prueba("existe(): falso hasta que se guarda; resumen con los textos elegidos", (
   assert.equal(Perfil.existe(a), true);
   assert.equal(Perfil.resumen(def, Perfil.nuevo(def)), "", "sin responder no hay resumen");
   const p = camara({ marca: "canon", objetivos: ["kit", "tele"], tripode: "aveces", nivel: "defiendo" });
-  assert.equal(Perfil.resumen(def, p), "Con una cámara · Canon · El de kit (18-55 o parecido), Un teleobjetivo (200 mm o más) · A veces · Me defiendo");
+  assert.equal(Perfil.resumen(def, p), "Con una cámara · Canon · El de kit (18-55 o parecido), Un teleobjetivo (200 mm o más) · A veces · Nivel medio");
   assert.equal(Perfil.existe({ getItem() { throw new Error("x"); } }), false);
 });
 
 /* ---------- Recetas ---------- */
 
-prueba("sin configurar (móvil por defecto): receta de móvil con textos de «Empiezo»", () => {
+prueba("sin configurar (móvil por defecto): receta de móvil con textos de «Principiante»", () => {
   const r = receta("atardecer", Perfil.nuevo(def));
   assert.equal(r.id, "movil");
   assert.match(r.pasos[0].texto, /^Toca en la pantalla/);

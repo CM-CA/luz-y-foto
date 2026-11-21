@@ -98,15 +98,18 @@
       "opciones": [
         {
           "id": "empiezo",
-          "texto": "Empiezo"
+          "texto": "Principiante",
+          "resumen": "Nivel principiante"
         },
         {
           "id": "defiendo",
-          "texto": "Me defiendo"
+          "texto": "Medio",
+          "resumen": "Nivel medio"
         },
         {
           "id": "controlo",
-          "texto": "Controlo bastante"
+          "texto": "Experto",
+          "resumen": "Nivel experto"
         }
       ]
     }
