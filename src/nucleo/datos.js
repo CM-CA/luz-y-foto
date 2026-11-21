@@ -257,6 +257,10 @@ function validar(config) {
   if (!idx.orden.includes(idx.porDefecto)) errores.push("generos.json: «porDefecto» debe ser uno de los géneros de «orden»");
   if (!esNumero(idx.nocheDespuesPuestaMin) || idx.nocheDespuesPuestaMin < 0) errores.push("generos.json: «nocheDespuesPuestaMin» debe ser un número de minutos (desde cuándo se considera de noche)");
   if (!idx.orden.includes(idx.porDefectoDeNoche)) errores.push("generos.json: «porDefectoDeNoche» debe ser uno de los géneros de «orden»");
+  if (!idx.orden.includes(idx.porDefectoDeAmanecer)) errores.push("generos.json: «porDefectoDeAmanecer» debe ser uno de los géneros de «orden»");
+  ["amanecerAntesMin", "amanecerDespuesMin"].forEach((k) => {
+    if (!esNumero(idx[k]) || idx[k] < 0) errores.push("generos.json: «" + k + "» debe ser un número de minutos (0 o más) respecto a la salida del sol");
+  });
 
   idx.orden.forEach((id) => {
     const g = (config.generos || {})[id];

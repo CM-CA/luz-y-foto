@@ -82,6 +82,12 @@ prueba("validar: género listado sin archivo, o por defecto desconocido", () => 
   assert.ok(contiene(errores((c) => { c.generos.luna.id = "otra"; }), "debe ser «luna»"));
 });
 
+prueba("validar: franjas de la pestaña por defecto", () => {
+  assert.ok(contiene(errores((c) => { c.indice.porDefectoDeAmanecer = "noexiste"; }), "porDefectoDeAmanecer"));
+  assert.ok(contiene(errores((c) => { c.indice.amanecerAntesMin = -1; }), "amanecerAntesMin"));
+  assert.ok(contiene(errores((c) => { c.indice.amanecerDespuesMin = "x"; }), "amanecerDespuesMin"));
+});
+
 prueba("validar: vetos que apuntan a un factor inexistente", () => {
   assert.ok(contiene(errores((c) => { c.generos.atardecer.vetos[1].factor = "viento"; }), "«viento» no es un factor"));
 });

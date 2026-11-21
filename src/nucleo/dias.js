@@ -54,12 +54,19 @@ function etiquetaDia(g, x, prev, ahora) {
   return plantilla(x.fecha === hoy ? e.hoy : x.fecha === manana ? e.manana : e.otro, { dia });
 }
 
-// De noche (desde unos minutos después de la puesta hasta el amanecer) se abre la pestaña nocturna; el resto del día, la normal.
+// La pestaña que se abre sola según la hora, con tres franjas (los minutos están en generos.json):
+//   1. Noche: desde `nocheDespuesPuestaMin` después de la puesta hasta `amanecerAntesMin` antes de la salida del sol siguiente.
+//      En latitudes de noches cortas esa franja puede quedar vacía: entonces nunca se abre la pestaña nocturna.
+//   2. Amanecer: desde `amanecerAntesMin` antes hasta `amanecerDespuesMin` después de la salida del sol.
+//   3. El resto del día, la normal (`porDefecto`).
 // `indice` es config.indice (generos.json).
 function pestanaPorDefecto(indice, prev, ahora) {
+  const MIN = 60000;
   const n = nochesDe(prev, ahora)[0];
-  const deNoche = n && ahora >= n.inicio + indice.nocheDespuesPuestaMin * 60000 && ahora < n.fin;
-  return deNoche ? indice.porDefectoDeNoche : indice.porDefecto;
+  const deNoche = n && ahora >= n.inicio + indice.nocheDespuesPuestaMin * MIN && ahora < n.fin - indice.amanecerAntesMin * MIN;
+  if (deNoche) return indice.porDefectoDeNoche;
+  const deAmanecer = prev.dias.some((d) => ahora >= d.amanecer - indice.amanecerAntesMin * MIN && ahora < d.amanecer + indice.amanecerDespuesMin * MIN);
+  return deAmanecer ? indice.porDefectoDeAmanecer : indice.porDefecto;
 }
 
 /*
