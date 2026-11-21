@@ -171,3 +171,9 @@ a { color: inherit; }
 .aviso-version p { margin: 0; font-weight: 700; }
 .aviso-version button { flex: none; font-weight: 700; background: var(--texto); color: var(--fondo); border-color: var(--texto); }
 .aviso-version button:disabled { opacity: .7; cursor: default; }
+
+/* Aviso de «se enseña la previsión guardada» (no se pudo actualizar). Como el de la vista previa: lo que lo distingue es el texto. */
+.aviso-sin-conexion { margin: 0 0 14px; padding: 10px 14px; border-radius: 8px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); }
+.aviso-sin-conexion p { margin: 0 0 8px; }
+.aviso-sin-conexion button { font-weight: 700; }
+.aviso-sin-conexion button:disabled { opacity: .7; cursor: default; }

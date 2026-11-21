@@ -4,6 +4,7 @@ Webapp (PWA) solo frontend para ayudar a principiantes a hacer mejores fotos: te
 
 - Sin servidor, sin cuentas: todo se guarda en el dispositivo.
 - Sol y luna se calculan en el móvil (funciona sin conexión).
+- La versión nueva se puede instalar en la pantalla de inicio, abre sin conexión y, si no puede actualizar la previsión, enseña la última guardada (avisando de la hora).
 - Meteorología con Open-Meteo (sin clave).
 
 Estado: en migración a Svelte + Vite (rama `migracion-svelte`, plan en [`docs/migracion-svelte.md`](docs/migracion-svelte.md)). La web actual sigue publicada en la raíz; la versión nueva se ve en [`/beta/`](https://cm-ca.github.io/luz-y-foto/beta/). Las decisiones están en [`docs/`](docs/).
@@ -29,7 +30,8 @@ npm run test:logica solo las de la lógica nueva (Vitest, incluida la paridad)
 npm run test:vigilar Vitest en modo vigilancia mientras se programa
 npm run test:navegador  la versión compilada en el navegador (necesita el navegador de Playwright: npx playwright install chromium)
 npm run test:todo   lógica + navegador (web actual y versión compilada)
-npm run build       compila en dist/ (valida data/ antes; si hay un error, no genera nada)
+npm run build       compila en dist/ (valida data/ antes; si hay un error, no genera nada) y escribe dist/sw.js (el service worker)
+node scripts/generar-iconos.mjs   vuelve a generar los iconos de public/ (solo si cambia el dibujo o los colores)
 ```
 
 La web actual (`prueba/`, `js/`) no necesita instalar nada: se abre sirviendo la carpeta.

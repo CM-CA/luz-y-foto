@@ -8,6 +8,7 @@
   import Dias from "../componentes/Dias.svelte";
   import Panel from "../componentes/Panel.svelte";
   import Reglas from "../componentes/Reglas.svelte";
+  import AvisoSinConexion from "../componentes/AvisoSinConexion.svelte";
 
   onMount(() => { arrancar(); });
 </script>
@@ -19,6 +20,7 @@
 <Equipo />
 <Asistente />
 <p id="estado" role="status" aria-live="polite">{hoy.estado}</p>
+<AvisoSinConexion />
 
 <Pestanas />
 <Dias />
