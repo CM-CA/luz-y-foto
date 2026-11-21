@@ -52,8 +52,7 @@ Los datos de `data/` se **incluyen al compilar** (no se piden al abrir la págin
 - `data/` se incluye al compilar (`import.meta.glob`) y se valida con las mismas reglas que la web actual (`scripts/validar-datos.mjs` reutiliza `js/datos.js`): un JSON mal editado hace fallar `validar` y `build`, y no se genera nada que publicar.
 - Flujo de GitHub Actions (`.github/workflows/static.yml`): trabajo `nueva` (instala, valida, pasa las pruebas de lógica y compila con la ruta `/luz-y-foto/beta/`) y trabajo `publicar` (monta la web actual de `master` —`prueba/`, `js/`, `lib/` y `data/`— + `/beta/` y lo despliega). Si `nueva` falla, se publica solo `master` y la ejecución sale en rojo.
 - Pruebas nuevas: `test/validar-datos.test.cjs` (datos reales correctos; un error en los datos se explica y detiene `validar` y `build`) y `test/e2e/compilada/ruta-base.e2e.cjs` (la versión compilada se sirve bajo `/luz-y-foto/beta/`: todos los archivos responden 200, lee los datos incluidos, ruta desconocida avisada, sin desbordamiento horizontal a 320, 360 y 390 px).
-- Pendiente de la sustitución de `version-actual/`: la prueba «un género añadido solo con datos aparece como pestaña» se hace en la fase 3, cuando existan las pestañas reales de Hoy.
-- Las pruebas de navegador en Actions (instalar Chromium con la misma versión de Playwright) se añaden en la fase 3, cuando haya pantalla que probar.
+- La prueba «un género añadido solo con datos aparece como pestaña» y las pruebas de navegador en Actions se hicieron en la fase 3 (ver más abajo).
 - **Listo cuando**: una pantalla mínima se compila y se ve a través de la ruta base de GitHub Pages. ✔ (comprobado en local con la ruta `/luz-y-foto/beta/`; falta verlo publicado, ver más abajo)
 
 ### Fase 2: lógica a módulos modernos (hecha el 2026-11-20)
@@ -70,10 +69,25 @@ Los datos de `data/` se **incluyen al compilar** (no se piden al abrir la págin
 - **Mientras haya dos copias de la lógica**: un arreglo de lógica urgente en `master` hay que repetirlo en `src/nucleo/`. La referencia de paridad es la de la lógica de antes del arreglo; cuando un cambio de comportamiento sea intencionado, se regenera con `TZ=Europe/Madrid node test/paridad/generar-referencia.mjs` (solo posible mientras exista `js/`) y se explica en el commit. Después del traspaso, `referencia/` queda como prueba de regresión congelada.
 - **Listo cuando**: todas las pruebas de lógica pasan y la paridad es exacta. ✔
 
-### Fase 3: pantalla Hoy en componentes
-- Componentes con los **mismos identificadores y atributos** que usa hoy el HTML (para que las pruebas de navegador pasen sin cambios) y el mismo CSS.
-- Después, y solo después de comprobar la paridad, el **responsive** (tabla «Horas analizadas», colores en modo oscuro).
-- **Listo cuando**: las pruebas de navegador pasan sin tocarlas y las capturas coinciden con las de referencia.
+### Fase 3: pantalla Hoy en componentes (hecha el 2026-11-21)
+Primero la paridad (que se vea y se comporte igual) y solo después el responsive, cada paso en su commit.
+
+1. **La lógica de la pantalla sale de `hoy.html`** (`src/nucleo/dias.js` y `formato.js`; la petición de la previsión, a `src/proveedores/open-meteo.js`). La paridad (`test/paridad/`) ejecuta el código que había dentro de `hoy.html` y el nuevo con las mismas previsiones y exige resultados idénticos.
+2. **Componentes con los mismos ids, atributos, textos y CSS** que `hoy.html` (`src/componentes/`, estado en `src/estado/hoy.svelte.js`; el CSS es el de `hoy.html` tal cual). Las pruebas `test/e2e/comportamiento/` (ubicación, equipo y recetas) **pasan sin haberlas tocado**, contra la web actual y contra la compilada.
+3. **Pruebas de navegador sobre la versión compilada, también en Actions** (`npm run test:navegador`, con `playwright@1.63.0` fijado): el comportamiento de siempre, `ruta-base` y «un género añadido solo con datos aparece como pestaña» (compila una copia del proyecto con ese género). Para ver la paridad visual se capturó la web actual y la compilada en el mismo entorno (seis capturas: 320, 360 y 390 px, claro y oscuro) y se compararon píxel a píxel: **0,014 % distinto** (el suavizado de una letra); cambiar un relleno en 1 px ya hacía fallar la prueba. Con eso se cerró la paridad (commit `ab38260`).
+4. **Responsive: la tabla «Horas analizadas»** (7 columnas, se salía de la tarjeta en todos los móviles): a 480 px o menos cada hora pasa a ser un bloque con los seis datos debajo, de tres en tres y con su nombre; a 380 px o menos las celdas llevan menos relleno (cabe también la de la luna). La prueba de capturas frente a la web actual se retira (a partir de aquí el aspecto cambia a propósito) y la sustituye `test/e2e/compilada/maquetacion.e2e.cjs`: con el panel y la receta abiertos, en Atardecer y Luna, a 320, 360, 390, 480, 600 y 800 px, claro y oscuro, nada se sale de la pantalla ni de su tarjeta (sin el arreglo falla en 6 casos).
+5. **Responsive: barras de nubes**. En modo oscuro ya se veían bien (contraste 3,59 o más); el problema era el modo claro (las capas media y alta, 2,36 y 1,93 frente a su fondo, por debajo del 3:1 recomendado para gráficos). Colores nuevos solo en modo claro (3,78 y 3,57) y una prueba que lee los colores reales de la página.
+
+**Diferencias con `hoy.html` (todas a propósito)**
+- El panel vacío se oculta con el atributo `hidden` en lugar de `:empty`; sin `<meta name="color-scheme">`; el aviso de «vista previa» solo sale si la app se publica en `/beta/`.
+- En el asistente, al marcar una opción de una pregunta con varias respuestas el foco se queda en el botón (antes la pantalla se redibujaba y se perdía).
+- Se conservan a propósito dos comportamientos antiguos: tras un fallo al recargar, cambiar de pestaña o de día muestra la previsión anterior (con el aviso de error arriba), y al cambiar de pestaña, de día, de trípode o de equipo se cierran las definiciones del glosario abiertas.
+
+**Cómo probarlo**
+- `npm run test:navegador` (compila, sirve `dist/` con `scripts/servir-dist.mjs` y pasa todas las pruebas de navegador de la versión compilada); `npm run test:todo` añade lógica y la web actual.
+- Para ver las capturas: `node test/e2e/capturas.cjs <carpeta>` con `E2E_BASE_URL` y `E2E_HOY_URL` apuntando a la versión compilada (las de `test/e2e/referencia/` son las de la web anterior, con sus defectos).
+
+- **Listo cuando**: las pruebas de navegador pasan sin tocarlas y las capturas coinciden con las de referencia. ✔ (la paridad visual se midió antes del responsive; falta ver `/beta/` en el móvil real)
 
 ### Fase 4: PWA y uso sin conexión
 - Manifiesto, iconos y service worker con caché de la aplicación y los datos.
