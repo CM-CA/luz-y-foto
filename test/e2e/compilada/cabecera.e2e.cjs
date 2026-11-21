@@ -117,7 +117,58 @@ ejecutar("cabecera", async ({ b, base }) => {
     await ctx.close();
   }
 
-  titulo("E: sin conexión, el cielo sale de la caché");
+  titulo("E: el texto blanco de la cabecera se lee sobre el cielo (contraste de al menos 4,5 : 1 en el 95 % de las letras)");
+  // Se mide donde de verdad están las letras: se hace una captura normal y otra con el texto transparente (que conserva la sombra y
+  // todo lo que hay debajo); las letras son los píxeles blancos de la primera, y su fondo, el mismo píxel de la segunda.
+  const contrasteDe = async (p) => {
+    const cajas = await p.evaluate(() => { const cab = document.querySelector("header.cabecera").getBoundingClientRect(); return ["h1", "#estado"].map((q) => { const r = document.querySelector("header.cabecera " + q).getBoundingClientRect(); return { n: q, x: r.left - cab.left, y: r.top - cab.top, w: r.width, h: r.height }; }); });
+    const con = (await p.locator("header.cabecera").screenshot()).toString("base64");
+    const estilo = await p.addStyleTag({ content: "header.cabecera h1, header.cabecera #estado { color: transparent !important; }" });
+    const sin = (await p.locator("header.cabecera").screenshot()).toString("base64");
+    await estilo.evaluate((e) => e.remove());
+    return p.evaluate(async ({ con, sin, cajas }) => {
+      const abrir = async (b64) => { const img = new Image(); await new Promise((si, no) => { img.onload = si; img.onerror = no; img.src = "data:image/png;base64," + b64; }); const c = document.createElement("canvas"); c.width = img.width; c.height = img.height; const x = c.getContext("2d"); x.drawImage(img, 0, 0); return x; };
+      const [X, Y] = [await abrir(con), await abrir(sin)];
+      const lum = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+      const salida = {};
+      for (const c of cajas) {
+        const [x0, y0, w, h] = [Math.floor(c.x), Math.floor(c.y), Math.ceil(c.w), Math.ceil(c.h)];
+        const a = X.getImageData(x0, y0, w, h).data, f = Y.getImageData(x0, y0, w, h).data, ls = [];
+        for (let i = 0; i < a.length; i += 4) if (a[i] > 245 && a[i + 1] > 245 && a[i + 2] > 245 && (f[i] < 240 || f[i + 1] < 240)) ls.push(0.2126 * lum(f[i]) + 0.7152 * lum(f[i + 1]) + 0.0722 * lum(f[i + 2]));
+        ls.sort((m, n) => m - n);
+        // El contraste del blanco con el fondo de la letra que está en el percentil 95 de claridad (el 5 % peor queda fuera: estrellas, bordes)
+        salida[c.n] = { letras: ls.length, contraste: ls.length ? 1.05 / (ls[Math.min(ls.length - 1, Math.floor(0.95 * ls.length))] + 0.05) : 0 };
+      }
+      return salida;
+    }, { con, sin, cajas });
+  };
+  for (const ancho of [320, 390]) {
+    for (const [nombre, preparar] of [
+      ["Atardecer, día despejado (cielo de tarde)", async (p) => { await p.waitForSelector(".veredicto"); await p.click("#dias button[data-i='0']"); }],
+      ["Atardecer, día rojo (cielo de tarde cubierto)", async (p) => { await p.waitForSelector(".veredicto"); await p.click("#dias button[data-i='1']"); }],
+      ["Luna, noche despejada (cielo de noche)", async (p) => { await p.waitForSelector(".veredicto"); await p.click("[data-tab=luna]"); await p.click("#dias button[data-i='1']"); }]
+    ]) {
+      const { ctx, p } = await nuevaPagina(b, { viewport: { width: ancho, height: 900 }, perfil: PERFIL, lugar: LUGAR, colorScheme: "light" });
+      await p.goto(base + "#/hoy"); await preparar(p); await p.waitForTimeout(400);
+      const c = await contrasteDe(p);
+      ok(c.h1.letras > 100 && c["#estado"].letras > 100, nombre + ", " + ancho + " px: se han encontrado las letras (" + c.h1.letras + " y " + c["#estado"].letras + ")");
+      ok(c.h1.contraste >= 4.5, nombre + ", " + ancho + " px, título: " + c.h1.contraste.toFixed(2) + " : 1");
+      ok(c["#estado"].contraste >= 4.5, nombre + ", " + ancho + " px, hora de la previsión: " + c["#estado"].contraste.toFixed(2) + " : 1");
+      await ctx.close();
+    }
+    // El aviso de error es el texto más largo y baja hacia el horizonte, que es lo más claro del cielo: el caso más difícil
+    const { ctx, p } = await nuevaPagina(b, { viewport: { width: ancho, height: 900 }, permisos: false, lugar: LUGAR, colorScheme: "light" });
+    await p.route(A, (r) => r.abort("internetdisconnected"));
+    await p.goto(base + "#/hoy");
+    await p.waitForFunction(() => /No se han podido cargar/.test(document.querySelector("#estado").textContent));
+    await p.waitForTimeout(400);
+    const e = await contrasteDe(p);
+    ok(e["#estado"].letras > 300, "aviso de error, " + ancho + " px: se han encontrado las letras (" + e["#estado"].letras + ")");
+    ok(e["#estado"].contraste >= 4.5, "aviso de error, " + ancho + " px: " + e["#estado"].contraste.toFixed(2) + " : 1");
+    await ctx.close();
+  }
+
+  titulo("F: sin conexión, el cielo sale de la caché");
   {
     const { ctx, p } = await nuevaPagina(b, { permisos: false, serviceWorkers: "allow", lugar: LUGAR });
     await p.goto(base + "#/hoy"); await p.waitForSelector("header.cabecera");
