@@ -483,9 +483,49 @@ async function lugar({ Lugar, urlPrevision }) {
   return plano(salida);
 }
 
+/* ---------- Lógica de la pantalla (días, noches, pestaña por defecto, formato) ---------- */
+
+function pantalla({ Semaforo, pantalla: P }) {
+  const config = datosReales();
+  const S = Semaforo.crear(config);
+  const real = JSON.parse(fs.readFileSync(path.join(RAIZ, "test", "e2e", "fixtures", "open-meteo-simulada.json"), "utf8"));
+  const generos = config.indice.orden;
+  const INDICES = [config.indice, { ...config.indice, nocheDespuesPuestaMin: 0 }, { ...config.indice, nocheDespuesPuestaMin: 240 }];
+  const salida = { formato: {}, fixture: {}, previsiones: [] };
+
+  salida.formato.hm = [null, undefined, 0, 1e12, 1763560800000, Date.UTC(2026, 5, 1, 23, 59), NaN].map((x) => P.hm(x));
+  salida.formato.pct = [0, 0.5, 1.5, 49.49, 49.5, 100, -0.4, 33.333, NaN].map((x) => P.pct(x));
+  salida.formato.unida = ["", null, undefined, "nor-noreste", "a-b-c", "sin guiones"].map((x) => P.unida(x));
+  salida.formato.mayus = ["", "lunes", "ñandú", "Ya", "x"].map((x) => P.mayus(x));
+
+  const vista = (prev, ahora) => {
+    const r = { ahora, fechaLugar: P.fechaLugar(ahora, prev), noches: P.nochesDe(prev, ahora), pestanas: INDICES.map((i) => P.pestanaPorDefecto(i, prev, ahora)), generos: {} };
+    generos.forEach((id) => {
+      const g = config.generos[id];
+      const lista = P.listaDe(g, prev, ahora);
+      r.generos[id] = { lista, etiquetas: lista.map((x) => intentar(() => P.etiquetaDia(g, x, prev, ahora))) };
+    });
+    return r;
+  };
+  const instantes = (prev) => prev.dias.flatMap((d) => [
+    d.amanecer - HORA, d.amanecer, d.amanecer + 60000, d.puesta - 2 * HORA, d.puesta, d.puesta + 30 * 60000,
+    d.puesta + config.indice.nocheDespuesPuestaMin * 60000 - 1, d.puesta + config.indice.nocheDespuesPuestaMin * 60000, d.puesta + config.indice.nocheDespuesPuestaMin * 60000 + 1
+  ]);
+
+  const prevReal = S.prepararPrevision(real);
+  salida.fixture = vista(prevReal, Date.parse("2026-11-19T15:00:00+01:00"));
+  salida.fixtureMuchasHoras = instantes(prevReal).map((a) => hash(vista(prevReal, a)));
+  for (let semilla = 1; semilla <= 60; semilla++) {
+    const { datos } = previsionInventada(semilla, config.comun);
+    const prev = S.prepararPrevision(datos);
+    salida.previsiones.push(instantes(prev).map((a) => hash(intentar(() => vista(prev, a)))));
+  }
+  return plano(salida);
+}
+
 /* ---------- Todo junto ---------- */
 
-export const AREAS = { astro, semaforo, datos, "perfil-recetas": perfilRecetas, lugar };
+export const AREAS = { astro, semaforo, datos, "perfil-recetas": perfilRecetas, lugar, pantalla };
 
 export async function calcularArea(nombre, logica) {
   return plano(await AREAS[nombre](logica));

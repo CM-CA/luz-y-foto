@@ -14,4 +14,11 @@ function urlPrevision(lat, lon) {
   return "https://api.open-meteo.com/v1/forecast?" + p;
 }
 
-export { urlPrevision };
+// Pide la previsión. Sin límite de tiempo y con el mismo mensaje de error que la versión actual («HTTP 500»).
+async function pedirPrevision(lat, lon) {
+  const resp = await fetch(urlPrevision(lat, lon));
+  if (!resp.ok) throw new Error("HTTP " + resp.status);
+  return resp.json();
+}
+
+export { urlPrevision, pedirPrevision };
