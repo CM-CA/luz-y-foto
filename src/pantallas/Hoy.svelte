@@ -3,7 +3,6 @@
   import { hoy, arrancar } from "../estado/hoy.svelte.js";
   import Cabecera from "../componentes/Cabecera.svelte";
   import SelectorLugar from "../componentes/SelectorLugar.svelte";
-  import Equipo from "../componentes/Equipo.svelte";
   import Asistente from "../componentes/Asistente.svelte";
   import Pestanas from "../componentes/Pestanas.svelte";
   import Dias from "../componentes/Dias.svelte";
@@ -24,7 +23,6 @@
   <Pestanas />
   <Dias />
   <AvisoSinConexion />
-  <Equipo />
   <Panel />
 
   <Reglas />

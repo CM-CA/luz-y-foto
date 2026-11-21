@@ -1,12 +1,13 @@
 <script>
   import { config } from "../estado/datos.js";
-  import { hoy, abrirAsistente, elegirTripode } from "../estado/hoy.svelte.js";
+  import { hoy, abrirAsistente, elegirTripode, resumenEquipo } from "../estado/hoy.svelte.js";
   import * as Perfil from "../nucleo/perfil.js";
   import { construir } from "../nucleo/recetas.js";
   import ConTerminos from "./ConTerminos.svelte";
 
-  // La receta del género elegido, adaptada al equipo y al semáforo de ese día. Sin el equipo configurado no se muestra
-  // (se invita a configurarlo): una receta de móvil para quien tiene una cámara no sirve.
+  // La receta del género elegido, adaptada al equipo y al semáforo de ese día. Lleva el resumen del equipo y el botón para editarlo:
+  // el equipo no tiene tarjeta propia. Sin el equipo configurado no se muestra la receta (se invita a configurarlo): una receta
+  // de móvil para quien tiene una cámara no sirve.
   let { g, nivel } = $props();
 
   const T = config.recetas.comun;
@@ -21,10 +22,16 @@
 </script>
 
 {#if sinPerfil}
-  <p class="invitacion">Cuéntame tu equipo para ver la receta de esta salida. <button type="button" class="enlace" data-accion="equipo" onclick={() => abrirAsistente(false)}>Configurar mi equipo</button></p>
+  <section class="invitacion">
+    <p><strong id="resumenEquipo">Sin configurar</strong> · Cuéntame tu equipo para ver la receta de esta salida.</p>
+    <button type="button" id="editarEquipo" data-accion="equipo" class="principal" onclick={() => abrirAsistente(false)}>Configurar mi equipo</button>
+  </section>
 {:else if receta}
   <details class="receta" id="receta" bind:open={hoy.recetaAbierta}>
-    <summary>Ver receta · {receta.titulo}{#if nivelDeLaReceta}<small class="nivel-receta">Explicada para {nivelDeLaReceta}</small>{/if}</summary>
+    <summary>
+      <span class="receta-texto">Ver receta · {receta.titulo}<small id="resumenEquipo">{resumenEquipo()}</small>{#if nivelDeLaReceta}<small class="nivel-receta">Explicada para {nivelDeLaReceta}</small>{/if}</span>
+    </summary>
+    <button type="button" id="editarEquipo" class="enlace" onclick={() => abrirAsistente(false)}>Editar mi equipo</button>
     {#if hoy.perfil.tripode === "aveces"}
       <div class="tripode" role="group" aria-label={T.tripodeHoy.pregunta}>
         <span>{T.tripodeHoy.pregunta}:</span>

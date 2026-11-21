@@ -178,9 +178,6 @@ dl.sale dd small { display: block; font-weight: 500; font-size: 14px; color: var
 .cabecera[data-cielo="noche-cubierta"] .luna-cielo { opacity: .4; }
 .consejo { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
 
-.equipo { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; }
-.equipo .etq { display: block; font-size: .8rem; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
-.equipo strong { font-size: 1rem; font-weight: 600; }
 .asistente { background: var(--tarjeta); border: 2px solid var(--texto); border-radius: 16px; padding: 20px; margin: 12px 0; }
 .asistente[hidden] { display: none; }
 .asistente h2 { font-size: 1.35rem; margin: 4px 0 8px; }
@@ -195,10 +192,21 @@ dl.sale dd small { display: block; font-weight: 500; font-size: 14px; color: var
 .acciones .derecha { display: flex; gap: 8px; flex-wrap: wrap; }
 button.enlace { border: none; background: none; text-decoration: underline; color: var(--suave); padding: 9px 6px; }
 
-details.receta { margin-top: 16px; border: 2px solid var(--texto); border-radius: 12px; padding: 12px 16px; }
-details.receta summary { cursor: pointer; font-weight: 700; font-size: 1.05rem; }
-.nivel-receta { display: block; margin-top: 2px; font-size: .9rem; font-weight: 400; color: var(--suave); }
-.invitacion { margin: 16px 0 0; padding: 12px 16px; border: 2px dashed var(--suave); border-radius: 12px; color: var(--suave); }
+/* La receta es un desplegable: lleva debajo del título el equipo y para qué nivel está explicada, y dentro, el botón para cambiar el
+   equipo (el equipo ya no tiene tarjeta propia). Sin el equipo configurado no hay receta: en su lugar, una invitación con borde discontinuo.
+   El borde y la flecha son adorno; el texto lo dice todo. */
+details.receta { margin-top: 22px; border: 2px solid var(--texto); border-radius: 20px; padding: 14px 16px; }
+details.receta summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; cursor: pointer; list-style: none; font: 800 17.5px/1.3 var(--cuerpo); }
+details.receta summary::-webkit-details-marker { display: none; }
+details.receta summary::after { content: "▾" / ""; flex: none; font-size: 18px; }
+details.receta[open] summary::after { transform: rotate(180deg); }
+.receta-texto { min-width: 0; overflow-wrap: anywhere; }
+details.receta summary small { display: block; margin-top: 2px; font: 500 14.5px/1.3 var(--cuerpo); color: var(--suave); }
+details.receta #editarEquipo { min-height: 44px; margin: 6px 0 0 -6px; }
+.invitacion { margin: 22px 0 0; padding: 14px 16px; border: 2px dashed var(--suave); border-radius: 20px; }
+.invitacion p { margin: 0; color: var(--suave); }
+.invitacion strong { color: var(--texto); font-weight: 800; }
+.invitacion button { min-height: 44px; margin-top: 12px; }
 details.receta ol { padding-left: 22px; margin: 8px 0; }
 details.receta li { margin-bottom: 10px; }
 .aviso-fijo { margin: 6px 0; padding: 8px 12px; border-radius: 8px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
