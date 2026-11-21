@@ -1,6 +1,6 @@
 /*
  * Qué días o noches se pueden consultar en cada género, cómo se llaman y qué pestaña se abre primero.
- * Es la lógica de la pantalla «Hoy» que antes estaba dentro de prueba/hoy.html.
+ * Es la lógica de la pantalla «Hoy» (días, noches, pestaña por defecto y formato), separada de los componentes.
  * El tipo de lista depende del motor del género, no del género: un género nuevo que use un motor existente funciona sin tocar esto.
  */
 import * as Astro from "./astro.js";

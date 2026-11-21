@@ -2,8 +2,6 @@
  * Estado de la pantalla Hoy y lo que se puede hacer con él: lugar, previsión, pestaña y día elegidos,
  * perfil de equipo y asistente. Los componentes leen `hoy` y llaman a estas funciones; no hablan
  * directamente con los proveedores ni con localStorage.
- *
- * Es el equivalente del objeto `estado` y de los manejadores de eventos de prueba/hoy.html.
  */
 import { config, S } from "./datos.js";
 import * as Perfil from "../nucleo/perfil.js";

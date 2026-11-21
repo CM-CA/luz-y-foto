@@ -1,5 +1,5 @@
 // Pruebas de la lógica de la pantalla Hoy (días y noches, pestaña por defecto, formato) y de la petición de previsión.
-// Esta lógica antes estaba dentro de prueba/hoy.html; test/paridad/ comprueba que da lo mismo que allí.
+// Esta lógica estuvo antes dentro de la web anterior (prueba/hoy.html, ya retirada); ahora vive en src/nucleo/dias.js.
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
