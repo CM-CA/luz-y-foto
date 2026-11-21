@@ -47,11 +47,17 @@
     </tbody>
   </table>
   <h3>Horas con la luna alta</h3>
-  <table>
+  <table class="horas" style="--columnas: 2">
     <thead><tr><th>Hora</th><th class="num">Nubes</th><th class="num">mm/h</th><th class="num">Prob.</th><th class="num">Visib. km</th></tr></thead>
     <tbody>
       {#each r.horas as x}
-        <tr class:mejor={x.t === r.mejorHora}><td>{hm(x.t)}</td><td class="num">{pct(x.total)}</td><td class="num">{x.lluvia.toFixed(1)}</td><td class="num">{pct(x.prob)}</td><td class="num">{x.vis.toFixed(0)}</td></tr>
+        <tr class:mejor={x.t === r.mejorHora}>
+          <td>{hm(x.t)}</td>
+          <td class="num" data-label="Nubes">{pct(x.total)}</td>
+          <td class="num" data-label="mm/h">{x.lluvia.toFixed(1)}</td>
+          <td class="num" data-label="Prob.">{pct(x.prob)}</td>
+          <td class="num" data-label="Visib. km">{x.vis.toFixed(0)}</td>
+        </tr>
       {/each}
     </tbody>
   </table>

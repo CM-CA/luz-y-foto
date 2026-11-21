@@ -19,28 +19,35 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
 const LUGAR = { lat: 42.2328, lon: -8.7226, nombre: "Vigo, Galicia", origen: "busqueda" };
 const ANCHOS = [320, 360, 390, 480, 600, 800];
+// Cada móvil usa su letra (Roboto, San Francisco…) y unas son más anchas que otras: se prueba con la del sistema
+// y con DejaVu Sans, que es de las más anchas y la que usa por defecto el navegador de Actions. (Si no está
+// instalada, el navegador usa otra y la prueba es menos exigente, pero no falla.)
+const LETRAS = [["la del sistema", null], ["una letra ancha", "'DejaVu Sans', sans-serif"]];
 
 ejecutar("maquetacion", async ({ b, base }) => {
-  for (const genero of ["atardecer", "luna"]) {
-    titulo("«" + genero + "»: nada se sale de la pantalla ni de la tarjeta");
-    for (const esquema of ["light", "dark"]) {
-      for (const ancho of ANCHOS) {
-        const { ctx, p } = await nuevaPagina(b, { viewport: { width: ancho, height: 800 }, colorScheme: esquema, perfil: PERFIL, lugar: LUGAR });
-        await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
-        await p.click("[data-tab=" + genero + "]");
-        await p.click("#receta summary");
-        await p.click("#reglas summary");
-        const r = await p.evaluate(() => {
-          const panel = document.querySelector("#panel").getBoundingClientRect();
-          const fuera = [...document.querySelectorAll("#panel table, #panel .veredicto, #panel details, #panel .capas, #panel .avisos, #panel .brujula, #panel .luna-cab")]
-            .filter((e) => e.getBoundingClientRect().right > panel.right + 0.5).map((e) => e.className || e.tagName);
-          return { pagina: document.documentElement.scrollWidth - document.documentElement.clientWidth, fuera };
-        });
-        ok(r.pagina <= 0 && r.fuera.length === 0, ancho + " px, " + esquema + (r.pagina > 0 ? " (la página desborda " + r.pagina + " px)" : "") + (r.fuera.length ? " (fuera de la tarjeta: " + r.fuera.join(", ") + ")" : ""));
-        ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
-        await ctx.close();
-      }
-    }
+  // Una página cargada con cada combinación; se miden la página y cada bloque del panel
+  const casos = [];
+  for (const genero of ["atardecer", "luna"]) for (const [nombreLetra, letra] of LETRAS) for (const esquema of ["light", "dark"]) for (const ancho of ANCHOS) casos.push({ genero, nombreLetra, letra, esquema, ancho });
+
+  let anterior = "";
+  for (const { genero, nombreLetra, letra, esquema, ancho } of casos) {
+    const grupo = "«" + genero + "», con " + nombreLetra + ": nada se sale de la pantalla ni de la tarjeta";
+    if (grupo !== anterior) { titulo(grupo); anterior = grupo; }
+    const { ctx, p } = await nuevaPagina(b, { viewport: { width: ancho, height: 800 }, colorScheme: esquema, perfil: PERFIL, lugar: LUGAR });
+    await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
+    if (letra) await p.addStyleTag({ content: "* { font-family: " + letra + " !important; }" });
+    await p.click("[data-tab=" + genero + "]");
+    await p.click("#receta summary");
+    await p.click("#reglas summary");
+    const r = await p.evaluate(() => {
+      const panel = document.querySelector("#panel").getBoundingClientRect();
+      const fuera = [...document.querySelectorAll("#panel table, #panel .veredicto, #panel details, #panel .capas, #panel .avisos, #panel .brujula, #panel .luna-cab")]
+        .filter((e) => e.getBoundingClientRect().right > panel.right + 0.5).map((e) => e.className || e.tagName);
+      return { pagina: document.documentElement.scrollWidth - document.documentElement.clientWidth, fuera };
+    });
+    ok(r.pagina <= 0 && r.fuera.length === 0, ancho + " px, " + esquema + (r.pagina > 0 ? " (la página desborda " + r.pagina + " px)" : "") + (r.fuera.length ? " (fuera de la tarjeta: " + r.fuera.join(", ") + ")" : ""));
+    ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
+    await ctx.close();
   }
 
   titulo("las barras de nubes se distinguen de su fondo (contraste mínimo 3:1, como pide la accesibilidad para gráficos)");

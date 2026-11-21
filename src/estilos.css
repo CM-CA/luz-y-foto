@@ -75,19 +75,17 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 tr.total td { font-weight: 700; border-bottom: none; }
 tr.mejor td { font-weight: 700; background: var(--verde-fondo); }
 
-/* En pantallas muy estrechas las celdas de las tablas llevan menos relleno, para que quepan las de cinco columnas */
-@media (max-width: 380px) {
-  th, td { padding: 8px 4px; }
-}
-
-/* «Horas analizadas» tiene 7 columnas y en el móvil no cabe en la tarjeta: en pantallas estrechas cada hora pasa a ser
-   un bloque con la hora arriba y los seis datos debajo, de tres en tres, cada uno con su nombre (data-label). */
+/* Las tablas de horas (7 columnas en «Horas analizadas», 5 en «Horas con la luna alta») no caben en la tarjeta en un móvil
+   estrecho, y menos con una letra ancha: en pantallas estrechas cada hora pasa a ser un bloque con la hora arriba y los
+   datos debajo, de tres en tres (o los que indique --columnas), cada uno con su nombre (data-label). */
 @media (max-width: 480px) {
   table.horas thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   table.horas, table.horas tbody { display: block; }
-  table.horas tr { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 8px; padding: 10px 0; border-bottom: 1px solid var(--borde); }
+  table.horas tr { display: grid; grid-template-columns: repeat(var(--columnas, 3), 1fr); gap: 4px 8px; padding: 10px 0; border-bottom: 1px solid var(--borde); }
   table.horas td { display: block; padding: 0; border: 0; text-align: left; white-space: normal; }
   table.horas td:first-child { grid-column: 1 / -1; font-weight: 700; }
+  table.horas tr.mejor { background: var(--verde-fondo); padding: 10px 8px; border-radius: 8px; }
+  table.horas tr.mejor td { background: none; }
   table.horas td:not(:first-child)::before { content: attr(data-label); display: block; font-size: .8rem; color: var(--suave); }
 }
 
