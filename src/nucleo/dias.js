@@ -27,6 +27,11 @@ function listaDe(g, prev, ahora) {
   return nochesDe(prev, ahora).slice(0, 3);
 }
 
+// La luna de un día (o de una noche, que lleva la fecha de la tarde en que empieza) en un lugar: fase, fracción iluminada, salida y puesta
+function lunaDe(item, lat, lon) {
+  return Astro.calcularDia(new Date(item.fecha + "T12:00:00"), lat, lon).luna;
+}
+
 /*
  * El resultado del semáforo para un día (atardecer) o una noche (luna) de la lista. Lo usan el panel grande y los
  * botones de día (cada uno lleva su semáforo), para que nunca puedan discrepar. Puede ser null si aún no hay previsión
@@ -35,7 +40,7 @@ function listaDe(g, prev, ahora) {
  */
 function evaluarDia({ S, g, prev, item, lat, lon, ahora }) {
   if (g.motor === "puntos-ventana") return S.evaluar(g.id, prev, { dia: item.dia });
-  const fraccion = Astro.calcularDia(new Date(item.fecha + "T12:00:00"), lat, lon).luna.fraccion;
+  const fraccion = lunaDe(item, lat, lon).fraccion;
   const enCurso = item.inicio <= ahora; // una noche en curso se evalúa solo desde ahora
   return S.evaluar(g.id, prev, { inicio: item.inicio, fin: item.fin, lat, lon, fraccion, desde: enCurso ? ahora : undefined });
 }
@@ -79,4 +84,4 @@ function prepararVista({ config, S, datos, lat, lon, ahora, pestanaElegida, pest
   return { prev, listas, pestana: pestanaFinal, indice, ahora };
 }
 
-export { nochesDe, listaDe, evaluarDia, fechaLugar, etiquetaDia, pestanaPorDefecto, prepararVista };
+export { nochesDe, listaDe, evaluarDia, fechaLugar, etiquetaDia, lunaDe, pestanaPorDefecto, prepararVista };

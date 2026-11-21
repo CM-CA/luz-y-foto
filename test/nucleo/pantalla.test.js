@@ -9,7 +9,7 @@ import { cargarDeDisco } from "../../scripts/datos-de-disco.mjs";
 import * as Astro from "../../src/nucleo/astro.js";
 import * as Semaforo from "../../src/nucleo/semaforo.js";
 import { hm, pct, unida, mayus, trozosDePlantilla } from "../../src/nucleo/formato.js";
-import { nochesDe, listaDe, evaluarDia, etiquetaDia, pestanaPorDefecto, prepararVista } from "../../src/nucleo/dias.js";
+import { nochesDe, listaDe, evaluarDia, etiquetaDia, lunaDe, pestanaPorDefecto, prepararVista } from "../../src/nucleo/dias.js";
 import { pedirPrevision, urlPrevision } from "../../src/proveedores/open-meteo.js";
 
 const aqui = path.dirname(fileURLToPath(import.meta.url));
@@ -127,4 +127,13 @@ it("petición de previsión: un error del servidor se explica con su código", a
   try {
     await assert.rejects(pedirPrevision(LAT, LON), /HTTP 500/);
   } finally { globalThis.fetch = antes; }
+});
+
+it("lunaDe: la luna de ese día en ese lugar, la misma que calcula Astro", () => {
+  const item = listaDe(config.generos.luna, prev, instante("2026-11-19T15:00"))[0];
+  const esperada = Astro.calcularDia(new Date(item.fecha + "T12:00:00"), 42.2328, -8.7226).luna;
+  const luna = lunaDe(item, 42.2328, -8.7226);
+  assert.equal(luna.fase, esperada.fase);
+  assert.deepEqual(luna, esperada);
+  assert.ok(luna.fase > 0 && luna.fase < 1);
 });

@@ -11,7 +11,8 @@ import { chromium } from "playwright";
 
 const publico = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "public");
 
-const FONDO = "#1d2b44", SOL = "#f5a623", LINEA = "#8fb4ff";
+// Los colores de «La luz de ahora»: azul noche del cielo, sol naranja y la línea del horizonte en azul de la hora azul
+const FONDO = "#1f2740", SOL = "#ee7d2f", LINEA = "#7f9be0";
 
 // El dibujo (sol que se pone sobre una línea de horizonte) en un lienzo de 64 × 64, centrado en (32, 35.5)
 const dibujo = `

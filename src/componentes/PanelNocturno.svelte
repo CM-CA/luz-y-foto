@@ -1,18 +1,18 @@
 <script>
   import { S } from "../estado/datos.js";
   import { hoy } from "../estado/hoy.svelte.js";
-  import * as Astro from "../nucleo/astro.js";
-  import { evaluarDia } from "../nucleo/dias.js";
+  import { evaluarDia, lunaDe } from "../nucleo/dias.js";
+  import { indiceFaseLuna } from "../nucleo/cielo.js";
+  import { LUNAS } from "../imagenes/cielos.js";
   import { hm, pct, unida } from "../nucleo/formato.js";
   import Veredicto from "./Veredicto.svelte";
   import Avisos from "./Avisos.svelte";
   import Receta from "./Receta.svelte";
-  import LunaSvg from "./LunaSvg.svelte";
 
   // Género de «mejor hora de la noche» (luna): fase, salida y puesta, y las horas con la luna alta
   let { g, item } = $props();
 
-  const lunaDia = $derived(Astro.calcularDia(new Date(item.fecha + "T12:00:00"), hoy.lat, hoy.lon).luna);
+  const lunaDia = $derived(lunaDe(item, hoy.lat, hoy.lon));
   const fase = $derived(g.fases[lunaDia.faseId]);
   const enCurso = $derived(item.inicio <= hoy.ahora);
   const r = $derived(evaluarDia({ S, g, prev: hoy.prev, item, lat: hoy.lat, lon: hoy.lon, ahora: hoy.ahora }));
@@ -26,10 +26,10 @@
 <Avisos lista={r.avisos} />
 <Receta {g} nivel={r.nivel} />
 <div class="luna-cab">
-  <LunaSvg fase={lunaDia.fase} sur={hoy.lat < 0} />
-  <p><span class="luna-nombre">{fase.nombre}</span><br>{Math.round(lunaDia.fraccion * 100)} % iluminada, {lunaDia.creciente ? "creciendo" : "menguando"}</p>
+  <img class:sur={hoy.lat < 0} src={LUNAS[indiceFaseLuna(lunaDia.fase)]} alt="" width="66" height="66">
+  <p><span class="luna-nombre">{fase.nombre}</span><span class="luna-detalle">{Math.round(lunaDia.fraccion * 100)} % iluminada, {lunaDia.creciente ? "creciendo" : "menguando"}</span></p>
 </div>
-<dl>
+<dl class="sale">
   <dt>Sale</dt>
   <dd>{#if lunaDia.sale}{hm(lunaDia.sale.getTime())}<small>hacia el {unida(lunaDia.palabraSale)}</small>{:else}—<small>no sale este día</small>{/if}</dd>
   <dt>Se pone</dt>

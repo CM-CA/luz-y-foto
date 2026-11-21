@@ -10,7 +10,7 @@ import * as Perfil from "../nucleo/perfil.js";
 import * as Lugar from "../nucleo/lugar.js";
 import * as Guardada from "../nucleo/previsionGuardada.js";
 import { hm } from "../nucleo/formato.js";
-import { prepararVista } from "../nucleo/dias.js";
+import { prepararVista, evaluarDia } from "../nucleo/dias.js";
 import { pedirPrevision } from "../proveedores/open-meteo.js";
 import { nombreDeLugar } from "../proveedores/nominatim.js";
 import { buscarCiudad } from "../proveedores/geocodificacion.js";
@@ -40,6 +40,14 @@ let peticion = 0; // para descartar el nombre de un lugar si mientras tanto se e
 export const generoActual = () => (hoy.pestana ? config.generos[hoy.pestana] : null);
 export const listaActual = () => { const g = generoActual(); return g && hoy.listas ? hoy.listas[g.id] : []; };
 export const indiceActual = () => (hoy.indice >= listaActual().length ? 0 : hoy.indice);
+export const itemActual = () => listaActual()[indiceActual()];
+
+// El semáforo del día elegido (null si todavía no hay previsión). Lo usa la cabecera para elegir el cielo.
+export function resultadoActual() {
+  const g = generoActual(), item = itemActual();
+  if (!g || !item || !hoy.prev) return null;
+  return evaluarDia({ S, g, prev: hoy.prev, item, lat: hoy.lat, lon: hoy.lon, ahora: hoy.ahora });
+}
 
 // `vistaLista` dice si el panel se ve; `pintado` sube cada vez que el panel se dibuja de nuevo desde cero
 // (cambio de pestaña, de día, de trípode, de equipo o previsión nueva), igual que hacía hoy.html, y

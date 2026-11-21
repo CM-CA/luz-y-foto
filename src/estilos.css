@@ -1,41 +1,45 @@
 /*
- * Estilos de la pantalla Hoy. Son los de prueba/hoy.html tal cual (paridad antes que mejoras), con tres cambios:
- * el panel sin contenido se oculta con el atributo hidden en vez de :empty, y se añade el aviso de la vista previa.
- * Cuando se corrija el responsive (fase 3, al final) y se pasen a cada componente, se explicará en el commit.
+ * Estilos de la app: «La luz de ahora» (docs/superpowers/specs/2026-11-21-la-luz-de-ahora-design.md).
+ *
+ * Regla de oro: ninguna información depende de un fondo, un borde, un degradado o un dibujo en SVG, porque hay navegadores
+ * de móvil que los oscurecen por su cuenta. Los símbolos (●▲■○ ✓) son texto con el color del nivel, las barras son
+ * bloques «█» de texto, y el cielo y las fases de la luna son imágenes. Los fondos y los bordes son solo adorno.
  */
+@font-face { font-family: "Young Serif"; font-style: normal; font-weight: 400; font-display: swap; src: url("./fuentes/young-serif-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-weight: 300 900; font-display: swap; src: url("./fuentes/figtree-latin-wght-normal.woff2") format("woff2"); }
 :root {
   color-scheme: light dark; /* la web tiene tema claro y oscuro: el navegador no debe oscurecerla por su cuenta */
-  --fondo: #f6f4ef; --tarjeta: #ffffff; --texto: #1f2328; --suave: #5b6470; --borde: #dcd8cf;
-  --verde: #1f7a3f; --verde-fondo: #e3f3e8;
-  --ambar: #8a5a00; --ambar-fondo: #fdf0d0;
-  --rojo: #a52a2a; --rojo-fondo: #f9e0e0;
-  --gris: #4a5260; --gris-fondo: #e9e9ec;
+  --display: "Young Serif", Georgia, serif;
+  --cuerpo: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fondo: #f3eff4; --tarjeta: #ffffff; --texto: #1f2740; --suave: #59607f; --borde: #d8d1df;
+  --verde: #1b7a47; --verde-fondo: #ddf1e5;
+  --ambar: #8f5a00; --ambar-fondo: #fbe9c0; --ambar-simbolo: #b06b00; /* el símbolo es gráfico: basta 3:1 sobre el fondo */
+  --rojo: #a9362f; --rojo-fondo: #f8dcd8;
+  --gris: #59607f; --gris-fondo: #e9e4ee;
+  --oro: #f4b94f; --sol: #ee7d2f; --violeta: #6d5aa6; --azul-hora: #3f5fa8;
   --barra-baja: #55657a; --barra-media: #2b6cb0; --barra-alta: #8e44ad;
-  --luna-luz: #f3efe2; --luna-sombra: #3a4150;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --fondo: #15181c; --tarjeta: #1f2329; --texto: #e8eaed; --suave: #a3abb5; --borde: #333a43;
-    --verde: #6fcf8e; --verde-fondo: #1b3324;
-    --ambar: #f0c060; --ambar-fondo: #3a2f14;
-    --rojo: #f08a8a; --rojo-fondo: #3b1d1d;
-    --gris: #c3c8d0; --gris-fondo: #2a2f37;
+    --fondo: #0f1626; --tarjeta: #18213a; --texto: #ecebf5; --suave: #a8afcb; --borde: #2c3658;
+    --verde: #78d9a3; --verde-fondo: #173a2b;
+    --ambar: #f5c867; --ambar-fondo: #3a2f17; --ambar-simbolo: #f5c867;
+    --rojo: #f7a199; --rojo-fondo: #40201f;
+    --gris: #a8afcb; --gris-fondo: #232c47;
+    --oro: #f4b94f; --sol: #f08a3a; --violeta: #9985d8; --azul-hora: #7f9be0;
     --barra-baja: #9db0c4; --barra-media: #6aa9ff; --barra-alta: #c792ea;
-    --luna-luz: #ece7d6; --luna-sombra: #2b313c;
   }
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--fondo); color: var(--texto);
-  font: 18px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-main { max-width: 760px; margin: 0 auto; padding: 20px 16px 64px; }
+body { margin: 0; background: var(--fondo); color: var(--texto); font: 17px/1.5 var(--cuerpo); }
+main { max-width: 760px; margin: 0 auto; padding: 0 0 64px; }
+.pagina { padding: 20px 16px 0; }   /* pantallas sin cabecera */
+.cuerpo { padding: 0 16px; }        /* lo que va bajo la cabecera, que ocupa todo el ancho */
+h1, h3 { font-family: var(--display); font-weight: 400; color: var(--texto); }
 h1 { font-size: 1.6rem; margin: 0 0 4px; }
-h3 { font-size: 1rem; margin: 22px 0 8px; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
-.intro { color: var(--suave); margin: 0 0 16px; }
+h3 { font-size: 21px; line-height: 1.2; margin: 26px 0 12px; }
 
-.lugar { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; }
-.lugar .etq { display: block; font-size: .8rem; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
-.lugar strong { font-size: 1.15rem; }
-.selector { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 14px; margin-bottom: 8px; }
+.selector { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 20px; padding: 14px; margin-top: 12px; }
 .selector[hidden] { display: none; }
 .selector form { display: flex; gap: 8px; margin: 12px 0 0; }
 .selector input { flex: 1; min-width: 0; font: inherit; padding: 10px 12px; border: 1px solid var(--borde); border-radius: 8px; background: var(--fondo); color: var(--texto); }
@@ -45,21 +49,37 @@ h3 { font-size: 1rem; margin: 22px 0 8px; color: var(--suave); text-transform: u
 #msgLugar { margin: 0; min-height: 1.4em; color: var(--suave); font-size: .95rem; }
 button { font: inherit; padding: 9px 16px; border-radius: 8px; cursor: pointer; border: 1px solid var(--borde); background: var(--tarjeta); color: var(--texto); }
 button.principal { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
-#estado { min-height: 1.5em; color: var(--suave); margin: 6px 0 12px; font-size: .9rem; }
 
-.pestanas { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; margin-bottom: 12px; }
-.pestanas button { padding: 14px 10px; font-weight: 700; font-size: 1.1rem; border-width: 2px; }
-.pestanas button[aria-selected="true"] { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
+/* La cabecera: un cielo (imagen) con el título, la hora de la previsión y el lugar encima. Todo lo que se lee es texto blanco
+   con sombra: el cielo es solo adorno y la imagen no cambia de color aunque el navegador oscurezca la web. */
+.cabecera { position: relative; height: 262px; overflow: hidden; color: #fff; background: #2f4a8c; }
+.cabecera .cielo { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+.cabecera .fila { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 26px 16px 0 20px; }
+.cabecera .rotulo { flex: 1 1 0; min-width: 0; }
+.cabecera h1 { margin: 0; font-size: 27px; line-height: 1; letter-spacing: .2px; color: #fff; text-shadow: 0 1px 10px rgba(20, 15, 50, .5); }
+#estado { margin: 6px 0 0; font: 600 14px/1.3 var(--cuerpo); }
+.cabecera #estado { color: #fff; text-shadow: 0 0 2px rgba(12, 14, 38, .9), 0 0 6px rgba(12, 14, 38, .85), 0 1px 10px rgba(12, 14, 38, .7); overflow-wrap: anywhere; }
+.lugar .flecha { margin-left: .4em; }
+.lugar { flex: 0 1 auto; max-width: 55%; min-height: 44px; padding: 9px 13px; border: 0; border-radius: 18px; background: rgba(18, 16, 48, .45); color: #fff; font: 700 15px/1.2 var(--cuerpo); text-align: left; text-shadow: 0 1px 6px rgba(20, 15, 50, .5); overflow-wrap: anywhere; }
+
+
+/* Las pestañas son una tarjeta que monta 27 px sobre el cielo (clase «solapa», que Pestanas.svelte quita mientras hay algo
+   abierto entre la cabecera y ellas: el selector de lugar o el asistente). La elegida va con colores invertidos y una ✓ (texto). */
+.pestanas { position: relative; z-index: 3; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 14px 0 12px; padding: 5px; border-radius: 22px; background: var(--tarjeta); box-shadow: 0 8px 22px rgba(30, 24, 64, .2); }
+.pestanas.solapa { margin-top: -27px; }
+.pestanas button { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 12px 8px; border: 0; border-radius: 17px; background: transparent; color: var(--texto); font: 700 18px/1.2 var(--cuerpo); }
+.pestanas button[aria-selected="true"] { background: var(--texto); color: var(--fondo); }
+.pestanas button[aria-selected="true"]::before { margin-right: .4em; } /* en un contenedor flex el espacio final de «✓ » se pierde */
 /* Los días van siempre en una sola fila (tres columnas iguales). Cada botón lleva arriba el semáforo de ese día
    (símbolo con el color del nivel) y abajo el nombre del día. */
 .dias { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 14px; }
-.dias button { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; padding: 8px 4px 10px; border-radius: 14px; border-width: 2px; }
-.dias .marca { font-size: 1.4rem; line-height: 1; }
+.dias button { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; padding: 8px 4px 10px; border: 2px solid var(--borde); border-radius: 16px; background: var(--tarjeta); }
+.dias .marca { font-size: 23px; line-height: 1; }
 .dias [data-nivel="verde"] .marca { color: var(--verde); }
-.dias [data-nivel="ambar"] .marca { color: var(--ambar); }
+.dias [data-nivel="ambar"] .marca { color: var(--ambar-simbolo); }
 .dias [data-nivel="rojo"] .marca { color: var(--rojo); }
 .dias [data-nivel="ninguno"] .marca { color: var(--gris); }
-.dias .etq { max-width: 100%; padding: 2px 10px; border-radius: 999px; font-size: .95rem; line-height: 1.25; }
+.dias .etq { max-width: 100%; padding: 2px 10px; border-radius: 999px; font-size: 16px; font-weight: 500; line-height: 1.25; }
 /* El día elegido lleva su nombre con el color invertido y en negrita, y una ✓ junto al símbolo. El color del símbolo
    no cambia, así que sigue viéndose el semáforo del día elegido. */
 .dias button[aria-pressed="true"] { border-color: var(--texto); }
@@ -71,20 +91,25 @@ button.principal { background: var(--texto); color: var(--fondo); border-color: 
    los fondos y los bordes, y personas que no distinguen bien los colores). La ✓ es un texto y se pinta con el color
    del texto; el texto alternativo vacío evita que un lector de pantalla la lea. */
 .pestanas button[aria-selected="true"]::before, .tripode button[aria-pressed="true"]::before { content: "✓ " / ""; }
-.dias button[aria-pressed="true"] .marca::before { content: "✓ " / ""; color: var(--texto); }
+.dias button[aria-pressed="true"] .marca::before { content: "✓ " / ""; color: var(--texto); font-size: 18px; font-weight: 800; }
 
 .panel[hidden] { display: none; }
 .panel { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 16px; padding: 20px; }
 .subtitulo { color: var(--suave); font-size: .95rem; margin: 0 0 12px; }
 
-.veredicto { padding: 20px 16px; border-radius: 14px; border: 3px solid currentColor; }
+.veredicto { padding: 20px; border-radius: 26px; }
 .veredicto.verde { color: var(--verde); background: var(--verde-fondo); }
 .veredicto.ambar { color: var(--ambar); background: var(--ambar-fondo); }
 .veredicto.rojo  { color: var(--rojo);  background: var(--rojo-fondo); }
 .veredicto.ninguno { color: var(--gris); background: var(--gris-fondo); }
-.veredicto .titulo { font-size: 2rem; font-weight: 800; line-height: 1.15; }
-.veredicto .nota { font-size: .95rem; margin-top: 2px; }
-.veredicto p { margin: 10px 0 0; color: var(--texto); }
+/* El símbolo y la palabra son texto; el bloque de color y el medidor (que también lleva el color como texto) son adorno. */
+.veredicto .titulo { display: flex; align-items: baseline; gap: 12px; font: 400 37px/1.05 var(--display); }
+.veredicto .titulo i { font: normal 27px/1 var(--cuerpo); transform: translateY(2px); }
+.veredicto .nota { margin-top: 7px; font: 700 16.5px/1.3 var(--cuerpo); }
+.veredicto .barra { height: 10px; margin-top: 11px; border: 0; border-radius: 6px; background: rgba(31, 39, 64, .12); }
+.veredicto .barra span { font-size: 12px; line-height: 10px; }
+@media (prefers-color-scheme: dark) { .veredicto .barra { background: rgba(255, 255, 255, .14); } }
+.veredicto p { margin: 10px 0 0; color: var(--texto); line-height: 1.45; }
 .avisos { margin: 12px 0 0; padding: 12px 16px; border-radius: 10px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); }
 .avisos p { margin: 4px 0; }
 
@@ -115,19 +140,45 @@ tr.mejor td { font-weight: 700; background: var(--verde-fondo); }
 .barra span { display: block; height: 100%; overflow: hidden; white-space: nowrap; font-size: 14px; line-height: 12px; letter-spacing: -1px; user-select: none; }
 .capa .valor { text-align: right; }
 
-.brujula, .luna-cab { display: flex; align-items: center; gap: 14px; margin-top: 14px; }
-.brujula p, .luna-cab p { margin: 0; }
-.luna-nombre { font-size: 1.15rem; font-weight: 700; }
-dl { margin: 12px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; }
-dt { color: var(--suave); font-size: .95rem; }
-dd { margin: 0; font-weight: 600; text-align: right; }
-dd small { display: block; font-weight: 400; color: var(--suave); }
+.luna-cab { display: flex; align-items: center; gap: 16px; margin-top: 20px; }
+.luna-cab img { width: 66px; height: 66px; flex: none; }
+.luna-cab img.sur { transform: scaleX(-1); } /* en el hemisferio sur la luna se ve al revés */
+.luna-cab p { margin: 0; }
+.brujula { display: flex; align-items: center; gap: 16px; margin-top: 22px; }
+.brujula svg { width: 62px; height: 62px; flex: none; }
+.brujula p { margin: 0; line-height: 1.35; }
+.brujula strong { font-weight: 800; }
+
+/* «La luz de hoy»: franja de 48 bloques de texto «█» (cada uno con su color), el marcador de ahora (otro texto) y las tres horas. */
+.luz-de-hoy h3 { margin-top: 26px; }
+.franja { position: relative; height: 14px; }
+/* Cada «█» es más ancho que su bloque y se solapa con el siguiente, que lo pinta encima: así los bordes de los bloques, que caen
+   entre dos píxeles, se mezclan con el color vecino y no con el fondo (si cada bloque recortara su propio texto quedaría una
+   costura clara). Quien recorta es el contenedor, que también redondea los extremos.
+   El cuerpo de la letra crece con el ancho de la franja (cada bloque mide 1/48; el «█» ocupa más de media «m», así que con
+   1/24 del ancho de letra sobra) para que en una pantalla grande tampoco queden huecos. */
+.franja .bloques { display: flex; height: 14px; border-radius: 7px; overflow: hidden; container-type: inline-size; }
+.franja span { flex: 1 1 0; min-width: 0; white-space: nowrap; font-size: 18px; font-size: max(18px, calc(100cqw / 24)); line-height: 14px; user-select: none; }
+.franja .ahora { position: absolute; top: -5px; transform: translateX(-50%); font: normal 24px/24px var(--cuerpo); color: #fff6d6; text-shadow: 0 0 1px var(--texto), 0 0 2px var(--texto), 0 0 3px var(--texto); pointer-events: none; }
+.luz-de-hoy .horas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; font-size: 15px; line-height: 1.3; color: var(--suave); }
+.luz-de-hoy .horas b { display: block; font: 800 18px/1.2 var(--cuerpo); color: var(--texto); }
+.luz-de-hoy .horas div:nth-child(2) { text-align: center; }
+.luz-de-hoy .horas div:last-child { text-align: right; }
+.luna-nombre { display: block; font: 400 22px/1.15 var(--display); }
+.luna-detalle { display: block; margin-top: 2px; color: var(--suave); font-size: 16px; }
+dl.sale { margin: 16px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; font-size: 16px; }
+dl.sale dt { color: var(--suave); }
+dl.sale dd { margin: 0; font-weight: 800; text-align: right; }
+dl.sale dd small { display: block; font-weight: 500; font-size: 14px; color: var(--suave); }
+
+/* La luna del cielo (la de la fase de esa noche) va en el 75 % del ancho y el 33 % del alto de la cabecera, por detrás del título y
+   del lugar; con la noche cubierta se apaga. */
+.cabecera .luna-cielo { position: absolute; left: 75%; top: 33%; width: 64px; height: 64px; margin: -32px 0 0 -32px; filter: drop-shadow(0 0 18px rgba(246, 239, 210, .5)); pointer-events: none; }
+.cabecera .luna-cielo.sur { transform: scaleX(-1); }
+.cabecera[data-cielo="noche-cubierta"] .luna-cielo { opacity: .4; }
 .consejo { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
 
-.equipo { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; }
-.equipo .etq { display: block; font-size: .8rem; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
-.equipo strong { font-size: 1rem; font-weight: 600; }
-.asistente { background: var(--tarjeta); border: 2px solid var(--texto); border-radius: 16px; padding: 20px; margin-bottom: 12px; }
+.asistente { background: var(--tarjeta); border: 2px solid var(--texto); border-radius: 20px; padding: 20px; margin: 12px 0; }
 .asistente[hidden] { display: none; }
 .asistente h2 { font-size: 1.35rem; margin: 4px 0 8px; }
 .asistente h2:focus { outline: none; }
@@ -141,10 +192,21 @@ dd small { display: block; font-weight: 400; color: var(--suave); }
 .acciones .derecha { display: flex; gap: 8px; flex-wrap: wrap; }
 button.enlace { border: none; background: none; text-decoration: underline; color: var(--suave); padding: 9px 6px; }
 
-details.receta { margin-top: 16px; border: 2px solid var(--texto); border-radius: 12px; padding: 12px 16px; }
-details.receta summary { cursor: pointer; font-weight: 700; font-size: 1.05rem; }
-.nivel-receta { display: block; margin-top: 2px; font-size: .9rem; font-weight: 400; color: var(--suave); }
-.invitacion { margin: 16px 0 0; padding: 12px 16px; border: 2px dashed var(--suave); border-radius: 12px; color: var(--suave); }
+/* La receta es un desplegable: lleva debajo del título el equipo y para qué nivel está explicada, y dentro, el botón para cambiar el
+   equipo (el equipo ya no tiene tarjeta propia). Sin el equipo configurado no hay receta: en su lugar, una invitación con borde discontinuo.
+   El borde y la flecha son adorno; el texto lo dice todo. */
+details.receta { margin-top: 22px; border: 2px solid var(--texto); border-radius: 20px; padding: 14px 16px; }
+details.receta summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; cursor: pointer; list-style: none; font: 800 17.5px/1.3 var(--cuerpo); }
+details.receta summary::-webkit-details-marker { display: none; }
+details.receta summary::after { content: "▾" / ""; flex: none; font-size: 18px; }
+details.receta[open] summary::after { transform: rotate(180deg); }
+.receta-texto { min-width: 0; overflow-wrap: anywhere; }
+details.receta summary small { display: block; margin-top: 2px; font: 500 14.5px/1.3 var(--cuerpo); color: var(--suave); }
+details.receta #editarEquipo { min-height: 44px; margin: 6px 0 0 -6px; }
+.invitacion { margin: 22px 0 0; padding: 14px 16px; border: 2px dashed var(--suave); border-radius: 20px; }
+.invitacion p { margin: 0; color: var(--suave); }
+.invitacion strong { color: var(--texto); font-weight: 800; }
+.invitacion button { min-height: 44px; margin-top: 12px; }
 details.receta ol { padding-left: 22px; margin: 8px 0; }
 details.receta li { margin-bottom: 10px; }
 .aviso-fijo { margin: 6px 0; padding: 8px 12px; border-radius: 8px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
@@ -162,13 +224,14 @@ a { color: inherit; }
 .pie { color: var(--suave); font-size: .85rem; margin-top: 24px; }
 
 /* Aviso de la vista previa (solo en /beta/) */
-.aviso-beta { margin: 0 0 12px; padding: 8px 12px; border-radius: 8px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .9rem; }
+.aviso-beta { margin: 0; padding: 8px 16px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .9rem; }
 .aviso-beta p { margin: 0; }
 
 /* Aviso de «hay una versión nueva» (service worker): fijo abajo para que se vea estés donde estés en la página.
    Todo lo que lo identifica es texto y borde del color del texto: el navegador del móvil puede oscurecer fondos y bordes. */
 .aviso-version { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 10; max-width: 736px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px 10px 16px; border-radius: 12px; background: var(--tarjeta); color: var(--texto); border: 2px solid var(--texto); box-shadow: 0 6px 24px rgba(0, 0, 0, .25); }
-.aviso-version p { margin: 0; font-weight: 700; }
+.aviso-version p { margin: 0; font: 700 15px/1.3 var(--cuerpo); }
+main:has(.aviso-version) { padding-bottom: 130px; } /* con el aviso fijo a la vista, sitio de sobra para que no tape el final de la página */
 .aviso-version button { flex: none; font-weight: 700; background: var(--texto); color: var(--fondo); border-color: var(--texto); }
 .aviso-version button:disabled { opacity: .7; cursor: default; }
 

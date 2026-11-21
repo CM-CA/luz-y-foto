@@ -1,10 +1,14 @@
 <script>
-  // Brújula con una flecha que apunta al azimut indicado (grados desde el norte)
+  // Brújula con una flecha que apunta al azimut indicado (grados desde el norte). La dirección también se dice con palabras
+  // en el texto de al lado: el dibujo es un apoyo (un navegador que oscurece los SVG por su cuenta no esconde nada).
   let { az } = $props();
 </script>
 
-<svg width="64" height="64" viewBox="-32 -32 64 64" role="img" aria-label="Dirección: {Math.round(az)} grados desde el norte">
-  <circle r="29" fill="none" stroke="var(--borde)" stroke-width="2" />
-  <text y="-19" text-anchor="middle" font-size="9" fill="var(--suave)">N</text>
-  <g transform="rotate({az.toFixed(1)})"><path d="M0 -22 L7 6 L0 1 L-7 6 Z" fill="var(--ambar)" /></g>
+<svg width="62" height="62" viewBox="-32 -32 64 64" role="img" aria-label="Dirección: {Math.round(az)} grados desde el norte">
+  <circle r="29" fill="none" stroke="var(--borde)" stroke-width="3" />
+  <text y="-18" text-anchor="middle" font-size="10" font-weight="800" fill="var(--suave)">N</text>
+  <g transform="rotate({az.toFixed(1)})">
+    <path d="M0 25 L7 6 L0 10 L-7 6 Z" fill="var(--suave)" opacity=".45" />
+    <path d="M0 -24 L9 5 L0 -1 L-9 5 Z" fill="var(--ambar-simbolo)" />
+  </g>
 </svg>

@@ -100,6 +100,10 @@ ejecutar("sin-conexion", async ({ b, base }) => {
   const visible = await p.locator("[data-testid=aviso-version]").boundingBox();
   const vista = p.viewportSize();
   ok(visible && visible.x >= 0 && visible.x + visible.width <= vista.width && visible.y + visible.height <= vista.height, "el aviso cabe en pantalla");
+  // Al final de la página, el aviso fijo no tapa el último texto (queda sitio de sobra bajo el pie)
+  await p.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  const tapa = await p.evaluate(() => document.querySelector(".pie").getBoundingClientRect().bottom - document.querySelector("[data-testid=aviso-version]").getBoundingClientRect().top);
+  ok(tapa <= 0, "al final de la página el aviso no tapa el pie (" + Math.round(tapa) + " px de solape)");
 
   titulo("«Actualizar»: pasa a la versión nueva y limpia la anterior");
   await Promise.all([p.waitForEvent("load"), p.click("[data-accion=actualizar]")]);

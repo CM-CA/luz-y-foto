@@ -47,6 +47,7 @@ ejecutar("genero-nuevo", async ({ b, base }) => {
   ok(pestanas.length === 3, "hay 3 pestañas: " + pestanas.join(", "));
   await p.click("[data-tab=amanecer]");
   ok(/Amanecer a las \d\d:\d\d/.test(await p.locator(".subtitulo").innerText()), "el panel dice: " + await p.locator(".subtitulo").innerText());
+  ok(await p.locator(".franja").count() === 0 && await p.locator(".luz-de-hoy").count() === 0, "sin «La luz de hoy»: la franja es solo del género con puesta de sol");
   ok(await p.locator(".veredicto .titulo").count() === 1, "muestra su semáforo: " + await p.locator(".veredicto .titulo").innerText());
   ok(/Al amanecer, mira hacia el/.test(await p.locator(".brujula").innerText()), "brújula: " + (await p.locator(".brujula").innerText()).replace(/\n/g, " "));
   await p.click("#reglas summary");

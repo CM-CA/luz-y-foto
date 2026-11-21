@@ -33,6 +33,7 @@ ejecutar("pwa", async ({ b, base }) => {
   ok(new URL(m.start_url, new URL(enlace, base)).pathname === raiz, "start_url vuelve a la app: " + m.start_url);
   ok(new URL(m.scope, new URL(enlace, base)).pathname === raiz, "scope es la carpeta de la app: " + m.scope);
   ok(/^#[0-9a-f]{6}$/i.test(m.theme_color) && /^#[0-9a-f]{6}$/i.test(m.background_color), "colores de barra y de arranque: " + m.theme_color + " / " + m.background_color);
+  ok(m.theme_color === "#f3eff4" && m.background_color === "#f3eff4", "los colores son el fondo claro de «La luz de ahora»: " + m.theme_color + " / " + m.background_color);
 
   titulo("iconos: existen, son PNG del tamaño que dicen y hay uno «maskable»");
   const iconos = m.icons.filter((i) => i.type === "image/png");
@@ -53,6 +54,36 @@ ejecutar("pwa", async ({ b, base }) => {
   ok(ra.status() === 200 && medidas.ancho === 180 && medidas.alto === 180, "apple-touch-icon 180×180: " + apple);
   const colores = await p.locator("meta[name=theme-color]").evaluateAll((e) => e.map((x) => x.media + " " + x.content));
   ok(colores.length === 2 && colores.some((c) => /light/.test(c)) && colores.some((c) => /dark/.test(c)), "theme-color claro y oscuro: " + colores.join(" | "));
+  ok(colores.some((c) => /light.* #f3eff4$/.test(c)) && colores.some((c) => /dark.* #0f1626$/.test(c)), "y son los fondos claro (#f3eff4) y oscuro (#0f1626) de la web: " + colores.join(" | "));
+
+  titulo("los iconos llevan la paleta nueva (fondo azul noche, sol naranja)");
+  const pixeles = await p.evaluate(async (urls) => {
+    const leer = async (url, x, y) => {
+      const imagen = new Image();
+      await new Promise((resolver, rechazar) => { imagen.onload = resolver; imagen.onerror = rechazar; imagen.src = url; });
+      const lienzo = document.createElement("canvas"); lienzo.width = imagen.width; lienzo.height = imagen.height;
+      const c = lienzo.getContext("2d"); c.drawImage(imagen, 0, 0);
+      return [...c.getImageData(x, y, 1, 1).data];
+    };
+    // En el de 192 px el dibujo se amplía por 3: el fondo, arriba en el centro; el sol, que asoma sobre el horizonte, en (96, 100)
+    return { fondo: await leer(urls.icono, 96, 8), sol: await leer(urls.icono, 96, 100) };
+  }, { icono: new URL("icon-192.png", base).href });
+  const cerca = (a, b) => a.every((v, i) => Math.abs(v - b[i]) <= 2);
+  ok(cerca(pixeles.fondo.slice(0, 3), [0x1f, 0x27, 0x40]), "icon-192.png: fondo #1f2740 (" + pixeles.fondo.join(",") + ")");
+  ok(cerca(pixeles.sol.slice(0, 3), [0xee, 0x7d, 0x2f]), "icon-192.png: sol #ee7d2f (" + pixeles.sol.join(",") + ")");
+  const favicon = await (await ctx.request.get(new URL("favicon.svg", base).href)).text();
+  ok(/#1f2740/i.test(favicon) && /#ee7d2f/i.test(favicon) && /#7f9be0/i.test(favicon) && !/#1d2b44|#f5a623|#8fb4ff/i.test(favicon), "favicon.svg con los mismos colores");
+
+  titulo("presupuesto de peso: fuentes e imágenes caben en 160 000 bytes y todas están en la lista de archivos del service worker");
+  const archivos = [];
+  const recorrer = (dir) => { for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const ruta = path.join(dir, e.name); if (e.isDirectory()) recorrer(ruta); else if (/\.(woff2|webp)$/.test(e.name)) archivos.push(ruta); } };
+  recorrer(dist);
+  const total = archivos.reduce((suma, a) => suma + fs.statSync(a).size, 0);
+  ok(archivos.length >= 22 && total < 160000, archivos.length + " archivos .woff2 y .webp, " + total + " bytes (límite 160 000)");
+  const sw = fs.readFileSync(path.join(dist, "sw.js"), "utf8");
+  const lista = JSON.parse(/const ARCHIVOS = (\[[\s\S]*?\]);/.exec(sw)[1]);
+  const sinCachear = archivos.map((a) => path.relative(dist, a).split(path.sep).join("/")).filter((a) => !lista.includes(a));
+  ok(sinCachear.length === 0, "todos van en la caché del service worker (" + (sinCachear.length ? "faltan: " + sinCachear.join(", ") : lista.length + " archivos en la lista") + ")");
   ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
   await ctx.close();
 }, { carpeta: dist, prefijo: "/luz-y-foto/beta/" });
