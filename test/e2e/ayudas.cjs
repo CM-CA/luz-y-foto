@@ -4,8 +4,8 @@
  * Todo lo externo está simulado (previsión, nombre de lugar, GPS y reloj), así que las pruebas
  * dan siempre el mismo resultado y no necesitan red.
  *
- * Por defecto sirven la carpeta del repositorio y abren prueba/hoy.html. Para probar otra versión
- * (por ejemplo, la compilada con Svelte) se indican por variables de entorno:
+ * Por defecto sirven la app compilada (dist/, bajo /luz-y-foto/) y abren su pantalla Hoy: antes hay que compilar con `npm run build`.
+ * Para probar otra copia de la app que ya esté sirviéndose se indican por variables de entorno:
  *   E2E_BASE_URL  servidor ya en marcha (no se levanta el propio)
  *   E2E_HOY_URL   dirección completa de la pantalla Hoy
  */
@@ -29,14 +29,13 @@ function playwright() {
   try { return require("playwright"); } catch (e) { return require("/opt/npm-tools/node_modules/playwright"); }
 }
 
-// Servidor estático. Por defecto sirve la carpeta del repositorio; con {carpeta, prefijo} sirve otra
-// carpeta (por ejemplo, la compilada) bajo una ruta (por ejemplo, /luz-y-foto/), como hace GitHub Pages.
+// Servidor estático. Por defecto sirve dist/ bajo /luz-y-foto/, como hace GitHub Pages; con {carpeta, prefijo} sirve otra carpeta.
 // Se usa 127.0.0.1 porque el navegador lo trata como contexto seguro, y la ubicación (GPS) solo
 // funciona en contextos seguros.
 function servir(opciones = {}) {
   if (process.env.E2E_BASE_URL) return Promise.resolve({ base: process.env.E2E_BASE_URL.replace(/\/?$/, "/"), cerrar() {} });
-  const carpeta = path.resolve(opciones.carpeta || RAIZ);
-  const prefijo = opciones.prefijo || "/";
+  const carpeta = path.resolve(opciones.carpeta || path.join(RAIZ, "dist"));
+  const prefijo = opciones.prefijo || "/luz-y-foto/";
   return new Promise((resolver) => {
     const s = http.createServer((q, r) => {
       let ruta = decodeURIComponent(new URL(q.url, "http://x").pathname);
@@ -54,7 +53,7 @@ function servir(opciones = {}) {
   });
 }
 
-const urlHoy = (base) => process.env.E2E_HOY_URL || base + "prueba/hoy.html";
+const urlHoy = (base) => process.env.E2E_HOY_URL || base + "#/hoy";
 
 // Respuesta de Open-Meteo simulada: del 17 al 21 de noviembre de 2026, con nubes reales de Vigo
 // y una noche despejada (la del 20 al 21) para que haya un semáforo verde.

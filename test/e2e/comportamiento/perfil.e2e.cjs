@@ -1,6 +1,5 @@
-// Comportamiento del perfil de equipo y las recetas. Desde el 2026-11-21 solo se ejecuta contra la versión compilada (Svelte):
-// los niveles pasaron a llamarse Principiante / Medio / Experto y la receta solo se muestra con el equipo configurado,
-// cambios pedidos a propósito que la web actual (prueba/hoy.html) no tiene.
+// Comportamiento del perfil de equipo y las recetas: los niveles son Principiante / Medio / Experto y la receta solo se muestra
+// con el equipo configurado.
 // Ejecutar: node test/e2e/comportamiento/perfil.e2e.cjs
 "use strict";
 const { nuevaPagina: nuevo, ok, titulo, ejecutar } = require("../ayudas.cjs");

@@ -1,11 +1,7 @@
-// Genera las capturas de referencia de la pantalla Hoy (atardecer con la receta abierta)
-// a 320, 360 y 390 px de ancho, en modo claro y oscuro, con todo simulado y el reloj fijo.
+// Genera capturas de la pantalla Hoy (atardecer con la receta abierta) a 320, 360 y 390 px de ancho, en modo claro y oscuro,
+// con todo simulado y el reloj fijo. Sirven para revisar el responsive a ojo; no se comparan con nada ni se guardan en el repositorio.
 //
-// Sirven para comprobar que la versión nueva se ve igual (fase 3 de la migración) y para revisar
-// el responsive. Las de `referencia/` se hicieron con la web ANTES de migrar y reflejan sus
-// defectos conocidos (por ejemplo, la tabla de horas se sale de la tarjeta en móvil).
-//
-// Uso: node test/e2e/capturas.cjs [carpeta-de-salida]    (por defecto, test/e2e/referencia)
+// Uso: node test/e2e/capturas.cjs [carpeta-de-salida]    (por defecto, test/e2e/capturas/, que git ignora; antes: npm run build)
 "use strict";
 const path = require("node:path");
 const fs = require("node:fs");
@@ -13,7 +9,7 @@ const { nuevaPagina, ejecutar, ok, titulo } = require("./ayudas.cjs");
 
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
 const LUGAR = { lat: 42.2328, lon: -8.7226, nombre: "Vigo, Galicia", origen: "busqueda" };
-const REFERENCIA = path.join(__dirname, "referencia");
+const SALIDA = path.join(__dirname, "capturas");
 
 // Hace las seis capturas (320, 360 y 390 px, claro y oscuro) de la pantalla Hoy que hay en `hoy` y las guarda en `salida`
 async function capturar(b, hoy, salida) {
@@ -35,9 +31,9 @@ async function capturar(b, hoy, salida) {
   }
 }
 
-module.exports = { capturar, REFERENCIA };
+module.exports = { capturar, SALIDA };
 
 if (require.main === module) {
-  const salida = path.resolve(process.argv[2] || REFERENCIA);
+  const salida = path.resolve(process.argv[2] || SALIDA);
   ejecutar("capturas", ({ b, hoy }) => capturar(b, hoy, salida));
 }

@@ -1,6 +1,6 @@
 /*
  * Cálculos de sol y luna para luz-y-foto.
- * Módulo ES: funciona en el navegador y en Node. Usa el paquete `suncalc` (2.1.4, la misma versión que lib/suncalc.js).
+ * Módulo ES: funciona en el navegador y en Node. Usa el paquete `suncalc` (2.1.4; su licencia está en licencias/SUNCALC-LICENSE.txt).
  * Todo se calcula en el dispositivo: no necesita conexión.
  */
 import * as SunCalc from "suncalc";

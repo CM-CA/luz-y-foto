@@ -3,7 +3,7 @@
  * Condiciones: la API gratuita es solo para uso no comercial; ver docs/migracion-svelte.md.
  */
 
-// Misma petición que hace hoy prueba/hoy.html: ayer + 4 días, con las horas del lugar
+// La petición de la previsión: ayer + 4 días, con las horas del lugar
 function urlPrevision(lat, lon) {
   const p = new URLSearchParams({
     latitude: lat, longitude: lon,

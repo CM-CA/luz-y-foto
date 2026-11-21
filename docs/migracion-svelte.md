@@ -1,6 +1,8 @@
 # Migración a Svelte + Vite (sigue siendo una PWA)
 
-La migración se hizo en la rama `migracion-svelte` (ya incorporada a `master`). Desde el traspaso (fase 5, 2026-11-21) `master` publica la versión nueva en la raíz de la web; ver la fase 5 para la vuelta atrás y lo que queda.
+La migración se hizo en la rama `migracion-svelte` (ya incorporada a `master`). Desde el traspaso (fase 5, 2026-11-21) `master` publica la versión nueva en la raíz de la web; ver la fase 5 para la vuelta atrás.
+
+El texto cuenta las cosas **como eran en cada fase**. La web antigua (`js/`, `lib/`, `prueba/`) y las pruebas que se medían contra ella (`test/paridad/`, `test/*.test.cjs`, `test/e2e/version-actual/`, las capturas de `test/e2e/referencia/`) se retiraron el 2026-11-21 (ver «Retirada de la web antigua», más abajo); siguen en el historial de git y en la etiqueta `v-vanilla-final`.
 
 ## Decisión y alcance
 
@@ -43,7 +45,7 @@ Los datos de `data/` se **incluyen al compilar** (no se piden al abrir la págin
 - Las pruebas de navegador están en el repositorio (`test/e2e/`), con servidor, previsión simulada y reloj fijos, y separadas en `comportamiento/` (ubicación, perfil y recetas; deben pasar en cualquier versión) y `version-actual/` (mecánica de datos de la web actual).
 - Capturas de referencia a 320, 360 y 390 px, en claro y oscuro (`test/e2e/referencia/`; se regeneran con `node test/e2e/capturas.cjs`). Reflejan los defectos actuales: en todos los anchos la página desborda en horizontal por la tabla «Horas analizadas».
 - Las pruebas se pueden dirigir a otra versión con `E2E_BASE_URL` y `E2E_HOY_URL` (se usará en la fase 3).
-- Punto de vuelta atrás: el commit `5fb6eb2` de `master` (la web actual con su workflow de publicación). La etiqueta `v-vanilla-1` no se pudo subir desde la sesión de trabajo (GitHub rechazó crear etiquetas); si se quiere, se crea a mano en GitHub (Releases → Draft a new release → nueva etiqueta sobre `5fb6eb2`).
+- Punto de vuelta atrás: el commit `5fb6eb2` de `master` (la web actual con su workflow de publicación). Desde la sesión de trabajo no se pudieron subir etiquetas (GitHub las rechazó), así que se crearon después a mano: `v-vanilla-1` apunta a `0059a9c` (la fusión de la PR #4, con las fases 0 y 1) y `v-vanilla-final` a `8d83511` (ver la fase 5).
 - **Listo cuando**: las pruebas de navegador pasan contra la web actual y están en el repositorio. ✔
 
 ### Fase 1: esqueleto y publicación (hecha el 2026-11-20)
@@ -133,14 +135,24 @@ Punto de partida: las PR #5 y #6 de `migracion-svelte` ya estaban en `master` (e
 3. `.github/workflows/static.yml` nuevo, con dos trabajos: `construir` (datos, pruebas de lógica y de navegador, compilar y añadir `transicion/`) y `publicar` (solo en un push a `master` y solo si `construir` salió bien; ya no hay `always()`). Una PR solo construye y prueba, nunca publica.
 4. La fusión de la PR es lo que publica la versión nueva en la raíz. El origen de Pages ya estaba en **GitHub Actions** desde el 2026-11-20.
 
-**Vuelta atrás**: devolver `master` al commit `8d83511`, el último con el workflow de transición (web antigua en la raíz y la nueva en `/beta/`). Se usa el número de commit porque GitHub no dejó subir la etiqueta `v-vanilla-final` desde la sesión (403). Ese workflow compila `/beta/` desde la rama `migracion-svelte`: mientras la rama exista, la vuelta atrás también recupera `/beta/`; sin ella solo recupera la web antigua en la raíz. La rama **no debe subirse de nuevo**: su workflow viejo publicaría la web antigua en la raíz. La versión anterior a la migración sigue siendo `5fb6eb2`.
+**Vuelta atrás**: devolver `master` al commit `8d83511`, el último con el workflow de transición (web antigua en la raíz y la nueva en `/beta/`). Ese commit es también la etiqueta `v-vanilla-final`. Ese workflow compila `/beta/` desde la rama `migracion-svelte`: mientras la rama exista, la vuelta atrás también recupera `/beta/`; sin ella solo recupera la web antigua en la raíz. La rama **no debe subirse de nuevo**: su workflow viejo publicaría la web antigua en la raíz. La versión anterior a la migración sigue siendo `5fb6eb2`.
 
-Queda: comprobar la web publicada en el móvil y, solo entonces, retirar `js/`, `lib/`, `prueba/` y las pruebas que comparaban con la web antigua (`test/paridad/`, las de `test/*.test.cjs`).
+Después de comprobar la web publicada en el móvil, la web antigua se retiró (ver «Retirada de la web antigua», más abajo).
 
 ### Tras la fase 5: Amanecer y la pestaña Noche (2026-11-21)
 La primera función nueva de la fase 6 es **Amanecer**: pestañas Amanecer – Atardecer – Noche (la luna se ve como «Noche»; su `id` sigue siendo `luna`), con semáforo, brújula hacia la salida del sol, receta, tres días y dos cielos nuevos, la niebla como ventaja con su aviso y una pestaña por defecto con tres franjas según la hora. Diseño: [`superpowers/specs/2026-11-21-amanecer-design.md`](superpowers/specs/2026-11-21-amanecer-design.md); plan: [`superpowers/plans/2026-11-21-amanecer.md`](superpowers/plans/2026-11-21-amanecer.md); los datos están descritos en [`datos.md`](datos.md).
 
-Para la retirada de la web antigua: la **paridad** (`test/paridad/`) ya no compara la pestaña por defecto (la web antigua solo conocía dos franjas) ni los datos que ella no conoce (`nieblaVentaja`, el género amanecer, `porDefectoDeAmanecer` y las franjas del amanecer).
+La **paridad** con la web antigua (`test/paridad/`) dejó de comparar la pestaña por defecto (la web antigua solo conocía dos franjas) y los datos que ella no conocía (`nieblaVentaja`, el género amanecer, `porDefectoDeAmanecer` y las franjas del amanecer); poco después se retiró entera.
+
+### Retirada de la web antigua (2026-11-21)
+Comprobada la web publicada en el móvil, se retiró lo que ya no se usaba: `js/`, `lib/` y `prueba/` (las tres páginas de la web anterior), las cinco pruebas de `test/*.test.cjs` (ya estaban portadas a `test/nucleo/`) y su ayuda `test/datos-de-disco.cjs`, `test/paridad/` con su referencia, `test/e2e/version-actual/` y las capturas de la web anterior (`test/e2e/referencia/`).
+
+Se quedan:
+- `transicion/`: el 404 y la redirección de `/beta/`, que siguen sirviendo a quien entra por una dirección vieja.
+- `licencias/SUNCALC-LICENSE.txt`: la licencia de SunCalc, que antes estaba en `lib/`. La compilación no la incluye en `dist/`; si se quiere publicarla con la web (por ejemplo, en Ajustes), es un cambio aparte.
+- `test/e2e/capturas.cjs`, como herramienta para revisar el responsive a ojo; ahora escribe en `test/e2e/capturas/`, que git ignora.
+
+El lanzador de pruebas (`test/ejecutar-todo.sh`) ya no distingue entre «versión actual» y «compilada»: `rapido` pasa Vitest y la validación de los datos; el resto compila y pasa las pruebas de navegador. Las pruebas de `test/e2e/` usan por defecto `dist/`.
 
 ### Fase 6: pantallas nuevas
 Lugares, Glosario, Ajustes (editar equipo, copia de seguridad, enlace de donación) y tutorial de la rueda de modos.

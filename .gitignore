@@ -8,6 +8,7 @@ dist/
 coverage/
 playwright-report/
 test-results/
+test/e2e/capturas/
 
 # Secretos y archivos locales
 .env

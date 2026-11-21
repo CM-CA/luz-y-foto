@@ -4,47 +4,35 @@ Webapp (PWA) solo frontend para ayudar a principiantes a hacer mejores fotos: te
 
 - Sin servidor, sin cuentas: todo se guarda en el dispositivo.
 - Sol y luna se calculan en el móvil (funciona sin conexión).
-- La versión nueva se puede instalar en la pantalla de inicio, abre sin conexión y, si no puede actualizar la previsión, enseña la última guardada (avisando de la hora).
+- Se puede instalar en la pantalla de inicio, abre sin conexión y, si no puede actualizar la previsión, enseña la última guardada (avisando de la hora).
 - Meteorología con Open-Meteo (sin clave).
 
-Estado: la web publicada en [cm-ca.github.io/luz-y-foto](https://cm-ca.github.io/luz-y-foto/) es la versión nueva (Svelte + Vite, PWA) desde el traspaso del 2026-11-21 ([`docs/migracion-svelte.md`](docs/migracion-svelte.md)); `/beta/` y las direcciones viejas llevan a ella. Las decisiones están en [`docs/`](docs/).
+Estado: la web publicada en [cm-ca.github.io/luz-y-foto](https://cm-ca.github.io/luz-y-foto/) es una app Svelte + Vite (PWA). Antes era una web de páginas sueltas; el paso a la app (traspaso del 2026-11-21) y la retirada de la web antigua están contados en [`docs/migracion-svelte.md`](docs/migracion-svelte.md), y `/beta/` y las direcciones viejas llevan a la app. Las decisiones están en [`docs/`](docs/).
 
-## Páginas de prueba
-
-Son los prototipos de la web anterior. **Ya no se publican en GitHub Pages** (la app los sustituye y sus direcciones llevan a ella); se abren sirviendo la carpeta en local. Se retirarán tras comprobar el traspaso en el móvil.
-
-- [`prueba/open-meteo.html`](prueba/open-meteo.html): previsión de Open-Meteo y semáforo del atardecer.
-- [`prueba/hoy.html`](prueba/hoy.html): **pantalla «Hoy»** con pestañas Atardecer y Luna (en la app nueva: Amanecer, Atardecer y Noche), semáforo grande y los tres próximos días.
-- [`prueba/sol-luna.html`](prueba/sol-luna.html): sol y luna calculados en el dispositivo (sin conexión), con dirección de la puesta, fases y consejo de la luna.
-
-## Desarrollo (versión nueva, Svelte)
+## Desarrollo
 
 Hace falta Node 22.12 o superior.
 
 ```
 npm ci              instala las dependencias (versiones exactas del package-lock.json)
 npm run dev         servidor de desarrollo con recarga
-npm run validar     comprueba los archivos de data/ con las mismas reglas que la web
-npm test            pruebas de lógica (rápidas, sin navegador), actuales y nuevas
-npm run test:logica solo las de la lógica nueva (Vitest, incluida la paridad)
+npm run validar     comprueba los archivos de data/ (con las mismas reglas que la compilación)
+npm test            pruebas de lógica (Vitest) y validación de los datos: rápidas, sin navegador
+npm run test:logica solo las de la lógica (Vitest)
 npm run test:vigilar Vitest en modo vigilancia mientras se programa
-npm run test:navegador  la versión compilada en el navegador (necesita el navegador de Playwright: npx playwright install chromium)
-npm run test:todo   lógica + navegador (web actual y versión compilada)
+npm run test:navegador  la app compilada en el navegador (necesita el navegador de Playwright: npx playwright install chromium)
+npm run test:todo   lógica + navegador
 npm run build       compila en dist/ (valida data/ antes; si hay un error, no genera nada) y escribe dist/sw.js (el service worker)
 node scripts/generar-iconos.mjs   vuelve a generar los iconos de public/ (solo si cambia el dibujo o los colores)
 node scripts/generar-cielos.mjs   vuelve a generar los cielos de la cabecera y las 16 fases de la luna de src/imagenes/ (solo si cambia algún dibujo de scripts/escenas-cielo.mjs)
 ```
 
-La web anterior (`prueba/`, `js/`) no necesita instalar nada: se abre sirviendo la carpeta.
-
 ## Estructura
 
-- `js/astro.js`: cálculos de sol y luna (usa SunCalc).
+- `src/`: la app (Svelte 5 + Vite). `src/nucleo/` es la lógica sin pantalla (sol y luna, semáforo, datos, perfil, recetas, lugar, días de la pantalla Hoy); `src/proveedores/`, lo que habla con fuera (Open-Meteo, Nominatim, geocodificación, GPS); `src/pantallas/`, `src/componentes/` y `src/estado/`, la pantalla Hoy; `src/imagenes/`, los cielos de la cabecera y las fases de la luna.
 - `data/`: umbrales, puntos, textos y consejos, separados del código (ver [`docs/datos.md`](docs/datos.md)).
-- `js/datos.js`: carga y validación de `data/`.
-- `js/lugar.js`: ubicación del dispositivo, nombre de la ciudad y búsqueda por nombre.
-- `js/semaforo.js`: reglas del semáforo (atardecer y luna).
-- `lib/suncalc.js`: [SunCalc](https://github.com/mourner/suncalc) 2.1.4, incluida con su licencia.
-- `src/`, `index.html`, `public/`, `vite.config.mjs`: la versión nueva (Svelte 5 + Vite). `src/nucleo/` (sol, luna, semáforo, datos, perfil, recetas, lugar) y `src/proveedores/` (Open-Meteo, Nominatim, geocodificación, GPS) ya están, y la pantalla Hoy completa está en `src/pantallas/`, `src/componentes/` y `src/estado/` (es la web publicada).
-- `scripts/validar-datos.mjs`: valida `data/` (lo usan `npm run validar` y la compilación).
-- `test/`: pruebas. Todas se lanzan con `bash test/ejecutar-todo.sh` (o `npm run test:todo`); con `rapido` solo la lógica. `test/nucleo/` (Vitest) prueba la lógica nueva, `test/paridad/` comprueba que da lo mismo que la actual, y las de navegador están en `test/e2e/`.
+- `index.html`, `public/`, `vite.config.mjs`: la página de entrada, los iconos y el manifiesto, y la configuración de la compilación.
+- `scripts/`: validar `data/` (lo usan `npm run validar` y la compilación), generar iconos y cielos, y servir `dist/` para las pruebas.
+- `transicion/`: lo que se publica junto a la app y no es de ella: el 404 que lleva a la app desde las direcciones viejas y la redirección de `/beta/` (ver [`docs/migracion-svelte.md`](docs/migracion-svelte.md)).
+- `licencias/`: la licencia de [SunCalc](https://github.com/mourner/suncalc), la librería que calcula sol y luna (la app usa el paquete `suncalc` 2.1.4).
+- `test/`: pruebas. Todas se lanzan con `bash test/ejecutar-todo.sh` (o `npm run test:todo`); con `rapido` solo la lógica. `test/nucleo/` (Vitest) prueba la lógica y `test/e2e/` la app compilada en el navegador.
