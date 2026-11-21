@@ -6,7 +6,7 @@
 #   bash test/ejecutar-todo.sh compilada  solo la versión compilada en el navegador (es lo que pasa en Actions)
 #
 # Si hay node_modules (se instalan con `npm ci`), también pasa las pruebas de la lógica nueva (Vitest), valida
-# los datos al compilar, compila la app nueva con la ruta de la vista previa (/luz-y-foto/beta/), la sirve y le pasa
+# los datos al compilar, compila la app con la ruta de producción (/luz-y-foto/), la sirve y le pasa
 # las mismas pruebas de comportamiento que a la web actual (salvo `perfil`, que cambió a propósito), más las propias de la versión compilada
 # (maquetación en móvil, género nuevo solo con datos, ruta base).
 #
@@ -53,11 +53,11 @@ if [ "$modo" != "rapido" ]; then
     fi
     if [ -d node_modules ]; then
       echo "Navegador: versión compilada (Svelte)"
-      correr "compilar" npm run --silent build -- --base=/luz-y-foto/beta/
+      correr "compilar" npm run --silent build
       for f in test/e2e/compilada/*.e2e.cjs; do correr "$(basename "$f" .e2e.cjs)" node "$f"; done
       echo "Navegador: comportamiento (versión compilada)"
       registro=$(mktemp)
-      node scripts/servir-dist.mjs --puerto=0 --base=/luz-y-foto/beta/ > "$registro" 2>&1 &
+      node scripts/servir-dist.mjs --puerto=0 --base=/luz-y-foto/ > "$registro" 2>&1 &
       servidor=$!
       for _ in $(seq 1 50); do grep -q '^LISTO' "$registro" && break; sleep 0.1; done
       direccion=$(sed -n 's/^LISTO //p' "$registro")

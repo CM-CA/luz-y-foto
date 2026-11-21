@@ -19,8 +19,8 @@ function validarDatos() {
   };
 }
 
-// La web se publica en https://cm-ca.github.io/luz-y-foto/. La vista previa va en /luz-y-foto/beta/
-// y se indica al compilar: `vite build --base=/luz-y-foto/beta/`.
+// La web se publica en https://cm-ca.github.io/luz-y-foto/ y se compila con esa ruta (`vite build`, sin opciones).
+// Para ensayar otra ruta: `vite build --base=/otra/ruta/`.
 export default defineConfig(({ command }) => ({
   base: command === "build" ? "/luz-y-foto/" : "/",
   plugins: [svelte(), validarDatos(), servicioSinConexion()],

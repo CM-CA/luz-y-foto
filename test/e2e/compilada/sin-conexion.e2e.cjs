@@ -1,7 +1,7 @@
 // La versión COMPILADA abre sin red tras la primera carga y se actualiza solo cuando la persona lo pide.
 // Se sirve una COPIA de dist/ para poder «publicar» una versión nueva en mitad de la prueba.
 //
-// Antes: npm run build -- --base=/luz-y-foto/beta/
+// Antes: npm run build
 // Ejecutar: node test/e2e/compilada/sin-conexion.e2e.cjs
 "use strict";
 const fs = require("node:fs");
@@ -11,13 +11,13 @@ const { RAIZ, VIGO, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "sw.js"))) {
-  console.log("FALLA: no hay dist/sw.js. Compila antes con: npm run build -- --base=/luz-y-foto/beta/");
+  console.log("FALLA: no hay dist/sw.js. Compila antes con: npm run build");
   process.exit(1);
 }
 const copia = fs.mkdtempSync(path.join(os.tmpdir(), "luz-pwa-"));
 fs.cpSync(dist, copia, { recursive: true });
 
-const PREFIJO = "/luz-y-foto/beta/";
+const PREFIJO = "/luz-y-foto/";
 // Con un lugar ya guardado (como en el uso normal) la app pide la previsión nada más abrir
 const conServiceWorker = { permisos: false, serviceWorkers: "allow", lugar: { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" } };
 const tituloDe = (p) => p.title();

@@ -1,7 +1,7 @@
 // Sin conexión (o con el servicio de previsión caído) la app enseña la última previsión guardada, con un aviso claro,
 // y se actualiza sola cuando vuelve la conexión. Solo existe en la versión compilada.
 //
-// Antes: npm run build -- --base=/luz-y-foto/beta/
+// Antes: npm run build
 // Ejecutar: node test/e2e/compilada/prevision-guardada.e2e.cjs
 "use strict";
 const fs = require("node:fs");
@@ -10,7 +10,7 @@ const { RAIZ, VIGO, PONTE, simulada, nuevaPagina, ok, titulo, ejecutar } = requi
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
-  console.log("FALLA: no hay dist/. Compila antes con: npm run build -- --base=/luz-y-foto/beta/");
+  console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
 
@@ -142,4 +142,4 @@ ejecutar("prevision-guardada", async ({ b, base }) => {
   soltar(); await p.waitForTimeout(400);
   ok(/Europe\/Madrid/.test(await texto(p, "#estado")) && !/Azores/.test(await texto(p, "#estado")), "la respuesta lenta del lugar anterior se descarta: " + await texto(p, "#estado"));
   await ctx.close();
-}, { carpeta: dist, prefijo: "/luz-y-foto/beta/" });
+}, { carpeta: dist, prefijo: "/luz-y-foto/" });

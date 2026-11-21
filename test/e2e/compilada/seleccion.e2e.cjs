@@ -3,7 +3,7 @@
 // del semáforo y la inversión y la negrita en el nombre del día (el símbolo conserva su color). Un navegador que oscurece las webs por su
 // cuenta aplasta fondos y bordes, pero respeta el texto, y hay personas que no distinguen bien los colores.
 //
-// Ejecutar: node test/e2e/compilada/seleccion.e2e.cjs   (antes: npm run build -- --base=/luz-y-foto/beta/)
+// Ejecutar: node test/e2e/compilada/seleccion.e2e.cjs   (antes: npm run build)
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
@@ -11,7 +11,7 @@ const { RAIZ, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
-  console.log("FALLA: no hay dist/. Compila antes con: npm run build -- --base=/luz-y-foto/beta/");
+  console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
 
@@ -52,4 +52,4 @@ ejecutar("seleccion", async ({ b, base }) => {
       await ctx.close();
     }
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/beta/" });
+}, { carpeta: dist, prefijo: "/luz-y-foto/" });

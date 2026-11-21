@@ -2,7 +2,7 @@
 // En Atardecer lleva además el medidor de puntos, hecho con bloques «█» de texto como las barras de nubes (así se ve aunque
 // el navegador oscurezca los fondos por su cuenta); en Luna no hay medidor, porque la luna no puntúa.
 //
-// Ejecutar: node test/e2e/compilada/veredicto.e2e.cjs   (antes: npm run build -- --base=/luz-y-foto/beta/)
+// Ejecutar: node test/e2e/compilada/veredicto.e2e.cjs   (antes: npm run build)
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
@@ -10,7 +10,7 @@ const { RAIZ, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
-  console.log("FALLA: no hay dist/. Compila antes con: npm run build -- --base=/luz-y-foto/beta/");
+  console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
 
@@ -66,4 +66,4 @@ ejecutar("veredicto", async ({ b, base }) => {
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/beta/" });
+}, { carpeta: dist, prefijo: "/luz-y-foto/" });

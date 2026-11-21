@@ -30,7 +30,7 @@ function playwright() {
 }
 
 // Servidor estático. Por defecto sirve la carpeta del repositorio; con {carpeta, prefijo} sirve otra
-// carpeta (por ejemplo, la compilada) bajo una ruta (por ejemplo, /luz-y-foto/beta/), como hace GitHub Pages.
+// carpeta (por ejemplo, la compilada) bajo una ruta (por ejemplo, /luz-y-foto/), como hace GitHub Pages.
 // Se usa 127.0.0.1 porque el navegador lo trata como contexto seguro, y la ubicación (GPS) solo
 // funciona en contextos seguros.
 function servir(opciones = {}) {
