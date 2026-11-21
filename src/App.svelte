@@ -1,6 +1,7 @@
 <script>
   import { ruta } from "./estado/ruta.svelte.js";
   import Hoy from "./pantallas/Hoy.svelte";
+  import PruebaBarras from "./pantallas/PruebaBarras.svelte";
 
   // El aviso solo sale en la vista previa (publicada en /beta/), no en la versión definitiva
   const esVistaPrevia = import.meta.env.BASE_URL.endsWith("/beta/");
@@ -17,6 +18,8 @@
 
   {#if ruta.actual === "hoy"}
     <Hoy />
+  {:else if ruta.actual === "prueba-barras"}
+    <PruebaBarras />
   {:else}
     <h1>No encuentro esa pantalla</h1>
     <p><a href="#/hoy">Volver a Hoy</a></p>
