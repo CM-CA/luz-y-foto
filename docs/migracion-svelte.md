@@ -1,6 +1,6 @@
 # Migración a Svelte + Vite (sigue siendo una PWA)
 
-Rama de trabajo: `migracion-svelte`. La rama `master` sigue publicando la web actual hasta el traspaso (fase 5).
+La migración se hizo en la rama `migracion-svelte` (ya incorporada a `master`). Desde el traspaso (fase 5, 2026-11-21) `master` publica la versión nueva en la raíz de la web; ver la fase 5 para la vuelta atrás y lo que queda.
 
 ## Decisión y alcance
 
@@ -50,7 +50,7 @@ Los datos de `data/` se **incluyen al compilar** (no se piden al abrir la págin
 - Proyecto Vite 8 + Svelte 5 con `package.json` y versiones exactas (`package-lock.json`; Node 22).
 - Comandos: `npm run dev`, `build`, `preview`, `validar` (datos), `test` (lógica) y `test:todo` (lógica + navegador).
 - `data/` se incluye al compilar (`import.meta.glob`) y se valida con las mismas reglas que la web actual (`scripts/validar-datos.mjs` reutiliza `js/datos.js`): un JSON mal editado hace fallar `validar` y `build`, y no se genera nada que publicar.
-- Flujo de GitHub Actions (`.github/workflows/static.yml`): trabajo `nueva` (instala, valida, pasa las pruebas de lógica y compila con la ruta `/luz-y-foto/beta/`) y trabajo `publicar` (monta la web actual de `master` —`prueba/`, `js/`, `lib/` y `data/`— + `/beta/` y lo despliega). Si `nueva` falla, se publica solo `master` y la ejecución sale en rojo.
+- Flujo de GitHub Actions (`.github/workflows/static.yml`): trabajo `nueva` (instala, valida, pasa las pruebas de lógica y compila con la ruta `/luz-y-foto/beta/`) y trabajo `publicar` (monta la web actual de `master` —`prueba/`, `js/`, `lib/` y `data/`— + `/beta/` y lo despliega). Si `nueva` falla, se publica solo `master` y la ejecución sale en rojo. (Flujo de transición: lo sustituyó el del traspaso, ver fase 5.)
 - Pruebas nuevas: `test/validar-datos.test.cjs` (datos reales correctos; un error en los datos se explica y detiene `validar` y `build`) y `test/e2e/compilada/ruta-base.e2e.cjs` (la versión compilada se sirve bajo `/luz-y-foto/beta/`: todos los archivos responden 200, lee los datos incluidos, ruta desconocida avisada, sin desbordamiento horizontal a 320, 360 y 390 px).
 - La prueba «un género añadido solo con datos aparece como pestaña» y las pruebas de navegador en Actions se hicieron en la fase 3 (ver más abajo).
 - **Listo cuando**: una pantalla mínima se compila y se ve a través de la ruta base de GitHub Pages. ✔ (comprobado en local con la ruta `/luz-y-foto/beta/`; falta verlo publicado, ver más abajo)
@@ -85,7 +85,7 @@ Primero la paridad (que se vea y se comporte igual) y solo después el responsiv
 8. **Niveles y receta con equipo** (otro cambio pedido, también fuera del plan). Los niveles se llaman **Principiante / Medio / Experto** (`data/perfil.json`; los ids `empiezo`, `defiendo`, `controlo` no cambian para no perder los perfiles guardados en `localStorage`). La línea «Mi equipo» y la receta dicen «Nivel medio…» gracias a un campo opcional `resumen` en las opciones (validado en los dos validadores; `js/perfil.js` se tocó solo para eso, para que la paridad siga exacta). **Sin el equipo configurado no se muestra la receta**: en su lugar hay una invitación breve con un botón para configurarlo (antes salía una receta de móvil con un aviso), y con equipo, bajo el título dice «Explicada para nivel …». Como esto cambia comportamiento que la web actual no tiene, `test/e2e/comportamiento/perfil.e2e.cjs` se actualizó (primera excepción a la regla de no tocar esas pruebas) y **ya solo se ejecuta contra la versión compilada**; la web actual conserva el resto. Se regeneraron las referencias de paridad de `datos` y `perfil-recetas`.
 
 **Diferencias con `hoy.html` (todas a propósito)**
-- El panel vacío se oculta con el atributo `hidden` en lugar de `:empty`; sin `<meta name="color-scheme">`; el aviso de «vista previa» solo sale si la app se publica en `/beta/`.
+- El panel vacío se oculta con el atributo `hidden` en lugar de `:empty`; sin `<meta name="color-scheme">`; el aviso de «vista previa» solo salía si la app se publicaba en `/beta/` (se quitó en el traspaso).
 - En el asistente, al marcar una opción de una pregunta con varias respuestas el foco se queda en el botón (antes la pantalla se redibujaba y se perdía).
 - Se conserva a propósito un comportamiento antiguo: al cambiar de pestaña, de día, de trípode o de equipo se cierran las definiciones del glosario abiertas. (Otro, «tras un fallo al recargar se sigue viendo la previsión anterior con el aviso de error arriba», pasó a ser el aviso de «previsión guardada» de la fase 4.)
 
@@ -122,15 +122,20 @@ Entre la fase 4 y el traspaso se rehízo el aspecto de la versión nueva (solo e
 
 Queda por hacer: verlo en el móvil real (modo avión, aviso «Actualizar») y en la tablet.
 
-### Fase 5: traspaso a `master`
+### Fase 5: traspaso a `master` (hecha el 2026-11-21)
 
-> **Estado a 2026-11-21**: las PR #5 y #6 de `migracion-svelte` ya se aceptaron en `master`, antes de este traspaso. Eso trajo el código nuevo a `master`, pero **el workflow no cambió** (sigue siendo el de transición), así que la raíz sigue publicando la web antigua (carpetas `prueba/`, `js/`, `lib/`, `data/` de `master`, con los pequeños cambios de datos de los niveles) y la versión nueva sigue solo en `/beta/`, compilada desde la rama. Quedan los pasos 4 a 6 (sustituir el workflow, comprobar en el móvil) y retirar `js/`. Para la vuelta atrás, el último `master` sin las fusiones de esta fase es `caaa006` (PR #5) y la versión anterior a la migración sigue siendo `5fb6eb2`; no se creó la etiqueta `v-vanilla-final`.
-1. Traer lo último de `master` a la rama y repasar la lista de comprobación.
-2. Anotar el commit de `master` en ese momento como `v-vanilla-final` (etiqueta creada a mano en GitHub, o simplemente el número del commit).
-3. Unir `migracion-svelte` en `master` (conserva todo el historial).
-4. Sustituir el workflow actual (`static.yml`, que publica los archivos tal cual) por el de compilación. El origen de Pages ya está en **GitHub Actions** desde el 2026-11-20, así que no hay nada que cambiar en los ajustes.
-5. Comprobar la web publicada en el móvil.
-6. **Vuelta atrás**: devolver `master` al commit `v-vanilla-final` (o a `5fb6eb2` para la versión anterior a la migración); el workflow estático de esa etiqueta vuelve a publicar la web anterior. Son unos minutos.
+Diseño aprobado: [`superpowers/specs/2026-11-21-traspaso-fase5-design.md`](superpowers/specs/2026-11-21-traspaso-fase5-design.md); plan: [`superpowers/plans/2026-11-21-traspaso-fase5.md`](superpowers/plans/2026-11-21-traspaso-fase5.md).
+
+Punto de partida: las PR #5 y #6 de `migracion-svelte` ya estaban en `master` (el código nuevo), pero el workflow seguía siendo el de transición, así que la raíz publicaba la web antigua y la nueva solo estaba en `/beta/`. El traspaso se hizo con la rama `traspaso` y una PR, en este orden:
+
+1. Las pruebas de navegador pasan a medir la ruta de producción (`/luz-y-foto/`) y se quita de la app el aviso de «vista previa».
+2. `transicion/`, lo que se publica en lugar de `/beta/`: una redirección a la raíz que conserva la ruta (`#/hoy`), un service worker de baja que arregla la app instalada desde `/beta/` (borra solo su caché, lleva las ventanas abiertas a la raíz y se da de baja; la caché de la app de la raíz tiene el mismo estilo de nombre y no se toca) y un `404.html` que lleva a la app desde cualquier dirección vieja, como `/prueba/hoy.html`.
+3. `.github/workflows/static.yml` nuevo, con dos trabajos: `construir` (datos, pruebas de lógica y de navegador, compilar y añadir `transicion/`) y `publicar` (solo en un push a `master` y solo si `construir` salió bien; ya no hay `always()`). Una PR solo construye y prueba, nunca publica.
+4. La fusión de la PR es lo que publica la versión nueva en la raíz. El origen de Pages ya estaba en **GitHub Actions** desde el 2026-11-20.
+
+**Vuelta atrás**: devolver `master` al commit `8d83511`, el último con el workflow de transición (web antigua en la raíz y la nueva en `/beta/`). Se usa el número de commit porque GitHub no dejó subir la etiqueta `v-vanilla-final` desde la sesión (403). Ese workflow compila `/beta/` desde la rama `migracion-svelte`: mientras la rama exista, la vuelta atrás también recupera `/beta/`; sin ella solo recupera la web antigua en la raíz. La rama **no debe subirse de nuevo**: su workflow viejo publicaría la web antigua en la raíz. La versión anterior a la migración sigue siendo `5fb6eb2`.
+
+Queda: comprobar la web publicada en el móvil y, solo entonces, retirar `js/`, `lib/`, `prueba/` y las pruebas que comparaban con la web antigua (`test/paridad/`, las de `test/*.test.cjs`).
 
 ### Fase 6: pantallas nuevas
 Lugares, Glosario, Ajustes (editar equipo, copia de seguridad, enlace de donación) y tutorial de la rueda de modos.
@@ -147,14 +152,13 @@ Lugares, Glosario, Ajustes (editar equipo, copia de seguridad, enlace de donaci�
 | Dependencias que cambian o se rompen | `package-lock.json`, versiones fijas, actualizar por separado y no durante una fase |
 | Datos mal editados | Validación al compilar: si falla, no se publica |
 | Que el flujo de Actions no se pueda subir desde aquí (puede faltar permiso para escribir en `.github/workflows`) | Se detecta en la fase 1; si ocurre, se pega el archivo desde la web de GitHub |
-| Una rama a medias impide publicar `master` | `publicar` se ejecuta aunque `nueva` falle (solo sale sin `/beta/` y con aviso) |
+| Una rama a medias impide publicar `master` | Durante la migración, `publicar` se ejecutaba aunque `nueva` fallara (salía sin `/beta/` y con aviso). Desde el traspaso, `publicar` solo corre si `construir` (con todas las pruebas) sale bien, y una PR nunca publica |
 | Cambiar de proveedor de previsión o de nombres de lugar (monetización, límites) | Cada uno en un solo módulo de `proveedores/` |
-| Añadir funciones a mitad de camino | Regla: nada nuevo hasta la fase 5 |
+| Añadir funciones a mitad de camino | Regla: nada nuevo hasta la fase 5 (hecha); las funciones nuevas son la fase 6 |
 
-## Cómo ver la rama en el móvil
+## Cómo se publica
 
-La web nueva se publica en **`https://cm-ca.github.io/luz-y-foto/beta/`** y la actual sigue en `https://cm-ca.github.io/luz-y-foto/` (ver `.github/workflows/static.yml`). Pages solo admite una publicación a la vez, así que el flujo monta las dos partes juntas: las carpetas de la web actual de `master` (`prueba/`, `js/`, `lib/`, `data/`; el código de la versión nueva que ya esté en `master` no se publica en la raíz) y, en `/beta/`, la compilación de `migracion-svelte`. `/beta/` desaparece en el traspaso.
+Desde el traspaso, GitHub Pages publica la compilación de `master` en **`https://cm-ca.github.io/luz-y-foto/`** con `.github/workflows/static.yml` (ver la fase 5). Una PR a `master` ejecuta el mismo flujo hasta compilar, pero no publica. Para publicar a mano: Actions → «Publicar sitio» → Run workflow, sobre `master`.
 
-Ajustes que hacen falta una sola vez en GitHub:
-- **Settings → Environments → github-pages → Deployment branches and tags**: permitir también `migracion-svelte` (si solo permite `master`, la publicación desde la rama se rechaza).
-- El archivo del flujo tiene que ser el mismo en `master` y en `migracion-svelte`. Si no, un push a `master` ejecuta la versión vieja del flujo y publica solo la raíz, y `/beta/` desaparece hasta la siguiente publicación desde la rama. Para publicar a mano: Actions → «Publicar sitio (master + beta)» → Run workflow.
+### Cómo se veía la vista previa (hasta el traspaso)
+Mientras duró la migración, la web nueva se publicaba en `/luz-y-foto/beta/` y la antigua seguía en la raíz. Pages solo admite una publicación a la vez, así que el flujo de transición montaba las dos partes juntas: las carpetas de la web antigua de `master` (`prueba/`, `js/`, `lib/`, `data/`) y, en `/beta/`, la compilación de `migracion-svelte`. Hizo falta permitir `migracion-svelte` en Settings → Environments → github-pages → Deployment branches; ya no hace falta, basta con `master`. `/beta/` ahora redirige a la raíz (carpeta `transicion/`).

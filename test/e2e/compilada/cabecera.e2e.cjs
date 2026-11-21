@@ -2,7 +2,7 @@
 // título, la hora de la previsión y el lugar en una pastilla. Aguanta no tener previsión, un nombre de lugar larguísimo
 // con una letra ancha en 320 px, y se ve también sin conexión.
 //
-// Ejecutar: node test/e2e/compilada/cabecera.e2e.cjs   (antes: npm run build -- --base=/luz-y-foto/beta/)
+// Ejecutar: node test/e2e/compilada/cabecera.e2e.cjs   (antes: npm run build)
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
@@ -10,7 +10,7 @@ const { RAIZ, VIGO, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
-  console.log("FALLA: no hay dist/. Compila antes con: npm run build -- --base=/luz-y-foto/beta/");
+  console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
 
@@ -180,4 +180,4 @@ ejecutar("cabecera", async ({ b, base }) => {
     ok(ancho === 780, "la imagen del cielo carga con la red cortada: " + ancho);
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/beta/" });
+}, { carpeta: dist, prefijo: "/luz-y-foto/" });

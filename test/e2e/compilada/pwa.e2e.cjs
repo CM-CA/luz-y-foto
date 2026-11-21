@@ -1,7 +1,7 @@
-// La versión COMPILADA es una app instalable (PWA): manifiesto e iconos correctos bajo /luz-y-foto/beta/.
+// La versión COMPILADA es una app instalable (PWA): manifiesto e iconos correctos bajo /luz-y-foto/.
 // (El service worker y el uso sin conexión se prueban en sin-conexion.e2e.cjs.)
 //
-// Antes: npm run build -- --base=/luz-y-foto/beta/
+// Antes: npm run build
 // Ejecutar: node test/e2e/compilada/pwa.e2e.cjs
 "use strict";
 const fs = require("node:fs");
@@ -10,7 +10,7 @@ const { RAIZ, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
-  console.log("FALLA: no hay dist/. Compila antes con: npm run build -- --base=/luz-y-foto/beta/");
+  console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
 
@@ -19,11 +19,11 @@ const medidasPng = (bytes) => ({ ancho: bytes.readUInt32BE(16), alto: bytes.read
 
 ejecutar("pwa", async ({ b, base }) => {
   const { ctx, p } = await nuevaPagina(b, { permisos: false });
-  await p.goto(base); await p.waitForSelector("[data-testid=aviso-beta]");
+  await p.goto(base); await p.waitForSelector("[data-tab]");
 
   titulo("el manifiesto está enlazado y es válido");
   const enlace = await p.locator("link[rel=manifest]").getAttribute("href");
-  ok(enlace === "/luz-y-foto/beta/manifest.webmanifest", "enlace bajo la ruta base: " + enlace);
+  ok(enlace === "/luz-y-foto/manifest.webmanifest", "enlace bajo la ruta base: " + enlace);
   const respuesta = await ctx.request.get(new URL(enlace, base).href);
   ok(respuesta.status() === 200, "responde 200");
   const m = await respuesta.json();
@@ -86,4 +86,4 @@ ejecutar("pwa", async ({ b, base }) => {
   ok(sinCachear.length === 0, "todos van en la caché del service worker (" + (sinCachear.length ? "faltan: " + sinCachear.join(", ") : lista.length + " archivos en la lista") + ")");
   ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
   await ctx.close();
-}, { carpeta: dist, prefijo: "/luz-y-foto/beta/" });
+}, { carpeta: dist, prefijo: "/luz-y-foto/" });

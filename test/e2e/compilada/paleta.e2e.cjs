@@ -2,7 +2,7 @@
 // (4,5:1 para texto; 3:1 para el símbolo ámbar sobre el fondo), en claro y en oscuro, y las dos fuentes (Young Serif y
 // Figtree) están en la compilación, pesan poco y se cargan.
 //
-// Ejecutar: node test/e2e/compilada/paleta.e2e.cjs   (antes: npm run build -- --base=/luz-y-foto/beta/)
+// Ejecutar: node test/e2e/compilada/paleta.e2e.cjs   (antes: npm run build)
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
@@ -10,7 +10,7 @@ const { RAIZ, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
-  console.log("FALLA: no hay dist/. Compila antes con: npm run build -- --base=/luz-y-foto/beta/");
+  console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
 
@@ -75,4 +75,4 @@ ejecutar("paleta", async ({ b, base }) => {
   const total = woff2.reduce((s, x) => s + fs.statSync(path.join(dist, "assets", x)).size, 0);
   ok(woff2.length === 2, "hay exactamente dos .woff2 en dist/assets: " + woff2.join(", "));
   ok(total < 50000, "juntas pesan " + total + " bytes (menos de 50 000)");
-}, { carpeta: dist, prefijo: "/luz-y-foto/beta/" });
+}, { carpeta: dist, prefijo: "/luz-y-foto/" });

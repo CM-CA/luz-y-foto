@@ -1,7 +1,7 @@
 // Panel «Instalar la app y uso sin conexión»: dice qué versión se está ejecutando, si el manifiesto, los iconos y el
 // service worker están bien (y por qué no, si fallan) y ofrece el botón de instalar cuando el navegador lo permite.
 //
-// Antes: npm run build -- --base=/luz-y-foto/beta/
+// Antes: npm run build
 // Ejecutar: node test/e2e/compilada/instalacion.e2e.cjs
 "use strict";
 const fs = require("node:fs");
@@ -11,7 +11,7 @@ const { RAIZ, VIGO, servir, nuevaPagina, ok, titulo, ejecutar } = require("../ay
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "sw.js"))) {
-  console.log("FALLA: no hay dist/. Compila antes con: npm run build -- --base=/luz-y-foto/beta/");
+  console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
 const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
@@ -33,7 +33,7 @@ ejecutar("instalacion", async ({ b, base }) => {
   ok(/✓ Conexión segura/.test(t), "conexión segura");
   ok(/✓ Manifiesto leído \(.+\): «Luz y foto», se abre como «standalone»/.test(t), "manifiesto: " + t.split("\n").find((s) => /Manifiesto/.test(s)));
   ok(/✓ Icono de 192 px: se descarga \(image\/png\)/.test(t) && /✓ Icono de 512 px: se descarga \(image\/png\)/.test(t), "iconos de 192 y 512 px");
-  ok(/✓ Dirección de inicio dentro del ámbito de la app \(\/luz-y-foto\/beta\/\)/.test(t), "inicio dentro del ámbito");
+  ok(/✓ Dirección de inicio dentro del ámbito de la app \(\/luz-y-foto\/\)/.test(t), "inicio dentro del ámbito");
   const versionSw = t.match(/versión ([0-9a-f]{12})/)[1];
   const swTexto = fs.readFileSync(path.join(dist, "sw.js"), "utf8");
   ok(swTexto.includes('"' + versionSw + '"'), "la versión mostrada (" + versionSw + ") es la de dist/sw.js");
@@ -87,7 +87,7 @@ ejecutar("instalacion", async ({ b, base }) => {
   const copia = fs.mkdtempSync(path.join(os.tmpdir(), "luz-rota-"));
   fs.cpSync(dist, copia, { recursive: true });
   fs.rmSync(path.join(copia, "icon-512.png"));
-  const rota = await servir({ carpeta: copia, prefijo: "/luz-y-foto/beta/" });
+  const rota = await servir({ carpeta: copia, prefijo: "/luz-y-foto/" });
   ({ ctx, p } = await nuevaPagina(b, { permisos: false, lugar: LUGAR, serviceWorkers: "allow" }));
   await p.goto(rota.base); await p.waitForSelector(".veredicto");
   await p.click("#instalar summary");
@@ -98,4 +98,4 @@ ejecutar("instalacion", async ({ b, base }) => {
   ok(await p.evaluate(() => caches.keys().then((k) => k.length)) === 0, "y no deja una caché a medias");
   await ctx.close();
   rota.cerrar(); fs.rmSync(copia, { recursive: true, force: true });
-}, { carpeta: dist, prefijo: "/luz-y-foto/beta/", cacheControl: "max-age=600" });
+}, { carpeta: dist, prefijo: "/luz-y-foto/", cacheControl: "max-age=600" });

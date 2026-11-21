@@ -5,7 +5,7 @@
 // Sustituye a la prueba de capturas frente a la web anterior (que sirvió para demostrar que la migración se veía
 // igual, con un 0,014 % de píxeles distintos) en cuanto el responsive empezó a cambiar el aspecto a propósito.
 //
-// Ejecutar: node test/e2e/compilada/maquetacion.e2e.cjs   (antes: npm run build -- --base=/luz-y-foto/beta/)
+// Ejecutar: node test/e2e/compilada/maquetacion.e2e.cjs   (antes: npm run build)
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
@@ -13,7 +13,7 @@ const { RAIZ, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
-  console.log("FALLA: no hay dist/. Compila antes con: npm run build -- --base=/luz-y-foto/beta/");
+  console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
 
@@ -131,4 +131,4 @@ ejecutar("maquetacion", async ({ b, base }) => {
     ok(/light/.test(css) && /dark/.test(css), "color-scheme en el CSS: " + css);
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/beta/" });
+}, { carpeta: dist, prefijo: "/luz-y-foto/" });

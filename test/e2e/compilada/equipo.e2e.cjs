@@ -2,7 +2,7 @@
 // dentro, el botón para editarlo; sin configurar, en su lugar hay una invitación con un único botón. El lugar vive en la cabecera
 // (ya no hay tarjeta «Lugar»), y el asistente del equipo queda en el flujo con 16 px de margen a cada lado.
 //
-// Ejecutar: node test/e2e/compilada/equipo.e2e.cjs   (antes: npm run build -- --base=/luz-y-foto/beta/)
+// Ejecutar: node test/e2e/compilada/equipo.e2e.cjs   (antes: npm run build)
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
@@ -10,7 +10,7 @@ const { RAIZ, VIGO, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
-  console.log("FALLA: no hay dist/. Compila antes con: npm run build -- --base=/luz-y-foto/beta/");
+  console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
 
@@ -92,4 +92,4 @@ ejecutar("equipo", async ({ b, base }) => {
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/beta/" });
+}, { carpeta: dist, prefijo: "/luz-y-foto/" });

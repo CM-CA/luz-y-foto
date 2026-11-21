@@ -2,7 +2,7 @@
 // panel la repite junto al nombre de la fase. En el hemisferio sur se ven al revés, y con la noche cubierta (semáforo rojo)
 // la luna de la cabecera se apaga. En Atardecer no hay luna en el cielo.
 //
-// Ejecutar: node test/e2e/compilada/luna.e2e.cjs   (antes: npm run build -- --base=/luz-y-foto/beta/)
+// Ejecutar: node test/e2e/compilada/luna.e2e.cjs   (antes: npm run build)
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
@@ -10,7 +10,7 @@ const { RAIZ, VIGO, simulada, nuevaPagina, ok, titulo, ejecutar } = require("../
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
-  console.log("FALLA: no hay dist/. Compila antes con: npm run build -- --base=/luz-y-foto/beta/");
+  console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
 
@@ -112,4 +112,4 @@ ejecutar("luna", async ({ b, base }) => {
     ok(r.panel && r.panel.opacidad === 1, "la del panel no (opacidad " + (r.panel && r.panel.opacidad) + ")");
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/beta/" });
+}, { carpeta: dist, prefijo: "/luz-y-foto/" });
