@@ -55,6 +55,16 @@ jobs:
         working-directory: nueva
         run: npm test
 
+      - name: Instalar el navegador de las pruebas
+        working-directory: nueva
+        run: npx playwright install --with-deps chromium
+
+      # Compila la app y le pasa las pruebas de comportamiento de siempre (ubicación, perfil, receta),
+      # las capturas frente a la web actual, el género nuevo solo con datos y la ruta base
+      - name: Pruebas de navegador (versión compilada)
+        working-directory: nueva
+        run: npm run test:navegador
+
       - name: Compilar para /luz-y-foto/beta/
         working-directory: nueva
         run: npm run build -- --base=/luz-y-foto/beta/
