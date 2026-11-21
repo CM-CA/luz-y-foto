@@ -44,8 +44,10 @@ a la derecha» en vez de obligar a orientarse con el norte.
 2. **A qué momento apunta la flecha en Luna** (función pura `momentoDeLaLuna`):
    1. Si la noche elegida está en curso y la luna está sobre el horizonte ahora → la luna **de ahora**.
    2. Si no, y esa noche tiene mejor hora (la del semáforo) → la luna **a la mejor hora**, con la hora escrita.
-   3. Si no, y la luna sale durante la noche → el punto por donde **sale**, con la hora.
-   4. Si la luna no está sobre el horizonte en toda la noche → no hay brújula (el panel ya dice «no sale este día»).
+   3. Si no, y la luna ya estaba en el cielo al anochecer → su posición **al anochecer**, con la hora de la puesta de sol.
+   4. Si no, y la luna sale durante la noche → el punto por donde **sale**, con la hora.
+   5. Si la luna no está sobre el horizonte en toda la noche → no hay brújula (el panel ya dice «no sale este día»).
+   En el código, la función se llama `momentoDeLaLuna` y los tipos son `ahora`, `mejor`, `anochecer` y `sale`.
 3. **Altura.** En Luna la frase añade la altura sobre el horizonte en grados y en puños a brazo extendido (1 puño ≈ 10°),
    salvo cuando apunta a la salida (en el horizonte). En Atardecer no hay altura: la puesta está en el horizonte.
 4. **Reloj.** «Ahora» es el reloj del dispositivo, no la hora de la previsión; se recalcula cada minuto mientras el panel
@@ -71,7 +73,7 @@ a la derecha» en vez de obligar a orientarse con el norte.
 ## Qué se construye
 
 - `src/nucleo/rumbo.js` (puro): `posicionLuna(fecha, lat, lon)`, `momentoDeLaLuna({ inicio, fin, ahora, mejorHora, lat, lon })`,
-  `puños(altura)`, `giro(az, rumbo)`, `rumboDe(evento)`.
+  `punos(altura)` (sin ñ en el código), `giro(az, rumbo)`, `rumboDe(evento)`.
 - `src/estado/orientacion.svelte.js`: estado de la brújula del móvil (`activa`, `rumbo`, `mensaje`) con `activar()` y `parar()`.
 - `src/componentes/Brujula.svelte`: flecha (con el giro opcional), frase y botón; la usan `PanelPuntos` y `PanelNocturno`.
   `Flecha.svelte` gana una propiedad opcional `rumbo`.
