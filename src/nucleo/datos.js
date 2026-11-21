@@ -120,6 +120,13 @@ function validarPuntosVentana(g, d, errores) {
     }
   });
   if (!NIVELES_LLUVIA.includes(g.ambarSiLluviaDesde)) errores.push(d + ".ambarSiLluviaDesde: usa " + NIVELES_LLUVIA.join(", "));
+
+  // Opcional: con niebla, un factor de nubes da sus puntos máximos y no veta (la niebla como ventaja)
+  if (g.nieblaVentaja !== undefined) {
+    const n = g.nieblaVentaja || {};
+    if (!g.factores.some((f) => f.id === n.factor && f.tipo !== "lluvia")) errores.push(d + ".nieblaVentaja.factor: «" + n.factor + "» no es un factor de nubes de este género");
+    if (!esTexto(n.frase)) errores.push(d + ".nieblaVentaja.frase: falta el texto");
+  }
 }
 
 function validarNocturno(g, d, errores) {
