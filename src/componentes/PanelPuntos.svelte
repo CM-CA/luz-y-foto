@@ -52,11 +52,19 @@
   </div>
 
   <h3>Horas analizadas</h3>
-  <table>
+  <table class="horas">
     <thead><tr><th>Hora</th><th class="num">Bajas</th><th class="num">Medias</th><th class="num">Altas</th><th class="num">mm/h</th><th class="num">Prob.</th><th class="num">Visib. km</th></tr></thead>
     <tbody>
       {#each r.horas as x}
-        <tr><td>{hm(x.t)}</td><td class="num">{pct(x.bajas)}</td><td class="num">{pct(x.medias)}</td><td class="num">{pct(x.altas)}</td><td class="num">{x.lluvia.toFixed(1)}</td><td class="num">{pct(x.prob)}</td><td class="num">{x.vis.toFixed(0)}</td></tr>
+        <tr>
+          <td>{hm(x.t)}</td>
+          <td class="num" data-label="Bajas">{pct(x.bajas)}</td>
+          <td class="num" data-label="Medias">{pct(x.medias)}</td>
+          <td class="num" data-label="Altas">{pct(x.altas)}</td>
+          <td class="num" data-label="mm/h">{x.lluvia.toFixed(1)}</td>
+          <td class="num" data-label="Prob.">{pct(x.prob)}</td>
+          <td class="num" data-label="Visib. km">{x.vis.toFixed(0)}</td>
+        </tr>
       {/each}
     </tbody>
   </table>

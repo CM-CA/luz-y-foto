@@ -8,7 +8,7 @@
 # Si hay node_modules (se instalan con `npm ci`), también pasa las pruebas de la lógica nueva (Vitest), valida
 # los datos al compilar, compila la app nueva con la ruta de la vista previa (/luz-y-foto/beta/), la sirve y le pasa
 # las MISMAS pruebas de comportamiento que a la web actual, más las propias de la versión compilada
-# (capturas frente a las de referencia, género nuevo solo con datos, ruta base).
+# (maquetación en móvil, género nuevo solo con datos, ruta base).
 #
 # Para probar otra versión de la app en el navegador (por ejemplo, la compilada con Svelte):
 #   E2E_BASE_URL=http://localhost:4173/luz-y-foto/ E2E_HOY_URL=http://localhost:4173/luz-y-foto/#/hoy bash test/ejecutar-todo.sh
