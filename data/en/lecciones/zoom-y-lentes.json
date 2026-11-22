@@ -1,0 +1,47 @@
+{
+  "id": "zoom-y-lentes",
+  "titulo": "Zoom and lenses: which to use",
+  "resumen": "The 0.5x, 1x, 2x or 3x buttons and finger zoom are not the same thing.",
+  "minutos": 2,
+  "para": "movil",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "zoom",
+      "alt": "Two ways of zooming on a phone. The 0.5x, 1x and 3x buttons usually switch lenses. With your fingers, the phone crops part of the photo and enlarges it.",
+      "pie": "Buttons: they usually switch lenses. With your fingers: it crops part of it and enlarges it."
+    },
+    {
+      "tipo": "idea",
+      "texto": "To get closer, tap the zoom buttons and don't pinch: pinching crops the photo and loses quality."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The numbers 0.5x, 1x, 2x or 3x on the camera are zoom buttons. On many phones each one switches lens: 0.5x is a wide-angle, which fits more into the photo; 1x is the main lens; 2x or 3x get closer with another lens. Which ones you have and which numbers appear depends on your phone."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Zoom with your fingers"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "If you pinch the screen, or go past the last button, the phone uses [[zoom-digital|digital zoom]]: it crops part of the photo and enlarges it. It adds no detail: the photo loses quality and looks pixelated. The software on some phones hides it, but the quality drops."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What to do"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "To get closer, tap the buttons (2x, 3x…) instead of pinching. On many phones they use another lens.",
+        "If you're already on the last button and can't reach, walk closer or take the photo without zoom and crop it afterwards: it's the same as digital zoom, but with more control.",
+        "To fit more into the photo (a landscape, a street), try 0.5x if your phone has it."
+      ]
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Take the same photo three times: with the 1x button, with a zoom button (2x or 3x) and pinching to the same framing. Enlarge all three on the screen and compare the detail."
+    }
+  ]
+}

@@ -6,6 +6,8 @@
  * Se usa al compilar (npm run validar y vite build) y en las pruebas. Los datos van incluidos en la compilación
  * (src/datos-incluidos.js), así que aquí ya no hay carga con fetch como en la versión actual.
  */
+import { DIBUJOS } from "../dibujos/index.js";
+
 const MOTORES = ["puntos-ventana", "mejor-hora-nocturna"];
 const EVENTOS = ["puesta", "amanecer"];
 const CAMPOS = ["bajas", "medias", "altas", "total"];
@@ -285,6 +287,7 @@ function validarLeccion(l, id, glosario, errores) {
       else b.items.forEach((t, j) => texto(t, a + ".items[" + j + "]"));
     } else if (b.tipo === "dibujo") {
       if (!/^[a-z0-9-]+$/.test(b.id || "")) errores.push(a + ".id: falta (solo letras minúsculas, números y guiones)");
+      else if (!DIBUJOS[b.id]) errores.push(a + ".id: el dibujo «" + b.id + "» no existe (hay " + Object.keys(DIBUJOS).join(", ") + ")");
       ["alt", "pie"].forEach((k) => { if (!esTexto(b[k])) errores.push(a + "." + k + ": falta el texto"); });
     } else {
       texto(b.texto, a + ".texto");
@@ -315,6 +318,24 @@ function validarLecciones(config, errores) {
       const l = (L.porId || {})[id];
       if (!esObjeto(l)) { errores.push(a + ".lecciones: la lección «" + id + "» no tiene archivo en data/lecciones/"); return; }
       validarLeccion(l, id, config.glosario || {}, errores);
+    });
+  });
+}
+
+// Los textos de los dibujos de las lecciones (dibujos.json): cada dibujo pide unas claves (src/dibujos/), un texto o una lista de líneas
+function validarDibujos(config, errores) {
+  const D = config.dibujos;
+  if (!esObjeto(D)) { errores.push("dibujos.json: falta o no es un objeto"); return; }
+  Object.keys(D).forEach((id) => { if (!DIBUJOS[id]) errores.push("dibujos.json: «" + id + "» no es un dibujo que exista (hay " + Object.keys(DIBUJOS).join(", ") + ")"); });
+  Object.entries(DIBUJOS).forEach(([id, dibujo]) => {
+    const t = D[id], a = "dibujos.json." + id;
+    if (!esObjeto(t)) { errores.push(a + ": faltan los textos del dibujo"); return; }
+    Object.keys(t).forEach((k) => { if (!(k in dibujo.claves)) errores.push(a + "." + k + ": este dibujo no usa esa clave (usa " + Object.keys(dibujo.claves).join(", ") + ")"); });
+    Object.entries(dibujo.claves).forEach(([k, n]) => {
+      const v = t[k];
+      if (n === null) { if (!esTexto(v)) errores.push(a + "." + k + ": falta el texto"); return; }
+      if (!Array.isArray(v) || v.length !== n) errores.push(a + "." + k + ": debe ser una lista de " + n + " textos");
+      else v.forEach((x, i) => { if (!esTexto(x)) errores.push(a + "." + k + "[" + i + "]: falta el texto"); });
     });
   });
 }
@@ -351,6 +372,7 @@ function validar(config) {
   validarPerfil(config.perfil, errores);
   validarRecetas(config, errores);
   validarLecciones(config, errores);
+  validarDibujos(config, errores);
   return errores;
 }
 

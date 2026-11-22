@@ -31,6 +31,7 @@ const cachesDe = (p) => p.evaluate(async () => {
 });
 
 ejecutar("sin-conexion", async ({ b, base }) => {
+  const { construirServiceWorker } = await import("../../../scripts/pwa.mjs");
   const { ctx, p } = await nuevaPagina(b, conServiceWorker);
   p.on("dialog", (d) => d.dismiss());
 
@@ -85,7 +86,6 @@ ejecutar("sin-conexion", async ({ b, base }) => {
   // «Publicar»: cambia la página y regenera el service worker, como haría una compilación nueva
   const html = path.join(copia, "index.html");
   fs.writeFileSync(html, fs.readFileSync(html, "utf8").replace("<title>Luz y foto</title>", "<title>Luz y foto (versión 2)</title>"));
-  const { construirServiceWorker } = await import("../../../scripts/pwa.mjs");
   const nueva = construirServiceWorker(copia);
   fs.writeFileSync(path.join(copia, "sw.js"), nueva.texto);
   await p.evaluate(() => navigator.serviceWorker.getRegistration().then((r) => r.update()));
@@ -117,6 +117,35 @@ ejecutar("sin-conexion", async ({ b, base }) => {
   await p.reload(); await p.waitForSelector("[data-tab]");
   ok(await tituloDe(p) === "Luz y foto (versión 2)", "y la versión nueva también abre sin red");
   await ctx.close();
+
+  titulo("en inglés (teléfono en en-US): sin red abre desde la caché con sus textos en inglés, y avisa de la versión nueva en inglés");
+  {
+    const { ctx: ctxEn, p: pEn } = await nuevaPagina(b, Object.assign({ locale: "en-US" }, conServiceWorker));
+    pEn.on("dialog", (d) => d.dismiss());
+    await pEn.goto(base); await pEn.waitForSelector(".veredicto");
+    await controlada(pEn);
+    ok(await pEn.evaluate(() => document.documentElement.lang) === "en", "<html lang> = en");
+    await ctxEn.setOffline(true);
+    const sinRedEn = (r) => r.abort("internetdisconnected");
+    await pEn.route("**/api.open-meteo.com/**", sinRedEn);
+    await pEn.reload(); await pEn.waitForSelector("[data-tab]");
+    ok((await pEn.locator("[data-tab]").allInnerTexts()).join(",") === "Sunrise,Sunset,Night", "sin red, con sus pestañas en inglés");
+    await pEn.waitForSelector("[data-testid=aviso-sin-conexion]");
+    ok(/I couldn't update the forecast\./.test(await pEn.locator("[data-testid=aviso-sin-conexion]").innerText()), "con la previsión guardada y el aviso en inglés: «" + (await pEn.locator("[data-testid=aviso-sin-conexion]").innerText()).replace(/\n/g, " ") + "»");
+    await pEn.goto(base + "#/nada");
+    ok(/I can't find that screen/.test(await pEn.locator("main").innerText()), "las rutas internas también funcionan: «I can't find that screen»");
+    await ctxEn.setOffline(false);
+    await pEn.unroute("**/api.open-meteo.com/**", sinRedEn);
+    // «Publicar» otra versión (la 3)
+    fs.writeFileSync(html, fs.readFileSync(html, "utf8").replace("<title>Luz y foto (versión 2)</title>", "<title>Luz y foto (versión 3)</title>"));
+    fs.writeFileSync(path.join(copia, "sw.js"), construirServiceWorker(copia).texto);
+    await pEn.evaluate(() => navigator.serviceWorker.getRegistration().then((r) => r.update()));
+    await pEn.waitForSelector("[data-testid=aviso-version]", { timeout: 10000 });
+    ok(/There is a new version of Luz y foto\./.test(await pEn.locator("[data-testid=aviso-version]").innerText()), "aviso de versión nueva en inglés: «" + (await pEn.locator("[data-testid=aviso-version]").innerText()).replace(/\n/g, " ") + "»");
+    ok(/^Update$/.test((await pEn.locator("[data-accion=actualizar]").innerText()).trim()), "con el botón «Update»");
+    ok(!/[¿¡áéíóúñ]/.test(await pEn.locator("[data-testid=aviso-version]").innerText()), "sin español en el aviso");
+    await ctxEn.close();
+  }
 
   fs.rmSync(copia, { recursive: true, force: true });
 }, { carpeta: copia, prefijo: PREFIJO, cacheControl: "max-age=600" }); // max-age=600: lo mismo que manda GitHub Pages

@@ -3,6 +3,8 @@
   // en el texto de al lado: el dibujo es un apoyo (un navegador que oscurece los SVG por su cuenta no esconde nada).
   // Con `rumbo` (hacia dónde mira el móvil) todo el dial gira al revés, y la flecha queda hacia arriba cuando el móvil mira al
   // objetivo. Sin `rumbo`, el dibujo es el de siempre. No hay transiciones: al pasar de 359° a 1° daría la vuelta entera.
+  import { t } from "../idioma/index.js";
+
   let { az, rumbo = null } = $props();
   const vivo = $derived(rumbo !== null);
 </script>
@@ -16,7 +18,7 @@
   </g>
 {/snippet}
 
-<svg width="62" height="62" viewBox="-32 -32 64 64" role={vivo ? undefined : "img"} aria-label={vivo ? undefined : "Dirección: " + Math.round(az) + " grados desde el norte"} aria-hidden={vivo ? "true" : undefined}>
+<svg width="62" height="62" viewBox="-32 -32 64 64" role={vivo ? undefined : "img"} aria-label={vivo ? undefined : t("flecha.etiqueta", { grados: Math.round(az) })} aria-hidden={vivo ? "true" : undefined}>
   {#if vivo}
     <g transform="rotate({(-rumbo).toFixed(1)})">{@render dial()}</g>
   {:else}

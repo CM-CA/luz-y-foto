@@ -1,5 +1,6 @@
 <script>
   import { ruta } from "./estado/ruta.svelte.js";
+  import { t } from "./idioma/index.js";
   import { analizarRuta } from "./nucleo/rutas.js";
   import Hoy from "./pantallas/Hoy.svelte";
   import Aprender from "./pantallas/Aprender.svelte";
@@ -21,8 +22,8 @@
     {#key pantalla.id}<Leccion id={pantalla.id} />{/key}
   {:else}
     <div class="pagina">
-      <h1>No encuentro esa pantalla</h1>
-      <p><a href="#/hoy">Volver a Hoy</a></p>
+      <h1>{t("app.noEncuentro")}</h1>
+      <p><a href="#/hoy">{t("app.volverAHoy")}</a></p>
     </div>
   {/if}
 </main>

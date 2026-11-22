@@ -6,6 +6,8 @@
  * pulsa «Actualizar» se le dice al nuevo que tome el relevo y se recarga la página (una sola vez).
  * Si el navegador no admite service workers o el registro falla, la app funciona igual, solo que sin uso sin conexión.
  */
+import { t } from "../idioma/index.js";
+
 export const version = $state({
   nueva: false, actualizando: false,
   // Estado del uso sin conexión, para enseñarlo en pantalla (si algo falla, el motivo se ve y no se queda callado):
@@ -39,7 +41,7 @@ function seguirInstalacion(reg) {
   const vigilar = (w) => w.addEventListener("statechange", () => {
     if (w.state === "redundant" && !reg.active) {
       version.sw.estado = "error";
-      version.sw.detalle = "El navegador descartó el service worker al instalarlo (suele ser que no pudo descargar alguno de los archivos de la app).";
+      version.sw.detalle = t("version.descartado");
     } else revisar();
   });
   if (reg.installing) vigilar(reg.installing);
@@ -69,7 +71,7 @@ export function registrarServiceWorker(base = import.meta.env.BASE_URL) {
   return navigator.serviceWorker.register(base + "sw.js", { scope: base }).then((reg) => {
     if (!reg) { // algunos navegadores con los service workers bloqueados no fallan: no devuelven nada
       version.sw.estado = "error";
-      version.sw.detalle = "el navegador no ha creado el registro (los service workers están bloqueados, por ejemplo por la configuración de privacidad o el modo de ahorro de datos)";
+      version.sw.detalle = t("version.sinRegistro");
       return null;
     }
     seguirInstalacion(reg);

@@ -1,0 +1,74 @@
+{
+  "id": "el-manual-de-verdad",
+  "titulo": "Manual mode, for real",
+  "resumen": "Aperture, shutter speed and ISO: what each one gives and what it costs.",
+  "minutos": 3,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "exposicion",
+      "alt": "Three columns: aperture, shutter speed and ISO. At f/2.8 the background comes out blurry and at f/11 everything comes out sharp. At 1/500 s movement is frozen and at 1 s everything moves, so you need a tripod. At ISO 100 the photo comes out clean and at ISO 3200 it comes out grainy.",
+      "pie": "Aperture: f/2.8, blurry background; f/11, all sharp. Shutter speed: 1/500 s, freezes; 1 s, everything moves (with a tripod). ISO: 100, clean; 3200, grainy."
+    },
+    {
+      "tipo": "idea",
+      "texto": "The light you need always has a price: in background, in movement or in grain. Manual means choosing for yourself what you pay."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "All three settings control the same thing: how much light reaches the sensor. But each one also changes something else in the photo, and that is its price."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What each one gives and what it costs"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "[[apertura|Aperture]] (f/): how wide the lens opens. Wide open (f/2.8), a lot of light comes in and the background comes out blurry; closed down (f/11), little comes in and everything comes out sharp. Price: the background and the sharpness.",
+        "[[velocidad|Shutter speed]] (exposure time): how long the sensor receives light. Fast (1/500 s) freezes movement; slow (1 s) blurs everything that moves and, handheld, the camera too. Price: movement and camera shake.",
+        "[[iso|ISO]]: the sensitivity of the sensor. Low (100), the photo comes out clean; high (3200), it sees more in the dark, but it usually comes out grainy. Price: grain."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What a stop of light is"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "A [[paso-de-luz|stop]] of light is double or half the light. Each setting has its own scale: from f/4 to f/2.8, from 1/60 s to 1/30 s or from ISO 200 to ISO 400 is one stop more. That is why they can be traded for each other: if you open the aperture one stop and cut the shutter time in half, the photo comes out just as bright."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "An example: the moon with Venus"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Imagine a very thin crescent moon with Venus nearby, at dusk, and the camera on a tripod. These settings are an example, not a recipe: depending on your lens and the light left in the sky, yours will be different. In [[modo-m|M mode]], they read like this:"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "f/5.6: a middle aperture, neither very wide nor very closed.",
+        "ISO 400: low for a night shot, so there is usually little grain.",
+        "1 s: a long time. It only comes out sharp with the camera still; that's why the tripod."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "If it comes out dark or bright"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Comes out dark: give it one more stop of light with the setting that costs you least. With a tripod, lengthen the time to 2 s; or raise the ISO to 800 (more grain), or open to f/4 if your lens goes that far (less of the background sharp).",
+        "Comes out bright or blown out: take away one stop. Shorten the time to 1/2 s, lower the ISO to 200 or close down to f/8."
+      ]
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Put the camera in M on something firm. Take one photo, another with twice the shutter time and another with half. Compare how much the brightness changes: that is a stop of light."
+    }
+  ]
+}

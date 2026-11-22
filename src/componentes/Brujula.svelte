@@ -2,6 +2,8 @@
   import { orientacion, hayBrujula, encender, apagar, montar, desmontar } from "../estado/orientacion.svelte.js";
   import { puntoCardinal } from "../nucleo/astro.js";
   import { unida } from "../nucleo/formato.js";
+  import { t, crudo } from "../idioma/index.js";
+  import Plantilla from "./Plantilla.svelte";
   import Flecha from "./Flecha.svelte";
 
   // La brújula de un panel: la flecha y, al lado, lo que escribe el panel (en `children`: la dirección, la altura…). El dibujo es
@@ -30,16 +32,16 @@
   </div>
   {#if disponible}
     <div class="brujula-viva">
-      <button type="button" id="brujulaMovil" class="enlace" onclick={() => (encendida ? apagar() : encender())}>{encendida ? "Dejar de usar la brújula del móvil" : "Usar la brújula del móvil"}</button>
+      <button type="button" id="brujulaMovil" class="enlace" onclick={() => (encendida ? apagar() : encender())}>{encendida ? t("brujula.dejar") : t("brujula.usar")}</button>
       {#if orientacion.estado === "pidiendo"}
-        <p>Buscando la brújula del móvil…</p>
+        <p>{t("brujula.buscando")}</p>
       {:else if mirando}
-        <p>Estás mirando al <strong>{mirando.palabra}</strong> ({mirando.grados}°).</p>
-        <p class="nota">Cuando la flecha apunte hacia arriba, estás mirando hacia allí. La brújula del móvil puede desviarse 10–20°: gira el móvil en un ocho para calibrarla.</p>
+        <p><Plantilla texto={crudo("brujula.mirando")} valores={{ palabra: mirando.palabra, grados: mirando.grados }} negrita={["palabra"]} /></p>
+        <p class="nota">{t("brujula.cuandoArriba")}</p>
       {:else if orientacion.estado === "sinPermiso"}
-        <p>Sin permiso para la brújula. Puedes darlo en los ajustes del navegador.</p>
+        <p>{t("brujula.sinPermiso")}</p>
       {:else if orientacion.estado === "sinSensor"}
-        <p>Este dispositivo no da la brújula.</p>
+        <p>{t("brujula.sinSensor")}</p>
       {/if}
     </div>
   {/if}

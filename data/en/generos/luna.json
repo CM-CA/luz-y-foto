@@ -1,0 +1,62 @@
+{
+  "id": "luna",
+  "nombre": "Night",
+  "motor": "mejor-hora-nocturna",
+
+  "luna": {
+    "alturaMinGrados": 10,
+    "solMaxGrados": -1,
+    "fraccionMinima": 0.03
+  },
+  "nubes": { "campo": "total", "verdeMenosDe": 30, "ambarHasta": 60 },
+  "lluvia": { "momento": "while the moon is high", "vetoDesde": "fuerte", "ambarSiLluviaDesde": "moderada" },
+
+  "niveles": {
+    "verde": "You'll see it well",
+    "ambar": "Possible between clouds",
+    "rojo": "Unlikely",
+    "ninguno": "No moon tonight",
+    "yaPaso": "This moon has already passed"
+  },
+  "resumenes": {
+    "verde": "Clear sky while the moon is high. Worth going out.",
+    "ambar": "There will be clouds, but a gap may open. If you go, be patient and check the clouds every so often.",
+    "rojo": "Heavily overcast: the moon will barely be visible. Better another night."
+  },
+  "motivos": {
+    "lunaNueva": "New moon: it is almost invisible. A good night for stars, not for the moon.",
+    "sinLunaAlta": "Tonight the moon won't be high while it is dark.",
+    "yaPaso": "There are no hours left tonight with the moon high.",
+    "lluviaFuerte": "Heavy rain is expected while the moon is high."
+  },
+  "frasesNubes": [
+    { "menosDe": 30, "texto": "Clear or almost clear sky: the moon will look clean." },
+    { "hasta": 60, "texto": "Clouds now and then: you'll have to wait for a gap between them." },
+    { "texto": "Overcast sky: the moon will barely show." }
+  ],
+  "avisoNiebla": "Low visibility (fog): the moon will look blurry.",
+  "etiquetasDia": { "ahora": "Now", "hoy": "Today", "manana": "Tomorrow", "otro": "{dia}" },
+
+  "brujula": {
+    "texto": "Look toward the {direccion} ({grados}°).",
+    "altura": "Altitude: {altura}° above the horizon, about {punos} fists at arm's length.",
+    "alturaUnPuno": "Altitude: {altura}° above the horizon, about one fist at arm's length.",
+    "alturaBaja": "Altitude: almost at the horizon.",
+    "momentos": {
+      "ahora": "Now, at {hora}.",
+      "mejor": "At {hora}, the best time of the night.",
+      "anochecer": "At nightfall, at {hora}.",
+      "sale": "The moon rises at {hora}."
+    }
+  },
+  "fases": {
+    "nueva": { "nombre": "New moon", "consejo": "Almost invisible. A good night for stars, not for photographing the moon." },
+    "creciente": { "nombre": "Waxing crescent", "consejo": "Soft light with a well-defined edge. Good for a thin moon over the landscape." },
+    "cuarto-creciente": { "nombre": "First quarter", "consejo": "The light comes from the side and brings out the relief of the craters. It is the phase with the most detail." },
+    "gibosa-creciente": { "nombre": "Waxing gibbous", "consejo": "Soft shadows and lots of brightness. With a telephoto lens you can see relief along the edge." },
+    "llena": { "nombre": "Full moon", "consejo": "Very bright, with flat light and no relief. It looks best within a landscape or among clouds." },
+    "gibosa-menguante": { "nombre": "Waning gibbous", "consejo": "Soft shadows and lots of brightness. With a telephoto lens you can see relief along the edge." },
+    "cuarto-menguante": { "nombre": "Last quarter", "consejo": "The light comes from the side and brings out the relief of the craters. It is the phase with the most detail." },
+    "menguante": { "nombre": "Waning crescent", "consejo": "Soft light with a well-defined edge. Good for a thin moon over the landscape." }
+  }
+}

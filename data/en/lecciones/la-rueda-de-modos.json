@@ -1,0 +1,57 @@
+{
+  "id": "la-rueda-de-modos",
+  "titulo": "The mode dial",
+  "resumen": "Which mode to use and when, without getting confused.",
+  "minutos": 3,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "modos",
+      "alt": "What you choose in each mode: in Auto, nothing; in P, the ISO; in Tv, the shutter speed and the ISO; in Av, the aperture and the ISO; in M, all three.",
+      "pie": "Filled box: you choose it. Empty: the camera chooses it."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Av if you care about the background. Tv if you care about movement. M when the light doesn't change and you have time."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The dial on your camera decides how much work you do and how much the camera does. There are always three settings that change the photo: [[apertura|aperture]], [[velocidad|shutter speed]] and [[iso|ISO]]. The only thing that changes from one mode to another is which ones you choose and which ones the camera chooses."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What each mode chooses"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Auto: the camera decides everything. You don't have to think, but you don't control anything either.",
+        "P: the camera chooses the aperture and the shutter speed; you choose the ISO.",
+        "[[modo-av|Av]] (A on Nikon and Sony): you choose the aperture, that is, how blurry the background comes out; the camera chooses the shutter speed.",
+        "[[modo-tv|Tv]] (S on Nikon and Sony): you choose the shutter speed, that is, whether movement comes out frozen or blurred; the camera chooses the aperture.",
+        "[[modo-m|M]]: you choose all three. It is the slowest mode to use."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Where to start"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Start with Av. It's the easiest mode to learn on: with a single setting you control the background and the camera makes sure the photo comes out neither too dark nor blown out. If what you want is to freeze a movement, like a bird or a wave, switch to Tv and raise the shutter speed."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Move to M when the light doesn't change and you have time: the moon at night with the camera on a tripod, for example. With light that changes fast, like a sunset's, M forces you to keep adjusting the settings and you miss the photo."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Auto is fine too. If there's no time to think or the light changes in seconds, a photo taken is better than a photo missed."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Set the dial to Av and take three photos of the same spot: with the lowest f-number, a middle one and the highest. Compare how much the background changes."
+    }
+  ]
+}

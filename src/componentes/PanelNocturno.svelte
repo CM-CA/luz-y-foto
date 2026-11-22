@@ -6,6 +6,7 @@
   import { LUNAS } from "../imagenes/cielos.js";
   import { hm, pct, unida } from "../nucleo/formato.js";
   import { puntoCardinal } from "../nucleo/astro.js";
+  import { t, locale } from "../idioma/index.js";
   import { momentoDeLaLuna, punos } from "../nucleo/rumbo.js";
   import Veredicto from "./Veredicto.svelte";
   import Avisos from "./Avisos.svelte";
@@ -21,8 +22,8 @@
   const enCurso = $derived(item.inicio <= hoy.ahora);
   const r = $derived(evaluarDia({ S, g, prev: hoy.prev, item, lat: hoy.lat, lon: hoy.lon, ahora: hoy.ahora }));
   const conHoras = $derived(r.nivel !== "ninguno" && !r.sinUtiles);
-  const nota = $derived(conHoras ? `Mejor hora: ${hm(r.mejorHora)} · nubes ${pct(r.nubes)}` : fase.nombre);
-  const fecha = $derived(new Date(item.fecha + "T12:00:00").toLocaleDateString("es-ES", { day: "numeric", month: "long" }));
+  const nota = $derived(conHoras ? t("nocturno.nota", { hora: hm(r.mejorHora), nubes: pct(r.nubes) }) : fase.nombre);
+  const fecha = $derived(new Date(item.fecha + "T12:00:00").toLocaleDateString(locale, { day: "numeric", month: "long" }));
 
   // La brújula: a qué momento de la noche apunta la flecha (ahora, la mejor hora, el anochecer o la salida de la luna). «Ahora» es el
   // reloj del dispositivo, no la hora de la previsión, y se recalcula cada minuto mientras el panel está en pantalla.
@@ -36,7 +37,7 @@
   const textoAltura = $derived(nPunos === 0 ? g.brujula.alturaBaja : nPunos === 1 ? g.brujula.alturaUnPuno : g.brujula.altura);
 </script>
 
-<p class="subtitulo">{enCurso ? "Noche en curso" : "Noche"} del {fecha}</p>
+<p class="subtitulo">{t(enCurso ? "nocturno.nocheEnCurso" : "nocturno.noche", { fecha })}</p>
 <Veredicto nivel={r.nivel} titulo={r.titulo} {nota} texto={r.resumen} />
 <Avisos lista={r.avisos} />
 {#if momento}
@@ -49,35 +50,35 @@
 <Receta {g} nivel={r.nivel} />
 <div class="luna-cab">
   <img class:sur={hoy.lat < 0} src={LUNAS[indiceFaseLuna(lunaDia.fase)]} alt="" width="66" height="66">
-  <p><span class="luna-nombre">{fase.nombre}</span><span class="luna-detalle">{Math.round(lunaDia.fraccion * 100)} % iluminada, {lunaDia.creciente ? "creciendo" : "menguando"}</span></p>
+  <p><span class="luna-nombre">{fase.nombre}</span><span class="luna-detalle">{t(lunaDia.creciente ? "nocturno.iluminadaCreciente" : "nocturno.iluminadaMenguante", { pct: pct(lunaDia.fraccion * 100) })}</span></p>
 </div>
 <dl class="sale">
-  <dt>Sale</dt>
-  <dd>{#if lunaDia.sale}{hm(lunaDia.sale.getTime())}<small>hacia el {unida(lunaDia.palabraSale)}</small>{:else}—<small>no sale este día</small>{/if}</dd>
-  <dt>Se pone</dt>
-  <dd>{#if lunaDia.seSitua}{hm(lunaDia.seSitua.getTime())}<small>{lunaDia.seSituaAlDiaSiguiente ? "ya de madrugada, " : ""}hacia el {unida(lunaDia.palabraSeSitua)}</small>{:else}—{/if}</dd>
+  <dt>{t("nocturno.sale")}</dt>
+  <dd>{#if lunaDia.sale}{hm(lunaDia.sale.getTime())}<small>{t("nocturno.haciaEl", { direccion: unida(lunaDia.palabraSale) })}</small>{:else}—<small>{t("nocturno.noSale")}</small>{/if}</dd>
+  <dt>{t("nocturno.sePone")}</dt>
+  <dd>{#if lunaDia.seSitua}{hm(lunaDia.seSitua.getTime())}<small>{t(lunaDia.seSituaAlDiaSiguiente ? "nocturno.madrugadaHaciaEl" : "nocturno.haciaEl", { direccion: unida(lunaDia.palabraSeSitua) })}</small>{:else}—{/if}</dd>
 </dl>
 <p class="consejo">{fase.consejo}</p>
 {#if conHoras}
-  <h3>Qué pesa en la nota</h3>
+  <h3>{t("panel.quePesa")}</h3>
   <table>
     <tbody>
-      <tr><td>Nubes en la mejor hora ({pct(r.nubes)})</td><td>{r.fraseNubes}</td></tr>
-      <tr><td>Lluvia ({r.lluvia.toFixed(1)} mm/h)</td><td>{r.fraseLluvia}</td></tr>
-      <tr><td>Luna alta</td><td>Entre las {hm(r.primera)} y las {hm(r.ultima)}</td></tr>
+      <tr><td>{t("nocturno.nubesMejorHora", { nubes: pct(r.nubes) })}</td><td>{r.fraseNubes}</td></tr>
+      <tr><td>{t("nocturno.lluvia", { mm: r.lluvia.toFixed(1) })}</td><td>{r.fraseLluvia}</td></tr>
+      <tr><td>{t("nocturno.lunaAlta")}</td><td>{t("nocturno.entreLas", { desde: hm(r.primera), hasta: hm(r.ultima) })}</td></tr>
     </tbody>
   </table>
-  <h3>Horas con la luna alta</h3>
+  <h3>{t("nocturno.horasLunaAlta")}</h3>
   <table class="horas" style="--columnas: 2">
-    <thead><tr><th>Hora</th><th class="num">Nubes</th><th class="num">mm/h</th><th class="num">Prob.</th><th class="num">Visib. km</th></tr></thead>
+    <thead><tr><th>{t("tabla.hora")}</th><th class="num">{t("tabla.nubes")}</th><th class="num">{t("tabla.mmh")}</th><th class="num">{t("tabla.prob")}</th><th class="num">{t("tabla.visib")}</th></tr></thead>
     <tbody>
       {#each r.horas as x}
         <tr class:mejor={x.t === r.mejorHora}>
           <td>{hm(x.t)}</td>
-          <td class="num" data-label="Nubes">{pct(x.total)}</td>
-          <td class="num" data-label="mm/h">{x.lluvia.toFixed(1)}</td>
-          <td class="num" data-label="Prob.">{pct(x.prob)}</td>
-          <td class="num" data-label="Visib. km">{x.vis.toFixed(0)}</td>
+          <td class="num" data-label={t("tabla.nubes")}>{pct(x.total)}</td>
+          <td class="num" data-label={t("tabla.mmh")}>{x.lluvia.toFixed(1)}</td>
+          <td class="num" data-label={t("tabla.prob")}>{pct(x.prob)}</td>
+          <td class="num" data-label={t("tabla.visib")}>{x.vis.toFixed(0)}</td>
         </tr>
       {/each}
     </tbody>

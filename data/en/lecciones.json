@@ -1,0 +1,48 @@
+{
+  "titulo": "Learn",
+  "subtitulo": "Short lessons, 2 or 3 minutes.",
+  "etiquetas": {
+    "minutos": "{n} min",
+    "para": {
+      "camara": "For camera",
+      "movil": "For phone",
+      "todos": "For everyone"
+    },
+    "ideaClave": "Key idea",
+    "pruebalo": "Try it today",
+    "volver": "← Learn",
+    "noExiste": "I can't find that lesson",
+    "aprendePorQue": "Learn why these settings"
+  },
+  "grupos": [
+    {
+      "id": "basico",
+      "titulo": "The basics",
+      "subtitulo": "For those who shoot with a camera.",
+      "lecciones": [
+        "la-rueda-de-modos",
+        "el-manual-de-verdad",
+        "parasol-y-filtro-uv"
+      ]
+    },
+    {
+      "id": "movil",
+      "titulo": "For your phone",
+      "subtitulo": "For those who shoot with a phone.",
+      "lecciones": [
+        "toca-para-enfocar-y-exponer",
+        "luz-baja-y-modo-noche",
+        "zoom-y-lentes"
+      ]
+    },
+    {
+      "id": "tipos",
+      "titulo": "Types of photography",
+      "subtitulo": "What to look out for, depending on what you photograph.",
+      "lecciones": [
+        "fotografia-de-paisaje",
+        "fotografia-deportiva"
+      ]
+    }
+  ]
+}

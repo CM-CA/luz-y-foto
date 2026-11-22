@@ -6,6 +6,7 @@
 import * as Astro from "./astro.js";
 import { plantilla } from "./semaforo.js";
 import { mayus } from "./formato.js";
+import { locale } from "../idioma/index.js";
 
 const HORA = 3600000;
 
@@ -50,7 +51,7 @@ function fechaLugar(ms, prev) { return new Date(ms + prev.desfaseMs).toISOString
 function etiquetaDia(g, x, prev, ahora) {
   const e = g.etiquetasDia, hoy = fechaLugar(ahora, prev), manana = fechaLugar(ahora + 24 * HORA, prev);
   if (g.motor === "mejor-hora-nocturna" && x.inicio <= ahora && e.ahora) return e.ahora;
-  const dia = mayus(new Date(x.fecha + "T12:00:00").toLocaleDateString("es-ES", { weekday: "long" }));
+  const dia = mayus(new Date(x.fecha + "T12:00:00").toLocaleDateString(locale, { weekday: "long" }));
   return plantilla(x.fecha === hoy ? e.hoy : x.fecha === manana ? e.manana : e.otro, { dia });
 }
 

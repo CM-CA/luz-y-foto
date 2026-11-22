@@ -1,9 +1,11 @@
 /*
- * Formato de números, horas y textos para la pantalla. Las horas son las del dispositivo.
+ * Formato de números, horas y textos para la pantalla. Las horas son las del dispositivo y se escriben a la manera del idioma
+ * (`locale`: «es-ES», o la variante inglesa del teléfono).
  */
+import { locale, t } from "../idioma/index.js";
 
-const hm = (ms) => ms == null ? "—" : new Date(ms).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
-const pct = (v) => Math.round(v) + " %";
+const hm = (ms) => ms == null ? "—" : new Date(ms).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
+const pct = (v) => t("formato.pct", { n: Math.round(v) });
 // Guion que no se parte al final de línea («nor-noreste» no queda cortado)
 const unida = (p) => (p || "").replace(/-/g, "‑");
 const mayus = (t) => t.charAt(0).toUpperCase() + t.slice(1);

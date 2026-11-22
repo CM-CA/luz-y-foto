@@ -14,16 +14,14 @@ import { nombreDeLugar } from "../proveedores/nominatim.js";
 import { buscarCiudad } from "../proveedores/geocodificacion.js";
 import { crearSugeridor } from "../nucleo/sugerencias.js";
 import { posicionGps } from "../proveedores/gps.js";
+import { t } from "../idioma/index.js";
 
-const MENSAJES_GPS = {
-  denegado: "No tengo permiso para ver tu ubicación. Puedes darlo en los ajustes del navegador o buscar tu ciudad aquí.",
-  "no-disponible": "Este dispositivo o navegador no ha podido darme tu ubicación. Busca tu ciudad aquí.",
-  tiempo: "Tu ubicación tarda demasiado en llegar. Prueba otra vez o busca tu ciudad aquí."
-};
+// Qué se le dice a quien no se pudo ubicar, según el motivo (los textos están en los diccionarios)
+const CLAVES_GPS = { denegado: "gps.denegado", "no-disponible": "gps.noDisponible", tiempo: "gps.tiempo" };
 
 export const hoy = $state({
   // lugar
-  lugar: null, nombreLugar: "Buscando tu ubicación…", selectorAbierto: false, mensajeLugar: "", resultados: [],
+  lugar: null, nombreLugar: "", selectorAbierto: false, mensajeLugar: "", resultados: [],
   // previsión
   estado: "", vistaLista: false, pintado: 0, prev: null, lat: 0, lon: 0, ahora: 0, listas: null, pestana: null, indice: 0, pestanaElegida: false,
   // consultando: hay una petición en curso. sinConexion: no se pudo actualizar y se enseña la previsión guardada ({ cuando, hace })
@@ -78,7 +76,7 @@ function mostrar(datos, lat, lon) {
 async function consultar(lat, lon, { conservarVista = false } = {}) {
   const mia = ++consulta;
   hoy.consultando = true;
-  hoy.estado = "Consultando la previsión…";
+  hoy.estado = t("estado.consultando");
   if (!conservarVista) hoy.vistaLista = false;
   try {
     const datos = await pedirPrevision(lat, lon);
@@ -88,7 +86,7 @@ async function consultar(lat, lon, { conservarVista = false } = {}) {
     mostrada = v.ahora;
     Guardada.guardar(ultima);
     hoy.sinConexion = null;
-    hoy.estado = "Previsión de las " + hm(v.ahora) + " · " + datos.timezone;
+    hoy.estado = t("estado.prevision", { hora: hm(v.ahora), zona: datos.timezone });
     hoy.consultando = false;
     repintar();
   } catch (e) {
@@ -108,11 +106,11 @@ function sinPrevisionNueva(lat, lon, error) {
     const yaSeVe = mostrada === guardada.guardadaEn && hoy.lat === lat && hoy.lon === lon && hoy.listas;
     if (!yaSeVe) { mostrar(guardada.datos, lat, lon); mostrada = guardada.guardadaEn; }
     hoy.sinConexion = Guardada.cuando(guardada.guardadaEn, ahora);
-    hoy.estado = "Previsión guardada " + hoy.sinConexion.cuando + " · " + guardada.datos.timezone;
+    hoy.estado = t("estado.guardada", { cuando: hoy.sinConexion.cuando, zona: guardada.datos.timezone });
     if (!yaSeVe) repintar(); else hoy.vistaLista = true;
   } catch (e) {
     hoy.sinConexion = null;
-    hoy.estado = "No se han podido cargar los datos (" + error.message + "). Comprueba la conexión y vuelve a intentarlo.";
+    hoy.estado = t("estado.error", { motivo: error.message });
   }
 }
 
@@ -130,23 +128,23 @@ function escucharConexion() {
 
 /* ---------- Lugar ---------- */
 
-const MENSAJE_INICIAL = "Escribe tu ciudad o usa tu ubicación.";
+const mensajeInicial = () => t("selector.mensajeInicial");
 // Las sugerencias mientras se escribe llenan la misma lista que la búsqueda con Intro o con la lupa
 const sugeridor = crearSugeridor({
   buscar: buscarCiudad,
-  alVaciar: () => { hoy.resultados = []; hoy.mensajeLugar = MENSAJE_INICIAL; },
-  alRecibir: (resultados) => { hoy.resultados = resultados; hoy.mensajeLugar = resultados.length ? "Elige tu lugar:" : MENSAJE_INICIAL; }
+  alVaciar: () => { hoy.resultados = []; hoy.mensajeLugar = mensajeInicial(); },
+  alRecibir: (resultados) => { hoy.resultados = resultados; hoy.mensajeLugar = resultados.length ? t("selector.eligeLugar") : mensajeInicial(); }
 });
 export function escribirCiudad(texto) { sugeridor.escribir(texto); }
 
 function abrirSelector(mensaje) { hoy.selectorAbierto = true; hoy.mensajeLugar = mensaje || ""; }
 function cerrarSelector() { sugeridor.cancelar(); hoy.selectorAbierto = false; hoy.resultados = []; hoy.mensajeLugar = ""; }
-export function alternarSelector() { if (hoy.selectorAbierto) cerrarSelector(); else abrirSelector(MENSAJE_INICIAL); }
+export function alternarSelector() { if (hoy.selectorAbierto) cerrarSelector(); else abrirSelector(mensajeInicial()); }
 
 async function fijarLugar(lat, lon, nombre, origen) {
   const mia = ++peticion;
   hoy.lugar = { lat, lon, nombre: nombre || null, origen };
-  hoy.nombreLugar = nombre || "Tu ubicación";
+  hoy.nombreLugar = nombre || t("lugar.tuUbicacion");
   consultar(lat, lon);
   if (nombre) { Lugar.guardar($state.snapshot(hoy.lugar)); return; }
   const texto = await nombreDeLugar(lat, lon);
@@ -157,15 +155,15 @@ async function fijarLugar(lat, lon, nombre, origen) {
 }
 
 export async function usarGps(silencioso) {
-  if (!silencioso) hoy.mensajeLugar = "Buscando tu ubicación…";
+  if (!silencioso) hoy.mensajeLugar = t("lugar.buscando");
   try {
     const p = await posicionGps();
     cerrarSelector();
     fijarLugar(p.lat, p.lon, null, "gps");
   } catch (e) {
     if (!silencioso) {
-      if (!hoy.lugar) { hoy.nombreLugar = "Elige tu lugar"; hoy.estado = ""; }
-      abrirSelector(MENSAJES_GPS[e.codigo] || MENSAJES_GPS["no-disponible"]);
+      if (!hoy.lugar) { hoy.nombreLugar = t("lugar.elige"); hoy.estado = ""; }
+      abrirSelector(t(CLAVES_GPS[e.codigo] || CLAVES_GPS["no-disponible"]));
     }
   }
 }
@@ -184,14 +182,14 @@ async function refrescarGps(guardado) {
 export async function buscar(texto) {
   sugeridor.cancelar();
   const q = texto.trim();
-  if (q.length < 2) { hoy.mensajeLugar = "Escribe al menos dos letras."; return; }
-  hoy.mensajeLugar = "Buscando…"; hoy.resultados = [];
+  if (q.length < 2) { hoy.mensajeLugar = t("selector.minimoLetras"); return; }
+  hoy.mensajeLugar = t("selector.buscando"); hoy.resultados = [];
   try {
     hoy.resultados = await buscarCiudad(q);
-    if (!hoy.resultados.length) { hoy.mensajeLugar = "No he encontrado ese lugar. Prueba con otro nombre."; return; }
-    hoy.mensajeLugar = "Elige tu lugar:";
+    if (!hoy.resultados.length) { hoy.mensajeLugar = t("selector.noEncontrado"); return; }
+    hoy.mensajeLugar = t("selector.eligeLugar");
   } catch (e) {
-    hoy.mensajeLugar = "No he podido buscar. Comprueba la conexión e inténtalo de nuevo.";
+    hoy.mensajeLugar = t("selector.errorBusqueda");
   }
 }
 
@@ -267,7 +265,7 @@ export async function arrancar() {
     fijarLugar(guardado.lat, guardado.lon, guardado.nombre, guardado.origen);
     if (guardado.origen === "gps") refrescarGps(guardado);
   } else {
-    hoy.estado = "Buscando tu ubicación…";
+    hoy.estado = t("lugar.buscando");
     usarGps(false);
   }
 }

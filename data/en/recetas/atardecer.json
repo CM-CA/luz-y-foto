@@ -1,0 +1,154 @@
+{
+  "avisos": [
+    "sol",
+    "seguridad",
+    "formato"
+  ],
+  "segunSemaforo": {
+    "verde": "Base recipe. Arrive 30 minutes before sunset and stay 20 minutes after: the [[hora-dorada|golden hour]] and the [[hora-azul|blue hour]] tend to give the best photos.",
+    "ambar": "Go anyway. If the sky doesn't take on color, there is a plan B: silhouettes, dramatic clouds or the blue hour.",
+    "rojo": "Today the sensible thing is not to go out. If you go, look for details, reflections or black and white instead of the sky."
+  },
+  "variantes": [
+    {
+      "id": "movil",
+      "titulo": "With your phone",
+      "si": {
+        "equipo": "movil"
+      },
+      "leccion": "toca-para-enfocar-y-exponer",
+      "pasos": [
+        {
+          "titulo": "Light",
+          "empiezo": "Tap the sky on the screen, right next to the sun.",
+          "defiendo": "Tap the sky next to the sun: the phone measures the light there and the colors don't get blown out.",
+          "controlo": "Tap the sky next to the sun (lock exposure)"
+        },
+        {
+          "titulo": "Brightness",
+          "empiezo": "Lower the brightness a little with the sun icon that appears when you tap.",
+          "defiendo": "Darkening a little makes the colors more intense and avoids a white sky.",
+          "controlo": "Exposure -1"
+        },
+        {
+          "titulo": "Zoom",
+          "empiezo": "Don't use pinch zoom. If you want to get closer, use the 2x or 3x buttons, or crop afterwards.",
+          "defiendo": "Digital zoom ruins sharpness; the 2x or 3x buttons usually use another lens.",
+          "controlo": "No digital zoom"
+        },
+        {
+          "titulo": "Steadiness",
+          "empiezo": "Rest the phone against a wall or a post and use the 2-second timer.",
+          "defiendo": "As the light fades the phone takes longer to shoot: if you move, it comes out blurry.",
+          "controlo": "Support + 2 s timer"
+        }
+      ]
+    },
+    {
+      "id": "camara-tripode",
+      "titulo": "With camera and tripod",
+      "si": {
+        "equipo": "camara",
+        "tripode": "si"
+      },
+      "leccion": "la-rueda-de-modos",
+      "pasos": [
+        {
+          "titulo": "Mode",
+          "empiezo": "Turn the mode dial to {Av}.",
+          "defiendo": "Turn the mode dial to [[modo-av|{Av}]]: you choose the aperture and the camera works out the rest.",
+          "controlo": "{Av}"
+        },
+        {
+          "titulo": "Aperture",
+          "empiezo": "Raise the f-number to f/11: turn the dial until the screen shows f/11.",
+          "defiendo": "f/11: it closes the diaphragm, so everything comes out sharp and the sun looks like a star ([[apertura|more about aperture]]).",
+          "controlo": "f/11"
+        },
+        {
+          "titulo": "Compensation",
+          "empiezo": "Lower the exposure compensation to -1 (the button with +/-).",
+          "defiendo": "[[compensacion|-1]]: it darkens a little so the brightest parts don't blow out.",
+          "controlo": "-1 EV"
+        },
+        {
+          "titulo": "ISO",
+          "empiezo": "Set the ISO to 100.",
+          "defiendo": "ISO 100: with a tripod you can use a low [[iso|ISO]]; the photo comes out clean even if it takes longer.",
+          "controlo": "ISO 100"
+        },
+        {
+          "titulo": "Focus",
+          "empiezo": "Focus on a point on the horizon, not on the sun.",
+          "defiendo": "Focus on the horizon so everything comes out sharp; after that, don't move the camera.",
+          "controlo": "Spot AF on the horizon"
+        },
+        {
+          "titulo": "Metering",
+          "empiezo": "Meter the light on the sky, next to the sun (spot metering, if your camera has it).",
+          "defiendo": "[[medicion|Spot metering]] on the sky keeps the scene from coming out dark because of the sun.",
+          "controlo": "Spot on the sky next to the sun"
+        },
+        {
+          "titulo": "Trick",
+          "empiezo": "Turn on the 2-second timer.",
+          "defiendo": "The [[disparador|timer]] keeps your finger from moving the camera.",
+          "controlo": "2 s timer"
+        }
+      ]
+    },
+    {
+      "id": "camara-sin-tripode",
+      "titulo": "With camera, no tripod",
+      "si": {
+        "equipo": "camara"
+      },
+      "leccion": "la-rueda-de-modos",
+      "nota": "If the shutter speed drops below 1/(focal length × 1.6) seconds (on an APS-C sensor camera), the photo will come out blurred: raise the ISO or open the aperture more (a smaller f-number).",
+      "pasos": [
+        {
+          "titulo": "Mode",
+          "empiezo": "Turn the mode dial to {Av}.",
+          "defiendo": "Turn the mode dial to [[modo-av|{Av}]]: you choose the aperture and the camera works out the rest.",
+          "controlo": "{Av}"
+        },
+        {
+          "titulo": "Aperture",
+          "empiezo": "Raise the f-number to f/8.",
+          "defiendo": "f/8: it keeps the scene sharp without asking for as much light as f/11 ([[apertura|more about aperture]]).",
+          "controlo": "f/8"
+        },
+        {
+          "titulo": "Compensation",
+          "empiezo": "Lower the exposure compensation to -1 (the button with +/-).",
+          "defiendo": "[[compensacion|-1]]: it darkens a little so the brightest parts don't blow out.",
+          "controlo": "-1 EV"
+        },
+        {
+          "titulo": "ISO",
+          "empiezo": "Leave the ISO on auto and set a limit of 800 in the menu.",
+          "defiendo": "Without a tripod you need speed: auto [[iso|ISO]] keeps it up and the limit avoids too much grain.",
+          "controlo": "ISO auto, max. 800"
+        },
+        {
+          "titulo": "Focus",
+          "empiezo": "Focus on a point on the horizon, not on the sun.",
+          "defiendo": "Focus on the horizon so everything comes out sharp.",
+          "controlo": "Spot AF on the horizon"
+        },
+        {
+          "titulo": "Metering",
+          "empiezo": "Leave the metering as it comes (evaluative).",
+          "defiendo": "[[medicion|Evaluative metering]] looks at the whole scene and doesn't demand as steady a hand.",
+          "controlo": "Evaluative"
+        },
+        {
+          "titulo": "Trick",
+          "empiezo": "Rest the camera against a wall or a post and tuck your elbows against your body.",
+          "defiendo": "The steadier it is, the less likely it is to come out blurred.",
+          "controlo": "Firm support, elbows in"
+        }
+      ]
+    }
+  ]
+}

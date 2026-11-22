@@ -7,6 +7,8 @@
  * (del violeta al azul de la hora azul, desde la puesta), según dónde cae su centro. `mezcla` (de 0 a 100) dice cuánto
  * ha avanzado el bloque dentro de su tramo, y el componente la usa para mezclar los dos colores del tramo.
  */
+import { locale, t } from "../idioma/index.js";
+
 export const BLOQUES = 48;
 
 const esNumero = (x) => typeof x === "number" && Number.isFinite(x);
@@ -34,13 +36,13 @@ export function franja({ dorada, puesta, azul, ahora = null, esHoy = false } = {
 }
 
 /**
- * El título de la sección: «La luz de hoy», «La luz de mañana» o «La luz del lunes».
+ * El título de la sección: «La luz de hoy», «La luz de mañana» o «La luz del lunes» («Today's light», «Monday's light»…).
  * @param {string} fecha  día de la tarjeta, «AAAA-MM-DD»
  * @param {string} hoy    hoy en el lugar, «AAAA-MM-DD»
  * @param {string} manana mañana en el lugar, «AAAA-MM-DD»
  */
 export function tituloDeLaLuz(fecha, hoy, manana) {
-  if (fecha === hoy) return "La luz de hoy";
-  if (fecha === manana) return "La luz de mañana";
-  return "La luz del " + new Date(fecha + "T12:00:00").toLocaleDateString("es-ES", { weekday: "long" }).toLowerCase();
+  if (fecha === hoy) return t("luz.deHoy");
+  if (fecha === manana) return t("luz.deManana");
+  return t("luz.del", { dia: new Date(fecha + "T12:00:00").toLocaleDateString(locale, { weekday: "long" }) });
 }

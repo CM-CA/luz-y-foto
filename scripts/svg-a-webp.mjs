@@ -1,4 +1,4 @@
-// Dibuja un SVG con el Chromium de Playwright y lo codifica a WebP. Lo usan generar-cielos.mjs y generar-dibujos.mjs.
+// Dibuja un SVG con el Chromium de Playwright y lo codifica a WebP. Lo usa generar-cielos.mjs.
 // Está en su propio archivo porque generar-cielos.mjs arranca un navegador nada más importarse y no se puede importar de él.
 export const CALIDAD = 0.8;
 

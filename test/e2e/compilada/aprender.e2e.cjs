@@ -18,11 +18,11 @@ const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode:
 const PERFIL_MOVIL = { equipo: "movil", marca: "desconocida", objetivos: [], tripode: "no", nivel: "empiezo", respondidas: ["equipo", "tripode", "nivel"] };
 const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const LETRA_ANCHA = "* { font-family: 'DejaVu Sans', sans-serif !important; }";
-const INDICE = JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "lecciones.json"), "utf8"));
+const INDICE = JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "es", "lecciones.json"), "utf8"));
 const IDS = INDICE.grupos.flatMap((g) => g.lecciones);
 const TOTAL = IDS.length;
 // Lo que debe verse de cada lección sale de sus datos: el título y la etiqueta «Para cámara» / «Para móvil» según `para`
-const LECCIONES = Object.fromEntries(IDS.map((id) => [id, JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "lecciones", id + ".json"), "utf8"))]));
+const LECCIONES = Object.fromEntries(IDS.map((id) => [id, JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "es", "lecciones", id + ".json"), "utf8"))]));
 const TITULOS = Object.fromEntries(IDS.map((id) => [id, LECCIONES[id].titulo]));
 const PARA = Object.fromEntries(IDS.map((id) => [id, INDICE.etiquetas.para[LECCIONES[id].para]]));
 // Que los datos de ejemplo no se hayan vaciado: estas lecciones tienen que estar, con su título y su etiqueta
@@ -54,8 +54,8 @@ ejecutar("aprender", async ({ b, base }) => {
     await p.waitForSelector("ol.lecciones");
     ok(await hash(p) === "#/aprender", "la dirección es #/aprender (" + await hash(p) + ")");
     const l = await p.evaluate(() => ({
-      h1: document.querySelector("h1").textContent.trim(), grupo: (document.querySelector("h3") || { textContent: "" }).textContent.trim(),
-      grupos: [...document.querySelectorAll("h3")].map((h) => h.textContent.trim()),
+      h1: document.querySelector("h1").textContent.trim(), grupo: (document.querySelector("h3:not(.selector-idioma h3)") || { textContent: "" }).textContent.trim(),
+      grupos: [...document.querySelectorAll("h3:not(.selector-idioma h3)")].map((h) => h.textContent.trim()),
       filas: [...document.querySelectorAll("ol.lecciones li a")].map((a) => ({ href: a.getAttribute("href"), t: a.querySelector(".lec-t").textContent.trim(), min: a.querySelector(".lec-min").textContent.trim(), r: a.querySelector(".lec-r").textContent.trim() })),
       foco: document.activeElement && document.activeElement.tagName, scroll: window.scrollY
     }));
@@ -142,44 +142,41 @@ ejecutar("aprender", async ({ b, base }) => {
     await ctx.close();
   }
 
-  titulo("G: el dibujo de la lección carga, tiene texto alternativo y cambia con el tema");
-  for (const [esquema, tema] of [["light", "claro"], ["dark", "oscuro"]]) {
+  titulo("G: el dibujo de la lección se pinta en la página, tiene texto alternativo y toma los colores del tema");
+  for (const [esquema, tema, tinta, fondo] of [["light", "claro", "rgb(31, 39, 64)", "rgb(255, 255, 255)"], ["dark", "oscuro", "rgb(236, 235, 245)", "rgb(24, 33, 58)"]]) {
     const { ctx, p } = await nuevaPagina(b, { colorScheme: esquema, perfil: PERFIL, lugar: LUGAR });
-    await p.goto(base + "#/aprender/la-rueda-de-modos"); await p.waitForSelector("figure.dibujo img");
-    await p.waitForFunction(() => document.querySelector("figure.dibujo img").complete);
-    const d = await p.evaluate(() => { const i = document.querySelector("figure.dibujo img"); return { ancho: i.naturalWidth, alt: i.alt, src: i.currentSrc, pie: document.querySelector("figure.dibujo figcaption").textContent.trim(), caja: i.getBoundingClientRect().width }; });
-    ok(d.ancho > 0, tema + ": la imagen carga (" + d.ancho + " px de ancho)");
-    ok(d.alt.length > 20, tema + ": con texto alternativo («" + d.alt.slice(0, 40) + "…»)");
-    ok(d.src.includes("-" + tema), tema + ": usa la imagen " + tema + " (" + d.src.split("/").pop() + ")");
+    await p.goto(base + "#/aprender/la-rueda-de-modos"); await p.waitForSelector("figure.dibujo svg");
+    const d = await p.evaluate(() => {
+      const f = document.querySelector("figure.dibujo"), s = f.querySelector("svg"), caja = s.getBoundingClientRect();
+      return { imagenes: f.querySelectorAll("img").length, nombre: f.querySelector("[role=img]").getAttribute("aria-label"), textos: s.querySelectorAll("text").length,
+        tinta: getComputedStyle(s.querySelector("text")).fill, fondo: getComputedStyle(s.querySelector("rect")).fill, pie: f.querySelector("figcaption").textContent.trim(),
+        ancho: caja.width, alto: caja.height, viewBox: s.getAttribute("viewBox") };
+    });
+    ok(d.imagenes === 0 && d.textos >= 8, tema + ": es un SVG con texto en la página, no una imagen (" + d.textos + " textos)");
+    ok(d.nombre.length > 20, tema + ": su nombre accesible es el texto alternativo («" + d.nombre.slice(0, 40) + "…»)");
+    ok(d.tinta === tinta && d.fondo === fondo, tema + ": tinta " + d.tinta + " y fondo " + d.fondo + " del tema");
     ok(d.pie === "Cuadro lleno: lo eliges tú. Vacío: lo elige la cámara.", tema + ": con su pie");
-    ok(d.caja > 200, tema + ": se ve con un tamaño razonable (" + Math.round(d.caja) + " px)");
+    ok(d.ancho > 200 && d.viewBox === "0 0 358 196" && Math.abs(d.alto / d.ancho - 196 / 358) < 0.01, tema + ": se ve con un tamaño razonable y sus proporciones (" + Math.round(d.ancho) + " × " + Math.round(d.alto) + " px)");
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
   }
 
-  titulo("H: sin conexión, la lección y su dibujo se abren desde la caché");
+  titulo("H: sin conexión, la lección y su dibujo se abren desde la caché (el dibujo va dentro de la app)");
   {
     const { ctx, p } = await nuevaPagina(b, { permisos: false, serviceWorkers: "allow", perfil: PERFIL, lugar: LUGAR });
     await p.goto(base); await p.waitForSelector("[data-tab]");
     await p.waitForFunction(() => !!navigator.serviceWorker.controller, null, { timeout: 10000 });
-    const guardados = await p.evaluate(async () => { const salida = []; for (const k of await caches.keys()) salida.push(...(await (await caches.open(k)).keys()).map((q) => new URL(q.url).pathname)); return salida; });
-    ok(guardados.some((a) => /dibujo-modos-claro/.test(a)) && guardados.some((a) => /dibujo-modos-oscuro/.test(a)), "el service worker guardó los dos dibujos");
-    // Y los de todas las lecciones, claro y oscuro: los ids salen de los datos
-    const dibujos = [...new Set(IDS.flatMap((id) => LECCIONES[id].bloques.filter((b) => b.tipo === "dibujo").map((b) => b.id)))];
-    const faltan = dibujos.flatMap((d) => ["claro", "oscuro"].map((v) => "dibujo-" + d + "-" + v)).filter((n) => !guardados.some((a) => a.includes(n)));
-    ok(faltan.length === 0, "el service worker guardó los dibujos de las " + TOTAL + " lecciones (faltan: " + (faltan.join(", ") || "ninguno") + ")");
     await ctx.setOffline(true);
     await p.route("**/api.open-meteo.com/**", (r) => r.abort("internetdisconnected"));
     await p.goto(base + "#/aprender/la-rueda-de-modos");
-    await p.reload(); await p.waitForSelector("figure.dibujo img");
-    await p.waitForFunction(() => document.querySelector("figure.dibujo img").complete);
-    const ancho = await p.evaluate(() => document.querySelector("figure.dibujo img").naturalWidth);
-    ok(ancho > 0, "recargando la lección sin red, el dibujo carga (" + ancho + " px)");
+    await p.reload(); await p.waitForSelector("figure.dibujo svg");
+    const ancho = await p.evaluate(() => document.querySelector("figure.dibujo svg").getBoundingClientRect().width);
+    ok(ancho > 0, "recargando la lección sin red, el dibujo se pinta (" + Math.round(ancho) + " px)");
     ok(await p.locator("h1.apr-titulo").innerText() === "La rueda de modos", "y la lección también");
     await ctx.close();
   }
 
-  titulo("H2: sin conexión, con móvil: el enlace de la receta abre su lección y el dibujo sale de la caché");
+  titulo("H2: sin conexión, con móvil: el enlace de la receta abre su lección y su dibujo");
   {
     const { ctx, p } = await nuevaPagina(b, { permisos: false, serviceWorkers: "allow", perfil: PERFIL_MOVIL, lugar: LUGAR });
     await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
@@ -192,9 +189,8 @@ ejecutar("aprender", async ({ b, base }) => {
       if (pestana === "luna") await p.click("#dias button[data-i='0']");
       await p.waitForSelector("#receta");
       if (await p.locator("#receta").getAttribute("open") === null) await p.click("#receta summary");
-      await p.click("#receta a.aprende-por-que"); await p.waitForSelector("figure.dibujo img");
-      await p.waitForFunction(() => document.querySelector("figure.dibujo img").complete);
-      const ancho = await p.evaluate(() => document.querySelector("figure.dibujo img").naturalWidth);
+      await p.click("#receta a.aprende-por-que"); await p.waitForSelector("figure.dibujo svg");
+      const ancho = await p.evaluate(() => document.querySelector("figure.dibujo svg").getBoundingClientRect().width);
       ok(await hash(p) === "#/aprender/" + id && ancho > 0, "sin red, desde la receta de " + pestana + " se abre «" + id + "» con su dibujo (" + ancho + " px)");
     }
     const propios = p.errores.filter((e) => !/ERR_INTERNET_DISCONNECTED/.test(e)); // la previsión cortada a propósito da ese aviso
@@ -212,11 +208,10 @@ ejecutar("aprender", async ({ b, base }) => {
     for (const id of IDS) {
       await p.goto(base + "#/aprender"); await p.waitForSelector("ol.lecciones");
       await p.click("ol.lecciones li a[href='#/aprender/" + id + "']");
-      await p.waitForSelector(".leccion-meta"); await p.waitForSelector("figure.dibujo img");
-      await p.waitForFunction(() => document.querySelector("figure.dibujo img").complete);
+      await p.waitForSelector(".leccion-meta"); await p.waitForSelector("figure.dibujo svg");
       const r = await p.evaluate(() => ({
-        h1: document.querySelector("h1").textContent.trim(), ancho: document.querySelector("figure.dibujo img").naturalWidth,
-        alt: document.querySelector("figure.dibujo img").alt, pagina: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        h1: document.querySelector("h1").textContent.trim(), ancho: document.querySelector("figure.dibujo svg").getBoundingClientRect().width,
+        alt: document.querySelector("figure.dibujo [role=img]").getAttribute("aria-label"), pagina: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         meta: document.querySelector(".leccion-meta").textContent.trim()
       }));
       ok(r.h1 === TITULOS[id], id + ": el título es «" + r.h1 + "»");

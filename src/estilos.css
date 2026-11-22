@@ -18,6 +18,7 @@
   --gris: #59607f; --gris-fondo: #e9e4ee;
   --oro: #f4b94f; --sol: #ee7d2f; --violeta: #6d5aa6; --azul-hora: #3f5fa8;
   --barra-baja: #55657a; --barra-media: #2b6cb0; --barra-alta: #8e44ad;
+  --dibujo-fondo: var(--tarjeta); --dibujo-tinta: var(--texto); --dibujo-suave: var(--suave); /* los colores de los dibujos de las lecciones (src/dibujos/): los del tema, claro u oscuro */
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -88,6 +89,12 @@ button.principal { background: var(--texto); color: var(--fondo); border-color: 
 .dias [data-nivel="rojo"] .marca { color: var(--rojo); }
 .dias [data-nivel="ninguno"] .marca { color: var(--gris); }
 .dias .etq { max-width: 100%; padding: 2px 10px; border-radius: 999px; font-size: 16px; font-weight: 500; line-height: 1.25; }
+/* Red de seguridad: con una letra muy ancha y una pantalla estrecha, el nombre de día más largo («Wednesday») se corta con «…» en vez de salirse del botón.
+   Con la letra de la app (Figtree) cabe entero; un lector de pantalla lo lee entero. */
+.dias .etq { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* «Wednesday», elegido (en negrita), es más ancho que «Miércoles» y con la letra de la app se saldría de su pastilla a 320 y a 390 px: menos aire a los lados en inglés. */
+:lang(en) .dias .etq { padding-inline: 5px; }
+@media (max-width: 380px) { :lang(en) .dias .etq { padding-inline: 3px; font-size: .8rem; } }
 /* El día elegido lleva su nombre con el color invertido y en negrita, y una ✓ junto al símbolo. El color del símbolo
    no cambia, así que sigue viéndose el semáforo del día elegido. */
 .dias button[aria-pressed="true"] { border-color: var(--texto); }
@@ -98,7 +105,7 @@ button.principal { background: var(--texto); color: var(--fondo); border-color: 
 /* Lo elegido se marca también con una ✓: así no depende solo del color (hay navegadores que oscurecen por su cuenta
    los fondos y los bordes, y personas que no distinguen bien los colores). La ✓ es un texto y se pinta con el color
    del texto; el texto alternativo vacío evita que un lector de pantalla la lea. */
-.pestanas button[aria-selected="true"]::before, .tripode button[aria-pressed="true"]::before { content: "✓ " / ""; }
+.pestanas button[aria-selected="true"]::before, .tripode button[aria-pressed="true"]::before, .idiomas button[aria-pressed="true"]::before { content: "✓ " / ""; }
 .dias button[aria-pressed="true"] .marca::before { content: "✓ " / ""; color: var(--texto); font-size: 18px; font-weight: 800; }
 
 .panel[hidden] { display: none; }
@@ -227,7 +234,10 @@ details.receta ol { padding-left: 22px; margin: 8px 0; }
 details.receta li { margin-bottom: 10px; }
 .aviso-fijo { margin: 6px 0; padding: 8px 12px; border-radius: 8px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
 .tripode { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 0; }
-.tripode button[aria-pressed="true"] { background: var(--texto); color: var(--fondo); border: 2px solid var(--texto); font-weight: 700; }
+.tripode button[aria-pressed="true"], .idiomas button[aria-pressed="true"] { background: var(--texto); color: var(--fondo); border: 2px solid var(--texto); font-weight: 700; }
+.selector-idioma { margin-top: 24px; }
+.selector-idioma h3 { margin: 0 0 8px; }
+.idiomas { display: flex; gap: 8px; flex-wrap: wrap; }
 button.termino { padding: 0 2px; border: none; border-bottom: 2px dotted var(--suave); border-radius: 0; background: none; font: inherit; color: inherit; }
 .def { display: block; margin: 6px 0 2px; padding: 8px 12px; border-radius: 8px; background: var(--gris-fondo); font-size: .95rem; font-weight: 400; }
 .suave { color: var(--suave); font-size: .95rem; }
@@ -284,7 +294,7 @@ main:has(.aviso-version) { padding-bottom: 150px; } /* con el aviso fijo a la vi
 .pruebalo .rotulo { display: block; margin-bottom: 4px; font: 700 19px/1.2 var(--cuerpo); }
 .pruebalo p { margin: 0; font-size: 16px; line-height: 1.45; }
 .dibujo { margin: 0 0 18px; padding: 18px 16px 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 16px; }
-.dibujo img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.dibujo svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
 .dibujo figcaption { margin-top: 10px; color: var(--suave); font-size: 14.5px; line-height: 1.4; }
 .aprende-por-que { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; margin: 14px 0 4px; padding: 12px 14px; border: 1px solid var(--borde); border-radius: 14px; background: var(--fondo); color: var(--texto); text-decoration: none; }
 .aprende-por-que span { min-width: 0; }

@@ -1,0 +1,52 @@
+{
+  "id": "luz-baja-y-modo-noche",
+  "titulo": "Low light and night mode",
+  "resumen": "What night mode does and how to get sharp photos when there is almost no light.",
+  "minutos": 2,
+  "para": "movil",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "noche",
+      "alt": "Two time bars. With light, the photo lasts an instant. With night mode, the phone takes several photos in a row over a few seconds and combines them into one; you have to hold it still.",
+      "pie": "With light, an instant. With night mode, several photos in a row over a few seconds: the phone must be still."
+    },
+    {
+      "tipo": "idea",
+      "texto": "In low light, the phone needs time to see. Your part is not to move it: brace it."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "When there is little light, the phone usually turns on night mode by itself (depending on your phone, you'll see an icon or a notice on screen; on others you have to choose it in the camera's modes menu). It doesn't take one photo: it takes several in a row over a few seconds and combines them into a brighter one."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What you do"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Stay still until the capture finishes. If you move during those seconds, the photo comes out blurred.",
+        "Rest the phone against a wall, a ledge or a post, or put it on a tripod: it helps a lot.",
+        "Use the timer of a few seconds, so you don't move the phone when you press the button.",
+        "Don't use the flash: on iPhone and on Pixel, with the flash on, night mode doesn't work."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "The moon is different"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The moon is very bright in a very dark sky. If the phone measures the light of the whole sky, the moon comes out as a white blob. Tap on the moon and lower the brightness until its markings show, as in “Tap to focus and expose”. If it still comes out too bright, try turning night mode off."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "With a phone the moon comes out small: it works better inside a landscape, with buildings or trees."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "When night falls, take two photos of a street with lamp posts: one with the phone in your hand and another braced on a wall, with the timer. Compare the sharpness."
+    }
+  ]
+}

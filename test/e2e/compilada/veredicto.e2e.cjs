@@ -16,8 +16,9 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
 const LUGAR = { lat: 42.2328, lon: -8.7226, nombre: "Vigo, Galicia", origen: "busqueda" };
-// Todas las palabras del semáforo que puede llevar el título (amanecer, atardecer y luna), para probar la más larga en cada ancho
-const TITULOS = [...new Set(["amanecer", "atardecer", "luna"].flatMap((g) => Object.values(JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "generos", g + ".json"), "utf8")).niveles)))];
+// Todas las palabras del semáforo que puede llevar el título (amanecer, atardecer y luna) en cada idioma, para probar la más larga en cada ancho
+const IDIOMAS = [{ id: "es", locale: "es-ES" }, { id: "en", locale: "en-US" }];
+const titulosDe = (id) => [...new Set(["amanecer", "atardecer", "luna"].flatMap((g) => Object.values(JSON.parse(fs.readFileSync(path.join(RAIZ, "data", id, "generos", g + ".json"), "utf8")).niveles)))];
 const LETRA_ANCHA = "'DejaVu Sans', sans-serif";
 
 ejecutar("veredicto", async ({ b, base }) => {
@@ -73,10 +74,12 @@ ejecutar("veredicto", async ({ b, base }) => {
   // El título del veredicto va en MAYÚSCULAS (con la letra del cuerpo, que en negrita se lee mejor que la serif) y los títulos de
   // sección con la misma letra; solo el nombre de la app lleva la serif. Con cualquiera de las palabras del semáforo,
   // a 320 px y con una letra ancha, el texto no se sale del bloque (las mayúsculas ensanchan).
-  titulo("el título del veredicto va en mayúsculas y cabe en el bloque con todas sus palabras (" + TITULOS.length + ")");
+  for (const idioma of IDIOMAS) {
+  const TITULOS = titulosDe(idioma.id);
+  titulo("[" + idioma.id + "] el título del veredicto va en mayúsculas y cabe en el bloque con todas sus palabras (" + TITULOS.length + ")");
   for (const [nombreLetra, letra] of [["la del sistema", null], ["una letra ancha", LETRA_ANCHA]]) {
     for (const ancho of [320, 360, 390, 480]) {
-      const { ctx, p } = await nuevaPagina(b, { viewport: { width: ancho, height: 900 }, perfil: PERFIL, lugar: LUGAR });
+      const { ctx, p } = await nuevaPagina(b, { viewport: { width: ancho, height: 900 }, perfil: PERFIL, lugar: LUGAR, locale: idioma.locale });
       await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
       if (letra) await p.addStyleTag({ content: "* { font-family: " + letra + " !important; }" });
       const r = await p.evaluate((titulos) => {
@@ -102,6 +105,7 @@ ejecutar("veredicto", async ({ b, base }) => {
       if (!letra && ancho === 390) ok(!/Young Serif/.test(r.fuente), "el título del veredicto usa la letra del cuerpo, no la serif (" + r.fuente + ")");
       await ctx.close();
     }
+  }
   }
 
   titulo("títulos de sección con la letra del cuerpo; el nombre de la app, con la serif");

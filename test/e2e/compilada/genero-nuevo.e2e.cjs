@@ -23,8 +23,8 @@ for (const nombre of ["src", "data", "scripts", "index.html", "package.json", "s
 }
 fs.symlinkSync(path.join(RAIZ, "node_modules"), path.join(proyecto, "node_modules"), "dir");
 
-const leer = (r) => JSON.parse(fs.readFileSync(path.join(proyecto, "data", r), "utf8"));
-const escribir = (r, o) => fs.writeFileSync(path.join(proyecto, "data", r), JSON.stringify(o, null, 2));
+const leer = (r) => JSON.parse(fs.readFileSync(path.join(proyecto, "data", "es", r), "utf8"));
+const escribir = (r, o) => fs.writeFileSync(path.join(proyecto, "data", "es", r), JSON.stringify(o, null, 2));
 
 const indice = leer("generos.json");
 indice.orden.push("primera-luz");

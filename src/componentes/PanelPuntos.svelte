@@ -5,6 +5,7 @@
   import { evaluarDia, fechaLugar } from "../nucleo/dias.js";
   import { hm, pct, unida } from "../nucleo/formato.js";
   import { franja } from "../nucleo/franja.js";
+  import { t } from "../idioma/index.js";
   import Veredicto from "./Veredicto.svelte";
   import Avisos from "./Avisos.svelte";
   import Receta from "./Receta.svelte";
@@ -31,10 +32,10 @@
 </script>
 
 {#if !r}
-  <p>No hay previsión para esa hora todavía.</p>
+  <p>{t("puntos.sinPrevision")}</p>
 {:else}
   {#if !luz}<p class="subtitulo"><Plantilla texto={g.textoEvento} valores={{ hora: hm(item.evento), dorada: horaSol(sol.horaDorada), finAzul: horaSol(sol.finHoraAzul) }} negrita={["hora"]} /></p>{/if}
-  <Veredicto nivel={r.nivel} titulo={r.titulo} nota="{r.total} de 100 puntos" puntos={r.total} texto={r.resumen} />
+  <Veredicto nivel={r.nivel} titulo={r.titulo} nota={t("puntos.nota", { total: r.total })} puntos={r.total} texto={r.resumen} />
   <Avisos lista={r.avisos} />
   {#if luz}<LuzDeHoy {item} {sol} {luz} />{/if}
   <Brujula {az}>
@@ -42,37 +43,37 @@
   </Brujula>
   <Receta {g} nivel={r.nivel} />
 
-  <h3>Qué pesa en la nota</h3>
+  <h3>{t("panel.quePesa")}</h3>
   <table>
-    <thead><tr><th>Factor</th><th>Qué significa</th><th class="num">Puntos</th></tr></thead>
+    <thead><tr><th>{t("puntos.factor")}</th><th>{t("puntos.queSignifica")}</th><th class="num">{t("puntos.puntos")}</th></tr></thead>
     <tbody>
       {#each r.factores as f}
-        <tr><td>{f.etiqueta} ({f.nivel ? f.valor.toFixed(1) + " mm/h" : pct(f.valor)})</td><td>{f.frase}</td><td class="num">{f.puntos} / {f.max}</td></tr>
+        <tr><td>{f.etiqueta} ({f.nivel ? f.valor.toFixed(1) + " " + t("tabla.mmh") : pct(f.valor)})</td><td>{f.frase}</td><td class="num">{f.puntos} / {f.max}</td></tr>
       {/each}
-      <tr class="total"><td colspan="2">Total</td><td class="num">{r.total} / 100</td></tr>
+      <tr class="total"><td colspan="2">{t("puntos.total")}</td><td class="num">{r.total} / 100</td></tr>
     </tbody>
   </table>
 
-  <h3>Capas de nubes</h3>
+  <h3>{t("puntos.capasNubes")}</h3>
   <div class="capas">
-    <Barra etiqueta="Bajas" valor={r.capas.bajas} color="var(--barra-baja)" />
-    <Barra etiqueta="Medias" valor={r.capas.medias} color="var(--barra-media)" />
-    <Barra etiqueta="Altas" valor={r.capas.altas} color="var(--barra-alta)" />
+    <Barra etiqueta={t("tabla.bajas")} valor={r.capas.bajas} color="var(--barra-baja)" />
+    <Barra etiqueta={t("tabla.medias")} valor={r.capas.medias} color="var(--barra-media)" />
+    <Barra etiqueta={t("tabla.altas")} valor={r.capas.altas} color="var(--barra-alta)" />
   </div>
 
-  <h3>Horas analizadas</h3>
+  <h3>{t("puntos.horasAnalizadas")}</h3>
   <table class="horas">
-    <thead><tr><th>Hora</th><th class="num">Bajas</th><th class="num">Medias</th><th class="num">Altas</th><th class="num">mm/h</th><th class="num">Prob.</th><th class="num">Visib. km</th></tr></thead>
+    <thead><tr><th>{t("tabla.hora")}</th><th class="num">{t("tabla.bajas")}</th><th class="num">{t("tabla.medias")}</th><th class="num">{t("tabla.altas")}</th><th class="num">{t("tabla.mmh")}</th><th class="num">{t("tabla.prob")}</th><th class="num">{t("tabla.visib")}</th></tr></thead>
     <tbody>
       {#each r.horas as x}
         <tr>
           <td>{hm(x.t)}</td>
-          <td class="num" data-label="Bajas">{pct(x.bajas)}</td>
-          <td class="num" data-label="Medias">{pct(x.medias)}</td>
-          <td class="num" data-label="Altas">{pct(x.altas)}</td>
-          <td class="num" data-label="mm/h">{x.lluvia.toFixed(1)}</td>
-          <td class="num" data-label="Prob.">{pct(x.prob)}</td>
-          <td class="num" data-label="Visib. km">{x.vis.toFixed(0)}</td>
+          <td class="num" data-label={t("tabla.bajas")}>{pct(x.bajas)}</td>
+          <td class="num" data-label={t("tabla.medias")}>{pct(x.medias)}</td>
+          <td class="num" data-label={t("tabla.altas")}>{pct(x.altas)}</td>
+          <td class="num" data-label={t("tabla.mmh")}>{x.lluvia.toFixed(1)}</td>
+          <td class="num" data-label={t("tabla.prob")}>{pct(x.prob)}</td>
+          <td class="num" data-label={t("tabla.visib")}>{x.vis.toFixed(0)}</td>
         </tr>
       {/each}
     </tbody>

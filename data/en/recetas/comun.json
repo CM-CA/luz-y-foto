@@ -1,0 +1,22 @@
+{
+  "titulos": {
+    "pasos": "Steps",
+    "nota": "Keep in mind",
+    "avisos": "Warnings",
+    "segunSemaforo": "According to the traffic light"
+  },
+  "tripodeHoy": {
+    "pregunta": "Are you bringing the tripod today?",
+    "si": "Yes, I'm bringing it today",
+    "no": "No, not today"
+  },
+  "soloCamara": [
+    "formato"
+  ],
+  "avisos": {
+    "seguridad": "Go out while there is light, bring a flashlight and, if the viewpoint is isolated, tell someone where you are going.",
+    "seguridadAmanecer": "You are going out in low light: bring a flashlight and, if the viewpoint is isolated, tell someone where you are going.",
+    "sol": "Never look at the sun through the camera viewfinder, especially with a telephoto lens: it can damage your eyesight.",
+    "formato": "If you won't be editing your photos, shoot them in [[jpeg|JPEG]]. If you want to learn to edit, use [[raw|RAW]]."
+  }
+}

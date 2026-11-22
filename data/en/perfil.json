@@ -1,0 +1,142 @@
+{
+  "bienvenida": {
+    "titulo": "Let's set up the app for your gear",
+    "texto": "Five short questions so the recipes talk about your camera or your phone. You can skip them and change them whenever you like.",
+    "empezar": "Start",
+    "saltar": "Skip for now"
+  },
+  "preguntas": [
+    {
+      "id": "equipo",
+      "titulo": "What do you take photos with?",
+      "opciones": [
+        {
+          "id": "movil",
+          "texto": "A phone"
+        },
+        {
+          "id": "camara",
+          "texto": "A camera"
+        }
+      ]
+    },
+    {
+      "id": "marca",
+      "titulo": "What brand is your camera?",
+      "ayuda": "It helps name the dial modes correctly. If you don't know, pick the last one.",
+      "solo": {
+        "equipo": "camara"
+      },
+      "opciones": [
+        {
+          "id": "canon",
+          "texto": "Canon"
+        },
+        {
+          "id": "nikon",
+          "texto": "Nikon"
+        },
+        {
+          "id": "sony",
+          "texto": "Sony"
+        },
+        {
+          "id": "desconocida",
+          "texto": "I don't know / other"
+        }
+      ]
+    },
+    {
+      "id": "objetivos",
+      "titulo": "What lenses do you have?",
+      "ayuda": "You can select several. A lens is the glass at the front of the camera.",
+      "multiple": true,
+      "solo": {
+        "equipo": "camara"
+      },
+      "opciones": [
+        {
+          "id": "kit",
+          "texto": "The kit lens (18-55 or similar)"
+        },
+        {
+          "id": "tele",
+          "texto": "A telephoto lens (200 mm or more)"
+        },
+        {
+          "id": "angular",
+          "texto": "A wide-angle lens"
+        },
+        {
+          "id": "otro",
+          "texto": "Other"
+        }
+      ]
+    },
+    {
+      "id": "tripode",
+      "titulo": "Do you have a tripod?",
+      "opciones": [
+        {
+          "id": "si",
+          "texto": "Yes"
+        },
+        {
+          "id": "aveces",
+          "texto": "Sometimes"
+        },
+        {
+          "id": "no",
+          "texto": "No"
+        }
+      ]
+    },
+    {
+      "id": "nivel",
+      "titulo": "How much experience do you have?",
+      "ayuda": "It changes how much the recipes explain.",
+      "opciones": [
+        {
+          "id": "empiezo",
+          "texto": "Beginner",
+          "resumen": "Beginner level"
+        },
+        {
+          "id": "defiendo",
+          "texto": "Intermediate",
+          "resumen": "Intermediate level"
+        },
+        {
+          "id": "controlo",
+          "texto": "Expert",
+          "resumen": "Expert level"
+        }
+      ]
+    }
+  ],
+  "porDefecto": {
+    "equipo": "movil",
+    "marca": "desconocida",
+    "objetivos": [],
+    "tripode": "no",
+    "nivel": "empiezo"
+  },
+  "marcas": {
+    "canon": {
+      "Av": "Av",
+      "Tv": "Tv"
+    },
+    "nikon": {
+      "Av": "A",
+      "Tv": "S"
+    },
+    "sony": {
+      "Av": "A",
+      "Tv": "S"
+    },
+    "desconocida": {
+      "Av": "Av (called A on Nikon and Sony)",
+      "Tv": "Tv (called S on Nikon and Sony)"
+    }
+  }
+}

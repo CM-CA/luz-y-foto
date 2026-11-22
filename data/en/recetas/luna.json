@@ -1,0 +1,173 @@
+{
+  "avisos": [
+    "seguridad",
+    "formato"
+  ],
+  "segunSemaforo": {
+    "verde": "Good time: go out at the indicated time and shoot several times, because the clouds can move.",
+    "ambar": "It can turn out well if there are gaps between the clouds. Wait and shoot when the moon peeks out.",
+    "rojo": "Today the sensible thing is not to go out. If you go, try the clouds lit by the moon."
+  },
+  "variantes": [
+    {
+      "id": "movil",
+      "titulo": "With your phone",
+      "si": {
+        "equipo": "movil"
+      },
+      "leccion": "luz-baja-y-modo-noche",
+      "nota": "Without a telephoto lens the moon will come out small. It works better included in a landscape, with buildings or trees.",
+      "pasos": [
+        {
+          "titulo": "Light",
+          "empiezo": "Tap the moon on the screen.",
+          "defiendo": "When you tap the moon the phone measures the light on it and not on the dark sky, which would turn it into a white blob.",
+          "controlo": "Tap the moon (lock exposure and focus)"
+        },
+        {
+          "titulo": "Brightness",
+          "empiezo": "Lower the brightness until the moon's markings show.",
+          "defiendo": "The moon is very bright; lowering the brightness lets you make out the craters.",
+          "controlo": "Exposure between -1 and -2"
+        },
+        {
+          "titulo": "Steadiness",
+          "empiezo": "Rest the phone and use the 2-second timer.",
+          "defiendo": "At night the phone takes longer to shoot; supported and with the timer it comes out sharp.",
+          "controlo": "Support + 2 s timer"
+        }
+      ]
+    },
+    {
+      "id": "camara-tele-tripode",
+      "titulo": "With telephoto lens and tripod",
+      "si": {
+        "equipo": "camara",
+        "objetivos": "tele",
+        "tripode": "si"
+      },
+      "leccion": "el-manual-de-verdad",
+      "pasos": [
+        {
+          "titulo": "Mode",
+          "empiezo": "Turn the mode dial to M.",
+          "defiendo": "In [[modo-m|M]] you control everything. On auto the camera overexposes the moon, because it is surrounded by dark sky.",
+          "controlo": "M"
+        },
+        {
+          "titulo": "Aperture",
+          "empiezo": "Raise the f-number to f/8.",
+          "defiendo": "f/8: the [[apertura|aperture]] that gives the most sharpness on most lenses.",
+          "controlo": "f/8"
+        },
+        {
+          "titulo": "ISO",
+          "empiezo": "Set the ISO to 100.",
+          "defiendo": "The moon gives off a lot of light: you don't need a high [[iso|ISO]].",
+          "controlo": "ISO 100"
+        },
+        {
+          "titulo": "Shutter speed",
+          "empiezo": "Set the shutter speed between 1/250 and 1/500 seconds.",
+          "defiendo": "With that [[velocidad|shutter speed]] the moon comes out sharp even as it moves across the sky.",
+          "controlo": "1/250–1/500"
+        },
+        {
+          "titulo": "Focus",
+          "empiezo": "Switch the focus to manual, zoom in on the moon on the screen and turn the ring until the edges look sharp.",
+          "defiendo": "[[enfoque-manual|Manual focus]] works better than autofocus with an object so far away and so bright.",
+          "controlo": "MF with on-screen zoom"
+        },
+        {
+          "titulo": "Trick",
+          "empiezo": "Turn on the 2-second timer.",
+          "defiendo": "The [[disparador|timer]] keeps your finger from moving the camera.",
+          "controlo": "2 s timer"
+        }
+      ]
+    },
+    {
+      "id": "camara-con-tele",
+      "titulo": "With telephoto lens, no tripod",
+      "si": {
+        "equipo": "camara",
+        "objetivos": "tele"
+      },
+      "leccion": "la-rueda-de-modos",
+      "nota": "With a telephoto lens any shake shows a lot. Look for a firm support and shoot several times: some will come out sharp.",
+      "pasos": [
+        {
+          "titulo": "Mode",
+          "empiezo": "Turn the mode dial to {Tv}.",
+          "defiendo": "In [[modo-tv|{Tv}]] you choose the shutter speed, which is what matters without a tripod.",
+          "controlo": "{Tv}"
+        },
+        {
+          "titulo": "Shutter speed",
+          "empiezo": "Set the shutter speed to 1/500 seconds.",
+          "defiendo": "A fast [[velocidad|shutter speed]] makes up for hand shake with the telephoto lens.",
+          "controlo": "1/500 s"
+        },
+        {
+          "titulo": "Compensation",
+          "empiezo": "Lower the exposure compensation to -2 (the button with +/-).",
+          "defiendo": "[[compensacion|-2]]: it darkens a little so the brightest parts don't blow out.",
+          "controlo": "-2 EV"
+        },
+        {
+          "titulo": "ISO",
+          "empiezo": "Leave the ISO on auto and set a limit of 3200 in the menu.",
+          "defiendo": "Auto [[iso|ISO]] keeps the shutter speed fast; the limit holds back the grain.",
+          "controlo": "ISO auto, max. 3200"
+        },
+        {
+          "titulo": "Trick",
+          "empiezo": "Rest the camera or the lens against a wall, a post or a railing.",
+          "defiendo": "The steadier it is, the sharper it will come out.",
+          "controlo": "Firm support"
+        }
+      ]
+    },
+    {
+      "id": "camara-sin-tele",
+      "titulo": "With the normal lens",
+      "si": {
+        "equipo": "camara"
+      },
+      "leccion": "la-rueda-de-modos",
+      "nota": "With the normal lens (for example 18-55) the moon will be a small dot. It works better included in a landscape.",
+      "pasos": [
+        {
+          "titulo": "Mode",
+          "empiezo": "Turn the mode dial to {Av}.",
+          "defiendo": "Turn the mode dial to [[modo-av|{Av}]]: you choose the aperture and the camera works out the rest.",
+          "controlo": "{Av}"
+        },
+        {
+          "titulo": "Aperture",
+          "empiezo": "Raise the f-number to f/8. Without a tripod, use the lowest f-number you have.",
+          "defiendo": "f/8 gives good sharpness; without a tripod it's best to open up all the way to be able to use a large [[apertura|aperture]] and a fast shutter speed.",
+          "controlo": "f/8 (without a tripod, the widest aperture)"
+        },
+        {
+          "titulo": "Compensation",
+          "empiezo": "Lower the exposure compensation to -2 (the button with +/-).",
+          "defiendo": "[[compensacion|-2]]: it darkens a little so the brightest parts don't blow out.",
+          "controlo": "-2 EV"
+        },
+        {
+          "titulo": "ISO",
+          "empiezo": "With a tripod, ISO 100. Without a tripod, auto ISO with a limit of 3200.",
+          "defiendo": "With a tripod the [[iso|ISO]] can be low; without one, auto keeps the shutter speed up and the limit holds back the grain.",
+          "controlo": "ISO 100 (without a tripod, auto max. 3200)"
+        },
+        {
+          "titulo": "Trick",
+          "empiezo": "With a tripod, turn on the 2-second timer. Without one, rest the camera on something firm.",
+          "defiendo": "The [[disparador|timer]] or a firm support keeps the photo from coming out blurred.",
+          "controlo": "2 s timer / firm support"
+        }
+      ]
+    }
+  ]
+}
