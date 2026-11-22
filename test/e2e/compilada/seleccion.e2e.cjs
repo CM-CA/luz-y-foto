@@ -49,6 +49,9 @@ ejecutar("seleccion", async ({ b, base }) => {
         ok(otros.every((x) => x.fondo !== e.fondo), nombre + ": el fondo del elegido es distinto (" + e.fondo + ")");
         if (conNegrita) ok(otros.every((x) => e.peso > x.peso), nombre + ": el elegido va en negrita (" + e.peso + " frente a " + otros[0].peso + ")");
       }
+      const nums = await p.evaluate(() => [...document.querySelectorAll("#dias button")].map((x) => { const n = x.querySelector(".num"); return n ? { texto: n.textContent.trim(), oculto: n.getAttribute("aria-hidden") === "true" } : null; }));
+      ok(nums.length >= 2 && nums.every((n) => n && /^\d{1,2}$/.test(n.texto) && +n.texto >= 1 && +n.texto <= 31), "días: cada botón lleva su número del mes (" + nums.map((n) => n && n.texto).join(", ") + ")");
+      ok(nums.every((n, i) => n && n.oculto && (i === 0 || +n.texto === +nums[i - 1].texto + 1 || +n.texto === 1)), "días: los números van en orden y son solo visuales (el lector de pantalla ya oye el nombre del día)");
       await ctx.close();
     }
   }
