@@ -53,6 +53,24 @@ ejecutar("maquetacion", async ({ b, base }) => {
       return { solape: cab.bottom - tabs.top, dentro: tabs.left >= 0 && tabs.right <= document.documentElement.clientWidth + 0.5, altos: [...document.querySelectorAll("#tabs button")].map((x) => x.getBoundingClientRect().height) };
     });
     ok(t.solape >= 26 && t.solape <= 28 && t.dentro && t.altos.length === 3 && t.altos.every((h) => h >= 44), "  pestañas: solapan " + t.solape.toFixed(1) + " px el cielo, dentro de la pantalla: " + t.dentro + ", altos " + t.altos.map((h) => h.toFixed(0)).join("/") + " px");
+    // Las pestañas respiran: la palabra (con su ✓ si es la elegida) deja al menos 6 px de aire a cada lado dentro de su botón,
+    // ningún botón se sale de la barra y entre la pastilla elegida y la palabra de al lado quedan al menos 10 px.
+    const a = await p.evaluate(() => {
+      const barra = document.querySelector("#tabs").getBoundingClientRect(), bs = [...document.querySelectorAll("#tabs button")];
+      const dato = (x) => {
+        const c = x.getBoundingClientRect(), rg = document.createRange(); rg.selectNodeContents(x); const t = rg.getBoundingClientRect();
+        const antes = getComputedStyle(x, "::before");
+        const marca = antes.content.includes("✓") ? parseFloat(antes.width) + parseFloat(antes.marginRight) : 0;
+        return { izq: c.left, der: c.right, textoIzq: t.left - marca, textoDer: t.right, elegido: x.getAttribute("aria-selected") === "true" };
+      };
+      const d = bs.map(dato), i = d.findIndex((x) => x.elegido);
+      return {
+        aire: d.map((x) => Math.min(x.textoIzq - x.izq, x.der - x.textoDer)),
+        vecinos: [d[i - 1] && d[i].izq - d[i - 1].textoDer, d[i + 1] && d[i + 1].textoIzq - d[i].der].filter((v) => typeof v === "number"),
+        dentro: d.every((x) => x.izq >= barra.left - 0.5 && x.der <= barra.right + 0.5)
+      };
+    });
+    ok(a.aire.every((x) => x >= 6) && a.vecinos.every((x) => x >= 10) && a.dentro, "  pestañas: aire dentro de cada botón " + a.aire.map((x) => x.toFixed(1)).join(" / ") + " px (mínimo 6), junto a la elegida " + a.vecinos.map((x) => x.toFixed(1)).join(" y ") + " px (mínimo 10)" + (a.dentro ? "" : ", un botón se sale de la barra"));
     // Los botones de día: una sola fila, con el nombre más largo posible («Miércoles») en el último y ese día elegido
     // (con la ✓ y la negrita, que ensanchan), y sin que nada se salga de su botón. El símbolo lleva el color de su nivel.
     const d = await p.evaluate(async () => {

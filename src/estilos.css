@@ -66,9 +66,9 @@ button.principal { background: var(--texto); color: var(--fondo); border-color: 
 
 /* Las pestañas son una tarjeta que monta 27 px sobre el cielo (clase «solapa», que Pestanas.svelte quita mientras hay algo
    abierto entre la cabecera y ellas: el selector de lugar o el asistente). La elegida va con colores invertidos y una ✓ (texto). */
-.pestanas { position: relative; z-index: 3; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; margin: 14px 0 12px; padding: 5px; border-radius: 22px; background: var(--tarjeta); box-shadow: 0 8px 22px rgba(30, 24, 64, .2); }
+.pestanas { position: relative; z-index: 3; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(max-content, 1fr); gap: 4px; margin: 14px 0 12px; padding: 5px; border-radius: 22px; background: var(--tarjeta); box-shadow: 0 8px 22px rgba(30, 24, 64, .2); }
 .pestanas.solapa { margin-top: -27px; }
-.pestanas button { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 44px; padding: 12px 4px; border: 0; border-radius: 17px; background: transparent; color: var(--texto); font: 700 clamp(14px, 4.6vw, 18px)/1.2 var(--cuerpo); } /* 18 px salvo en móviles estrechos: con 3 pestañas, «✓ Atardecer» cabe en 320 px */
+.pestanas button { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 44px; padding: 12px clamp(6px, 2.4vw, 12px); border: 0; border-radius: 17px; background: transparent; color: var(--texto); font: 700 clamp(13px, 4.2vw, 18px)/1.2 var(--cuerpo); } /* 18 px salvo en móviles estrechos; las columnas miden al menos lo que mide su texto más el relleno, y el sobrante se reparte a partes iguales */
 .pestanas button[aria-selected="true"] { background: var(--texto); color: var(--fondo); }
 .pestanas button[aria-selected="true"]::before { margin-right: .4em; } /* en un contenedor flex el espacio final de «✓ » se pierde */
 /* Los días van siempre en una sola fila (tres columnas iguales). Cada botón lleva arriba el semáforo de ese día
