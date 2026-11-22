@@ -60,6 +60,7 @@ ejecutar("maquetacion", async ({ b, base }) => {
       const ultimo = botones[botones.length - 1];
       ultimo.click(); await new Promise((r) => setTimeout(r, 60));
       ultimo.querySelector(".etq").textContent = "Miércoles";
+      const num = ultimo.querySelector(".num"); if (num) num.textContent = "28";
       const fila = document.querySelector("#dias").getBoundingClientRect();
       const cajas = botones.map((x) => x.getBoundingClientRect());
       const dentro = (hijo, padre) => hijo.left >= padre.left - 0.5 && hijo.right <= padre.right + 0.5;
@@ -74,11 +75,14 @@ ejecutar("maquetacion", async ({ b, base }) => {
         cuantos: botones.length,
         unaFila: Math.max(...cajas.map((c) => c.top)) - Math.min(...cajas.map((c) => c.top)) <= 1,
         dentroDeLaFila: cajas.every((c) => dentro(c, fila)),
+        numerosDentro: botones.every((x, i) => { const n = x.querySelector(".num"); return !!n && dentro(n.getBoundingClientRect(), cajas[i]) && dentro(x.querySelector(".marca").getBoundingClientRect(), cajas[i]); }),
+        numerosEnFila: botones.every((x) => { const n = x.querySelector(".num"); return !!n && Math.abs(n.getBoundingClientRect().top - x.querySelector(".marca").getBoundingClientRect().top) <= 4; }),
         textoDentro: botones.every((x, i) => dentro(x.querySelector(".etq").getBoundingClientRect(), cajas[i]) && x.scrollWidth <= x.clientWidth + 1),
         colores
       };
     });
     ok(d.cuantos >= 2 && d.unaFila && d.dentroDeLaFila && d.textoDentro, "  días: " + d.cuantos + " botones en una fila, con «Miércoles» elegido" + (d.unaFila ? "" : " (no caben en una fila)") + (d.dentroDeLaFila ? "" : " (se salen de la fila)") + (d.textoDentro ? "" : " (el nombre se sale del botón)"));
+    ok(d.numerosDentro && d.numerosEnFila, "  días: el número del día («28» en el último) cabe en su botón y va en la fila del símbolo" + (d.numerosDentro ? "" : " (se sale del botón)") + (d.numerosEnFila ? "" : " (no está en la fila del símbolo)"));
     ok(d.colores.every((c) => c.color === c.esperado && ["●", "▲", "■", "○"].includes(c.simbolo)), "  días: cada símbolo lleva el color de su nivel (" + d.colores.map((c) => c.nivel + " " + c.simbolo).join(", ") + ")");
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
