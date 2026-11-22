@@ -54,6 +54,9 @@ function etiquetaDia(g, x, prev, ahora) {
   return plantilla(x.fecha === hoy ? e.hoy : x.fecha === manana ? e.manana : e.otro, { dia });
 }
 
+// El día del mes de un botón de día («22»), sin cero a la izquierda. Una noche lleva el de la tarde en que empieza.
+function numeroDia(x) { return Number(x.fecha.slice(8, 10)); }
+
 // La pestaña que se abre sola según la hora, con tres franjas (los minutos están en generos.json):
 //   1. Noche: desde `nocheDespuesPuestaMin` después de la puesta hasta `amanecerAntesMin` antes de la salida del sol siguiente.
 //      En latitudes de noches cortas esa franja puede quedar vacía: entonces nunca se abre la pestaña nocturna.
@@ -91,4 +94,4 @@ function prepararVista({ config, S, datos, lat, lon, ahora, pestanaElegida, pest
   return { prev, listas, pestana: pestanaFinal, indice, ahora };
 }
 
-export { nochesDe, listaDe, evaluarDia, fechaLugar, etiquetaDia, lunaDe, pestanaPorDefecto, prepararVista };
+export { nochesDe, listaDe, evaluarDia, fechaLugar, etiquetaDia, numeroDia, lunaDe, pestanaPorDefecto, prepararVista };

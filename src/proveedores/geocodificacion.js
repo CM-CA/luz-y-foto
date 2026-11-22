@@ -28,8 +28,9 @@ function resultadosDesdeRespuesta(json) {
   });
 }
 
-async function buscarCiudad(texto) {
-  return resultadosDesdeRespuesta(await pedirJson(urlBusqueda(texto)));
+// `senal` (opcional): una AbortSignal para cancelar la búsqueda si ya no hace falta
+async function buscarCiudad(texto, senal) {
+  return resultadosDesdeRespuesta(await pedirJson(urlBusqueda(texto), undefined, senal));
 }
 
 export { urlBusqueda, resultadosDesdeRespuesta, buscarCiudad };

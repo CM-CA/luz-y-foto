@@ -9,7 +9,7 @@ import { cargarDeDisco } from "../../scripts/datos-de-disco.mjs";
 import * as Astro from "../../src/nucleo/astro.js";
 import * as Semaforo from "../../src/nucleo/semaforo.js";
 import { hm, pct, unida, mayus, trozosDePlantilla } from "../../src/nucleo/formato.js";
-import { nochesDe, listaDe, evaluarDia, etiquetaDia, lunaDe, pestanaPorDefecto, prepararVista } from "../../src/nucleo/dias.js";
+import { nochesDe, listaDe, evaluarDia, etiquetaDia, numeroDia, lunaDe, pestanaPorDefecto, prepararVista } from "../../src/nucleo/dias.js";
 import { pedirPrevision, urlPrevision } from "../../src/proveedores/open-meteo.js";
 
 const aqui = path.dirname(fileURLToPath(import.meta.url));
@@ -61,6 +61,21 @@ it("etiquetas de los días: Hoy, Mañana, el día de la semana y «ahora» en un
   assert.deepEqual(listaDe(l, prev, ahora).map((x) => etiquetaDia(l, x, prev, ahora)), ["Hoy", "Mañana"]);
   const de3 = instante("2026-11-20T03:00");
   assert.equal(etiquetaDia(l, listaDe(l, prev, de3)[0], prev, de3), l.etiquetasDia.ahora);
+});
+
+it("numeroDia da el día del mes sin cero a la izquierda", () => {
+  assert.equal(numeroDia({ fecha: "2026-11-22" }), 22);
+  assert.equal(numeroDia({ fecha: "2026-12-01" }), 1);
+  assert.equal(numeroDia({ fecha: "2026-12-09" }), 9);
+});
+
+it("cada día de la lista lleva su número; una noche lleva el de la tarde en que empieza", () => {
+  const ahora = instante("2026-11-19T15:00");
+  assert.deepEqual(listaDe(config.generos.atardecer, prev, ahora).map(numeroDia), [19, 20, 21]);
+  assert.deepEqual(listaDe(config.generos.luna, prev, ahora).map(numeroDia), [19, 20]);
+  // a las 03:00 del 20 la noche en curso (la del botón «Ahora») empezó el 19 y lleva el 19
+  const de3 = instante("2026-11-20T03:00");
+  assert.equal(numeroDia(listaDe(config.generos.luna, prev, de3)[0]), 19);
 });
 
 it("lista de días de amanecer: por la tarde el primero es «Mañana» y a las 09:00 todavía «Hoy»", () => {
