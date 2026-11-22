@@ -5,6 +5,7 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["test/nucleo/**/*.test.js"],
-    globalSetup: ["test/vitest-global.mjs"]
+    globalSetup: ["test/vitest-global.mjs"],
+    setupFiles: ["test/preparar-idioma.mjs"]
   }
 });

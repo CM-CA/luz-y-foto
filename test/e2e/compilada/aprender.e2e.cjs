@@ -54,8 +54,8 @@ ejecutar("aprender", async ({ b, base }) => {
     await p.waitForSelector("ol.lecciones");
     ok(await hash(p) === "#/aprender", "la dirección es #/aprender (" + await hash(p) + ")");
     const l = await p.evaluate(() => ({
-      h1: document.querySelector("h1").textContent.trim(), grupo: (document.querySelector("h3") || { textContent: "" }).textContent.trim(),
-      grupos: [...document.querySelectorAll("h3")].map((h) => h.textContent.trim()),
+      h1: document.querySelector("h1").textContent.trim(), grupo: (document.querySelector("h3:not(.selector-idioma h3)") || { textContent: "" }).textContent.trim(),
+      grupos: [...document.querySelectorAll("h3:not(.selector-idioma h3)")].map((h) => h.textContent.trim()),
       filas: [...document.querySelectorAll("ol.lecciones li a")].map((a) => ({ href: a.getAttribute("href"), t: a.querySelector(".lec-t").textContent.trim(), min: a.querySelector(".lec-min").textContent.trim(), r: a.querySelector(".lec-r").textContent.trim() })),
       foco: document.activeElement && document.activeElement.tagName, scroll: window.scrollY
     }));

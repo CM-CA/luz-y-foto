@@ -93,7 +93,7 @@ button.principal { background: var(--texto); color: var(--fondo); border-color: 
 /* Lo elegido se marca también con una ✓: así no depende solo del color (hay navegadores que oscurecen por su cuenta
    los fondos y los bordes, y personas que no distinguen bien los colores). La ✓ es un texto y se pinta con el color
    del texto; el texto alternativo vacío evita que un lector de pantalla la lea. */
-.pestanas button[aria-selected="true"]::before, .tripode button[aria-pressed="true"]::before { content: "✓ " / ""; }
+.pestanas button[aria-selected="true"]::before, .tripode button[aria-pressed="true"]::before, .idiomas button[aria-pressed="true"]::before { content: "✓ " / ""; }
 .dias button[aria-pressed="true"] .marca::before { content: "✓ " / ""; color: var(--texto); font-size: 18px; font-weight: 800; }
 
 .panel[hidden] { display: none; }
@@ -221,7 +221,10 @@ details.receta ol { padding-left: 22px; margin: 8px 0; }
 details.receta li { margin-bottom: 10px; }
 .aviso-fijo { margin: 6px 0; padding: 8px 12px; border-radius: 8px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
 .tripode { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 0; }
-.tripode button[aria-pressed="true"] { background: var(--texto); color: var(--fondo); border: 2px solid var(--texto); font-weight: 700; }
+.tripode button[aria-pressed="true"], .idiomas button[aria-pressed="true"] { background: var(--texto); color: var(--fondo); border: 2px solid var(--texto); font-weight: 700; }
+.selector-idioma { margin-top: 24px; }
+.selector-idioma h3 { margin: 0 0 8px; }
+.idiomas { display: flex; gap: 8px; flex-wrap: wrap; }
 button.termino { padding: 0 2px; border: none; border-bottom: 2px dotted var(--suave); border-radius: 0; background: none; font: inherit; color: inherit; }
 .def { display: block; margin: 6px 0 2px; padding: 8px 12px; border-radius: 8px; background: var(--gris-fondo); font-size: .95rem; font-weight: 400; }
 .suave { color: var(--suave); font-size: .95rem; }
