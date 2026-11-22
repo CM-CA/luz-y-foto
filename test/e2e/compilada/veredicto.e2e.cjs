@@ -16,6 +16,9 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
 const LUGAR = { lat: 42.2328, lon: -8.7226, nombre: "Vigo, Galicia", origen: "busqueda" };
+// Todas las palabras del semáforo que puede llevar el título (amanecer, atardecer y luna), para probar la más larga en cada ancho
+const TITULOS = [...new Set(["amanecer", "atardecer", "luna"].flatMap((g) => Object.values(JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "generos", g + ".json"), "utf8")).niveles)))];
+const LETRA_ANCHA = "'DejaVu Sans', sans-serif";
 
 ejecutar("veredicto", async ({ b, base }) => {
   for (const esquema of ["light", "dark"]) {
@@ -64,6 +67,54 @@ ejecutar("veredicto", async ({ b, base }) => {
     ok(r.barras === 0, "no hay medidor en Noche (" + r.barras + ")");
     ok(/^[●▲■○] \S/.test(r.titulo), "el título empieza por el símbolo: «" + r.titulo + "»");
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
+    await ctx.close();
+  }
+
+  // El título del veredicto va en MAYÚSCULAS (con la letra del cuerpo, que en negrita se lee mejor que la serif) y los títulos de
+  // sección con la misma letra; solo el nombre de la app lleva la serif. Con cualquiera de las palabras del semáforo,
+  // a 320 px y con una letra ancha, el texto no se sale del bloque (las mayúsculas ensanchan).
+  titulo("el título del veredicto va en mayúsculas y cabe en el bloque con todas sus palabras (" + TITULOS.length + ")");
+  for (const [nombreLetra, letra] of [["la del sistema", null], ["una letra ancha", LETRA_ANCHA]]) {
+    for (const ancho of [320, 360, 390, 480]) {
+      const { ctx, p } = await nuevaPagina(b, { viewport: { width: ancho, height: 900 }, perfil: PERFIL, lugar: LUGAR });
+      await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
+      if (letra) await p.addStyleTag({ content: "* { font-family: " + letra + " !important; }" });
+      const r = await p.evaluate((titulos) => {
+        const v = document.querySelector(".veredicto"), t = v.querySelector(".titulo"), simbolo = t.querySelector("i").textContent;
+        const caja = v.getBoundingClientRect(), relleno = parseFloat(getComputedStyle(v).paddingRight);
+        const demasiado = [], partidas = [];
+        for (const x of titulos) {
+          t.innerHTML = "<i>" + simbolo + "</i> " + x;
+          const rg = document.createRange(); rg.selectNodeContents(t);
+          const derecha = rg.getBoundingClientRect().right;
+          if (derecha > caja.right - relleno + 0.5) demasiado.push(x + " (+" + (derecha - (caja.right - relleno)).toFixed(1) + " px)");
+          // una palabra partida por la mitad da más líneas que palabras
+          const rt = document.createRange(); rt.selectNodeContents(t.lastChild);
+          const lineas = new Set([...rt.getClientRects()].map((q) => Math.round(q.top))).size;
+          if (lineas > x.split(" ").length) partidas.push(x + " (" + lineas + " líneas)");
+        }
+        const e = getComputedStyle(t);
+        return { mayusculas: e.textTransform, fuente: e.fontFamily, demasiado, partidas };
+      }, TITULOS);
+      ok(r.mayusculas === "uppercase", ancho + " px, " + nombreLetra + ": el título va en mayúsculas (" + r.mayusculas + ")");
+      ok(r.demasiado.length === 0, ancho + " px, " + nombreLetra + ": ninguna palabra se sale del bloque" + (r.demasiado.length ? " (se salen: " + r.demasiado.join(", ") + ")" : ""));
+      ok(r.partidas.length === 0, ancho + " px, " + nombreLetra + ": ninguna palabra se parte por la mitad" + (r.partidas.length ? " (se parten: " + r.partidas.join(", ") + ")" : ""));
+      if (!letra && ancho === 390) ok(!/Young Serif/.test(r.fuente), "el título del veredicto usa la letra del cuerpo, no la serif (" + r.fuente + ")");
+      await ctx.close();
+    }
+  }
+
+  titulo("títulos de sección con la letra del cuerpo; el nombre de la app, con la serif");
+  {
+    const { ctx, p } = await nuevaPagina(b, { perfil: PERFIL, lugar: LUGAR });
+    await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
+    const r = await p.evaluate(() => ({
+      secciones: [...document.querySelectorAll("#panel h3")].map((h) => [h.textContent.trim(), getComputedStyle(h).fontFamily]),
+      app: getComputedStyle(document.querySelector("header.cabecera h1")).fontFamily
+    }));
+    ok(r.secciones.length >= 1, "hay títulos de sección en Hoy (" + r.secciones.map((x) => x[0]).join(", ") + ")");
+    ok(r.secciones.every(([, f]) => !/Young Serif/.test(f)), "ninguno usa la serif (" + r.secciones.map((x) => x[1].split(",")[0]).join(", ") + ")");
+    ok(/Young Serif/.test(r.app), "el nombre de la app sí (" + r.app.split(",")[0] + ")");
     await ctx.close();
   }
 }, { carpeta: dist, prefijo: "/luz-y-foto/" });
