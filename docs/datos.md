@@ -34,13 +34,13 @@ Cada receta tiene una lista de **variantes**. Se prueban en orden y gana la prim
 - `avisos` lista los avisos fijos que se muestran (sus textos están en `recetas/comun.json`). Los que figuran en `soloCamara` no se enseñan a quien usa el móvil.
 - `segunSemaforo` es el consejo de «verde», «ámbar» y «rojo».
 - Con trípode «a veces», la pantalla ofrece un interruptor «¿Llevas el trípode hoy?».
-- `leccion` (opcional) es el id de una lección de `data/lecciones/`: la receta enseña, tras los pasos, «Aprende por qué estos ajustes» con un enlace a ella. Hoy lo llevan las variantes de cámara; la validación avisa si el id no está en `data/lecciones.json`.
+- `leccion` (opcional) es el id de una lección de `data/lecciones/`: la receta enseña, tras los pasos, «Aprende por qué estos ajustes» con un enlace a ella. Lo llevan las variantes de cámara y las de móvil (una lección por variante); la validación avisa si el id no está en `data/lecciones.json`.
 
 Para añadir una pregunta o una variante basta con editar estos archivos; para añadir una receta a un género nuevo, crea `data/recetas/<id>.json` con el mismo id del género. La validación avisa si falta algo, si un término no existe en el glosario o si un texto está mal escrito.
 
 ## Las lecciones
 
-La pantalla Aprender sale de `data/lecciones.json` (el título, las etiquetas y los `grupos`, cada uno con su `id`, `titulo`, `subtitulo` y la lista de ids de sus `lecciones`, en el orden en que se ven) y de un archivo por lección, `data/lecciones/<id>.json`, que repite ese `id`:
+La pantalla Aprender sale de `data/lecciones.json` (el título, las etiquetas y los `grupos` —hoy `basico`, para cámara, y `movil`, «Para el móvil»—, cada uno con su `id`, `titulo`, `subtitulo` y la lista de ids de sus `lecciones`, en el orden en que se ven) y de un archivo por lección, `data/lecciones/<id>.json`, que repite ese `id`:
 
 ```json
 { "id": "la-rueda-de-modos", "titulo": "La rueda de modos", "resumen": "Qué modo usar y cuándo, sin liarte.",

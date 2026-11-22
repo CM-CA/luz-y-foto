@@ -145,10 +145,33 @@ const noche = ({ tarjeta, texto, suave }) => {
 </svg>`;
 };
 
+// Dos formas de hacer zoom: los botones (0,5x, 1x, 3x), que en muchos móviles cambian de lente, y los dedos, que recortan una parte de la foto
+// y la amplían (zoom digital). Los números de los botones son un ejemplo, no los de ningún móvil en concreto.
+const zoom = ({ tarjeta, texto, suave }) => {
+  const panel = (x0, titulo, icono, lineas) => `<text x="${x0 + 85}" y="26" text-anchor="middle" ${TIPO} font-weight="800" font-size="19" fill="${texto}">${titulo}</text>
+  ${icono}
+  ${lineas.map((l, i) => `<text x="${x0 + 85}" y="${177 + i * 20}" text-anchor="middle" ${TIPO} font-weight="600" font-size="17" fill="${suave}">${l}</text>`).join("\n  ")}`;
+  const lente = (cx, etiqueta) => `<circle cx="${cx}" cy="86" r="21" fill="none" stroke="${texto}" stroke-width="3.5"/><circle cx="${cx}" cy="86" r="8" fill="${texto}"/>
+  <text x="${cx}" y="134" text-anchor="middle" ${TIPO} font-weight="800" font-size="19" fill="${texto}">${etiqueta}</text>`;
+  const botones = lente(4 + 27, "0,5x") + lente(4 + 85, "1x") + lente(4 + 143, "3x");
+  // Una foto y, dentro, la parte que se recorta; las líneas discontinuas llevan sus esquinas a las de la foto entera (se agranda)
+  const fx = 184 + 35, fy = 50, fa = 100, fh = 72, ix = fx + 30, iy = fy + 20, ia = 40, ih = 30;
+  const dedos = `<line x1="${ix}" y1="${iy}" x2="${fx}" y2="${fy}" stroke="${suave}" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/><line x1="${ix + ia}" y1="${iy}" x2="${fx + fa}" y2="${fy}" stroke="${suave}" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/><line x1="${ix}" y1="${iy + ih}" x2="${fx}" y2="${fy + fh}" stroke="${suave}" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/><line x1="${ix + ia}" y1="${iy + ih}" x2="${fx + fa}" y2="${fy + fh}" stroke="${suave}" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/>
+  <rect x="${fx}" y="${fy}" width="${fa}" height="${fh}" rx="8" fill="none" stroke="${texto}" stroke-width="2.5"/>
+  <rect x="${ix}" y="${iy}" width="${ia}" height="${ih}" rx="4" fill="${suave}" fill-opacity=".3" stroke="${texto}" stroke-width="2.5"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 358 232" width="716" height="464">
+  <rect width="358" height="232" fill="${tarjeta}"/>
+  ${panel(4, "Botones", botones, ["suelen cambiar", "de lente"])}
+  ${panel(184, "Con los dedos", dedos, ["recorta una parte", "y la amplía"])}
+  <line x1="179" y1="14" x2="179" y2="222" stroke="${suave}" stroke-width="1.5" stroke-dasharray="2 5" stroke-linecap="round" opacity=".7"/>
+</svg>`;
+};
+
 export const DIBUJOS_SVG = {
   modos: { ancho: 716, alto: 392, svg: modos },
   exposicion: { ancho: 716, alto: 516, svg: exposicion },
   parasol: { ancho: 716, alto: 464, svg: parasol },
   toca: { ancho: 716, alto: 464, svg: toca },
-  noche: { ancho: 716, alto: 464, svg: noche }
+  noche: { ancho: 716, alto: 464, svg: noche },
+  zoom: { ancho: 716, alto: 464, svg: zoom }
 };

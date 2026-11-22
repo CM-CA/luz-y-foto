@@ -70,5 +70,9 @@
   "bloqueo-ae-af": {
     "termino": "Bloqueo de exposición y enfoque (AE/AF Lock)",
     "texto": "Fija el enfoque y la luz en el punto que tocaste, para que no cambien aunque muevas el móvil o cambie la luz. En iPhone se mantiene pulsado el punto hasta ver «AE/AF Lock»; en otros móviles puede ser un candado o un aviso parecido."
+  },
+  "zoom-digital": {
+    "termino": "Zoom digital",
+    "texto": "Recortar una parte de la foto y agrandarla. No añade detalle: cuanto más se agranda, más borrosa o pixelada sale. Es lo mismo que recortar después en un editor. El zoom óptico, en cambio, usa otra lente."
   }
 }

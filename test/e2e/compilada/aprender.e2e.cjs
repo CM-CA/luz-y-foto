@@ -26,7 +26,7 @@ const LECCIONES = Object.fromEntries(IDS.map((id) => [id, JSON.parse(fs.readFile
 const TITULOS = Object.fromEntries(IDS.map((id) => [id, LECCIONES[id].titulo]));
 const PARA = Object.fromEntries(IDS.map((id) => [id, INDICE.etiquetas.para[LECCIONES[id].para]]));
 // Que los datos de ejemplo no se hayan vaciado: estas lecciones tienen que estar, con su título y su etiqueta
-const ESPERADAS = { "la-rueda-de-modos": ["La rueda de modos", "Para cámara"], "el-manual-de-verdad": ["El manual de verdad", "Para cámara"], "parasol-y-filtro-uv": ["Parasol y filtro UV", "Para cámara"], "toca-para-enfocar-y-exponer": ["Toca para enfocar y exponer", "Para móvil"], "luz-baja-y-modo-noche": ["Luz baja y modo noche", "Para móvil"] };
+const ESPERADAS = { "la-rueda-de-modos": ["La rueda de modos", "Para cámara"], "el-manual-de-verdad": ["El manual de verdad", "Para cámara"], "parasol-y-filtro-uv": ["Parasol y filtro UV", "Para cámara"], "toca-para-enfocar-y-exponer": ["Toca para enfocar y exponer", "Para móvil"], "luz-baja-y-modo-noche": ["Luz baja y modo noche", "Para móvil"], "zoom-y-lentes": ["Zoom y lentes: cuál usar", "Para móvil"] };
 
 const activo = (p) => p.evaluate(() => [...document.querySelectorAll("nav.nav-inferior a")].filter((a) => a.getAttribute("aria-current") === "page").map((a) => a.textContent.trim()));
 const hash = (p) => p.evaluate(() => location.hash);
@@ -240,10 +240,14 @@ ejecutar("aprender", async ({ b, base }) => {
     {
       const { ctx, p } = await nuevaPagina(b, { perfil: PERFIL_MOVIL, lugar: LUGAR });
       await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
+      const DESTINO = { amanecer: ["toca-para-enfocar-y-exponer", "Toca para enfocar y exponer"], atardecer: ["toca-para-enfocar-y-exponer", "Toca para enfocar y exponer"], luna: ["luz-baja-y-modo-noche", "Luz baja y modo noche"] };
       for (const pestana of ["amanecer", "atardecer", "luna"]) {
         const a = await enlaceDe(p, pestana);
-        ok(a === null && await p.locator("#receta").count() === 1, "con móvil, en " + pestana + " hay receta y no hay enlace");
+        const [id, titulo] = DESTINO[pestana];
+        ok(a && a.href === "#/aprender/" + id && a.texto.includes("Aprende por qué estos ajustes") && a.texto.includes(titulo + " · 2 min"), "con móvil, en " + pestana + ": el enlace a «" + titulo + "» (" + JSON.stringify(a) + ")");
       }
+      await p.click("#receta a.aprende-por-que"); await p.waitForSelector(".leccion-meta");
+      ok(await hash(p) === "#/aprender/luz-baja-y-modo-noche" && (await p.locator(".leccion-meta").innerText()).endsWith("Para móvil"), "el enlace de la receta de móvil abre su lección (" + await hash(p) + ")");
       await ctx.close();
     }
     for (const [esquema, ancho] of [["dark", 320], ["light", 320], ["dark", 390]]) {

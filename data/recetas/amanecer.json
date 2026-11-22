@@ -16,6 +16,7 @@
       "si": {
         "equipo": "movil"
       },
+      "leccion": "toca-para-enfocar-y-exponer",
       "pasos": [
         {
           "titulo": "Luz",
@@ -32,7 +33,7 @@
         {
           "titulo": "Zoom",
           "empiezo": "No uses el zoom con los dedos. Si quieres acercarte, usa los botones 2x o 3x, o recorta después.",
-          "defiendo": "El zoom digital estropea la nitidez; los botones 2x o 3x usan otra lente.",
+          "defiendo": "El zoom digital estropea la nitidez; los botones 2x o 3x suelen usar otra lente.",
           "controlo": "Sin zoom digital"
         },
         {

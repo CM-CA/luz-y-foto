@@ -286,6 +286,19 @@ prueba("lecciones: luz baja y modo noche", () => {
   assert.deepEqual(dibujosDe(l), ["noche"]);
 });
 
+prueba("lecciones: zoom y lentes", () => {
+  const datos = cargarDatos();
+  assert.deepEqual(datos.lecciones.indice.grupos.find((g) => g.id === "movil").lecciones, ["toca-para-enfocar-y-exponer", "luz-baja-y-modo-noche", "zoom-y-lentes"]);
+  const l = datos.lecciones.porId["zoom-y-lentes"];
+  assert.equal(l.titulo, "Zoom y lentes: cuál usar");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  assert.equal(l.para, "movil");
+  const texto = textoDeLeccion(l);
+  [/0,5x/, /zoom digital/i, /recorta/i, /según tu móvil/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["zoom"]);
+});
+
 prueba("lecciones: parasol y filtro UV", () => {
   const l = cargarDatos().lecciones.porId["parasol-y-filtro-uv"];
   assert.equal(l.titulo, "Parasol y filtro UV");
@@ -317,5 +330,6 @@ prueba("recetas: la lección de una variante tiene que existir", () => {
   }));
   assert.ok(con >= 7, "enlazan las variantes de cámara (" + con + ")");
   assert.equal(c.recetas.luna.variantes.find((v) => v.id === "camara-tele-tripode").leccion, "el-manual-de-verdad");
-  assert.ok(c.recetas.luna.variantes.find((v) => v.id === "movil").leccion === undefined, "las de móvil no enlazan");
+  [["amanecer", "toca-para-enfocar-y-exponer"], ["atardecer", "toca-para-enfocar-y-exponer"], ["luna", "luz-baja-y-modo-noche"]].forEach(([g, id]) =>
+    assert.equal(c.recetas[g].variantes.find((v) => v.id === "movil").leccion, id, "la de móvil de " + g));
 });

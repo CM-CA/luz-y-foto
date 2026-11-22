@@ -44,3 +44,11 @@ Cada afirmación se comprobó con al menos dos fuentes; cuando la fuente no dec�
 - Apagar el modo noche con la luna: solo CSIRO lo dice (puede aclarar el cielo, difuminar el detalle o sobreexponer la luna); ninguna otra fuente lo contradice ni lo apoya, por eso la lección solo dice «prueba a apagar el modo noche» si aun así sale demasiado clara.
 - La luna sale pequeña con un móvil: Monash Lens (en una lente de móvil mide unos 25 píxeles de ancho); Royal Museums Greenwich (el zoom digital recorta y pixela); la receta de la luna ya recomienda ponerla dentro de un paisaje.
 
+## Móvil: Zoom y lentes
+- Los botones 0,5x, 1x, 2x o 3x suelen cambiar de lente: iPhone Life (0,5x es el ultra gran angular, 1x la gran angular y 3x el teleobjetivo); TechRadar (cada distancia focal es una cámara fija distinta); Android Authority (al pulsar el botón el móvil pasa a la lente del teleobjetivo); Apple Support «iPhone camera basics» (los botones 0,5x, 1x, 2x, 2,5x y 3x dependen del modelo; de ahí «cambia según tu móvil» y que el dibujo ponga 0,5x, 1x y 3x solo como ejemplo).
+- Pellizcar la pantalla, o pasar del último botón, es zoom digital: recorta la foto y la agranda, y baja la calidad: Which? (el zoom digital recorta y amplía, y pierde calidad); TechRadar; Google Store (el zoom digital recorta la imagen); Android Authority; iPhone Life.
+- Algunos móviles disimulan el zoom digital con su programa: Which? y TechRadar (el programa rellena lo que falta, pero no añade detalle real).
+- Entre el último botón y el zoom digital hay zoom híbrido: Android Authority, TechRadar y Which? (el iPhone 13 llega a 15x con 3x óptico). La lección no lo explica: bastaba con «último botón → recortar».
+- Mejor hacer la foto sin zoom, con toda la resolución, y recortarla después: Which? (recortar después da más control); Android Authority; CSIRO «Looking up? Here's how to photograph the Moon with your phone». Por eso la lección dice que recortar después «es lo mismo que el zoom digital, pero con más control».
+- Una de las pruebas de la lección dice «acércate tú»: es consejo de sentido común y no una afirmación técnica, por eso no tiene fuente propia.
+- Dejadas fuera por no tener dos fuentes: que las otras lentes son más flojas que la principal (solo TechRadar, de 2019) y que conviene evitar el zoom, más aún, con poca luz (solo CSIRO).
