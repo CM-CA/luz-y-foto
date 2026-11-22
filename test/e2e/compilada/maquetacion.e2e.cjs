@@ -1,6 +1,7 @@
 // Maquetación de la versión compilada: nada se sale de la pantalla ni de su tarjeta en móvil, los botones de día
 // caben siempre en una fila (también con el nombre de día más largo y con el día elegido), y las barras de nubes
-// se distinguen bien de su fondo, en modo claro y oscuro.
+// se distinguen bien de su fondo, en modo claro y oscuro. Y lo mismo en inglés (una matriz más corta: 320, 390 y 600 px, las dos letras,
+// tema claro), donde las palabras son otras («Wednesday», «Sunrise», «Idioma / Language»…) y no tienen por qué caber igual.
 //
 // Sustituye a la prueba de capturas frente a la web anterior (que sirvió para demostrar que la migración se veía
 // igual, con un 0,014 % de píxeles distintos) en cuanto el responsive empezó a cambiar el aspecto a propósito.
@@ -24,18 +25,24 @@ const ANCHOS = [320, 360, 390, 480, 600, 800];
 // y con DejaVu Sans, que es de las más anchas y la que usa por defecto el navegador de Actions. (Si no está
 // instalada, el navegador usa otra y la prueba es menos exigente, pero no falla.)
 const LETRAS = [["la del sistema", null], ["una letra ancha", "'DejaVu Sans', sans-serif"]];
+// Cada idioma, con el teléfono que lo pide, el nombre de día más largo y la matriz que se prueba: el español entero y el inglés reducido
+const IDIOMAS = [
+  { id: "es", locale: "es-ES", diaLargo: "Miércoles", anchos: ANCHOS, esquemas: ["light", "dark"] },
+  { id: "en", locale: "en-US", diaLargo: "Wednesday", anchos: [320, 390, 600], esquemas: ["light"] }
+];
 
 ejecutar("maquetacion", async ({ b, base }) => {
   // Una página cargada con cada combinación; se miden la página y cada bloque del panel
   const casos = [];
-  for (const genero of ["amanecer", "atardecer", "luna"]) for (const [nombreLetra, letra] of LETRAS) for (const esquema of ["light", "dark"]) for (const ancho of ANCHOS) casos.push({ genero, nombreLetra, letra, esquema, ancho });
+  for (const idioma of IDIOMAS) for (const genero of ["amanecer", "atardecer", "luna"]) for (const [nombreLetra, letra] of LETRAS) for (const esquema of idioma.esquemas) for (const ancho of idioma.anchos) casos.push({ idioma, genero, nombreLetra, letra, esquema, ancho });
 
   let anterior = "";
-  for (const { genero, nombreLetra, letra, esquema, ancho } of casos) {
-    const grupo = "«" + genero + "», con " + nombreLetra + ": nada se sale de la pantalla ni de la tarjeta";
+  for (const { idioma, genero, nombreLetra, letra, esquema, ancho } of casos) {
+    const grupo = (idioma.id === "es" ? "" : "en " + idioma.id + ", ") + "«" + genero + "», con " + nombreLetra + ": nada se sale de la pantalla ni de la tarjeta";
     if (grupo !== anterior) { titulo(grupo); anterior = grupo; }
-    const { ctx, p } = await nuevaPagina(b, { viewport: { width: ancho, height: 800 }, colorScheme: esquema, perfil: PERFIL, lugar: LUGAR });
+    const { ctx, p } = await nuevaPagina(b, { viewport: { width: ancho, height: 800 }, colorScheme: esquema, perfil: PERFIL, lugar: LUGAR, locale: idioma.locale });
     await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
+    ok((await p.evaluate(() => document.documentElement.lang)) === idioma.id, "  la app está en «" + idioma.id + "»");
     if (letra) await p.addStyleTag({ content: "* { font-family: " + letra + " !important; }" });
     await p.click("[data-tab=" + genero + "]");
     await p.click("#receta summary");
@@ -73,11 +80,11 @@ ejecutar("maquetacion", async ({ b, base }) => {
     ok(a.aire.every((x) => x >= 6) && a.vecinos.every((x) => x >= 10) && a.dentro, "  pestañas: aire dentro de cada botón " + a.aire.map((x) => x.toFixed(1)).join(" / ") + " px (mínimo 6), junto a la elegida " + a.vecinos.map((x) => x.toFixed(1)).join(" y ") + " px (mínimo 10)" + (a.dentro ? "" : ", un botón se sale de la barra"));
     // Los botones de día: una sola fila, con el nombre más largo posible («Miércoles») en el último y ese día elegido
     // (con la ✓ y la negrita, que ensanchan), y sin que nada se salga de su botón. El símbolo lleva el color de su nivel.
-    const d = await p.evaluate(async () => {
+    const d = await p.evaluate(async (diaLargo) => {
       const botones = [...document.querySelectorAll("#dias button")];
       const ultimo = botones[botones.length - 1];
       ultimo.click(); await new Promise((r) => setTimeout(r, 60));
-      ultimo.querySelector(".etq").textContent = "Miércoles";
+      ultimo.querySelector(".etq").textContent = diaLargo;
       const num = ultimo.querySelector(".num"); if (num) num.textContent = "28";
       const fila = document.querySelector("#dias").getBoundingClientRect();
       const cajas = botones.map((x) => x.getBoundingClientRect());
@@ -96,12 +103,24 @@ ejecutar("maquetacion", async ({ b, base }) => {
         numerosDentro: botones.every((x, i) => { const n = x.querySelector(".num"); return !!n && dentro(n.getBoundingClientRect(), cajas[i]) && dentro(x.querySelector(".marca").getBoundingClientRect(), cajas[i]); }),
         numerosEnFila: botones.every((x) => { const n = x.querySelector(".num"); return !!n && Math.abs(n.getBoundingClientRect().top - x.querySelector(".marca").getBoundingClientRect().top) <= 4; }),
         textoDentro: botones.every((x, i) => dentro(x.querySelector(".etq").getBoundingClientRect(), cajas[i]) && x.scrollWidth <= x.clientWidth + 1),
+        // Con una letra muy ancha el nombre más largo puede cortarse con «…» (red de seguridad del CSS); con la de la app no
+        sinCortar: botones.every((x) => { const e = x.querySelector(".etq"); return e.scrollWidth <= e.clientWidth + 1; }),
         colores
       };
-    });
-    ok(d.cuantos >= 2 && d.unaFila && d.dentroDeLaFila && d.textoDentro, "  días: " + d.cuantos + " botones en una fila, con «Miércoles» elegido" + (d.unaFila ? "" : " (no caben en una fila)") + (d.dentroDeLaFila ? "" : " (se salen de la fila)") + (d.textoDentro ? "" : " (el nombre se sale del botón)"));
+    }, idioma.diaLargo);
+    ok(d.cuantos >= 2 && d.unaFila && d.dentroDeLaFila && d.textoDentro, "  días: " + d.cuantos + " botones en una fila, con «" + idioma.diaLargo + "» elegido" + (d.unaFila ? "" : " (no caben en una fila)") + (d.dentroDeLaFila ? "" : " (se salen de la fila)") + (d.textoDentro ? "" : " (el nombre se sale del botón)"));
+    if (!letra) ok(d.sinCortar, "  días: con la letra de la app el nombre «" + idioma.diaLargo + "» cabe entero, sin «…»");
     ok(d.numerosDentro && d.numerosEnFila, "  días: el número del día («28» en el último) cabe en su botón y va en la fila del símbolo" + (d.numerosDentro ? "" : " (se sale del botón)") + (d.numerosEnFila ? "" : " (no está en la fila del símbolo)"));
     ok(d.colores.every((c) => c.color === c.esperado && ["●", "▲", "■", "○"].includes(c.simbolo)), "  días: cada símbolo lleva el color de su nivel (" + d.colores.map((c) => c.nivel + " " + c.simbolo).join(", ") + ")");
+    // El selector de idioma, al final de Hoy: dentro de la pantalla, con sus tres botones dentro de su caja y sin que el texto se salga de ellos
+    const sel = await p.evaluate(() => {
+      const e = document.querySelector(".selector-idioma");
+      if (!e) return null;
+      const caja = e.getBoundingClientRect(), botones = [...e.querySelectorAll("button")];
+      const dentro = (c, padre) => c.left >= padre.left - 0.5 && c.right <= padre.right + 0.5;
+      return { dentro: caja.left >= 0 && caja.right <= document.documentElement.clientWidth + 0.5, botones: botones.length, botonesDentro: botones.every((x) => dentro(x.getBoundingClientRect(), caja)), textoDentro: botones.every((x) => x.scrollWidth <= x.clientWidth + 1) };
+    });
+    ok(sel && sel.dentro && sel.botones === 3 && sel.botonesDentro && sel.textoDentro, "  selector de idioma: " + (sel ? sel.botones + " botones, dentro de la pantalla: " + sel.dentro + ", dentro de su caja: " + sel.botonesDentro + ", texto dentro de cada botón: " + sel.textoDentro : "no está"));
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
   }

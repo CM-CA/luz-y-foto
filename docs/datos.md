@@ -8,6 +8,7 @@ Cada idioma de la app tiene su carpeta con **los mismos archivos**: `data/es/` (
 
 - Lo que se traduce es **la prosa**: nombres, frases, consejos, pasos de las recetas, términos del glosario y lecciones. Todo lo demás —ids, umbrales, puntos, minutos, condiciones («solo para móvil»), enlaces a lecciones, el orden— tiene que ser **idéntico** en todos los idiomas, para que el semáforo y las recetas se comporten igual en todos.
 - `npm run validar` comprueba cada carpeta de `data/` con las mismas reglas que `es`, y la prueba `test/nucleo/paridad.test.js` compara cada idioma con `es`: misma forma (claves y largo de las listas) y mismos valores salvo los de prosa. La lista de rutas que cuentan como prosa está en `test/nucleo/claves-de-prosa.js` (`CLAVES_DE_PROSA`): si añades un campo de texto nuevo, añade ahí su ruta.
+- Las lecciones cumplen sus reglas **en cada idioma**: 450 palabras como máximo (las palabras se cuentan en ese idioma), cada `[[id|texto]]` apunta a un término del glosario **de ese idioma**, y cada bloque `dibujo` tiene su entrada en el `dibujos.json` de ese idioma. El texto de un dibujo tiene que caber a 320 px: si una frase se queda larga, se acorta (en inglés, «soft background» en vez de «blurry background»).
 - Todo idioma de `IDIOMAS` (`src/nucleo/idioma.js`) necesita su carpeta: `npm run validar` y la compilación se detienen si falta. (Si aun así faltara, la app usaría la de `es`.)
 
 ## Qué hay en cada archivo

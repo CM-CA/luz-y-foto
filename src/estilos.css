@@ -84,6 +84,12 @@ button.principal { background: var(--texto); color: var(--fondo); border-color: 
 .dias [data-nivel="rojo"] .marca { color: var(--rojo); }
 .dias [data-nivel="ninguno"] .marca { color: var(--gris); }
 .dias .etq { max-width: 100%; padding: 2px 10px; border-radius: 999px; font-size: 16px; font-weight: 500; line-height: 1.25; }
+/* Red de seguridad: con una letra muy ancha y una pantalla estrecha, el nombre de día más largo («Wednesday») se corta con «…» en vez de salirse del botón.
+   Con la letra de la app (Figtree) cabe entero; un lector de pantalla lo lee entero. */
+.dias .etq { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* «Wednesday», elegido (en negrita), es más ancho que «Miércoles» y con la letra de la app se saldría de su pastilla a 320 y a 390 px: menos aire a los lados en inglés. */
+:lang(en) .dias .etq { padding-inline: 5px; }
+@media (max-width: 380px) { :lang(en) .dias .etq { padding-inline: 3px; font-size: .8rem; } }
 /* El día elegido lleva su nombre con el color invertido y en negrita, y una ✓ junto al símbolo. El color del símbolo
    no cambia, así que sigue viéndose el semáforo del día elegido. */
 .dias button[aria-pressed="true"] { border-color: var(--texto); }

@@ -6,9 +6,27 @@ Webapp (PWA) solo frontend para ayudar a principiantes a hacer mejores fotos: te
 - Sol y luna se calculan en el móvil (funciona sin conexión).
 - Se puede instalar en la pantalla de inicio, abre sin conexión y, si no puede actualizar la previsión, enseña la última guardada (avisando de la hora).
 - Meteorología con Open-Meteo (sin clave).
+- Español e inglés: la app usa el idioma del teléfono (gallego, catalán y euskera se leen como español; cualquier otro idioma, en inglés) y un selector «Idioma / Language», al final de Hoy y de Aprender, deja elegir otro.
 - Aprender: lecciones cortas con dibujos, para cámara (la rueda de modos, el manual de verdad, parasol y filtro UV) para móvil (tocar para enfocar y exponer, luz baja y modo noche, zoom y lentes) y por tipo de fotografía (paisaje y deportiva); las recetas enlazan a las de cámara y a las de móvil.
 
 Estado: la web publicada en [cm-ca.github.io/luz-y-foto](https://cm-ca.github.io/luz-y-foto/) es una app Svelte + Vite (PWA). Antes era una web de páginas sueltas; el paso a la app (traspaso del 2026-11-21) y la retirada de la web antigua están contados en [`docs/migracion-svelte.md`](docs/migracion-svelte.md), y `/beta/` y las direcciones viejas llevan a la app. Las decisiones están en [`docs/`](docs/).
+
+## Idiomas
+
+La app está en español (`es`, el idioma de referencia) y en inglés (`en`). El idioma se decide al abrir la página: lo que se eligió en el selector si se eligió algo; si no, el primero de los idiomas del teléfono que la app tiene (`es`, `gl`, `ca` y `eu` → español; `en` → inglés); si el teléfono tiene idiomas pero ninguno es ese, inglés; si no tiene ninguno, español. Elegir otro idioma en el selector lo guarda en el dispositivo (`luz-y-foto:idioma`) y recarga la página. Las horas y las fechas siguen el formato del teléfono (3:45 PM con `en-US`, 15:45 con `fr-FR`); los números llevan coma en español y punto en inglés.
+
+Qué se traduce y dónde:
+
+- **Los textos de la pantalla** (botones, avisos, rótulos): un diccionario por idioma, `src/idioma/es.js` y `src/idioma/en.js`, con las mismas claves (una prueba lo vigila). Se leen con `t("clave", { huecos })`.
+- **Los textos de los datos** (frases del semáforo, recetas, glosario, perfil, lecciones y los textos de los dibujos): una carpeta por idioma, `data/es/` y `data/en/`, con los mismos archivos. Solo cambia la prosa; los ids, los umbrales y las condiciones son idénticos (lo vigila `test/nucleo/paridad.test.js`). Ver [`docs/datos.md`](docs/datos.md).
+- **Cómo se llaman las cosas en inglés**: [`docs/ingles-terminos.md`](docs/ingles-terminos.md).
+
+Para añadir un idioma (por ejemplo el francés, `fr`) casi todo son archivos:
+
+1. Copia `data/es/` a `data/fr/` y traduce la prosa (qué cuenta como prosa: `test/nucleo/claves-de-prosa.js`). `npm run validar` y `npx vitest run` dicen qué falta; las lecciones deben seguir en 450 palabras o menos y cada dibujo tiene que caber en 320 px (`test/e2e/compilada/dibujos.e2e.cjs` recorre todas las carpetas de `data/`).
+2. Copia `src/idioma/es.js` a `src/idioma/fr.js` y traduce los valores sin tocar las claves.
+3. Dalo de alta: `IDIOMAS` en `src/nucleo/idioma.js` (y qué códigos del teléfono cuentan como suyos en `elegirIdioma`, y qué formato usa `localeDeFormato`), `DICCIONARIOS` en `src/idioma/index.js` y un botón en `src/componentes/SelectorIdioma.svelte`.
+4. Añade su idioma a las pruebas que los listan (`test/e2e/compilada/selector-idioma.e2e.cjs`, `dibujos.e2e.cjs`) y escribe la suya de «ni una palabra de otro idioma», como `test/e2e/compilada/ingles.e2e.cjs`.
 
 ## Desarrollo
 
