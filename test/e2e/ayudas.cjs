@@ -70,12 +70,12 @@ const previsionConCambios = (cambios, dia = "2026-11-20") => {
 /*
  * Abre una página con el reloj, el GPS y los servicios externos simulados.
  * Opciones: permisos (GPS concedido, por defecto sí), geo, nominatim ("ok" | "error"),
- *           lugar y perfil (lo que ya hay guardado en el dispositivo), fecha, viewport, colorScheme,
+ *           lugar y perfil (lo que ya hay guardado en el dispositivo), fecha, viewport, colorScheme, locale (idioma del navegador; por defecto es-ES),
  *           serviceWorkers ("block" por defecto, para que la caché no interfiera; "allow" en las pruebas de uso sin conexión).
  */
 async function nuevaPagina(b, o = {}) {
   const ctx = await b.newContext({
-    timezoneId: "Europe/Madrid", locale: "es-ES",
+    timezoneId: "Europe/Madrid", locale: o.locale || "es-ES",
     viewport: o.viewport || { width: 390, height: 900 },
     colorScheme: o.colorScheme || "light",
     permissions: o.permisos === false ? [] : ["geolocation"],
