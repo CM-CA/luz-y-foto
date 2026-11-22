@@ -15,6 +15,7 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 }
 
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
+const PERFIL_MOVIL = { equipo: "movil", marca: "desconocida", objetivos: [], tripode: "no", nivel: "empiezo", respondidas: ["equipo", "tripode", "nivel"] };
 const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const LETRA_ANCHA = "* { font-family: 'DejaVu Sans', sans-serif !important; }";
 const INDICE = JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "lecciones.json"), "utf8"));
@@ -191,6 +192,62 @@ ejecutar("aprender", async ({ b, base }) => {
     }
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
+  }
+
+  titulo("J: la receta enlaza a su lección («Aprende por qué estos ajustes»)");
+  {
+    // La receta abierta de la pestaña que se pide, con el enlace que lleva (o null si no hay)
+    const enlaceDe = async (p, pestana) => {
+      await p.click("[data-tab=" + pestana + "]");
+      if (pestana === "luna") await p.click("#dias button[data-i='0']");
+      await p.waitForSelector("#receta, .invitacion");
+      if (await p.locator("#receta").count() && !(await p.locator("#receta").getAttribute("open") !== null)) await p.click("#receta summary");
+      return p.evaluate(() => { const a = document.querySelector("#receta a.aprende-por-que"); return a ? { href: a.getAttribute("href"), texto: a.textContent.replace(/\s+/g, " ").trim() } : null; });
+    };
+    {
+      const { ctx, p } = await nuevaPagina(b, { perfil: PERFIL, lugar: LUGAR });
+      await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
+      const a = await enlaceDe(p, "atardecer");
+      ok(a && a.href === "#/aprender/la-rueda-de-modos" && a.texto.includes("Aprende por qué estos ajustes") && a.texto.includes("La rueda de modos · 3 min"), "Atardecer con cámara: el enlace a La rueda de modos (" + JSON.stringify(a) + ")");
+      const orden = await p.evaluate(() => { const l = document.querySelector("#receta a.aprende-por-que"), ol = document.querySelector("#receta ol"); return !!(ol.compareDocumentPosition(l) & Node.DOCUMENT_POSITION_FOLLOWING); });
+      ok(orden, "va después de los pasos");
+      const luna = await enlaceDe(p, "luna");
+      ok(luna && luna.href === "#/aprender/la-rueda-de-modos", "Noche con trípode «a veces» (hoy sin él): también la rueda de modos (" + JSON.stringify(luna) + ")");
+      await p.click("[data-tripode=si]");
+      const manual = await p.evaluate(() => { const a = document.querySelector("#receta a.aprende-por-que"); return a ? a.getAttribute("href") : null; });
+      ok(manual === "#/aprender/el-manual-de-verdad", "al decir que hoy sí llevas trípode, la receta pasa a modo M y el enlace a El manual de verdad (" + manual + ")");
+      await p.click("#receta a.aprende-por-que");
+      await p.waitForSelector(".leccion-meta");
+      ok(await hash(p) === "#/aprender/el-manual-de-verdad" && await p.locator("h1").innerText() === "El manual de verdad", "al pulsarlo se abre esa lección (" + await hash(p) + ")");
+      ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
+      await ctx.close();
+    }
+    {
+      const { ctx, p } = await nuevaPagina(b, { perfil: PERFIL, lugar: LUGAR });
+      await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
+      await enlaceDe(p, "amanecer");
+      await p.click("#receta a.aprende-por-que"); await p.waitForSelector(".leccion-meta");
+      ok(await hash(p) === "#/aprender/la-rueda-de-modos" && await p.locator("h1").innerText() === "La rueda de modos", "el enlace de la receta abre la lección");
+      await ctx.close();
+    }
+    {
+      const { ctx, p } = await nuevaPagina(b, { perfil: PERFIL_MOVIL, lugar: LUGAR });
+      await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
+      for (const pestana of ["amanecer", "atardecer", "luna"]) {
+        const a = await enlaceDe(p, pestana);
+        ok(a === null && await p.locator("#receta").count() === 1, "con móvil, en " + pestana + " hay receta y no hay enlace");
+      }
+      await ctx.close();
+    }
+    for (const [esquema, ancho] of [["dark", 320], ["light", 320], ["dark", 390]]) {
+      const { ctx, p } = await nuevaPagina(b, { viewport: { width: ancho, height: 900 }, colorScheme: esquema, perfil: PERFIL, lugar: LUGAR });
+      await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
+      await enlaceDe(p, "atardecer");
+      await p.addStyleTag({ content: LETRA_ANCHA });
+      const r = await p.evaluate(() => { const a = document.querySelector("#receta a.aprende-por-que").getBoundingClientRect(), borde = document.documentElement.clientWidth; return { derecha: a.right, borde, alto: a.height, pagina: document.documentElement.scrollWidth - borde }; });
+      ok(r.derecha <= r.borde + 0.5 && r.pagina <= 0 && r.alto >= 44, esquema + ", " + ancho + " px, letra ancha: el enlace cabe (" + Math.round(r.derecha) + " de " + r.borde + ", alto " + Math.round(r.alto) + ")");
+      await ctx.close();
+    }
   }
 
   titulo("F: medidas: 320, 360 y 390 px, claro y oscuro, letra normal y ancha");

@@ -3,6 +3,7 @@
   import { hoy, abrirAsistente, elegirTripode, resumenEquipo } from "../estado/hoy.svelte.js";
   import * as Perfil from "../nucleo/perfil.js";
   import { construir } from "../nucleo/recetas.js";
+  import { leccionPorId, etiquetaMinutos } from "../nucleo/lecciones.js";
   import ConTerminos from "./ConTerminos.svelte";
 
   // La receta del género elegido, adaptada al equipo y al semáforo de ese día. Lleva el resumen del equipo y el botón para editarlo:
@@ -12,6 +13,8 @@
 
   const T = config.recetas.comun;
   const receta = $derived(construir(config, g.id, Perfil.efectivo(hoy.perfil, hoy.tripodeHoy), nivel));
+  // La lección a la que enlaza la receta (solo las de cámara llevan una)
+  const leccion = $derived(receta && receta.leccion ? leccionPorId(config, receta.leccion) : null);
   const sinPerfil = $derived(!hoy.perfil || !Perfil.estaConfigurado(hoy.perfil));
   // Para qué nivel está explicada (principiante, medio o experto): el texto de la opción elegida en la pregunta «nivel»
   const nivelDeLaReceta = $derived.by(() => {
@@ -48,6 +51,15 @@
         <li><strong>{paso.titulo}.</strong> <ConTerminos texto={paso.texto} /></li>
       {/each}
     </ol>
+    {#if leccion}
+      <a class="aprende-por-que" href="#/aprender/{leccion.id}">
+        <span>
+          <span class="apq-t">{config.lecciones.indice.etiquetas.aprendePorQue}</span>
+          <span class="apq-s">{leccion.titulo} · <span class="sin-corte">{etiquetaMinutos(config, leccion.minutos)}</span></span>
+        </span>
+        <span aria-hidden="true">›</span>
+      </a>
+    {/if}
     {#if receta.nota}
       <p class="consejo"><ConTerminos texto={receta.nota} /></p>
     {/if}

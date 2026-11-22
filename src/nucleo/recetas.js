@@ -6,6 +6,7 @@
  *   {Av}, {Tv}      nombre del modo según la marca (Canon: Av/Tv; Nikon y Sony: A/S)
  *   [[id|texto]]    término del glosario, tocable en la pantalla
  *
+ * Cada variante puede llevar `leccion`: el id de la lección de data/lecciones/ que explica por qué esos ajustes.
  * Cada variante lleva `si`: condiciones sobre el perfil. Se prueban en orden y gana la primera que
  * se cumple. Un valor de texto debe coincidir; si el campo del perfil es una lista (objetivos),
  * basta con que la contenga.
@@ -59,6 +60,7 @@ function construir(config, generoId, perfil, semaforo) {
     titulo: variante.titulo,
     pasos: variante.pasos.map((p) => ({ titulo: p.titulo, texto: poner(p[perfil.nivel] || p.empiezo) })),
     nota: variante.nota ? poner(variante.nota) : null,
+    leccion: variante.leccion || null, // la lección a la que enlaza la receta («Aprende por qué estos ajustes»)
     avisos: (receta.avisos || [])
       .filter((id) => perfil.equipo === "camara" || !soloCamara.includes(id))
       .map((id) => poner(comun.avisos[id])),

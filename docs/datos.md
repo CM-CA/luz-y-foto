@@ -14,6 +14,8 @@ Todo lo que cambia a menudo (umbrales, puntos, textos, consejos) está en la car
 | `data/glosario.json` | Los términos que se pueden tocar en las recetas (apertura, ISO, RAW…) |
 | `data/recetas/comun.json` | Lo común a todas las recetas: títulos, pregunta «¿llevas el trípode hoy?» y los avisos fijos |
 | `data/recetas/atardecer.json`, `amanecer.json`, `luna.json` | Las recetas de cada género, una variante por tipo de equipo |
+| `data/lecciones.json` | La pantalla Aprender: su título, las etiquetas («3 min», «Para cámara», «Idea clave»…) y los grupos de lecciones, en orden |
+| `data/lecciones/<id>.json` | Una lección: título, resumen, minutos, para quién es y sus bloques (ver «Las lecciones») |
 
 ## Recetas y perfil
 
@@ -32,8 +34,29 @@ Cada receta tiene una lista de **variantes**. Se prueban en orden y gana la prim
 - `avisos` lista los avisos fijos que se muestran (sus textos están en `recetas/comun.json`). Los que figuran en `soloCamara` no se enseñan a quien usa el móvil.
 - `segunSemaforo` es el consejo de «verde», «ámbar» y «rojo».
 - Con trípode «a veces», la pantalla ofrece un interruptor «¿Llevas el trípode hoy?».
+- `leccion` (opcional) es el id de una lección de `data/lecciones/`: la receta enseña, tras los pasos, «Aprende por qué estos ajustes» con un enlace a ella. Hoy lo llevan las variantes de cámara; la validación avisa si el id no está en `data/lecciones.json`.
 
 Para añadir una pregunta o una variante basta con editar estos archivos; para añadir una receta a un género nuevo, crea `data/recetas/<id>.json` con el mismo id del género. La validación avisa si falta algo, si un término no existe en el glosario o si un texto está mal escrito.
+
+## Las lecciones
+
+La pantalla Aprender sale de `data/lecciones.json` (el título, las etiquetas y los `grupos`, cada uno con su `id`, `titulo`, `subtitulo` y la lista de ids de sus `lecciones`, en el orden en que se ven) y de un archivo por lección, `data/lecciones/<id>.json`, que repite ese `id`:
+
+```json
+{ "id": "la-rueda-de-modos", "titulo": "La rueda de modos", "resumen": "Qué modo usar y cuándo, sin liarte.",
+  "minutos": 3, "para": "camara",
+  "bloques": [
+    { "tipo": "dibujo", "id": "modos", "alt": "…", "pie": "…" },
+    { "tipo": "idea", "texto": "Av si te importa el fondo…" },
+    { "tipo": "parrafo", "texto": "La [[apertura|apertura]] …" } ] }
+```
+
+- `minutos` va de 1 a 10 y `para` es `camara`, `movil` o `todos`.
+- Los **bloques** son `subtitulo`, `parrafo` y `idea` (con `texto`), `lista` (con `items`), `pruebalo` (con `texto`: la práctica de «Pruébalo hoy») y `dibujo` (con `id`, `alt` y `pie`). Se pintan en el orden en que están.
+- En los textos, `[[id|texto]]` crea un término tocable del glosario, como en las recetas.
+- **Una lección no pasa de 450 palabras** (se cuentan los textos y los elementos de las listas, no el `alt` ni el `pie` de un dibujo): si se pasa, se parte en dos. La validación lo avisa, igual que un tipo de bloque que no existe, un texto que falta o un término que no está en el glosario.
+- **Añadir una lección**: crea `data/lecciones/<id>.json` y pon su id en la lista `lecciones` de un grupo de `data/lecciones.json`. **Añadir un grupo**: otro elemento de `grupos`.
+- **Un dibujo** tiene su `id` en `scripts/dibujos-lecciones.mjs` (un SVG que se pinta con los colores del tema claro y del oscuro). `node scripts/generar-dibujos.mjs` escribe `src/imagenes/dibujo-<id>-claro.webp` y `-oscuro.webp` y `src/imagenes/dibujos.json`; esos archivos se guardan en el repositorio y hay que volver a generarlos solo si cambia un dibujo. Una prueba (`test/nucleo/datos.test.js`) comprueba que existan las dos imágenes de cada dibujo citado en una lección.
 
 ## Cosas que se pueden cambiar sin tocar código
 

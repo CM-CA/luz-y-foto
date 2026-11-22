@@ -176,3 +176,10 @@ prueba("todas las combinaciones de perfil dan receta sin llaves {} ni corchetes 
   assert.ok(n > 1000);
 });
 
+prueba("recetas: la de cámara enlaza a su lección (la luna en manual, al manual de verdad) y la de móvil a ninguna", () => {
+  ["amanecer", "atardecer"].forEach((g) => ["si", "no"].forEach((t) => assert.equal(receta(g, camara({ tripode: t })).leccion, "la-rueda-de-modos", g + " con trípode " + t)));
+  assert.equal(receta("luna", camara({ objetivos: ["tele"], tripode: "no" })).leccion, "la-rueda-de-modos", "luna con tele sin trípode");
+  assert.equal(receta("luna", camara({ objetivos: ["kit"], tripode: "si" })).leccion, "la-rueda-de-modos", "luna sin tele");
+  assert.equal(receta("luna", camara({ objetivos: ["tele"], tripode: "si" })).leccion, "el-manual-de-verdad", "luna con tele y trípode (modo M)");
+  ["amanecer", "atardecer", "luna"].forEach((g) => assert.equal(receta(g, Perfil.nuevo(def)).leccion, null, g + " con móvil"));
+});

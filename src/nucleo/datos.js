@@ -207,6 +207,9 @@ function validarRecetas(config, errores) {
   const gl = config.glosario || {};
   Object.keys(gl).forEach((k) => { if (!esTexto(gl[k].termino) || !esTexto(gl[k].texto)) errores.push("glosario." + k + ": faltan «termino» y «texto»"); });
   const revisar = (texto, donde) => revisarTerminos(texto, donde, gl, errores);
+  // Las lecciones a las que puede enlazar una receta: las del índice (su estructura la comprueba validarLecciones)
+  const grupos = ((config.lecciones || {}).indice || {}).grupos;
+  const leccionesDelIndice = Array.isArray(grupos) ? grupos.flatMap((g) => (esObjeto(g) && Array.isArray(g.lecciones) ? g.lecciones : [])) : [];
   Object.keys(avisos).forEach((k) => { if (!esTexto(avisos[k])) errores.push("recetas/comun.avisos." + k + ": falta el texto"); else revisar(avisos[k], "recetas/comun.avisos." + k); });
   (c.soloCamara || []).forEach((k) => { if (!esTexto(avisos[k])) errores.push("recetas/comun.soloCamara: «" + k + "» no es un aviso de recetas/comun.json"); });
   ["pregunta", "si", "no"].forEach((k) => { if (!esTexto((c.tripodeHoy || {})[k])) errores.push("recetas/comun.tripodeHoy." + k + ": falta el texto"); });
@@ -234,6 +237,9 @@ function validarRecetas(config, errores) {
         });
       });
       if (v.nota !== undefined) { if (!esTexto(v.nota)) errores.push(a + ".nota: debe ser un texto"); else revisar(v.nota, a + ".nota"); }
+      if (v.leccion !== undefined && !(esTexto(v.leccion) && leccionesDelIndice.includes(v.leccion))) {
+        errores.push(a + ".leccion: «" + v.leccion + "» no es una lección de lecciones.json (la receta enlaza a una lección con su id)");
+      }
     });
     // Las variantes se prueban en orden: la última debe valer para una cámara o un móvil cualquiera
     if (esObjeto(ultima) && esObjeto(ultima.si) && ultima.si.equipo !== "camara") {

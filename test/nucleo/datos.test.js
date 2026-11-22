@@ -262,3 +262,20 @@ prueba("glosario: los términos de las lecciones nuevas existen", () => {
     assert.ok(g[id] && g[id].termino && g[id].texto, "falta el término «" + id + "»");
   });
 });
+
+prueba("recetas: la lección de una variante tiene que existir", () => {
+  let e = errores((c) => { c.recetas.luna.variantes[0].leccion = "no-existe"; });
+  assert.ok(contiene(e, "leccion") && contiene(e, "no-existe"), e.join("\n"));
+  e = errores((c) => { c.recetas.luna.variantes[0].leccion = 3; });
+  assert.ok(contiene(e, "leccion"), e.join("\n"));
+  const c = cargarDatos();
+  let con = 0;
+  Object.values(c.recetas).forEach((g) => (g.variantes || []).forEach((v) => {
+    if (v.leccion === undefined) return;
+    con++;
+    assert.ok(c.lecciones.porId[v.leccion], "la variante «" + v.id + "» enlaza a «" + v.leccion + "», que no existe");
+  }));
+  assert.ok(con >= 7, "enlazan las variantes de cámara (" + con + ")");
+  assert.equal(c.recetas.luna.variantes.find((v) => v.id === "camara-tele-tripode").leccion, "el-manual-de-verdad");
+  assert.ok(c.recetas.luna.variantes.find((v) => v.id === "movil").leccion === undefined, "las de móvil no enlazan");
+});
