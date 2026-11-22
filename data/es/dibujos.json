@@ -1,0 +1,112 @@
+{
+  "modos": {
+    "modos": [
+      "Auto",
+      "P",
+      "Tv",
+      "Av",
+      "M"
+    ],
+    "filas": [
+      "Apertura",
+      "Tiempo",
+      "ISO"
+    ]
+  },
+  "exposicion": {
+    "titulos": [
+      "Apertura",
+      "Tiempo",
+      "ISO"
+    ],
+    "valores": [
+      "f/2,8",
+      "f/11",
+      "1/500 s",
+      "1 s",
+      "100",
+      "3200"
+    ],
+    "efectos": [
+      "fondo borroso",
+      "todo nítido",
+      "congela",
+      "todo se mueve",
+      "limpia",
+      "con grano"
+    ]
+  },
+  "parasol": {
+    "sin": "Sin parasol",
+    "con": "Con parasol",
+    "lineasSin": [
+      "la luz de lado",
+      "llega al cristal"
+    ],
+    "lineasCon": [
+      "la luz de lado",
+      "se corta antes"
+    ]
+  },
+  "toca": {
+    "tocasClaro": "Tocas lo claro",
+    "lineasClaro": [
+      "el cielo conserva",
+      "el color"
+    ],
+    "tocasOscuro": "Tocas lo oscuro",
+    "lineasOscuro": [
+      "se ve el suelo,",
+      "el cielo casi blanco"
+    ]
+  },
+  "noche": {
+    "conLuz": "Con luz",
+    "instante": "un instante",
+    "modoNoche": "Modo noche",
+    "lineas": [
+      "varias fotos seguidas, unos segundos:",
+      "el móvil, quieto y mejor apoyado"
+    ]
+  },
+  "zoom": {
+    "titulos": [
+      "Botones",
+      "Con los dedos"
+    ],
+    "botones": [
+      "0,5x",
+      "1x",
+      "3x"
+    ],
+    "lineasBotones": [
+      "suelen cambiar",
+      "de lente"
+    ],
+    "lineasDedos": [
+      "recorta una parte",
+      "y la amplía"
+    ]
+  },
+  "paisaje": {
+    "planos": [
+      "Primer plano",
+      "Plano medio",
+      "Fondo"
+    ],
+    "lineas": [
+      "Horizonte en un tercio,",
+      "no en el medio"
+    ]
+  },
+  "deporte": {
+    "lento": "1/60 s",
+    "rapido": "1/1000 s",
+    "pieLento": "sale movido",
+    "pieRapido": "se congela",
+    "lineas": [
+      "Ráfaga: varias fotos seguidas",
+      "y te quedas con la mejor"
+    ]
+  }
+}

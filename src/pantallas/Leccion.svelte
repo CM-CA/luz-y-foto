@@ -3,7 +3,7 @@
   import { config } from "../estado/datos.js";
   import { leccionPorId, etiquetaMinutos, etiquetaPara } from "../nucleo/lecciones.js";
   import ConTerminos from "../componentes/ConTerminos.svelte";
-  import { DIBUJOS } from "../imagenes/dibujos.js";
+  import Dibujo from "../componentes/Dibujo.svelte";
 
   // Una lección: sus bloques en orden. Cada tipo de bloque tiene su sitio abajo; los textos admiten términos del glosario tocables.
   let { id } = $props();
@@ -34,14 +34,8 @@
           {#each b.items as item}<li><ConTerminos texto={item} /></li>{/each}
         </ul>
       {:else if b.tipo === "dibujo"}
-        {@const d = DIBUJOS[b.id]}
         <figure class="dibujo bloque-dibujo">
-          {#if d}
-            <picture>
-              <source media="(prefers-color-scheme: dark)" srcset={d.oscuro}>
-              <img src={d.claro} alt={b.alt} width={d.ancho} height={d.alto}>
-            </picture>
-          {/if}
+          <Dibujo id={b.id} alt={b.alt} />
           <figcaption>{b.pie}</figcaption>
         </figure>
       {:else if b.tipo === "idea"}

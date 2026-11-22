@@ -18,6 +18,7 @@
   --gris: #59607f; --gris-fondo: #e9e4ee;
   --oro: #f4b94f; --sol: #ee7d2f; --violeta: #6d5aa6; --azul-hora: #3f5fa8;
   --barra-baja: #55657a; --barra-media: #2b6cb0; --barra-alta: #8e44ad;
+  --dibujo-fondo: var(--tarjeta); --dibujo-tinta: var(--texto); --dibujo-suave: var(--suave); /* los colores de los dibujos de las lecciones (src/dibujos/): los del tema, claro u oscuro */
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -281,7 +282,7 @@ main:has(.aviso-version) { padding-bottom: 150px; } /* con el aviso fijo a la vi
 .pruebalo .rotulo { display: block; margin-bottom: 4px; font: 400 19px/1.2 var(--display); }
 .pruebalo p { margin: 0; font-size: 16px; line-height: 1.45; }
 .dibujo { margin: 0 0 18px; padding: 18px 16px 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 16px; }
-.dibujo img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.dibujo svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
 .dibujo figcaption { margin-top: 10px; color: var(--suave); font-size: 14.5px; line-height: 1.4; }
 .aprende-por-que { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; margin: 14px 0 4px; padding: 12px 14px; border: 1px solid var(--borde); border-radius: 14px; background: var(--fondo); color: var(--texto); text-decoration: none; }
 .aprende-por-que span { min-width: 0; }

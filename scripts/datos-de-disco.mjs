@@ -1,6 +1,6 @@
 /*
  * Lee la carpeta de datos de un idioma (data/es/, data/en/…) del disco con la misma forma que `datosIncluidos(idioma)` (src/datos-incluidos.js):
- * {comun, indice, generos, perfil, glosario, recetas, lecciones}, con lecciones = {indice, porId}.
+ * {comun, indice, generos, perfil, glosario, dibujos, recetas, lecciones}, con lecciones = {indice, porId}.
  * La usan `npm run validar`, la compilación y las pruebas.
  */
 import fs from "node:fs";
@@ -30,5 +30,5 @@ export function cargarDeDisco(carpeta = CARPETA_DATOS) {
   const indiceLecciones = leer("lecciones.json");
   const porId = {};
   (indiceLecciones.grupos || []).forEach((g) => (g.lecciones || []).forEach((id) => { porId[id] = leer("lecciones/" + id + ".json"); }));
-  return { comun: leer("comun.json"), indice, generos, perfil: leer("perfil.json"), glosario: leer("glosario.json"), recetas, lecciones: { indice: indiceLecciones, porId } };
+  return { comun: leer("comun.json"), indice, generos, perfil: leer("perfil.json"), glosario: leer("glosario.json"), dibujos: leer("dibujos.json"), recetas, lecciones: { indice: indiceLecciones, porId } };
 }

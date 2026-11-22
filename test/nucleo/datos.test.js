@@ -1,16 +1,13 @@
 // Pruebas de la carga y validación de data/. Se ejecutan con: npm test (o npx vitest run).
 // Mismas comprobaciones que test/datos.test.cjs, pero sobre la lógica nueva (src/).
 import assert from "node:assert/strict";
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { it } from "vitest";
 import { cargarDeDisco as cargarDatos } from "../../scripts/datos-de-disco.mjs";
 import * as Datos from "../../src/nucleo/datos.js";
 import { datosIncluidos, IDIOMAS_DE_DATOS } from "../../src/datos-incluidos.js";
+import { DIBUJOS } from "../../src/dibujos/index.js";
 
 const prueba = it;
-const IMAGENES = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "src", "imagenes");
 const copia = (x) => JSON.parse(JSON.stringify(x));
 const errores = (mut) => { const c = copia(cargarDatos()); mut(c); return Datos.validar(c); };
 const contiene = (lista, trozo) => lista.some((e) => e.includes(trozo));
@@ -219,18 +216,31 @@ prueba("lecciones: la primera lección enseña la regla corta y los nombres seg�
   assert.ok(JSON.stringify(l.bloques).includes("Nikon"), "dice cómo se llaman los modos en Nikon y Sony");
 });
 
-prueba("lecciones: cada dibujo citado tiene sus dos imágenes", () => {
+prueba("lecciones: cada dibujo citado existe en src/dibujos/ y tiene sus textos", () => {
   const c = cargarDatos();
   const citados = Object.values(c.lecciones.porId).flatMap((l) => l.bloques.filter((b) => b.tipo === "dibujo").map((b) => b.id));
   assert.ok(citados.length > 0, "alguna lección cita un dibujo");
-  citados.forEach((id) => ["claro", "oscuro"].forEach((tema) => {
-    assert.ok(fs.existsSync(path.join(IMAGENES, "dibujo-" + id + "-" + tema + ".webp")), "falta src/imagenes/dibujo-" + id + "-" + tema + ".webp");
-  }));
+  citados.forEach((id) => {
+    assert.ok(DIBUJOS[id], "falta el dibujo «" + id + "» en src/dibujos/");
+    assert.ok(c.dibujos[id], "faltan sus textos en data/es/dibujos.json");
+  });
   const primero = c.lecciones.porId["la-rueda-de-modos"].bloques[0];
   assert.equal(primero.tipo, "dibujo");
   assert.equal(primero.id, "modos");
   assert.equal(primero.alt, "Lo que eliges tú en cada modo: en Auto, nada; en P, el ISO; en Tv, el tiempo y el ISO; en Av, la apertura y el ISO; en M, los tres.");
   assert.equal(primero.pie, "Cuadro lleno: lo eliges tú. Vacío: lo elige la cámara.");
+});
+
+prueba("dibujos: se validan los textos de cada dibujo y que la lección cite un dibujo que existe", () => {
+  assert.ok(contiene(errores((c) => { delete c.dibujos; }), "dibujos.json: falta"));
+  assert.ok(contiene(errores((c) => { delete c.dibujos.zoom; }), "dibujos.json.zoom: faltan los textos"));
+  assert.ok(contiene(errores((c) => { delete c.dibujos.modos.filas; }), "dibujos.json.modos.filas: debe ser una lista de 3"));
+  assert.ok(contiene(errores((c) => { c.dibujos.modos.modos.pop(); }), "dibujos.json.modos.modos: debe ser una lista de 5"));
+  assert.ok(contiene(errores((c) => { c.dibujos.modos.extra = "x"; }), "dibujos.json.modos.extra: este dibujo no usa esa clave"));
+  assert.ok(contiene(errores((c) => { c.dibujos.parasol.sin = "  "; }), "dibujos.json.parasol.sin: falta el texto"));
+  assert.ok(contiene(errores((c) => { c.dibujos.paisaje.lineas[1] = ""; }), "dibujos.json.paisaje.lineas[1]: falta el texto"));
+  assert.ok(contiene(errores((c) => { c.dibujos.inventado = {}; }), "«inventado» no es un dibujo que exista"));
+  assert.ok(contiene(errores((c) => { c.lecciones.porId["la-rueda-de-modos"].bloques[0].id = "inventado"; }), "el dibujo «inventado» no existe"));
 });
 
 // El texto que ve quien lee una lección (sin las marcas de los términos), para buscar en él

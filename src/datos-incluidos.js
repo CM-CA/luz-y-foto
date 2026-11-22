@@ -1,5 +1,5 @@
 // Los archivos de data/ se incluyen en la compilación (no se piden al abrir la página): una carpeta por idioma, data/es/ y data/en/.
-// `datosIncluidos(idioma)` devuelve {comun, indice, generos, perfil, glosario, recetas, lecciones} del idioma; lecciones es {indice, porId}.
+// `datosIncluidos(idioma)` devuelve {comun, indice, generos, perfil, glosario, dibujos, recetas, lecciones} del idioma; lecciones es {indice, porId}.
 const archivos = import.meta.glob("../data/*/**/*.json", { eager: true, import: "default" });
 
 // Los idiomas que hay en data/ ("es", "en"…), en orden alfabético
@@ -23,5 +23,5 @@ export function datosIncluidos(idioma = "es") {
   const indiceLecciones = leer("lecciones.json");
   const porId = {};
   (indiceLecciones.grupos || []).forEach((g) => (g.lecciones || []).forEach((id) => { porId[id] = leer("lecciones/" + id + ".json"); }));
-  return { comun: leer("comun.json"), indice, generos, perfil: leer("perfil.json"), glosario: leer("glosario.json"), recetas, lecciones: { indice: indiceLecciones, porId } };
+  return { comun: leer("comun.json"), indice, generos, perfil: leer("perfil.json"), glosario: leer("glosario.json"), dibujos: leer("dibujos.json"), recetas, lecciones: { indice: indiceLecciones, porId } };
 }

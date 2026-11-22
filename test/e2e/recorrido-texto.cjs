@@ -4,6 +4,10 @@
  *
  * Las partes que cambian de una compilación a otra (el nombre con hash del archivo de la app, el nombre de la caché) se sustituyen
  * por un marcador, y el selector de idioma se deja fuera: la línea base mide los textos que ya existían.
+ *
+ * El texto de los dibujos de las lecciones (SVG) se deja fuera salvo que se pida con `conDibujos: true`: en la línea base del español eran imágenes,
+ * y su texto no era texto de la página (un lector de pantalla lee su texto alternativo, que sí cuenta). Sus textos los comprueban
+ * `compilada/dibujos.e2e.cjs` y, en inglés, que no quede español en ellos, la prueba del inglés (que pide `conDibujos`).
  */
 "use strict";
 const { nuevaPagina } = require("./ayudas.cjs");
@@ -15,18 +19,19 @@ const LUGAR = { lat: 42.2328, lon: -8.7226, nombre: "Vigo, Galicia", origen: "bu
 // Las barras y la franja son hileras de «█» (una por línea o seguidas): se dejan en un solo «█»
 const normalizar = (t) => t.replace(/index-[\w-]+\.js/g, "index-HASH.js").replace(/luz-y-foto-[\w.-]+/g, "luz-y-foto-CACHE").replace(/(?:█\s*)+/g, "█\n");
 
-async function texto(p) {
+async function texto(p, conDibujos = false) {
   await p.waitForTimeout(250);
-  return normalizar(await p.evaluate(() => {
-    const el = document.querySelector(".selector-idioma"), antes = el ? el.style.display : "";
-    if (el) el.style.display = "none";
+  return normalizar(await p.evaluate((conDibujos) => {
+    // Se ocultan un momento el selector de idioma y, si no se piden, los dibujos de las lecciones
+    const ocultos = [...document.querySelectorAll(conDibujos ? ".selector-idioma" : ".selector-idioma, figure.dibujo svg")].map((e) => [e, e.style.display]);
+    ocultos.forEach(([e]) => { e.style.display = "none"; });
     const t = document.body.innerText;
-    if (el) el.style.display = antes;
+    ocultos.forEach(([e, antes]) => { e.style.display = antes; });
     return t;
-  }));
+  }, conDibujos));
 }
 
-async function recorrer({ b, base, locale = "es-ES", viewport }) {
+async function recorrer({ b, base, locale = "es-ES", viewport, conDibujos = false }) {
   const salida = {};
   const ab = async (opciones) => {
     const { ctx, p } = await nuevaPagina(b, Object.assign({ locale, viewport }, opciones));
@@ -41,10 +46,10 @@ async function recorrer({ b, base, locale = "es-ES", viewport }) {
       await p.click("[data-tab=" + g + "]");
       for (const s of ["#receta summary", "#reglas summary", "#instalar summary"]) if (await p.locator(s).count()) { const d = p.locator(s.replace(" summary", "")); if (!(await d.getAttribute("open") !== null)) await p.click(s); }
       await p.waitForTimeout(400);
-      salida["hoy/" + nombrePerfil + "/" + g] = await texto(p);
-      if (await p.locator("#dias button[data-i='1']").count()) { await p.click("#dias button[data-i='1']"); salida["hoy/" + nombrePerfil + "/" + g + "/dia2"] = await texto(p); }
+      salida["hoy/" + nombrePerfil + "/" + g] = await texto(p, conDibujos);
+      if (await p.locator("#dias button[data-i='1']").count()) { await p.click("#dias button[data-i='1']"); salida["hoy/" + nombrePerfil + "/" + g + "/dia2"] = await texto(p, conDibujos); }
       const termino = p.locator("#receta .termino").first();
-      if (await termino.count()) { await termino.click(); salida["hoy/" + nombrePerfil + "/" + g + "/termino"] = await texto(p); }
+      if (await termino.count()) { await termino.click(); salida["hoy/" + nombrePerfil + "/" + g + "/termino"] = await texto(p, conDibujos); }
     }
     await ctx.close();
   }
@@ -53,11 +58,11 @@ async function recorrer({ b, base, locale = "es-ES", viewport }) {
   {
     const { ctx, p } = await ab({ lugar: LUGAR });
     await p.goto(base + "#/hoy"); await p.waitForSelector("#asistente:not([hidden])");
-    salida["asistente/bienvenida"] = await texto(p);
+    salida["asistente/bienvenida"] = await texto(p, conDibujos);
     await p.click("[data-asis=empezar]");
     for (let i = 0; i < 10; i++) {
       if (await p.locator("#asistente[hidden]").count()) break;
-      salida["asistente/pregunta" + (i + 1)] = await texto(p);
+      salida["asistente/pregunta" + (i + 1)] = await texto(p, conDibujos);
       const multiple = await p.locator("[data-asis=siguiente]").count();
       await p.click(i === 0 ? "[data-op=camara]" : "[data-op]"); // la primera pregunta se contesta «con una cámara», que abre todas las demás
       if (multiple) await p.click("[data-asis=siguiente]");
@@ -70,11 +75,11 @@ async function recorrer({ b, base, locale = "es-ES", viewport }) {
     const { ctx, p } = await ab({ perfil: MOVIL, lugar: LUGAR });
     await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
     await p.click("#cambiar"); await p.waitForSelector("#selector:not([hidden])");
-    salida["selector/abierto"] = await texto(p);
+    salida["selector/abierto"] = await texto(p, conDibujos);
     await p.fill("#ciudad", "Vigo"); await p.keyboard.press("Enter"); await p.waitForSelector("#resultados li");
-    salida["selector/resultados"] = await texto(p);
+    salida["selector/resultados"] = await texto(p, conDibujos);
     await p.fill("#ciudad", "Qwerty"); await p.keyboard.press("Enter"); await p.waitForFunction(() => document.querySelector("#resultados li") === null);
-    salida["selector/sin-resultados"] = await texto(p);
+    salida["selector/sin-resultados"] = await texto(p, conDibujos);
     await ctx.close();
   }
 
@@ -84,7 +89,7 @@ async function recorrer({ b, base, locale = "es-ES", viewport }) {
     await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
     await p.route("**/api.open-meteo.com/**", (r) => r.abort());
     await p.reload(); await p.waitForSelector("[data-testid=aviso-sin-conexion]");
-    salida["sin-conexion"] = await texto(p);
+    salida["sin-conexion"] = await texto(p, conDibujos);
     await ctx.close();
   }
 
@@ -92,13 +97,13 @@ async function recorrer({ b, base, locale = "es-ES", viewport }) {
   {
     const { ctx, p } = await ab({ perfil: MOVIL, lugar: LUGAR });
     await p.goto(base + "#/aprender"); await p.waitForSelector("ol.lecciones a");
-    salida["aprender"] = await texto(p);
+    salida["aprender"] = await texto(p, conDibujos);
     const ids = await p.$$eval("ol.lecciones a", (as) => as.map((a) => a.getAttribute("href").replace("#/aprender/", "")));
     for (const id of ids) {
       await p.goto(base + "#/aprender/" + id); await p.waitForSelector(".bloque-parrafo, .bloque-lista");
-      salida["leccion/" + id] = await texto(p);
+      salida["leccion/" + id] = await texto(p, conDibujos);
       const t = p.locator(".termino").first();
-      if (await t.count()) { await t.click(); salida["leccion/" + id + "/termino"] = await texto(p); }
+      if (await t.count()) { await t.click(); salida["leccion/" + id + "/termino"] = await texto(p, conDibujos); }
     }
     await ctx.close();
   }
