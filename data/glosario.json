@@ -66,5 +66,9 @@
   "filtro-uv": {
     "termino": "Filtro UV",
     "texto": "Un cristal transparente que se enrosca delante del objetivo. Con película servía para filtrar la luz ultravioleta; en una cámara digital ya no hace falta, y hoy se usa sobre todo para proteger el cristal del objetivo de polvo, arena y arañazos."
+  },
+  "bloqueo-ae-af": {
+    "termino": "Bloqueo de exposición y enfoque (AE/AF Lock)",
+    "texto": "Fija el enfoque y la luz en el punto que tocaste, para que no cambien aunque muevas el móvil o cambie la luz. En iPhone se mantiene pulsado el punto hasta ver «AE/AF Lock»; en otros móviles puede ser un candado o un aviso parecido."
   }
 }

@@ -98,8 +98,39 @@ const parasol = ({ tarjeta, texto, suave }) => {
 </svg>`;
 };
 
+// Dos fotos del mismo atardecer, según dónde se toque en el móvil: tocando lo claro (el cielo) el cielo conserva el color y el suelo queda oscuro;
+// tocando lo oscuro (el suelo) se ve el suelo y el cielo sale casi blanco. Los colores de las escenas son los mismos en claro y oscuro
+// (son fotos); el marco, el marcador del toque y los textos usan la paleta del tema.
+const toca = ({ tarjeta, texto, suave }) => {
+  const escena = (x0, id, titulo, lineas, c) => {
+    const x = x0 + 15, y = 40, an = 140, al = 108;
+    const marcador = (mx, my, lado) => `<rect x="${mx}" y="${my}" width="${lado}" height="${lado}" rx="3" fill="none" stroke="#1f2740" stroke-width="4.5"/><rect x="${mx}" y="${my}" width="${lado}" height="${lado}" rx="3" fill="none" stroke="#ffffff" stroke-width="2.5"/>`;
+    return `<text x="${x0 + 85}" y="24" text-anchor="middle" ${TIPO} font-weight="800" font-size="19" fill="${texto}">${titulo}</text>
+  <defs><linearGradient id="cielo-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c.cielo[0]}"/><stop offset="1" stop-color="${c.cielo[1]}"/></linearGradient><clipPath id="marco-${id}"><rect x="${x}" y="${y}" width="${an}" height="${al}" rx="14"/></clipPath></defs>
+  <g clip-path="url(#marco-${id})">
+    <rect x="${x}" y="${y}" width="${an}" height="${al}" fill="url(#cielo-${id})"/>
+    <circle cx="${x + 100}" cy="${y + 56}" r="${c.sol[0]}" fill="${c.sol[1]}"/>
+    <rect x="${x}" y="${y + 70}" width="${an}" height="${al - 70}" fill="${c.suelo}"/>
+    <path d="M${x + 8} ${y + 70}l9-22 9 22zM${x + 26} ${y + 70}l7-16 7 16zM${x + 50} ${y + 70}l10-26 10 26z" fill="${c.sombra}"/>
+  </g>
+  <rect x="${x}" y="${y}" width="${an}" height="${al}" rx="14" fill="none" stroke="${texto}" stroke-width="2.5"/>
+  ${marcador(...c.toque)}
+  ${lineas.map((l, i) => `<text x="${x0 + 85}" y="${177 + i * 20}" text-anchor="middle" ${TIPO} font-weight="600" font-size="17" fill="${suave}">${l}</text>`).join("\n  ")}`;
+  };
+  // Tocando lo claro: cielo con color, suelo oscuro. Tocando lo oscuro: suelo claro y con detalle, cielo casi blanco.
+  const A = { cielo: ["#e8743c", "#ffc27a"], sol: [11, "#fff1c2"], suelo: "#262a42", sombra: "#181b2e", toque: [4 + 15 + 44, 40 + 8, 34] };
+  const B = { cielo: ["#fdf2dd", "#fffaf0"], sol: [13, "#ffffff"], suelo: "#7d819c", sombra: "#4b4f69", toque: [184 + 15 + 52, 40 + 74, 32] };
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 358 232" width="716" height="464">
+  <rect width="358" height="232" fill="${tarjeta}"/>
+  ${escena(4, "a", "Tocas lo claro", ["el cielo conserva", "el color"], A)}
+  ${escena(184, "b", "Tocas lo oscuro", ["se ve el suelo,", "el cielo casi blanco"], B)}
+  <line x1="179" y1="14" x2="179" y2="222" stroke="${suave}" stroke-width="1.5" stroke-dasharray="2 5" stroke-linecap="round" opacity=".7"/>
+</svg>`;
+};
+
 export const DIBUJOS_SVG = {
   modos: { ancho: 716, alto: 392, svg: modos },
   exposicion: { ancho: 716, alto: 516, svg: exposicion },
-  parasol: { ancho: 716, alto: 464, svg: parasol }
+  parasol: { ancho: 716, alto: 464, svg: parasol },
+  toca: { ancho: 716, alto: 464, svg: toca }
 };

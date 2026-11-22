@@ -232,8 +232,31 @@ prueba("lecciones: cada dibujo citado tiene sus dos imágenes", () => {
 const textoDeLeccion = (l) => l.bloques.flatMap((b) => b.items || [b.texto]).filter(Boolean).join(" ").replace(/\[\[[^|\]]+\|([^\]]+)\]\]/g, "$1");
 const dibujosDe = (l) => l.bloques.filter((b) => b.tipo === "dibujo").map((b) => b.id);
 
-prueba("lecciones: el índice trae las tres, en orden", () => {
-  assert.deepEqual(cargarDatos().lecciones.indice.grupos.flatMap((g) => g.lecciones), ["la-rueda-de-modos", "el-manual-de-verdad", "parasol-y-filtro-uv"]);
+prueba("lecciones: «Lo básico» trae las tres de cámara, en orden", () => {
+  const g = cargarDatos().lecciones.indice.grupos.find((x) => x.id === "basico");
+  assert.deepEqual(g.lecciones, ["la-rueda-de-modos", "el-manual-de-verdad", "parasol-y-filtro-uv"]);
+});
+
+prueba("lecciones: el grupo «Para el móvil» va aparte, después de «Lo básico»", () => {
+  const grupos = cargarDatos().lecciones.indice.grupos;
+  assert.deepEqual(grupos.map((g) => g.id), ["basico", "movil"]);
+  assert.equal(grupos[1].titulo, "Para el móvil");
+  assert.ok(grupos[1].lecciones.includes("toca-para-enfocar-y-exponer"));
+  // Las lecciones de cada grupo son del equipo del grupo: ninguna de móvil entre las de cámara y al revés
+  const porId = cargarDatos().lecciones.porId;
+  grupos[0].lecciones.forEach((id) => assert.equal(porId[id].para, "camara", id));
+  grupos[1].lecciones.forEach((id) => assert.equal(porId[id].para, "movil", id));
+});
+
+prueba("lecciones: toca para enfocar y exponer", () => {
+  const l = cargarDatos().lecciones.porId["toca-para-enfocar-y-exponer"];
+  assert.equal(l.titulo, "Toca para enfocar y exponer");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  assert.equal(l.para, "movil");
+  const texto = textoDeLeccion(l);
+  [/toca/i, /brillo/i, /bloque/i, /según tu móvil/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["toca"]);
 });
 
 prueba("lecciones: el manual de verdad", () => {

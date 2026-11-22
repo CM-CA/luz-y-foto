@@ -21,7 +21,9 @@ const LETRA_ANCHA = "* { font-family: 'DejaVu Sans', sans-serif !important; }";
 const INDICE = JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "lecciones.json"), "utf8"));
 const IDS = INDICE.grupos.flatMap((g) => g.lecciones);
 const TOTAL = IDS.length;
-const TITULOS = { "la-rueda-de-modos": "La rueda de modos", "el-manual-de-verdad": "El manual de verdad", "parasol-y-filtro-uv": "Parasol y filtro UV" };
+const TITULOS = { "la-rueda-de-modos": "La rueda de modos", "el-manual-de-verdad": "El manual de verdad", "parasol-y-filtro-uv": "Parasol y filtro UV", "toca-para-enfocar-y-exponer": "Toca para enfocar y exponer" };
+// Para quién es cada lección: la etiqueta que se ve junto a la duración
+const PARA = { "la-rueda-de-modos": "Para cámara", "el-manual-de-verdad": "Para cámara", "parasol-y-filtro-uv": "Para cámara", "toca-para-enfocar-y-exponer": "Para móvil" };
 
 const activo = (p) => p.evaluate(() => [...document.querySelectorAll("nav.nav-inferior a")].filter((a) => a.getAttribute("aria-current") === "page").map((a) => a.textContent.trim()));
 const hash = (p) => p.evaluate(() => location.hash);
@@ -50,11 +52,13 @@ ejecutar("aprender", async ({ b, base }) => {
     ok(await hash(p) === "#/aprender", "la dirección es #/aprender (" + await hash(p) + ")");
     const l = await p.evaluate(() => ({
       h1: document.querySelector("h1").textContent.trim(), grupo: (document.querySelector("h3") || { textContent: "" }).textContent.trim(),
+      grupos: [...document.querySelectorAll("h3")].map((h) => h.textContent.trim()),
       filas: [...document.querySelectorAll("ol.lecciones li a")].map((a) => ({ href: a.getAttribute("href"), t: a.querySelector(".lec-t").textContent.trim(), min: a.querySelector(".lec-min").textContent.trim(), r: a.querySelector(".lec-r").textContent.trim() })),
       foco: document.activeElement && document.activeElement.tagName, scroll: window.scrollY
     }));
     ok(l.h1 === "Aprender", "el título es «Aprender» (" + l.h1 + ")");
-    ok(l.grupo === "Lo básico", "el grupo es «Lo básico» (" + l.grupo + ")");
+    ok(l.grupo === "Lo básico", "el primer grupo es «Lo básico» (" + l.grupo + ")");
+    ok(l.grupos.join("|") === INDICE.grupos.map((g) => g.titulo).join("|") && l.grupos[1] === "Para el móvil", "los grupos, aparte y en orden: " + l.grupos.join(" | "));
     ok(l.filas.length === TOTAL, "tantas filas como lecciones del índice (" + l.filas.length + " y " + TOTAL + ")");
     ok(l.filas[0].href === "#/aprender/la-rueda-de-modos" && l.filas[0].t === "La rueda de modos" && l.filas[0].min === "3 min" && l.filas[0].r.length > 0, "la primera fila: " + JSON.stringify(l.filas[0]));
     ok(l.foco === "H1" && l.scroll === 0, "el foco va al título y la ventana está arriba (" + l.foco + ", " + l.scroll + ")");
@@ -168,9 +172,9 @@ ejecutar("aprender", async ({ b, base }) => {
     await ctx.close();
   }
 
-  titulo("I: las tres lecciones: cada una se abre desde la lista, con su título y su dibujo, sin desbordar a 320 px");
+  titulo("I: las lecciones: cada una se abre desde la lista, con su título y su dibujo, sin desbordar a 320 px");
   {
-    ok(IDS.length === 3 && IDS.every((id) => TITULOS[id]), "el índice trae las tres (" + IDS.join(", ") + ")");
+    ok(IDS.length === Object.keys(TITULOS).length && IDS.every((id) => TITULOS[id] && PARA[id]), "el índice trae las lecciones esperadas (" + IDS.join(", ") + ")");
     const { ctx, p } = await nuevaPagina(b, { viewport: { width: 320, height: 800 }, perfil: PERFIL, lugar: LUGAR });
     await p.goto(base + "#/aprender"); await p.waitForSelector("ol.lecciones");
     const filas = await p.evaluate(() => [...document.querySelectorAll("ol.lecciones li a")].map((a) => a.querySelector(".lec-t").textContent.trim()));
@@ -188,7 +192,7 @@ ejecutar("aprender", async ({ b, base }) => {
       ok(r.h1 === TITULOS[id], id + ": el título es «" + r.h1 + "»");
       ok(r.ancho > 0 && r.alt.length > 20, id + ": su dibujo carga y tiene texto alternativo");
       ok(r.pagina <= 0, id + ": no desborda a 320 px");
-      ok(/ · Para cámara$/.test(r.meta), id + ": «" + r.meta + "»");
+      ok(r.meta.endsWith(" · " + PARA[id]), id + ": «" + r.meta + "» (debe acabar en «" + PARA[id] + "»)");
     }
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();

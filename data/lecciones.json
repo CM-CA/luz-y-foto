@@ -24,6 +24,14 @@
         "el-manual-de-verdad",
         "parasol-y-filtro-uv"
       ]
+    },
+    {
+      "id": "movil",
+      "titulo": "Para el móvil",
+      "subtitulo": "Para quien dispara con el móvil.",
+      "lecciones": [
+        "toca-para-enfocar-y-exponer"
+      ]
     }
   ]
 }
