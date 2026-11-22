@@ -112,6 +112,19 @@ ejecutar("maquetacion", async ({ b, base }) => {
     if (!letra) ok(d.sinCortar, "  días: con la letra de la app el nombre «" + idioma.diaLargo + "» cabe entero, sin «…»");
     ok(d.numerosDentro && d.numerosEnFila, "  días: el número del día («28» en el último) cabe en su botón y va en la fila del símbolo" + (d.numerosDentro ? "" : " (se sale del botón)") + (d.numerosEnFila ? "" : " (no está en la fila del símbolo)"));
     ok(d.colores.every((c) => c.color === c.esperado && ["●", "▲", "■", "○"].includes(c.simbolo)), "  días: cada símbolo lleva el color de su nivel (" + d.colores.map((c) => c.nivel + " " + c.simbolo).join(", ") + ")");
+    // El veredicto: cada título posible de esta pestaña (los niveles de data/<idioma>/generos/<género>.json) se queda dentro de la tarjeta con la letra
+    // de la app: palabras largas a 37 px («Promising», «uncertain») pueden pasarse un poco de la caja del título, pero nunca más de 12 px
+    // (la tarjeta tiene 20 px de relleno, así que al texto le quedan 8 px hasta el borde)
+    if (!letra) {
+      const niveles = Object.values(JSON.parse(fs.readFileSync(path.join(RAIZ, "data", idioma.id, "generos", genero + ".json"), "utf8")).niveles);
+      const v = await p.evaluate((niveles) => {
+        const t = document.querySelector(".veredicto .titulo"), nodo = t.lastChild, original = nodo.textContent;
+        const mal = niveles.filter((n) => { nodo.textContent = " " + n; return t.scrollWidth - t.clientWidth > 12; });
+        nodo.textContent = original;
+        return mal;
+      }, niveles);
+      ok(v.length === 0, "  veredicto: los " + niveles.length + " títulos posibles se quedan dentro de la tarjeta" + (v.length ? " (se salen: " + v.map((x) => "«" + x + "»").join(", ") + ")" : ""));
+    }
     // El selector de idioma, al final de Hoy: dentro de la pantalla, con sus tres botones dentro de su caja y sin que el texto se salga de ellos
     const sel = await p.evaluate(() => {
       const e = document.querySelector(".selector-idioma");
