@@ -1,0 +1,52 @@
+{
+  "id": "luz-baja-y-modo-noche",
+  "titulo": "Luz baja y modo noche",
+  "resumen": "Qué hace el modo noche y cómo sacar fotos nítidas cuando casi no hay luz.",
+  "minutos": 2,
+  "para": "movil",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "noche",
+      "alt": "Dos barras de tiempo. Con luz, la foto dura un instante. Con modo noche, el móvil hace varias fotos seguidas durante unos segundos y las junta en una; hay que mantenerlo quieto.",
+      "pie": "Con luz, un instante. Con modo noche, varias fotos seguidas durante unos segundos: el móvil debe estar quieto."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Con poca luz, el móvil necesita tiempo para ver. Tu parte es no moverlo: apóyalo."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Cuando hay poca luz, el móvil suele activar solo el modo noche (según tu móvil, verás un icono o un aviso en pantalla; en otros hay que elegirlo en el menú de modos de la cámara). No hace una foto: hace varias seguidas durante unos segundos y las junta en una más clara."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué hacer tú"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Quédate quieto hasta que termine la captura. Si te mueves durante esos segundos, la foto sale movida.",
+        "Apoya el móvil en una pared, un muro o un poste, o ponlo en un trípode: ayuda mucho.",
+        "Usa el temporizador de unos segundos, para no mover el móvil al pulsar el botón.",
+        "No uses el flash: en iPhone y en Pixel, con el flash puesto el modo noche no funciona."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "La luna es distinta"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "La luna brilla mucho en un cielo muy oscuro. Si el móvil mide la luz de todo el cielo, la luna sale como una mancha blanca. Toca sobre la luna y baja el brillo hasta que se vean sus manchas, como en «Toca para enfocar y exponer». Si aun así sale demasiado clara, prueba a apagar el modo noche."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Con el móvil la luna sale pequeña: funciona mejor dentro de un paisaje, con edificios o árboles."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Cuando anochezca, haz dos fotos de una calle con farolas: una con el móvil en la mano y otra apoyado en un muro, con el temporizador. Compara la nitidez."
+    }
+  ]
+}

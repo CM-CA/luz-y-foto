@@ -21,9 +21,12 @@ const LETRA_ANCHA = "* { font-family: 'DejaVu Sans', sans-serif !important; }";
 const INDICE = JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "lecciones.json"), "utf8"));
 const IDS = INDICE.grupos.flatMap((g) => g.lecciones);
 const TOTAL = IDS.length;
-const TITULOS = { "la-rueda-de-modos": "La rueda de modos", "el-manual-de-verdad": "El manual de verdad", "parasol-y-filtro-uv": "Parasol y filtro UV", "toca-para-enfocar-y-exponer": "Toca para enfocar y exponer" };
-// Para quién es cada lección: la etiqueta que se ve junto a la duración
-const PARA = { "la-rueda-de-modos": "Para cámara", "el-manual-de-verdad": "Para cámara", "parasol-y-filtro-uv": "Para cámara", "toca-para-enfocar-y-exponer": "Para móvil" };
+// Lo que debe verse de cada lección sale de sus datos: el título y la etiqueta «Para cámara» / «Para móvil» según `para`
+const LECCIONES = Object.fromEntries(IDS.map((id) => [id, JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "lecciones", id + ".json"), "utf8"))]));
+const TITULOS = Object.fromEntries(IDS.map((id) => [id, LECCIONES[id].titulo]));
+const PARA = Object.fromEntries(IDS.map((id) => [id, INDICE.etiquetas.para[LECCIONES[id].para]]));
+// Que los datos de ejemplo no se hayan vaciado: estas lecciones tienen que estar, con su título y su etiqueta
+const ESPERADAS = { "la-rueda-de-modos": ["La rueda de modos", "Para cámara"], "el-manual-de-verdad": ["El manual de verdad", "Para cámara"], "parasol-y-filtro-uv": ["Parasol y filtro UV", "Para cámara"], "toca-para-enfocar-y-exponer": ["Toca para enfocar y exponer", "Para móvil"], "luz-baja-y-modo-noche": ["Luz baja y modo noche", "Para móvil"] };
 
 const activo = (p) => p.evaluate(() => [...document.querySelectorAll("nav.nav-inferior a")].filter((a) => a.getAttribute("aria-current") === "page").map((a) => a.textContent.trim()));
 const hash = (p) => p.evaluate(() => location.hash);
@@ -174,7 +177,7 @@ ejecutar("aprender", async ({ b, base }) => {
 
   titulo("I: las lecciones: cada una se abre desde la lista, con su título y su dibujo, sin desbordar a 320 px");
   {
-    ok(IDS.length === Object.keys(TITULOS).length && IDS.every((id) => TITULOS[id] && PARA[id]), "el índice trae las lecciones esperadas (" + IDS.join(", ") + ")");
+    ok(Object.keys(ESPERADAS).every((id) => IDS.includes(id) && TITULOS[id] === ESPERADAS[id][0] && PARA[id] === ESPERADAS[id][1]), "el índice trae las lecciones esperadas, con su título y para quién son (" + IDS.join(", ") + ")");
     const { ctx, p } = await nuevaPagina(b, { viewport: { width: 320, height: 800 }, perfil: PERFIL, lugar: LUGAR });
     await p.goto(base + "#/aprender"); await p.waitForSelector("ol.lecciones");
     const filas = await p.evaluate(() => [...document.querySelectorAll("ol.lecciones li a")].map((a) => a.querySelector(".lec-t").textContent.trim()));

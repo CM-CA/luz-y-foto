@@ -128,9 +128,27 @@ const toca = ({ tarjeta, texto, suave }) => {
 </svg>`;
 };
 
+// El tiempo del modo noche: con luz basta un instante; con poca luz el móvil hace varias fotos seguidas durante unos segundos y las junta
+// en una, así que hay que mantenerlo quieto. La barra larga va dividida en tantos tramos como fotos seguidas (el número es de dibujo, no de ningún móvil).
+const noche = ({ tarjeta, texto, suave }) => {
+  const tramos = 8, paso = 44, ancho = 40;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 358 232" width="716" height="464">
+  <rect width="358" height="232" fill="${tarjeta}"/>
+  <text x="4" y="30" ${TIPO} font-weight="800" font-size="19" fill="${texto}">Con luz</text>
+  <rect x="4" y="42" width="${ancho}" height="26" rx="7" fill="${texto}"/>
+  <text x="${4 + ancho + 12}" y="62" ${TIPO} font-weight="600" font-size="17" fill="${suave}">un instante</text>
+  <line x1="4" y1="96" x2="354" y2="96" stroke="${suave}" stroke-width="1.5" stroke-dasharray="2 5" stroke-linecap="round" opacity=".7"/>
+  <text x="4" y="126" ${TIPO} font-weight="800" font-size="19" fill="${texto}">Modo noche</text>
+  ${Array.from({ length: tramos }, (_, i) => `<rect x="${4 + i * paso}" y="138" width="${ancho}" height="26" rx="7" fill="${texto}"/>`).join("\n  ")}
+  <text x="4" y="192" ${TIPO} font-weight="600" font-size="17" fill="${suave}">varias fotos seguidas, unos segundos:</text>
+  <text x="4" y="213" ${TIPO} font-weight="600" font-size="17" fill="${suave}">el móvil, quieto y mejor apoyado</text>
+</svg>`;
+};
+
 export const DIBUJOS_SVG = {
   modos: { ancho: 716, alto: 392, svg: modos },
   exposicion: { ancho: 716, alto: 516, svg: exposicion },
   parasol: { ancho: 716, alto: 464, svg: parasol },
-  toca: { ancho: 716, alto: 464, svg: toca }
+  toca: { ancho: 716, alto: 464, svg: toca },
+  noche: { ancho: 716, alto: 464, svg: noche }
 };

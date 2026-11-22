@@ -272,6 +272,20 @@ prueba("lecciones: el manual de verdad", () => {
   assert.deepEqual(dibujosDe(l), ["exposicion"]);
 });
 
+prueba("lecciones: luz baja y modo noche", () => {
+  const datos = cargarDatos();
+  const grupo = datos.lecciones.indice.grupos.find((g) => g.id === "movil").lecciones;
+  assert.equal(grupo.indexOf("luz-baja-y-modo-noche"), 1, "va la segunda del grupo «Para el móvil»");
+  const l = datos.lecciones.porId["luz-baja-y-modo-noche"];
+  assert.equal(l.titulo, "Luz baja y modo noche");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  assert.equal(l.para, "movil");
+  const texto = textoDeLeccion(l);
+  [/modo noche/i, /quiet/i, /apoy/i, /luna/i, /según tu móvil/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["noche"]);
+});
+
 prueba("lecciones: parasol y filtro UV", () => {
   const l = cargarDatos().lecciones.porId["parasol-y-filtro-uv"];
   assert.equal(l.titulo, "Parasol y filtro UV");
