@@ -237,9 +237,9 @@ prueba("lecciones: «Lo básico» trae las tres de cámara, en orden", () => {
   assert.deepEqual(g.lecciones, ["la-rueda-de-modos", "el-manual-de-verdad", "parasol-y-filtro-uv"]);
 });
 
-prueba("lecciones: el grupo «Para el móvil» va aparte, después de «Lo básico»", () => {
+prueba("lecciones: los grupos van en orden y «Para el móvil» va aparte, después de «Lo básico»", () => {
   const grupos = cargarDatos().lecciones.indice.grupos;
-  assert.deepEqual(grupos.map((g) => g.id), ["basico", "movil"]);
+  assert.deepEqual(grupos.map((g) => g.id), ["basico", "movil", "tipos"]);
   assert.equal(grupos[1].titulo, "Para el móvil");
   assert.ok(grupos[1].lecciones.includes("toca-para-enfocar-y-exponer"));
   // Las lecciones de cada grupo son del equipo del grupo: ninguna de móvil entre las de cámara y al revés
@@ -297,6 +297,33 @@ prueba("lecciones: zoom y lentes", () => {
   [/0,5x/, /zoom digital/i, /recorta/i, /según tu móvil/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
   assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
   assert.deepEqual(dibujosDe(l), ["zoom"]);
+});
+
+prueba("lecciones: el grupo «Tipos de fotografía» va el último y sus lecciones son para todos", () => {
+  const datos = cargarDatos();
+  const g = datos.lecciones.indice.grupos.find((x) => x.id === "tipos");
+  assert.ok(g, "falta el grupo tipos");
+  assert.equal(g.titulo, "Tipos de fotografía");
+  assert.deepEqual(g.lecciones, ["fotografia-de-paisaje"]);
+  g.lecciones.forEach((id) => assert.equal(datos.lecciones.porId[id].para, "todos", id));
+});
+
+prueba("lecciones: fotografía de paisaje", () => {
+  const l = cargarDatos().lecciones.porId["fotografia-de-paisaje"];
+  assert.equal(l.titulo, "Fotografía de paisaje");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  const texto = textoDeLeccion(l);
+  [/primer plano/i, /plano medio/i, /tercio/i, /f\/11/, /trípode/i, /cuadrícula/i, /0,5x/, /ISO/, /mediodía/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["paisaje"]);
+  assert.ok(!/\b(Canon|Nikon|Sony|EOS)\b/.test(texto), "no ata la lección a una marca de cámara");
+  assert.ok(/según tu móvil|en muchos móviles|en los ajustes de la cámara/.test(texto), "dice dónde cambia de un móvil a otro");
+  assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
+});
+
+prueba("glosario: regla de los tercios", () => {
+  const t = cargarDatos().glosario["regla-de-tercios"];
+  assert.ok(t && /tercios/i.test(t.termino) && /centro/.test(t.texto), "falta el término o no explica el centro");
 });
 
 prueba("lecciones: parasol y filtro UV", () => {

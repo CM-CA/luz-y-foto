@@ -34,6 +34,14 @@
         "luz-baja-y-modo-noche",
         "zoom-y-lentes"
       ]
+    },
+    {
+      "id": "tipos",
+      "titulo": "Tipos de fotografía",
+      "subtitulo": "Qué cuidar según lo que fotografíes.",
+      "lecciones": [
+        "fotografia-de-paisaje"
+      ]
     }
   ]
 }

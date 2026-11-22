@@ -167,11 +167,44 @@ const zoom = ({ tarjeta, texto, suave }) => {
 </svg>`;
 };
 
+// Un paisaje dentro de la cuadrícula de tercios: el horizonte sobre la línea de abajo y tres planos numerados (1 primer plano, 2 plano medio, 3 fondo).
+// Es un esquema, no un paisaje real: rocas delante, árboles en medio y montañas al fondo.
+const paisaje = ({ tarjeta, texto, suave }) => {
+  const fx = 8, fy = 10, fw = 190, fh = 130;
+  const X = (u) => +(fx + fw * u).toFixed(1), Y = (v) => +(fy + fh * v).toFixed(1);
+  const puntos = (lista) => lista.map(([u, v]) => `${X(u)},${Y(v)}`).join(" ");
+  const pino = (u) => `<polygon points="${puntos([[u - 0.075, 0.82], [u, 0.52], [u + 0.075, 0.82]])}" fill="${texto}" opacity=".8"/>`;
+  const marca = (cx, cy, n, r = 10) => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${tarjeta}" stroke="${texto}" stroke-width="2.5"/><text x="${cx}" y="${cy + r * 0.6}" text-anchor="middle" ${TIPO} font-weight="800" font-size="${r + 5}" fill="${texto}">${n}</text>`;
+  const fila = (n, y, rotulo) => `${marca(220, y, n)}<text x="238" y="${y + 6}" ${TIPO} font-weight="700" font-size="17" fill="${texto}">${rotulo}</text>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 358 208" width="716" height="416">
+  <defs><clipPath id="marco"><rect x="${fx}" y="${fy}" width="${fw}" height="${fh}" rx="10"/></clipPath></defs>
+  <rect width="358" height="208" fill="${tarjeta}"/>
+  <g clip-path="url(#marco)">
+    <rect x="${fx}" y="${fy}" width="${fw}" height="${fh * 2 / 3}" fill="${suave}" opacity=".14"/>
+    <rect x="${fx}" y="${Y(2 / 3)}" width="${fw}" height="${fh / 3}" fill="${suave}" opacity=".24"/>
+    <circle cx="${X(2 / 3)}" cy="${Y(1 / 3)}" r="9" fill="${suave}" opacity=".7"/>
+    <polygon points="${puntos([[0, 2 / 3], [0.2, 0.46], [0.38, 0.62], [0.58, 0.4], [0.8, 0.62], [0.9, 0.5], [1, 0.64], [1, 2 / 3]])}" fill="${suave}" opacity=".55"/>
+    ${pino(0.47)}${pino(0.58)}
+    <path d="M${X(0.02)} ${Y(1)} Q${X(0.05)} ${Y(0.8)} ${X(0.19)} ${Y(0.78)} Q${X(0.33)} ${Y(0.8)} ${X(0.36)} ${Y(1)} Z M${X(0.28)} ${Y(1)} Q${X(0.32)} ${Y(0.88)} ${X(0.44)} ${Y(0.87)} Q${X(0.53)} ${Y(0.9)} ${X(0.56)} ${Y(1)} Z" fill="${texto}"/>
+    <line x1="${X(1 / 3)}" y1="${fy}" x2="${X(1 / 3)}" y2="${fy + fh}" stroke="${suave}" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="${X(2 / 3)}" y1="${fy}" x2="${X(2 / 3)}" y2="${fy + fh}" stroke="${suave}" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="${fx}" y1="${Y(1 / 3)}" x2="${fx + fw}" y2="${Y(1 / 3)}" stroke="${suave}" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="${fx}" y1="${Y(2 / 3)}" x2="${fx + fw}" y2="${Y(2 / 3)}" stroke="${texto}" stroke-width="3"/>
+  </g>
+  <rect x="${fx}" y="${fy}" width="${fw}" height="${fh}" rx="10" fill="none" stroke="${texto}" stroke-width="2.5"/>
+  ${marca(X(0.15), Y(0.9), 1, 9)}${marca(X(0.525), Y(0.74), 2, 9)}${marca(X(0.2), Y(0.58), 3, 9)}
+  ${fila(1, 44, "Primer plano")}${fila(2, 78, "Plano medio")}${fila(3, 112, "Fondo")}
+  <text x="179" y="168" text-anchor="middle" ${TIPO} font-weight="600" font-size="17" fill="${suave}">Horizonte en un tercio,</text>
+  <text x="179" y="190" text-anchor="middle" ${TIPO} font-weight="600" font-size="17" fill="${suave}">no en el medio</text>
+</svg>`;
+};
+
 export const DIBUJOS_SVG = {
   modos: { ancho: 716, alto: 392, svg: modos },
   exposicion: { ancho: 716, alto: 516, svg: exposicion },
   parasol: { ancho: 716, alto: 464, svg: parasol },
   toca: { ancho: 716, alto: 464, svg: toca },
   noche: { ancho: 716, alto: 464, svg: noche },
-  zoom: { ancho: 716, alto: 464, svg: zoom }
+  zoom: { ancho: 716, alto: 464, svg: zoom },
+  paisaje: { ancho: 716, alto: 416, svg: paisaje }
 };
