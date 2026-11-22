@@ -341,6 +341,11 @@ prueba("glosario: enfoque continuo y ráfaga", () => {
   assert.ok(g["rafaga"] && /seguidas/.test(g["rafaga"].texto), "ráfaga: varias fotos seguidas");
 });
 
+prueba("glosario: la hora dorada es la de después del amanecer y la de antes de la puesta", () => {
+  const t = cargarDatos().glosario["hora-dorada"].texto;
+  assert.ok(/salida|amanecer/i.test(t) && /puesta/i.test(t), "solo habla de un extremo del día: " + t);
+});
+
 prueba("glosario: regla de los tercios", () => {
   const t = cargarDatos().glosario["regla-de-tercios"];
   assert.ok(t && /tercios/i.test(t.termino) && /centro/.test(t.texto), "falta el término o no explica el centro");
