@@ -1,0 +1,54 @@
+{
+  "id": "toca-para-enfocar-y-exponer",
+  "titulo": "Tap to focus and expose",
+  "resumen": "Where to tap and how much brightness, so the sky doesn't come out blown out.",
+  "minutos": 2,
+  "para": "movil",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "toca",
+      "alt": "Two photos of a sunset taken with a phone. Tapping the bright sky, the sky keeps its color and the ground comes out dark. Tapping the dark ground, you can see the ground, but the sky comes out almost white.",
+      "pie": "You tap the bright part: the sky keeps its color and the ground goes dark. You tap the dark part: the ground shows and the sky comes out almost white."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Tap what you want to see well and adjust the brightness until you like it. If the light changes, lock it."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Before shooting, tap on the screen what you want to see well: a face, the moon, the sky next to the sun. The phone focuses there and, on many phones, also measures the light at that point. How it does this varies with your phone (iPhone, Pixel, Samsung…), but the idea is the same."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What changes depending on where you tap"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "You tap a bright area (a sunset sky, the moon): the photo gets darker and the sky keeps its color.",
+        "You tap a dark area (the ground, a shadow): the photo gets brighter and the sky may come out almost white, with no detail."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Brightness, to your taste"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "After tapping, a brightness control appears. On iPhone and on Pixel it is a sun icon next to the point you tapped: drag it up to brighten and down to darken. On other phones it is a similar control; if you don't see it, look in the camera settings. This is called [[compensacion|exposure compensation]]. At sunset, lower it a little: the sky keeps its color."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Lock it so it doesn't change"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "If you tap again or the light changes, the phone measures again and the brightness can jump. To avoid that, [[bloqueo-ae-af|lock focus and exposure]]: hold your finger on the point until the notice appears (on iPhone, “AE/AF Lock”) or tap the padlock if your phone shows one, like the Pixel."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Point at a window from inside your home. Take one photo tapping the bright part (outside) and another tapping the dark part (inside). Compare how much the whole photo changes."
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "id": "fotografia-de-paisaje",
+  "titulo": "Landscape photography",
+  "resumen": "Layers, horizon, aperture and light so a landscape has depth and comes out sharp.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "paisaje",
+      "alt": "A landscape inside the rule-of-thirds grid. The horizon sits on the lower line, not in the middle. Three layers are marked: 1, the foreground, some rocks; 2, the middle ground, some trees; 3, the background, the mountains.",
+      "pie": "Horizon on a third, not in the middle. Three layers: 1 foreground, 2 middle ground, 3 background."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Put something in the foreground, the horizon on a third and close the aperture so everything comes out sharp."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "In a landscape the goal is for the photo to have depth and look sharp from the nearest to the farthest. You get it with composition, aperture, a firm support and the light."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Compose with three layers"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "If there's only a distant background, the photo looks flat. Look for something in the foreground (rocks, flowers, a fence), something in the middle ground (trees, a house) and the background (mountains, the sea). That way the eye travels through the photo and it gains depth. If the foreground is empty, get closer or move."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Put the horizon on the top line or the bottom line of the [[regla-de-tercios|rule-of-thirds grid]], not in the middle. With a beautiful sky, leave the horizon low and the sky takes up more of the photo; with a beautiful foreground, leave it high. Turn on the grid on the screen: almost all cameras and phones have it (on a phone, in the camera settings) and it also helps keep the horizon straight."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Get everything sharp"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Close the [[apertura|aperture]], for example to f/11 or f/16: that way the foreground and the background both look sharp. If you use [[modo-av|Av]], you only have to choose it.",
+        "With the aperture closed little light comes in and the shutter time gets longer. Rest the camera on a tripod or on something firm so the photo doesn't come out blurred.",
+        "Keep the [[iso|ISO]] low and raise it only if, even so, the shutter time is still too long to take the photo without support."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "The light"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Avoid the strong midday sun: it gives hard shadows and a lot of contrast. At the start and end of the day the light is softer and the sky has color. That is the [[hora-dorada|golden hour]], which Today already shows you under Sunrise and Sunset."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The same applies: three layers, the horizon on a third with the grid turned on and the phone braced on something firm. If your phone has the 0.5x lens, fit more landscape into the photo. And tap the sky so it doesn't come out blown out, as in “Tap to focus and expose”."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Choose a landscape with something close by. Take one photo with the horizon in the middle and another with the horizon on a third and that something in the foreground. Compare which has more depth."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "orden": [
+    "amanecer",
+    "atardecer",
+    "luna"
+  ],
+  "porDefecto": "atardecer",
+  "porDefectoDeNoche": "luna",
+  "nocheDespuesPuestaMin": 30,
+  "porDefectoDeAmanecer": "amanecer",
+  "amanecerAntesMin": 120,
+  "amanecerDespuesMin": 60
+}

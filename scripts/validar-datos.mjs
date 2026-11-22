@@ -10,6 +10,7 @@
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { validar } from "../src/nucleo/datos.js";
+import { IDIOMAS } from "../src/nucleo/idioma.js";
 import { cargarDeDisco, carpetaDeIdioma, idiomasDeDatos, RAIZ_DATOS as RAIZ_POR_DEFECTO } from "./datos-de-disco.mjs";
 
 // DATOS_DIR permite validar otra raíz (lo usan las pruebas); por defecto, data/
@@ -20,7 +21,8 @@ export function erroresDeDatos(raiz = RAIZ_DATOS) {
   let idiomas;
   try { idiomas = idiomasDeDatos(raiz); } catch (e) { return ["No se pudo leer la carpeta de datos " + raiz + ": " + e.message]; }
   if (!idiomas.includes("es")) return ["Falta la carpeta data/es/ (el español es el idioma de referencia): " + raiz];
-  const errores = [];
+  // Todo idioma que la app ofrece (IDIOMAS) necesita su carpeta: sin ella la app lo mostraría en español sin avisar.
+  const errores = IDIOMAS.filter((id) => !idiomas.includes(id)).map((id) => "Falta la carpeta data/" + id + "/ (el idioma «" + id + "» está en IDIOMAS, src/nucleo/idioma.js): " + raiz);
   for (const id of idiomas) {
     try {
       validar(cargarDeDisco(carpetaDeIdioma(id, raiz))).forEach((e) => errores.push("data/" + id + "/: " + e));

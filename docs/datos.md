@@ -7,8 +7,8 @@ Todo lo que cambia a menudo (umbrales, puntos, textos, consejos) está en la car
 Cada idioma de la app tiene su carpeta con **los mismos archivos**: `data/es/` (español, la referencia) y, uno por idioma, los demás (`data/en/`…). Los nombres de archivo de las tablas de abajo son los de `data/es/`; en otro idioma son los mismos.
 
 - Lo que se traduce es **la prosa**: nombres, frases, consejos, pasos de las recetas, términos del glosario y lecciones. Todo lo demás —ids, umbrales, puntos, minutos, condiciones («solo para móvil»), enlaces a lecciones, el orden— tiene que ser **idéntico** en todos los idiomas, para que el semáforo y las recetas se comporten igual en todos.
-- `npm run validar` comprueba cada carpeta de `data/` con las mismas reglas que `es`, y la prueba `test/nucleo/paridad.test.js` compara cada idioma con `es`: misma forma (claves y largo de las listas) y mismos valores salvo los de prosa. La lista de rutas que cuentan como prosa está al principio de esa prueba (`CLAVES_DE_PROSA`): si añades un campo de texto nuevo, añade ahí su ruta.
-- Si a un idioma le falta su carpeta, la app usa la de `es`.
+- `npm run validar` comprueba cada carpeta de `data/` con las mismas reglas que `es`, y la prueba `test/nucleo/paridad.test.js` compara cada idioma con `es`: misma forma (claves y largo de las listas) y mismos valores salvo los de prosa. La lista de rutas que cuentan como prosa está en `test/nucleo/claves-de-prosa.js` (`CLAVES_DE_PROSA`): si añades un campo de texto nuevo, añade ahí su ruta.
+- Todo idioma de `IDIOMAS` (`src/nucleo/idioma.js`) necesita su carpeta: `npm run validar` y la compilación se detienen si falta. (Si aun así faltara, la app usaría la de `es`.)
 
 ## Qué hay en cada archivo
 

@@ -1,0 +1,59 @@
+{
+  "id": "parasol-y-filtro-uv",
+  "titulo": "Lens hood and UV filter",
+  "resumen": "What each one is for and when each is worth it.",
+  "minutos": 2,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "parasol",
+      "alt": "Two lenses seen from the side, with an arrow of light arriving from above and from the side. Without a hood, that light reaches the front glass and gets inside the lens. With a hood, the side light is cut off before it reaches the glass, and only the light coming from the front gets in.",
+      "pie": "Without a hood, side light reaches the glass. With a hood, it is cut off sooner."
+    },
+    {
+      "tipo": "idea",
+      "texto": "A lens hood is usually a good idea. A UV filter is only worth it if the place is hard on your lens, and at night, with lights or the moon, it's best to try without it."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "The lens hood"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The [[parasol|lens hood]] cuts the light that arrives from the side, from outside the frame, like the sun's when it is low. With less stray light inside the lens there are fewer reflections and the photo comes out with more contrast, less washed out. It can also cushion a knock and protects the glass from drops and fingers."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "What it doesn't do: if the sun is inside the photo, the hood can't cut it off. And if you want the sun's reflection as an effect, take it off."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "The UV filter"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "With film, the [[filtro-uv|UV filter]] was used to filter ultraviolet light; on a digital camera it's no longer needed. Today it is mostly protection for the glass against scratches, dust, sand and splashes; against a hard knock it helps little."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "And it has a price: an extra piece of glass in front of the lens can add “ghost” reflections when there is a very bright light in the frame, like a street lamp or the moon in a dark sky. Cheap filters do it more."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "When it's worth it"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Lens hood: almost always, if it's the one for your lens.",
+        "UV filter: at the beach, in the desert or wherever there is sand, dust or splashes.",
+        "At night, with the moon, a planet or lights in the frame: try without the filter."
+      ]
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "If you have a UV filter, take two photos of the moon tonight: one with it and one without. See whether any strange reflection appears near the moon."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "lluvia": {
+    "sinLluviaMm": 0.1,
+    "lloviznaMm": 0.5,
+    "fuerteMm": 2.5,
+    "tormentaCodigo": 95
+  },
+  "nieblaKm": 5,
+  "niveles": {
+    "verdeDesde": 70,
+    "ambarDesde": 40
+  },
+  "avisos": {
+    "tormenta": "There is a thunderstorm in the forecast. Shoot from somewhere covered (car, porch or window), away from high ground and without a metal tripod out in the open. If you hear thunder, pack up.",
+    "llovizna": "There may be drizzle: bring something to protect your camera."
+  },
+  "frasesLluvia": {
+    "tormenta": "Thunderstorm expected.",
+    "sin": "No rain {momento}.",
+    "llovizna": "Light drizzle.",
+    "moderada": "Moderate rain.",
+    "fuerte": "Heavy rain."
+  }
+}

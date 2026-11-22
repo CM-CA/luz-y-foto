@@ -1,0 +1,90 @@
+{
+  "apertura": {
+    "termino": "Aperture (f/)",
+    "texto": "How wide open the hole is that lets light in. Small number (f/2.8) = wide open: lots of light comes in and the background comes out blurry. Large number (f/11) = closed down: everything comes out sharp."
+  },
+  "compensacion": {
+    "termino": "Exposure compensation (EV)",
+    "texto": "An adjustment to tell the camera “make it darker” (negative numbers, like -1) or “brighter” (positive). At sunset, making it a little darker keeps the sky from blowing out."
+  },
+  "iso": {
+    "termino": "ISO",
+    "texto": "Sensitivity to light. Low ISO (100) = clean photo but it needs more light or more time. High ISO (1600 or more) = lets you shoot in low light, but with more grain."
+  },
+  "velocidad": {
+    "termino": "Shutter speed",
+    "texto": "How long the sensor receives light. 1/500 s is very fast (it freezes movement); 1 s is very slow and needs a tripod."
+  },
+  "modo-av": {
+    "termino": "Av / A mode",
+    "texto": "You choose the aperture and the camera chooses the rest. It's called Av on Canon and A on Nikon and Sony. It's the easiest mode to start taking control of the photo."
+  },
+  "modo-tv": {
+    "termino": "Tv / S mode",
+    "texto": "You choose the shutter speed and the camera chooses the rest. It's called Tv on Canon and S on Nikon and Sony."
+  },
+  "modo-m": {
+    "termino": "M (manual) mode",
+    "texto": "You choose everything: aperture, shutter speed and ISO. It's only worth it when the light doesn't change, like with the moon at night and the camera on a tripod."
+  },
+  "medicion": {
+    "termino": "Metering",
+    "texto": "How the camera decides how much light there is. “Evaluative” looks at the whole scene and works almost every time. “Spot” looks at only a small point: useful for measuring the sky next to the sun."
+  },
+  "enfoque-manual": {
+    "termino": "Manual focus",
+    "texto": "Focusing yourself with the ring on the lens. With the moon, zoom in on the image on the screen and turn the ring until the edges and craters look sharp."
+  },
+  "disparador": {
+    "termino": "2-second timer",
+    "texto": "A delay so the camera fires two seconds after you press the button and doesn't shake from your finger. You turn it on with the clock icon in the shooting menu."
+  },
+  "raw": {
+    "termino": "RAW",
+    "texto": "A file with all the information from the sensor, meant for editing afterwards. It takes up more space and needs editing software."
+  },
+  "jpeg": {
+    "termino": "JPEG",
+    "texto": "The photo already processed by the camera. It takes up little space and can be shared directly."
+  },
+  "hora-dorada": {
+    "termino": "Golden hour",
+    "texto": "The hour after sunrise and the hour before sunset, when the light is warm and soft."
+  },
+  "hora-azul": {
+    "termino": "Blue hour",
+    "texto": "The stretch after sunset when the sky turns a deep blue before it gets completely dark."
+  },
+  "paso-de-luz": {
+    "termino": "Stop of light",
+    "texto": "Double or half the light. One stop more is double; one stop less is half. Going from f/4 to f/2.8, from 1/60 s to 1/30 s and from ISO 200 to ISO 400 each gives one more stop of light."
+  },
+  "parasol": {
+    "termino": "Lens hood",
+    "texto": "The piece that goes on the front of the lens, like the brim of a cap. It cuts the light that comes in from the side, so there are fewer reflections and the photo has more contrast. It doesn't help if the sun is inside the frame."
+  },
+  "filtro-uv": {
+    "termino": "UV filter",
+    "texto": "A clear piece of glass that screws onto the front of the lens. With film it filtered ultraviolet light; on a digital camera it is no longer needed, and today it is used mostly to protect the lens glass from dust, sand and scratches."
+  },
+  "bloqueo-ae-af": {
+    "termino": "Exposure and focus lock (AE/AF Lock)",
+    "texto": "It fixes focus and exposure on the point you tapped, so they don't change even if you move the phone or the light changes. On iPhone you hold your finger on the point until you see “AE/AF Lock”; on other phones it may be a padlock or a similar notice."
+  },
+  "zoom-digital": {
+    "termino": "Digital zoom",
+    "texto": "Cropping part of the photo and enlarging it. It adds no detail: the more it is enlarged, the blurrier or more pixelated it looks. It is the same as cropping afterwards in an editor. Optical zoom, on the other hand, uses a different lens."
+  },
+  "regla-de-tercios": {
+    "termino": "Rule of thirds",
+    "texto": "Imagine the photo divided into three equal parts across and down, like a three-by-three grid. Putting the subject or the horizon on one of those lines, or where they cross, usually gives a more balanced photo than putting them in the center."
+  },
+  "enfoque-continuo": {
+    "termino": "Continuous focus (AF-C, AI Servo)",
+    "texto": "A focus mode in which the camera keeps focusing while you hold the shutter button halfway, so a moving subject doesn't come out blurry. It's called AF-C on Nikon and AI Servo on Canon; each brand has its own name for it."
+  },
+  "rafaga": {
+    "termino": "Burst (continuous shooting)",
+    "texto": "You hold down the shutter button and the camera takes many photos in a row, several per second. It's useful for capturing a moment that lasts an instant and then keeping the best one. On many phones you do it by holding down the shutter button."
+  }
+}

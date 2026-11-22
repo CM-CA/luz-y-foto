@@ -1,0 +1,112 @@
+{
+  "modos": {
+    "modos": [
+      "Auto",
+      "P",
+      "Tv",
+      "Av",
+      "M"
+    ],
+    "filas": [
+      "Aperture",
+      "Shutter",
+      "ISO"
+    ]
+  },
+  "exposicion": {
+    "titulos": [
+      "Aperture",
+      "Shutter",
+      "ISO"
+    ],
+    "valores": [
+      "f/2.8",
+      "f/11",
+      "1/500 s",
+      "1 s",
+      "100",
+      "3200"
+    ],
+    "efectos": [
+      "soft background",
+      "all sharp",
+      "freezes",
+      "everything moves",
+      "clean",
+      "grainy"
+    ]
+  },
+  "parasol": {
+    "sin": "Without hood",
+    "con": "With hood",
+    "lineasSin": [
+      "side light",
+      "reaches the glass"
+    ],
+    "lineasCon": [
+      "side light",
+      "is cut off sooner"
+    ]
+  },
+  "toca": {
+    "tocasClaro": "Tap the bright part",
+    "lineasClaro": [
+      "the sky keeps",
+      "its color"
+    ],
+    "tocasOscuro": "Tap the dark part",
+    "lineasOscuro": [
+      "the ground shows,",
+      "the sky almost white"
+    ]
+  },
+  "noche": {
+    "conLuz": "With light",
+    "instante": "an instant",
+    "modoNoche": "Night mode",
+    "lineas": [
+      "several photos in a row, a few seconds:",
+      "hold the phone still and braced"
+    ]
+  },
+  "zoom": {
+    "titulos": [
+      "Buttons",
+      "With fingers"
+    ],
+    "botones": [
+      "0.5x",
+      "1x",
+      "3x"
+    ],
+    "lineasBotones": [
+      "usually switch",
+      "to another lens"
+    ],
+    "lineasDedos": [
+      "crops part of it",
+      "and enlarges it"
+    ]
+  },
+  "paisaje": {
+    "planos": [
+      "Foreground",
+      "Middle ground",
+      "Background"
+    ],
+    "lineas": [
+      "Horizon on a third,",
+      "not in the middle"
+    ]
+  },
+  "deporte": {
+    "lento": "1/60 s",
+    "rapido": "1/1000 s",
+    "pieLento": "comes out blurred",
+    "pieRapido": "freezes",
+    "lineas": [
+      "Burst: several photos in a row",
+      "and you keep the best one"
+    ]
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "id": "fotografia-deportiva",
+  "titulo": "Sports photography",
+  "resumen": "Fast shutter speed, continuous focus and burst to freeze the action.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "deporte",
+      "alt": "Two ways of photographing movement, and a burst. With a slow shutter speed, 1/60 s, the ball comes out blurred, with a trail. With a fast shutter speed, 1/1000 s, it comes out frozen. Below, five photos in a row from a burst, with one of them marked as the best.",
+      "pie": "1/60 s: it comes out blurred. 1/1000 s: it freezes. Burst: several photos in a row and you keep the best one."
+    },
+    {
+      "tipo": "idea",
+      "texto": "To freeze the action: fast shutter speed, focus that follows the subject and several photos in a row. Then pick the best one."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "In sports everything moves and the moment lasts an instant. The camera has to be faster than the movement."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Fast shutter speed"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "To freeze the action you need a fast [[velocidad|shutter speed]]: 1/500 s or faster, and 1/1000 s or faster if the subject is very fast, like a ball or a motorbike. With a slower speed, the subject comes out blurred. Set the camera to [[modo-tv|Tv or S]]: you choose the shutter speed and the camera adjusts the rest."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "A fast shutter speed lets little light in. Open the [[apertura|aperture]] all the way and, if it still comes out dark, raise the [[iso|ISO]]: a photo with some grain is better than a blurred one."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Focus, burst and anticipation"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "[[enfoque-continuo|Continuous focus]] (AF-C or Servo, depending on the brand): the camera keeps focusing on the subject while it moves, if you hold the shutter button halfway.",
+        "[[rafaga|Burst]]: hold down the shutter button and the camera takes many photos in a row. Do it in bursts of one or two seconds, because the memory fills up.",
+        "Anticipate: notice where the play is going to happen (the goal, the finish line) and wait there with your focus ready.",
+        "If you can't get closer, use a zoom or a telephoto lens."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "On many phones burst is done by holding down the shutter button; on the iPhone, by sliding it to the left. It works better with good light: with little, movement comes out blurry. To get closer, use the zoom buttons (2x, 3x) instead of pinching, or move closer yourself, as in “Zoom and lenses”. When you finish, go through the photos and keep the best one."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Photograph someone running or a moving ball, in daylight. Take a burst (on a camera, in Tv at 1/500 s or faster) and pick the best photo. Count how many come out sharp out of ten."
+    }
+  ]
+}

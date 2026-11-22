@@ -1,0 +1,87 @@
+{
+  "id": "amanecer",
+  "nombre": "Sunrise",
+  "motor": "puntos-ventana",
+  "evento": "amanecer",
+  "eventoNombre": "sunrise",
+  "ventana": { "antesMin": 30, "despuesMin": 60 },
+
+  "factores": [
+    {
+      "id": "bajas",
+      "etiqueta": "Low clouds",
+      "campos": ["bajas"],
+      "agregado": "media",
+      "max": 40,
+      "tramos": [
+        { "menosDe": 20, "puntos": 40 },
+        { "menosDe": 40, "puntos": 28 },
+        { "menosDe": 60, "puntos": 18 },
+        { "menosDe": 75, "puntos": 10 },
+        { "puntos": 4 }
+      ],
+      "frases": [
+        { "menosDe": 20, "texto": "Almost no low clouds: the sun will be clearly visible on the horizon." },
+        { "menosDe": 40, "texto": "Few low clouds: the horizon will be fairly clear." },
+        { "menosDe": 60, "texto": "Low clouds now and then: the sun may be hidden for a while." },
+        { "menosDe": 75, "texto": "Lots of low clouds: they are likely to cover the sun near the horizon." },
+        { "texto": "Very overcast low sky: little gap to see the sun." }
+      ]
+    },
+    {
+      "id": "cielo",
+      "etiqueta": "Mid and high clouds",
+      "campos": ["medias", "altas"],
+      "agregado": "media",
+      "combinar": "maximo",
+      "max": 50,
+      "tramos": [
+        { "desde": 20, "hasta": 70, "puntos": 50 },
+        { "desde": 10, "menosDe": 20, "puntos": 25 },
+        { "masDe": 70, "hasta": 85, "puntos": 25 },
+        { "puntos": 5 }
+      ],
+      "frases": [
+        { "desde": 20, "hasta": 70, "texto": "A good amount of mid or high clouds: these are the ones that turn orange and pink." },
+        { "menosDe": 20, "texto": "Almost no high clouds: the sky will be pretty but without much color." },
+        { "texto": "Very overcast high sky: the colors will look dull." }
+      ]
+    },
+    {
+      "id": "lluvia",
+      "tipo": "lluvia",
+      "etiqueta": "Rain",
+      "max": 10,
+      "momento": "at sunrise",
+      "puntos": { "sin": 10, "llovizna": 7, "moderada": 2, "fuerte": 0 }
+    }
+  ],
+
+  "vetos": [
+    { "factor": "lluvia", "nivel": "fuerte", "motivo": "Heavy rain is expected at sunrise." },
+    { "factor": "bajas", "masDe": 88, "motivo": "The low sky is almost completely closed: you won't see the sun rise on the horizon." }
+  ],
+  "ambarSiLluviaDesde": "moderada",
+
+  "nieblaVentaja": {
+    "factor": "bajas",
+    "frase": "Low fog or mist: you won't see the sun rise, but the soft light and the fog can make for very beautiful photos."
+  },
+
+  "niveles": {
+    "verde": "Promising",
+    "ambar": "Possible, but uncertain",
+    "rojo": "Unlikely"
+  },
+  "resumenes": {
+    "verde": "Good mix of clouds and no significant rain. Worth getting up early.",
+    "ambar": "There is a chance, but something is working against it. If you go, have a plan B (silhouettes, clouds, blue hour).",
+    "rojo": "The factors are against it. Better to go with a plan B (details, reflections, black and white) or stay home.",
+    "tormenta": "With a thunderstorm you can go out, but only with caution. The score depends on what the clouds let you see."
+  },
+  "avisoNiebla": "Low visibility (fog): you won't see the sun rise, but an estuary in morning fog can make for great photos.",
+
+  "textoEvento": "Sunrise at {hora}",
+  "textoBrujula": "At sunrise, look toward the {direccion} ({grados}°).",
+  "etiquetasDia": { "hoy": "Today", "manana": "Tomorrow", "otro": "{dia}" }
+}

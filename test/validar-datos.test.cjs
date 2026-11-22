@@ -35,6 +35,16 @@ prueba("npm run validar rechaza un error y dice dónde está", () => {
   assert.match(r.stderr, /generos\/luna\.nubes/);
 });
 
+prueba("npm run validar rechaza un idioma de la app sin carpeta de datos (si no, la app mostraría esa lengua en español sin avisar)", () => {
+  const sinIngles = fs.mkdtempSync(path.join(os.tmpdir(), "datos-sin-en-"));
+  fs.cpSync(path.join(RAIZ, "data"), sinIngles, { recursive: true });
+  fs.rmSync(path.join(sinIngles, "en"), { recursive: true, force: true });
+  const r = correr(["scripts/validar-datos.mjs"], sinIngles);
+  fs.rmSync(sinIngles, { recursive: true, force: true });
+  assert.strictEqual(r.status, 1, r.stdout + r.stderr);
+  assert.match(r.stderr, /Falta la carpeta data\/en\//);
+});
+
 prueba("la compilación (vite build) se detiene con un error en los datos", () => {
   const salida = path.join(copia, "salida");
   const r = correr(["node_modules/vite/bin/vite.js", "build", "--outDir", salida, "--emptyOutDir"], copia);
