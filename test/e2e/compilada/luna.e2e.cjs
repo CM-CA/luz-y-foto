@@ -65,7 +65,7 @@ ejecutar("luna", async ({ b, base }) => {
     ok(r.cielo.transform === "none" && r.panel.transform === "none", "en el hemisferio norte no se voltea");
     ok(r.dataCielo === "noche-cubierta" && r.cielo.opacidad < 1, "la primera noche es roja (nubes y lluvia): cielo cubierto y la luna apagada (" + r.dataCielo + ", opacidad " + r.cielo.opacidad + ")");
     ok(Math.round(r.panel.ancho) === 66 && Math.round(r.panel.alto) === 66, "la del panel mide 66 × 66 px (" + r.panel.ancho + " × " + r.panel.alto + ")");
-    ok(r.nombre && r.nombre.tamano === "22px" && /Young Serif/.test(r.nombre.familia), "el nombre de la fase va en Young Serif de 22 px (" + JSON.stringify(r.nombre) + ")");
+    ok(r.nombre && r.nombre.tamano === "22px" && /Figtree/.test(r.nombre.familia) && !/Young Serif/.test(r.nombre.familia), "el nombre de la fase va en Figtree de 22 px, como los demás títulos de sección (" + JSON.stringify(r.nombre) + ")");
     ok(/^\d+ % iluminada, creciendo$/.test(r.detalle.replace(r.nombre.texto, "").trim()), "y debajo, el porcentaje y si crece o mengua: «" + r.detalle + "»");
     // La noche del 20 al 21 está despejada en la previsión de prueba: semáforo verde, cielo de noche y la luna entera
     await p.click("#dias button[data-i='1']");
