@@ -3,9 +3,10 @@
  * Si se cambia de proveedor, solo hay que tocar este módulo.
  */
 import { pedirJson } from "./http.js";
+import { idioma } from "../idioma/index.js";
 
 function urlBusqueda(texto) {
-  const p = new URLSearchParams({ name: texto, count: "6", language: "es", format: "json" });
+  const p = new URLSearchParams({ name: texto, count: "6", language: idioma, format: "json" });
   return "https://geocoding-api.open-meteo.com/v1/search?" + p;
 }
 

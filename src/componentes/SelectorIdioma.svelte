@@ -1,10 +1,10 @@
 <script>
-  import { idioma } from "../idioma/index.js";
+  import { idioma, t } from "../idioma/index.js";
   import { leerEleccion, guardarEleccion } from "../nucleo/idioma.js";
 
-  // El selector no se traduce: el rótulo va en los dos idiomas a propósito, para que quien no lea el que le sale lo encuentre igual.
+  // El rótulo va en los dos idiomas a propósito, para que quien no lea el que le sale lo encuentre igual; cada idioma va escrito en su idioma.
   const OPCIONES = [
-    { valor: "auto", nombre: "Automático / Automatic" },
+    { valor: "auto", nombre: t("idioma.automatico") },
     { valor: "es", nombre: "Español" },
     { valor: "en", nombre: "English" }
   ];

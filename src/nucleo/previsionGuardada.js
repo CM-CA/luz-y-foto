@@ -7,6 +7,8 @@
  * El almacén es opcional (por defecto, el localStorage del navegador); sirve para las pruebas.
  */
 import { distanciaKm } from "./lugar.js";
+import { hm } from "./formato.js";
+import { locale, t } from "../idioma/index.js";
 
 const CLAVE = "luz-y-foto:prevision";
 const EDAD_MAXIMA_MS = 48 * 3600000;
@@ -38,18 +40,16 @@ function cargar(lat, lon, ahora, almacen) {
   } catch (e) { return null; }
 }
 
-const DOS = (n) => String(n).padStart(2, "0");
 const medianoche = (ms) => { const d = new Date(ms); return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime(); };
 
-// Cuándo se guardó y hace cuánto, en palabras: { cuando: "hoy a las 14:32", hace: "hace 3 h" }
+// Cuándo se guardó y hace cuánto, en palabras: { cuando: "hoy a las 14:32", hace: "hace 3 h" } (o «today at 14:32», «3 h ago»)
 function cuando(guardadaEn, ahora) {
   const d = new Date(guardadaEn);
-  const hora = DOS(d.getHours()) + ":" + DOS(d.getMinutes());
   const dias = Math.round((medianoche(ahora) - medianoche(guardadaEn)) / 86400000);
-  const dia = dias <= 0 ? "hoy" : dias === 1 ? "ayer" : "el " + d.getDate() + " de " + d.toLocaleDateString("es-ES", { month: "long" });
+  const dia = dias <= 0 ? t("guardada.hoy") : dias === 1 ? t("guardada.ayer") : t("guardada.el", { fecha: d.toLocaleDateString(locale, { day: "numeric", month: "long" }) });
   const ms = Math.max(0, ahora - guardadaEn), min = Math.floor(ms / 60000), h = Math.floor(ms / 3600000), dd = Math.floor(ms / 86400000);
-  const hace = min < 1 ? "hace un momento" : min < 60 ? "hace " + min + " min" : h < 24 ? "hace " + h + " h" : "hace " + dd + (dd === 1 ? " día" : " días");
-  return { cuando: dia + " a las " + hora, hace };
+  const hace = min < 1 ? t("guardada.momento") : min < 60 ? t("guardada.min", { n: min }) : h < 24 ? t("guardada.horas", { n: h }) : dd === 1 ? t("guardada.dia") : t("guardada.dias", { n: dd });
+  return { cuando: t("guardada.cuando", { dia, hora: hm(guardadaEn) }), hace };
 }
 
 export { CLAVE, EDAD_MAXIMA_MS, RADIO_KM, sirve, guardar, cargar, cuando };

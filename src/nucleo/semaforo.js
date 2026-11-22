@@ -11,6 +11,7 @@
  * Módulo ES: funciona en el navegador y en Node.
  */
 import * as Astro from "./astro.js";
+import { idioma, t } from "../idioma/index.js";
 
 const MIN = 60000;
 const HORA = 3600000;
@@ -52,7 +53,11 @@ const media = (xs, f) => xs.reduce((a, x) => a + f(x), 0) / xs.length;
 const maximo = (xs, f) => Math.max(...xs.map(f));
 const minimo = (xs, f) => Math.min(...xs.map(f));
 const plantilla = (texto, valores) => texto.replace(/\{(\w+)\}/g, (_, k) => (k in valores ? valores[k] : "—"));
-const num = (n) => String(n).replace(".", ",");
+// Un número dicho en palabras: coma decimal en español, punto en inglés
+const num = (n) => (idioma === "es" ? String(n).replace(".", ",") : String(n));
+// El nombre de cada nivel de lluvia (los identificadores de data/ no son para leerlos)
+const CLAVES_LLUVIA = { sin: "lluvia.sin", llovizna: "lluvia.llovizna", moderada: "lluvia.moderada", fuerte: "lluvia.fuerte" };
+const nombreLluvia = (id) => (CLAVES_LLUVIA[id] ? t(CLAVES_LLUVIA[id]) : id);
 
 // Un tramo cumple si cumple todas sus condiciones (las que tenga): desde (>=), menosDe (<), hasta (<=), masDe (>)
 function cumple(t, v) {
@@ -61,16 +66,17 @@ function cumple(t, v) {
 }
 const tramoDe = (tramos, v) => tramos.find((t) => cumple(t, v));
 
-function describirTramo(t, unidad) {
-  const u = unidad || " %";
-  if (t.desde !== undefined && t.hasta !== undefined) return "de " + num(t.desde) + " a " + num(t.hasta) + u;
-  if (t.desde !== undefined && t.menosDe !== undefined) return "de " + num(t.desde) + u + " a menos de " + num(t.menosDe) + u;
-  if (t.masDe !== undefined && t.hasta !== undefined) return "más de " + num(t.masDe) + u + " y hasta " + num(t.hasta) + u;
-  if (t.menosDe !== undefined) return "menos de " + num(t.menosDe) + u;
-  if (t.hasta !== undefined) return "hasta " + num(t.hasta) + u;
-  if (t.masDe !== undefined) return "más de " + num(t.masDe) + u;
-  if (t.desde !== undefined) return num(t.desde) + u + " o más";
-  return "el resto";
+function describirTramo(tr, unidad) {
+  const u = unidad || t("formato.unidadPct");
+  const v = { desde: num(tr.desde), hasta: num(tr.hasta), masDe: num(tr.masDe), menosDe: num(tr.menosDe), u };
+  if (tr.desde !== undefined && tr.hasta !== undefined) return t("tramo.desdeHasta", v);
+  if (tr.desde !== undefined && tr.menosDe !== undefined) return t("tramo.desdeMenosDe", v);
+  if (tr.masDe !== undefined && tr.hasta !== undefined) return t("tramo.masDeHasta", v);
+  if (tr.menosDe !== undefined) return t("tramo.menosDe", v);
+  if (tr.hasta !== undefined) return t("tramo.hasta", v);
+  if (tr.masDe !== undefined) return t("tramo.masDe", v);
+  if (tr.desde !== undefined) return t("tramo.desde", v);
+  return t("tramo.resto");
 }
 
 /* ---------- Motores ---------- */
@@ -246,48 +252,44 @@ function crear(config) {
     const g = genero(id);
     const L2 = comun.lluvia;
     const lineas = [];
-    const nivelesLluvia = "sin lluvia (hasta " + num(L2.sinLluviaMm) + " mm/h), llovizna (hasta " + num(L2.lloviznaMm) +
-      "), moderada (hasta " + num(L2.fuerteMm) + ") y fuerte (más de " + num(L2.fuerteMm) + ")";
+    const nivelesLluvia = t("exp.nivelesLluvia", { sin: num(L2.sinLluviaMm), llovizna: num(L2.lloviznaMm), moderada: num(L2.fuerteMm) });
 
     if (g.motor === "puntos-ventana") {
-      lineas.push("Se miran las horas desde " + g.ventana.antesMin + " min antes hasta " + g.ventana.despuesMin +
-        " min después de " + g.eventoNombre + " y se suman puntos (en total, 100).");
+      lineas.push(t("exp.ventana", { antes: g.ventana.antesMin, despues: g.ventana.despuesMin, evento: g.eventoNombre }));
       g.factores.forEach((f) => {
         if (f.tipo === "lluvia") {
-          lineas.push(f.etiqueta + " (hasta " + f.max + " puntos): " + Object.keys(f.puntos).map((n) => n + " " + f.puntos[n]).join(", ") +
-            ". Niveles: " + nivelesLluvia + ".");
+          lineas.push(t("exp.factorLluvia", { etiqueta: f.etiqueta, max: f.max, puntos: Object.keys(f.puntos).map((n) => nombreLluvia(n) + " " + f.puntos[n]).join(", "), niveles: nivelesLluvia }));
         } else {
           // Tramos "menos de 20, menos de 40..." se cuentan como "de 20 a 40": así se lee como una escala
           let previo = null;
-          const trozos = f.tramos.map((t) => {
-            const soloMenosDe = t.menosDe !== undefined && Object.keys(t).every((k) => k === "menosDe" || k === "puntos");
-            const cond = soloMenosDe && previo !== null ? "de " + num(previo) + " a " + num(t.menosDe) + " %" : describirTramo(t);
-            previo = soloMenosDe ? t.menosDe : null;
-            return cond + " da " + t.puntos;
+          const trozos = f.tramos.map((tr) => {
+            const soloMenosDe = tr.menosDe !== undefined && Object.keys(tr).every((k) => k === "menosDe" || k === "puntos");
+            const cond = soloMenosDe && previo !== null ? t("tramo.desdeHasta", { desde: num(previo), hasta: num(tr.menosDe), u: t("formato.unidadPct") }) : describirTramo(tr);
+            previo = soloMenosDe ? tr.menosDe : null;
+            return t("exp.tramoDa", { cond, puntos: tr.puntos });
           });
-          lineas.push(f.etiqueta + " (hasta " + f.max + " puntos): " + trozos.join("; ") + ".");
+          lineas.push(t("exp.factorTramos", { etiqueta: f.etiqueta, max: f.max, tramos: trozos.join("; ") }));
         }
       });
-      lineas.push("Semáforo: de " + comun.niveles.verdeDesde + " a 100 puntos verde («" + g.niveles.verde + "»); de " + comun.niveles.ambarDesde + " a " +
-        (comun.niveles.verdeDesde - 1) + " ámbar («" + g.niveles.ambar + "»); por debajo, rojo («" + g.niveles.rojo + "»).");
+      lineas.push(t("exp.semaforoPuntos", { verdeDesde: comun.niveles.verdeDesde, ambarDesde: comun.niveles.ambarDesde, ambarHasta: comun.niveles.verdeDesde - 1,
+        verde: g.niveles.verde, ambar: g.niveles.ambar, rojo: g.niveles.rojo }));
       (g.vetos || []).forEach((v) => {
-        const cond = v.factor === "lluvia" ? "lluvia " + v.nivel : g.factores.find((f) => f.id === v.factor).etiqueta.toLowerCase() + " por encima de " + num(v.masDe) + " %";
-        lineas.push("Rojo directo con " + cond + ".");
+        const cond = v.factor === "lluvia" ? t("exp.vetoLluvia", { nivel: nombreLluvia(v.nivel) })
+          : t("exp.vetoFactor", { etiqueta: g.factores.find((f) => f.id === v.factor).etiqueta.toLowerCase(), masDe: num(v.masDe) });
+        lineas.push(t("exp.rojoDirecto", { cond }));
       });
       if (g.nieblaVentaja) {
         const f = g.factores.find((x) => x.id === g.nieblaVentaja.factor);
-        lineas.push("Con visibilidad por debajo de " + num(comun.nieblaKm) + " km (niebla), " + f.etiqueta + " da sus " + f.max + " puntos y su veto no se aplica.");
+        lineas.push(t("exp.niebla", { km: num(comun.nieblaKm), etiqueta: f.etiqueta, max: f.max }));
       }
-      lineas.push("La lluvia " + g.ambarSiLluviaDesde + " o más limita el resultado a ámbar.");
+      lineas.push(t("exp.lluviaAmbar", { nivel: nombreLluvia(g.ambarSiLluviaDesde) }));
     } else {
       const n = g.nubes;
-      lineas.push("Se buscan las horas de la noche en las que la luna está a más de " + g.luna.alturaMinGrados +
-        "° sobre el horizonte y el sol ya está bajo el horizonte (" + g.luna.solMaxGrados + "° o menos).");
-      lineas.push("Se valora la hora con menos nubes (sin contar las horas con lluvia " + g.lluvia.vetoDesde + (g.lluvia.vetoDesde === "fuerte" ? "" : " o más") + "): menos de " + n.verdeMenosDe +
-        " % es verde («" + g.niveles.verde + "»), hasta " + n.ambarHasta + " % ámbar («" + g.niveles.ambar + "») y más rojo («" + g.niveles.rojo + "»).");
-      lineas.push("La lluvia " + g.lluvia.ambarSiLluviaDesde + " o más limita el resultado a ámbar.");
-      lineas.push("La fase no cambia la nota, solo el consejo. Si la luna no está alta de noche o está casi nueva (menos de un " +
-        Math.round(g.luna.fraccionMinima * 100) + " % iluminada), no hay semáforo.");
+      lineas.push(t("exp.nocheLuna", { luna: g.luna.alturaMinGrados, sol: g.luna.solMaxGrados }));
+      lineas.push(t("exp.nocheNubes", { nivel: nombreLluvia(g.lluvia.vetoDesde), esFuerte: g.lluvia.vetoDesde === "fuerte", verdeMenosDe: n.verdeMenosDe, ambarHasta: n.ambarHasta,
+        verde: g.niveles.verde, ambar: g.niveles.ambar, rojo: g.niveles.rojo }));
+      lineas.push(t("exp.lluviaAmbar", { nivel: nombreLluvia(g.lluvia.ambarSiLluviaDesde) }));
+      lineas.push(t("exp.nocheFase", { pct: Math.round(g.luna.fraccionMinima * 100) }));
     }
     return lineas;
   }

@@ -4,6 +4,7 @@
   import * as Perfil from "../nucleo/perfil.js";
   import { construir } from "../nucleo/recetas.js";
   import { leccionPorId, etiquetaMinutos } from "../nucleo/lecciones.js";
+  import { t } from "../idioma/index.js";
   import ConTerminos from "./ConTerminos.svelte";
 
   // La receta del género elegido, adaptada al equipo y al semáforo de ese día. Lleva el resumen del equipo y el botón para editarlo:
@@ -26,15 +27,15 @@
 
 {#if sinPerfil}
   <section class="invitacion">
-    <p><strong id="resumenEquipo">Sin configurar</strong> · Cuéntame tu equipo para ver la receta de esta salida.</p>
-    <button type="button" id="editarEquipo" data-accion="equipo" class="principal" onclick={() => abrirAsistente(false)}>Configurar mi equipo</button>
+    <p><strong id="resumenEquipo">{t("receta.sinConfigurar")}</strong> · {t("receta.cuentame")}</p>
+    <button type="button" id="editarEquipo" data-accion="equipo" class="principal" onclick={() => abrirAsistente(false)}>{t("receta.configurar")}</button>
   </section>
 {:else if receta}
   <details class="receta" id="receta" bind:open={hoy.recetaAbierta}>
     <summary>
-      <span class="receta-texto">Ver receta · {receta.titulo}<small id="resumenEquipo">{resumenEquipo()}</small>{#if nivelDeLaReceta}<small class="nivel-receta">Explicada para {nivelDeLaReceta}</small>{/if}</span>
+      <span class="receta-texto">{t("receta.ver", { titulo: receta.titulo })}<small id="resumenEquipo">{resumenEquipo()}</small>{#if nivelDeLaReceta}<small class="nivel-receta">{t("receta.explicadaPara", { nivel: nivelDeLaReceta })}</small>{/if}</span>
     </summary>
-    <button type="button" id="editarEquipo" class="enlace" onclick={() => abrirAsistente(false)}>Editar mi equipo</button>
+    <button type="button" id="editarEquipo" class="enlace" onclick={() => abrirAsistente(false)}>{t("receta.editar")}</button>
     {#if hoy.perfil.tripode === "aveces"}
       <div class="tripode" role="group" aria-label={T.tripodeHoy.pregunta}>
         <span>{T.tripodeHoy.pregunta}:</span>

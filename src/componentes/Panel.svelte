@@ -1,5 +1,6 @@
 <script>
   import { hoy, generoActual, listaActual, indiceActual } from "../estado/hoy.svelte.js";
+  import { t } from "../idioma/index.js";
   import PanelPuntos from "./PanelPuntos.svelte";
   import PanelNocturno from "./PanelNocturno.svelte";
 
@@ -17,7 +18,7 @@
         {@const Contenido = PANELES[g.motor]}
         <Contenido {g} item={lista[indiceActual()]} />
       {:else}
-        <p>No hay previsión disponible para estos días.</p>
+        <p>{t("panel.sinPrevision")}</p>
       {/if}
     {/key}
   {/if}

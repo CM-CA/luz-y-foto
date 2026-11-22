@@ -7,6 +7,7 @@
  * y service worker, con el motivo del fallo si lo hay. Así «no me deja instalarla» se puede resolver mirando el panel.
  */
 import { version } from "./version.svelte.js";
+import { t } from "../idioma/index.js";
 
 export const instalacion = $state({
   evento: null,     // el aviso «se puede instalar» que da el navegador (si lo da); se usa para el botón
@@ -53,24 +54,24 @@ async function pedir(url) {
 // Comprueba los requisitos para instalar la app y devuelve las líneas del informe
 export async function diagnosticar() {
   const l = [];
-  l.push(linea("info", "App cargada: " + (archivoDeLaApp() || "no se pudo saber")));
+  l.push(linea("info", t("diag.appCargada", { archivo: archivoDeLaApp() || t("diag.noSeSupo") })));
 
   const seguro = location.protocol === "https:" || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
-  l.push(linea(seguro ? "si" : "no", seguro ? "Conexión segura (https)" : "La página no usa https: no se puede instalar"));
+  l.push(linea(seguro ? "si" : "no", seguro ? t("diag.https") : t("diag.noHttps")));
 
   // Manifiesto
   const enlace = document.querySelector("link[rel=manifest]");
   let manifiesto = null;
-  if (!enlace) l.push(linea("no", "La página no enlaza el manifiesto"));
+  if (!enlace) l.push(linea("no", t("diag.sinEnlaceManifiesto")));
   else {
     try {
       const { r, tipo } = await pedir(enlace.href);
-      if (!r.ok) l.push(linea("no", "Manifiesto: el servidor respondió " + r.status));
+      if (!r.ok) l.push(linea("no", t("diag.manifiestoRespondio", { estado: r.status })));
       else {
         manifiesto = await r.json();
-        l.push(linea("si", "Manifiesto leído (" + tipo + "): «" + manifiesto.name + "», se abre como «" + manifiesto.display + "»"));
+        l.push(linea("si", t("diag.manifiestoLeido", { tipo, nombre: manifiesto.name, modo: manifiesto.display })));
       }
-    } catch (e) { l.push(linea("no", "Manifiesto: no se pudo leer (" + e.message + ")")); }
+    } catch (e) { l.push(linea("no", t("diag.manifiestoNoLeido", { motivo: e.message }))); }
   }
 
   // Iconos: el navegador exige uno de 192 y otro de 512 que se puedan descargar
@@ -78,35 +79,35 @@ export async function diagnosticar() {
     const raiz = enlace.href;
     for (const px of [192, 512]) {
       const icono = (manifiesto.icons || []).find((i) => i.type === "image/png" && i.sizes === px + "x" + px && (i.purpose || "any").includes("any"));
-      if (!icono) { l.push(linea("no", "El manifiesto no tiene icono de " + px + " px")); continue; }
+      if (!icono) { l.push(linea("no", t("diag.sinIcono", { px }))); continue; }
       try {
         const { r, tipo } = await pedir(new URL(icono.src, raiz).href);
-        l.push(linea(r.ok && /^image\//.test(tipo) ? "si" : "no", "Icono de " + px + " px: " + (r.ok ? "se descarga (" + tipo + ")" : "el servidor respondió " + r.status)));
-      } catch (e) { l.push(linea("no", "Icono de " + px + " px: no se pudo descargar (" + e.message + ")")); }
+        l.push(linea(r.ok && /^image\//.test(tipo) ? "si" : "no", r.ok ? t("diag.iconoOk", { px, tipo }) : t("diag.iconoRespondio", { px, estado: r.status })));
+      } catch (e) { l.push(linea("no", t("diag.iconoNoDescarga", { px, motivo: e.message }))); }
     }
     const inicio = new URL(manifiesto.start_url, raiz).pathname, ambito = new URL(manifiesto.scope || ".", raiz).pathname;
-    l.push(linea(inicio.startsWith(ambito) && location.pathname.startsWith(ambito) ? "si" : "no", "Dirección de inicio dentro del ámbito de la app (" + ambito + ")"));
+    l.push(linea(inicio.startsWith(ambito) && location.pathname.startsWith(ambito) ? "si" : "no", t("diag.ambito", { ambito })));
   }
 
   // Service worker
   const sw = version.sw;
   const textos = {
-    "sin-soporte": ["no", "Este navegador no admite service workers: no habrá uso sin conexión"],
-    "sin-comprobar": ["info", "El service worker todavía no se ha registrado"],
-    registrando: ["info", "Registrando el service worker…"],
-    instalando: ["info", "Instalando el service worker (guardando la app en el dispositivo)…"],
-    listo: ["si", "Uso sin conexión listo" + (sw.version ? " · versión " + sw.version : "")],
-    error: ["no", "El service worker falló: " + (sw.detalle || "sin detalles")]
+    "sin-soporte": ["no", t("diag.swSinSoporte")],
+    "sin-comprobar": ["info", t("diag.swSinComprobar")],
+    registrando: ["info", t("diag.swRegistrando")],
+    instalando: ["info", t("diag.swInstalando")],
+    listo: ["si", sw.version ? t("diag.swListoVersion", { version: sw.version }) : t("diag.swListo")],
+    error: ["no", t("diag.swError", { detalle: sw.detalle || t("diag.sinDetalles") })]
   };
   const [estado, texto] = textos[sw.estado] || ["info", sw.estado];
   l.push(linea(estado, texto));
   if (sw.estado === "listo") {
     const controla = "serviceWorker" in navigator && !!navigator.serviceWorker.controller;
-    l.push(linea(controla ? "si" : "info", controla ? "Esta página la gestiona el service worker" : "Esta página aún no la gestiona el service worker (se activa al recargar)"));
-    try { const claves = (await caches.keys()).filter((k) => k.startsWith("luz-y-foto-")); l.push(linea(claves.length ? "si" : "no", "Guardado en el dispositivo: " + (claves.length ? claves.join(", ") : "nada"))); } catch (e) { l.push(linea("no", "No se pudo mirar lo guardado (" + e.message + ")")); }
+    l.push(linea(controla ? "si" : "info", controla ? t("diag.swGestiona") : t("diag.swNoGestiona")));
+    try { const claves = (await caches.keys()).filter((k) => k.startsWith("luz-y-foto-")); l.push(linea(claves.length ? "si" : "no", t("diag.guardado", { claves: claves.length ? claves.join(", ") : t("diag.nada") }))); } catch (e) { l.push(linea("no", t("diag.noSeMiro", { motivo: e.message }))); }
   }
 
-  l.push(linea("info", comoApp() ? "Estás usando la app instalada" : "Estás en el navegador (no como app instalada)"));
-  l.push(linea("info", instalacion.evento ? "El navegador permite instalarla ahora: usa el botón de arriba" : instalacion.instalada ? "Instalada" : "El navegador no ha ofrecido instalarla (todavía)"));
+  l.push(linea("info", comoApp() ? t("diag.comoApp") : t("diag.enNavegador")));
+  l.push(linea("info", instalacion.evento ? t("diag.permiteInstalar") : instalacion.instalada ? t("diag.instalada") : t("diag.noOfrecido")));
   return l;
 }

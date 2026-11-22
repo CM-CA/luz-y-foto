@@ -4,18 +4,12 @@
  * Todo se calcula en el dispositivo: no necesita conexión.
  */
 import * as SunCalc from "suncalc";
+import { traducirLista } from "../idioma/index.js";
 
-const PUNTOS = [
-  "norte", "nor-noreste", "noreste", "este-noreste",
-  "este", "este-sureste", "sureste", "sur-sureste",
-  "sur", "sur-suroeste", "suroeste", "oeste-suroeste",
-  "oeste", "oeste-noroeste", "noroeste", "nor-noroeste"
-];
-
-// Azimut en grados (0 = norte, 90 = este, 180 = sur, 270 = oeste) -> palabra
+// Azimut en grados (0 = norte, 90 = este, 180 = sur, 270 = oeste) -> palabra, en el idioma de la app (los 16 puntos están en los diccionarios)
 function puntoCardinal(grados) {
   const g = ((grados % 360) + 360) % 360;
-  return PUNTOS[Math.round(g / 22.5) % 16];
+  return traducirLista("cardinales")[Math.round(g / 22.5) % 16];
 }
 
 // Fase de 0 a 1 (0 nueva, 0.25 cuarto creciente, 0.5 llena, 0.75 cuarto menguante) -> identificador.

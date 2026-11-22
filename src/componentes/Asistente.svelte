@@ -2,6 +2,7 @@
   import { config } from "../estado/datos.js";
   import { hoy, elegirOpcion, accionAsistente } from "../estado/hoy.svelte.js";
   import * as Perfil from "../nucleo/perfil.js";
+  import { t } from "../idioma/index.js";
 
   // Asistente del equipo: una pregunta por pantalla, con bienvenida la primera vez
   const bienvenida = config.perfil.bienvenida;
@@ -30,7 +31,7 @@
     </div>
   {:else if a && q}
     {#key a.paso}
-      <p class="paso">Pregunta {a.paso + 1} de {visibles.length}</p>
+      <p class="paso">{t("asistente.pregunta", { n: a.paso + 1, total: visibles.length })}</p>
       <h2 tabindex="-1" use:enfocar>{q.titulo}</h2>
       {#if q.ayuda}<p class="ayuda">{q.ayuda}</p>{/if}
       <div class="opciones" role="group" aria-label={q.titulo}>
@@ -39,10 +40,10 @@
         {/each}
       </div>
       <div class="acciones">
-        <button type="button" class="enlace" data-asis="atras" hidden={a.paso === 0 && !a.conBienvenida} onclick={() => accionAsistente("atras")}>← Atrás</button>
+        <button type="button" class="enlace" data-asis="atras" hidden={a.paso === 0 && !a.conBienvenida} onclick={() => accionAsistente("atras")}>{t("asistente.atras")}</button>
         <span class="derecha">
-          <button type="button" class="enlace" data-asis="saltar" onclick={() => accionAsistente("saltar")}>Saltar</button>
-          {#if q.multiple}<button type="button" class="principal" data-asis="siguiente" onclick={() => accionAsistente("siguiente")}>Siguiente</button>{/if}
+          <button type="button" class="enlace" data-asis="saltar" onclick={() => accionAsistente("saltar")}>{t("asistente.saltar")}</button>
+          {#if q.multiple}<button type="button" class="principal" data-asis="siguiente" onclick={() => accionAsistente("siguiente")}>{t("asistente.siguiente")}</button>{/if}
         </span>
       </div>
     {/key}

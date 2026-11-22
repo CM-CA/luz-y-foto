@@ -3,6 +3,7 @@
   import { elegirCielo, indiceFaseLuna } from "../nucleo/cielo.js";
   import { lunaDe } from "../nucleo/dias.js";
   import { CIELOS, LUNAS } from "../imagenes/cielos.js";
+  import { t } from "../idioma/index.js";
   import Lugar from "./Lugar.svelte";
 
   // El cielo depende de la pestaña y del semáforo del día elegido. Mientras no hay previsión se decide por la hora del dispositivo.
@@ -22,7 +23,7 @@
   {#if luna}<img class="luna-cielo" class:sur={hoy.lat < 0} src={luna} alt="" width="64" height="64">{/if}
   <div class="fila">
     <div class="rotulo">
-      <h1>Luz y foto</h1>
+      <h1>{t("app.nombre")}</h1>
       <p id="estado" role="status" aria-live="polite">{hoy.estado}</p>
     </div>
     <Lugar />

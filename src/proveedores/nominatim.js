@@ -4,12 +4,13 @@
  * Condiciones de uso: como máximo 1 petición por segundo y con identificación; ver docs/migracion-svelte.md.
  */
 import { pedirJson } from "./http.js";
+import { idioma } from "../idioma/index.js";
 
 const redondear = (n, d) => Number(n.toFixed(d));
 
 function urlNombre(lat, lon) {
   const p = new URLSearchParams({
-    format: "jsonv2", zoom: "10", addressdetails: "1", "accept-language": "es",
+    format: "jsonv2", zoom: "10", addressdetails: "1", "accept-language": idioma,
     lat: String(redondear(lat, 3)), lon: String(redondear(lon, 3))
   });
   return "https://nominatim.openstreetmap.org/reverse?" + p;

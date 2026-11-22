@@ -3,6 +3,7 @@
   import { fechaLugar } from "../nucleo/dias.js";
   import { hm } from "../nucleo/formato.js";
   import { tituloDeLaLuz } from "../nucleo/franja.js";
+  import { t } from "../idioma/index.js";
 
   // «La luz de hoy»: la franja de la hora dorada a la hora azul, con la puesta en el cambio de color y, si es hoy y estamos
   // dentro, un marcador «●» donde estamos ahora. `luz` es lo que devuelve franja() (el que la usa ya sabe que no es null).
@@ -26,8 +27,8 @@
     {#if luz.ahora !== null}<i class="ahora" style:left="{luz.ahora * 100}%">●</i>{/if}
   </div>
   <div class="horas">
-    <div><b>{horaSol(sol.horaDorada)}</b>Hora dorada</div>
-    <div><b>{hm(item.evento)}</b>Puesta</div>
-    <div><b>{horaSol(sol.finHoraAzul)}</b>Hora azul</div>
+    <div><b>{horaSol(sol.horaDorada)}</b>{t("luz.horaDorada")}</div>
+    <div><b>{hm(item.evento)}</b>{t("luz.puesta")}</div>
+    <div><b>{horaSol(sol.finHoraAzul)}</b>{t("luz.horaAzul")}</div>
   </div>
 </section>
