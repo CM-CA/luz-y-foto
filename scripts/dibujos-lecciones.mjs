@@ -199,6 +199,30 @@ const paisaje = ({ tarjeta, texto, suave }) => {
 </svg>`;
 };
 
+// Dos formas de fotografiar un movimiento (tiempo lento: sale movido; tiempo rápido: se congela) y una ráfaga de cinco fotos con la mejor marcada.
+// Los tiempos (1/60 s y 1/1000 s) son un ejemplo de lento y de rápido, no una regla.
+const deporte = ({ tarjeta, texto, suave }) => {
+  const rayas = [0, 1, 2].map((i) => `<line x1="${236 + i * 2}" y1="${54 + i * 8}" x2="${252 + i * 2}" y2="${54 + i * 8}" stroke="${suave}" stroke-width="2.5" stroke-linecap="round"/>`).join("");
+  const estela = [[56, 0.15], [72, 0.3], [88, 0.5], [104, 0.9]].map(([x, o]) => `<circle cx="${x}" cy="62" r="10" fill="${texto}" opacity="${o}"/>`).join("");
+  const pie = (cx, y, l) => `<text x="${cx}" y="${y}" text-anchor="middle" ${TIPO} font-weight="600" font-size="17" fill="${suave}">${l}</text>`;
+  const marco = (i) => {
+    const x = 55 + i * 52, mejor = i === 2;
+    return `<rect x="${x}" y="134" width="40" height="30" rx="5" fill="none" stroke="${mejor ? texto : suave}" stroke-width="${mejor ? 3.5 : 2}"/><circle cx="${x + 10 + i * 5}" cy="${154 - i * 3.5}" r="4.5" fill="${texto}" opacity="${mejor ? 1 : 0.55}"/>`;
+  };
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 358 232" width="716" height="464">
+  <rect width="358" height="232" fill="${tarjeta}"/>
+  <text x="89" y="24" text-anchor="middle" ${TIPO} font-weight="800" font-size="19" fill="${texto}">1/60 s</text>
+  <text x="269" y="24" text-anchor="middle" ${TIPO} font-weight="800" font-size="19" fill="${texto}">1/1000 s</text>
+  ${estela}
+  ${rayas}<circle cx="269" cy="62" r="10" fill="${texto}"/>
+  ${pie(89, 104, "sale movido")}${pie(269, 104, "se congela")}
+  <line x1="179" y1="12" x2="179" y2="112" stroke="${suave}" stroke-width="1.5" stroke-dasharray="2 5" stroke-linecap="round" opacity=".7"/>
+  <line x1="14" y1="122" x2="344" y2="122" stroke="${suave}" stroke-width="1.5" stroke-dasharray="2 5" stroke-linecap="round" opacity=".7"/>
+  ${[0, 1, 2, 3, 4].map(marco).join("")}
+  ${pie(179, 194, "Ráfaga: varias fotos seguidas")}${pie(179, 216, "y te quedas con la mejor")}
+</svg>`;
+};
+
 export const DIBUJOS_SVG = {
   modos: { ancho: 716, alto: 392, svg: modos },
   exposicion: { ancho: 716, alto: 516, svg: exposicion },
@@ -206,5 +230,6 @@ export const DIBUJOS_SVG = {
   toca: { ancho: 716, alto: 464, svg: toca },
   noche: { ancho: 716, alto: 464, svg: noche },
   zoom: { ancho: 716, alto: 464, svg: zoom },
-  paisaje: { ancho: 716, alto: 416, svg: paisaje }
+  paisaje: { ancho: 716, alto: 416, svg: paisaje },
+  deporte: { ancho: 716, alto: 464, svg: deporte }
 };

@@ -26,5 +26,9 @@
   "paisaje": {
     "ancho": 358,
     "alto": 208
+  },
+  "deporte": {
+    "ancho": 358,
+    "alto": 232
   }
 }

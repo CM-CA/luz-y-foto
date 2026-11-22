@@ -40,7 +40,7 @@ Para añadir una pregunta o una variante basta con editar estos archivos; para a
 
 ## Las lecciones
 
-La pantalla Aprender sale de `data/lecciones.json` (el título, las etiquetas y los `grupos` —hoy `basico`, para cámara, y `movil`, «Para el móvil»—, cada uno con su `id`, `titulo`, `subtitulo` y la lista de ids de sus `lecciones`, en el orden en que se ven) y de un archivo por lección, `data/lecciones/<id>.json`, que repite ese `id`:
+La pantalla Aprender sale de `data/lecciones.json` (el título, las etiquetas y los `grupos` —hoy `basico` (cámara), `movil` («Para el móvil») y `tipos` («Tipos de fotografía», lecciones «Para todos»)—, cada uno con su `id`, `titulo`, `subtitulo` y la lista de ids de sus `lecciones`, en el orden en que se ven) y de un archivo por lección, `data/lecciones/<id>.json`, que repite ese `id`:
 
 ```json
 { "id": "la-rueda-de-modos", "titulo": "La rueda de modos", "resumen": "Qué modo usar y cuándo, sin liarte.",
