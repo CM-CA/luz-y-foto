@@ -242,7 +242,10 @@ prueba("lecciones: el manual de verdad", () => {
   assert.equal(l.minutos, 3);
   assert.equal(l.para, "camara");
   const texto = textoDeLeccion(l);
-  ["55 mm", "f/5.6", "ISO 400", "1 s", "trípode", "paso"].forEach((t) => assert.ok(texto.includes(t), "no menciona «" + t + "»"));
+  ["f/5.6", "ISO 400", "1 s", "trípode", "paso"].forEach((t) => assert.ok(texto.includes(t), "no menciona «" + t + "»"));
+  // El ejemplo vale para cualquier cámara: ni un modelo, ni una distancia focal concreta
+  ["Canon EOS", "600D", "55 mm", "8°"].forEach((t) => assert.ok(!texto.includes(t), "el ejemplo no debe llevar «" + t + "»"));
+  assert.ok(/un ejemplo, no una receta/i.test(texto), "dice que son ajustes de ejemplo, no una receta");
   assert.deepEqual(dibujosDe(l), ["exposicion"]);
 });
 

@@ -11,7 +11,7 @@ Cada afirmación se comprobó con al menos dos fuentes; cuando la fuente no dec�
 - Apertura abierta (número bajo): entra más luz y fondo más borroso; cerrada (número alto): entra menos y todo más nítido — REI; MPB «Exposure triangle» (mpb.com/en-eu/content/tips-and-techniques/the-exposure-triangle-aperture-iso-and-shutter-speed).
 - Tiempo rápido congela, lento mueve lo que se mueve; con tiempos lentos a pulso se mueve toda la imagen y hace falta trípode — B&H Explora; REI; MPB.
 - ISO bajo = más limpia; ISO alto = más sensible y con más grano — Adobe «ISO» (adobe.com/creativecloud/photography/discover/iso); B&H Explora; REI; MPB.
-- El caso real (Canon EOS 600D, 55 mm, f/5.6, ISO 400, 1 s, trípode; Venus a unos 8° de la luna) son datos de la persona, no se comprobaron; no se dice nada de cómo salió la foto.
+- El ejemplo de la luna con Venus (f/5,6, ISO 400, 1 s, con trípode) son ajustes de ejemplo, no se comprobaron contra fuentes; la lección dice que no son una receta y no afirma nada de cómo sale la foto.
 
 ## Parasol y filtro UV
 - El parasol corta la luz que llega de fuera del encuadre, y con ella hay menos reflejos (flare) y se conserva el contraste — PetaPixel (petapixel.com/camera-lens-hoods); Photography Life (photographylife.com/when-to-use-lens-hood); Digital Photography School (digital-photography-school.com/?p=26769); Photofocus «The 411 on lens hoods».
