@@ -1,0 +1,25 @@
+{
+  "titulo": "Aprender",
+  "subtitulo": "Lecciones cortas, de 2 o 3 minutos.",
+  "etiquetas": {
+    "minutos": "{n} min",
+    "para": {
+      "camara": "Para cámara",
+      "movil": "Para móvil",
+      "todos": "Para todos"
+    },
+    "ideaClave": "Idea clave",
+    "pruebalo": "Pruébalo hoy",
+    "volver": "← Aprender",
+    "noExiste": "No encuentro esa lección",
+    "aprendePorQue": "Aprende por qué estos ajustes"
+  },
+  "grupos": [
+    {
+      "id": "basico",
+      "titulo": "Lo básico",
+      "subtitulo": "Para quien dispara con cámara.",
+      "lecciones": ["la-rueda-de-modos"]
+    }
+  ]
+}

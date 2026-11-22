@@ -1,0 +1,51 @@
+{
+  "id": "la-rueda-de-modos",
+  "titulo": "La rueda de modos",
+  "resumen": "Qué modo usar y cuándo, sin liarte.",
+  "minutos": 3,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "idea",
+      "texto": "Av si te importa el fondo. Tv si te importa el movimiento. M cuando la luz no cambia y tienes tiempo."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "La rueda de tu cámara decide cuánto trabajo haces tú y cuánto la cámara. Siempre hay tres ajustes que cambian la foto: la [[apertura|apertura]], la [[velocidad|velocidad]] y el [[iso|ISO]]. Lo único que cambia de un modo a otro es cuáles eliges tú y cuáles elige la cámara."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué elige cada modo"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Auto: la cámara decide todo. No tienes que pensar, pero tampoco controlas nada.",
+        "P: la cámara elige la apertura y la velocidad; tú, el ISO.",
+        "[[modo-av|Av]] (A en Nikon y Sony): tú eliges la apertura, o sea, lo borroso que sale el fondo; la cámara elige la velocidad.",
+        "[[modo-tv|Tv]] (S en Nikon y Sony): tú eliges la velocidad, o sea, si el movimiento sale congelado o arrastrado; la cámara elige la apertura.",
+        "[[modo-m|M]]: los tres los eliges tú. Es el modo más lento de usar."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Por dónde empezar"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Empieza por Av. Es el modo más cómodo para aprender: con un solo ajuste controlas el fondo y la cámara se ocupa de que la foto no salga ni oscura ni quemada. Si lo que quieres es congelar un movimiento, como un pájaro o una ola, cambia a Tv y sube la velocidad."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Pasa a M cuando la luz no cambia y tienes tiempo: la luna de noche con la cámara sobre un trípode, por ejemplo. Con una luz que cambia rápido, como la de un atardecer, M te obliga a retocar los ajustes sin parar y se te escapa la foto."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "El automático también vale. Si no hay tiempo para pensar o la luz cambia en segundos, una foto hecha es mejor que una foto perdida."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pon la rueda en Av y haz tres fotos del mismo sitio: con el número de apertura más bajo, uno intermedio y el más alto. Compara cuánto cambia el fondo."
+    }
+  ]
+}

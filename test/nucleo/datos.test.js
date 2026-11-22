@@ -156,3 +156,56 @@ prueba("validar: valor por defecto del perfil fuera de las opciones", () => {
   assert.ok(contiene(errores((c) => { c.perfil.porDefecto.nivel = "experto"; }), "perfil.porDefecto.nivel"));
 });
 
+
+/* ---------- Las lecciones (Aprender) ---------- */
+
+const LECCION = "la-rueda-de-modos";
+const palabrasDe = (n) => Array.from({ length: n }, (_, i) => "palabra" + i).join(" ");
+const bloquesDe = (c) => c.lecciones.porId[LECCION].bloques;
+
+prueba("lecciones: los datos reales son válidos y están en la carga", () => {
+  const c = cargarDatos();
+  assert.deepEqual(Datos.validar(c), []);
+  assert.ok(c.lecciones.indice.grupos[0].lecciones.includes(LECCION));
+  assert.deepEqual(datosIncluidos().lecciones, c.lecciones);
+});
+
+prueba("lecciones: falta el índice", () => {
+  assert.ok(contiene(errores((c) => { delete c.lecciones; }), "lecciones.json"));
+});
+
+prueba("lecciones: una del índice sin archivo", () => {
+  assert.ok(contiene(errores((c) => { c.lecciones.indice.grupos[0].lecciones.push("fantasma"); }), "fantasma"));
+});
+
+prueba("lecciones: bloque desconocido, sin texto o dibujo sin alt", () => {
+  assert.ok(contiene(errores((c) => { bloquesDe(c).push({ tipo: "video" }); }), "«video»"));
+  assert.ok(contiene(errores((c) => { bloquesDe(c).push({ tipo: "parrafo" }); }), ".texto"));
+  assert.ok(contiene(errores((c) => { bloquesDe(c).push({ tipo: "dibujo", id: "modos", pie: "Un pie" }); }), ".alt"));
+  assert.ok(contiene(errores((c) => { bloquesDe(c).push({ tipo: "lista", items: [] }); }), ".items"));
+});
+
+prueba("lecciones: términos del glosario", () => {
+  const poner = (texto) => (c) => { bloquesDe(c).push({ tipo: "parrafo", texto }); };
+  assert.ok(contiene(errores(poner("Mira [[no-existe|algo]]")), "«no-existe»"));
+  assert.ok(contiene(errores(poner("Mira [[apertura]]")), "mal escrito"));
+  assert.deepEqual(errores(poner("Mira la [[apertura|apertura]]")), []);
+});
+
+prueba("lecciones: límites de palabras, minutos y público", () => {
+  assert.ok(contiene(errores((c) => { bloquesDe(c).push({ tipo: "parrafo", texto: palabrasDe(451) }); }), "palabras"));
+  // El alt y el pie de un dibujo no cuentan para el límite
+  assert.ok(!contiene(errores((c) => { bloquesDe(c).push({ tipo: "dibujo", id: "x", alt: palabrasDe(500), pie: palabrasDe(100) }); }), "palabras"));
+  assert.ok(contiene(errores((c) => { c.lecciones.porId[LECCION].minutos = 0; }), "minutos"));
+  assert.ok(contiene(errores((c) => { c.lecciones.porId[LECCION].minutos = 30; }), "minutos"));
+  assert.ok(contiene(errores((c) => { c.lecciones.porId[LECCION].para = "tablet"; }), ".para"));
+  assert.ok(contiene(errores((c) => { c.lecciones.indice.etiquetas.noExiste = ""; }), "etiquetas.noExiste"));
+});
+
+prueba("lecciones: la primera lección enseña la regla corta y los nombres según la marca", () => {
+  const l = cargarDatos().lecciones.porId[LECCION];
+  const idea = l.bloques.find((b) => b.tipo === "idea");
+  assert.ok(idea && /\bAv\b/.test(idea.texto) && /\bTv\b/.test(idea.texto) && /\bM\b/.test(idea.texto), "la idea clave nombra Av, Tv y M");
+  assert.ok(l.bloques.some((b) => b.tipo === "pruebalo"), "tiene un «Pruébalo hoy»");
+  assert.ok(JSON.stringify(l.bloques).includes("Nikon"), "dice cómo se llaman los modos en Nikon y Sony");
+});
