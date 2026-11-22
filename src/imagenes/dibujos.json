@@ -1,0 +1,26 @@
+{
+  "modos": {
+    "ancho": 358,
+    "alto": 196
+  },
+  "exposicion": {
+    "ancho": 358,
+    "alto": 258
+  },
+  "parasol": {
+    "ancho": 358,
+    "alto": 232
+  },
+  "toca": {
+    "ancho": 358,
+    "alto": 232
+  },
+  "noche": {
+    "ancho": 358,
+    "alto": 232
+  },
+  "zoom": {
+    "ancho": 358,
+    "alto": 232
+  }
+}

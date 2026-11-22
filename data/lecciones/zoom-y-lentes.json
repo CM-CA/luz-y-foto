@@ -1,0 +1,47 @@
+{
+  "id": "zoom-y-lentes",
+  "titulo": "Zoom y lentes: cuál usar",
+  "resumen": "Los botones 0,5x, 1x, 2x o 3x y el zoom con los dedos no son lo mismo.",
+  "minutos": 2,
+  "para": "movil",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "zoom",
+      "alt": "Dos formas de hacer zoom en el móvil. Los botones 0,5x, 1x y 3x suelen cambiar de lente. Con los dedos, el móvil recorta una parte de la foto y la amplía.",
+      "pie": "Botones: suelen cambiar de lente. Con los dedos: recorta una parte y la amplía."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Para acercarte, toca los botones de zoom y no pellizques: pellizcar recorta la foto y pierde calidad."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Los números 0,5x, 1x, 2x o 3x de la cámara son botones de zoom. En muchos móviles cada uno cambia de lente: 0,5x es un gran angular, que mete más en la foto; 1x es la lente principal; 2x o 3x acercan con otra lente. Cuáles tienes y qué números salen cambia según tu móvil."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Zoom con los dedos"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Si pellizcas la pantalla, o pasas del último botón, el móvil hace [[zoom-digital|zoom digital]]: recorta una parte de la foto y la agranda. No añade detalle: la foto pierde calidad y se ve pixelada. El programa de algunos móviles lo disimula, pero la calidad baja."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué hacer"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Para acercarte, toca los botones (2x, 3x…) en lugar de pellizcar. En muchos móviles usan otra lente.",
+        "Si ya estás en el último botón y no llegas, acércate tú o haz la foto sin zoom y recórtala después: es lo mismo que el zoom digital, pero con más control.",
+        "Para meter más en la foto (un paisaje, una calle), prueba el 0,5x si tu móvil lo tiene."
+      ]
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Haz la misma foto tres veces: con el botón 1x, con un botón de zoom (2x o 3x) y pellizcando hasta el mismo encuadre. Amplía las tres en la pantalla y compara el detalle."
+    }
+  ]
+}

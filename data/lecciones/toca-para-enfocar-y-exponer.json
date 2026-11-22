@@ -1,0 +1,54 @@
+{
+  "id": "toca-para-enfocar-y-exponer",
+  "titulo": "Toca para enfocar y exponer",
+  "resumen": "Dónde tocar y cuánto brillo, para que el cielo no salga quemado.",
+  "minutos": 2,
+  "para": "movil",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "toca",
+      "alt": "Dos fotos de un atardecer hechas con un móvil. Tocando el cielo claro, el cielo conserva el color y el suelo queda oscuro. Tocando el suelo oscuro, se ve el suelo, pero el cielo sale casi blanco.",
+      "pie": "Tocas lo claro: el cielo conserva el color y el suelo queda oscuro. Tocas lo oscuro: se ve el suelo y el cielo sale casi blanco."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Toca lo que quieres ver bien y ajusta el brillo hasta que te guste. Si la luz cambia, bloquéalo."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Antes de disparar, toca en la pantalla lo que quieres ver bien: una cara, la luna, el cielo junto al sol. El móvil enfoca ahí y, en muchos móviles, mide también la luz de ese punto. Cómo lo hace cambia según tu móvil (iPhone, Pixel, Samsung…), pero la idea es la misma."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué cambia según dónde toques"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Tocas una zona clara (el cielo de un atardecer, la luna): la foto se oscurece y el cielo conserva el color.",
+        "Tocas una zona oscura (el suelo, una sombra): la foto se aclara y el cielo puede salir casi blanco, sin detalle."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "El brillo, a tu gusto"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Tras tocar aparece un control de brillo. En iPhone y en Pixel es un icono de sol junto al punto que tocaste: arrástralo hacia arriba para aclarar y hacia abajo para oscurecer. En otros móviles es un control parecido; si no lo ves, busca en los ajustes de la cámara. A esto se le llama [[compensacion|compensación de exposición]]. En un atardecer, bájalo un poco: el cielo mantiene el color."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Bloquear para que no cambie"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Si vuelves a tocar o la luz cambia, el móvil vuelve a medir y el brillo puede saltar. Para evitarlo, [[bloqueo-ae-af|bloquea el enfoque y la exposición]]: mantén pulsado el punto hasta que salga el aviso (en iPhone, «AE/AF Lock») o toca el candado si tu móvil lo muestra, como el Pixel."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Apunta a una ventana desde dentro de casa. Haz una foto tocando la parte clara (fuera) y otra tocando la parte oscura (dentro). Compara cuánto cambia toda la foto."
+    }
+  ]
+}

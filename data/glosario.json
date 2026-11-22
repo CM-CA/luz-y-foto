@@ -54,5 +54,25 @@
   "hora-azul": {
     "termino": "Hora azul",
     "texto": "El rato después de la puesta, cuando el cielo se vuelve azul intenso antes de oscurecer del todo."
+  },
+  "paso-de-luz": {
+    "termino": "Paso de luz",
+    "texto": "El doble o la mitad de luz. Un paso más es el doble; un paso menos, la mitad. De f/4 a f/2,8, de 1/60 s a 1/30 s y de ISO 200 a ISO 400 hay un paso más de luz."
+  },
+  "parasol": {
+    "termino": "Parasol",
+    "texto": "La pieza que se pone delante del objetivo, como la visera de una gorra. Corta la luz que llega de lado, así que hay menos reflejos y la foto sale con más contraste. No ayuda si el sol sale dentro de la foto."
+  },
+  "filtro-uv": {
+    "termino": "Filtro UV",
+    "texto": "Un cristal transparente que se enrosca delante del objetivo. Con película servía para filtrar la luz ultravioleta; en una cámara digital ya no hace falta, y hoy se usa sobre todo para proteger el cristal del objetivo de polvo, arena y arañazos."
+  },
+  "bloqueo-ae-af": {
+    "termino": "Bloqueo de exposición y enfoque (AE/AF Lock)",
+    "texto": "Fija el enfoque y la luz en el punto que tocaste, para que no cambien aunque muevas el móvil o cambie la luz. En iPhone se mantiene pulsado el punto hasta ver «AE/AF Lock»; en otros móviles puede ser un candado o un aviso parecido."
+  },
+  "zoom-digital": {
+    "termino": "Zoom digital",
+    "texto": "Recortar una parte de la foto y agrandarla. No añade detalle: cuanto más se agranda, más borrosa o pixelada sale. Es lo mismo que recortar después en un editor. El zoom óptico, en cambio, usa otra lente."
   }
 }

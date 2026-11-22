@@ -15,6 +15,7 @@
       "si": {
         "equipo": "movil"
       },
+      "leccion": "luz-baja-y-modo-noche",
       "nota": "Sin teleobjetivo la luna saldrá pequeña. Funciona mejor incluida en un paisaje, con edificios o árboles.",
       "pasos": [
         {
@@ -45,6 +46,7 @@
         "objetivos": "tele",
         "tripode": "si"
       },
+      "leccion": "el-manual-de-verdad",
       "pasos": [
         {
           "titulo": "Modo",
@@ -91,6 +93,7 @@
         "equipo": "camara",
         "objetivos": "tele"
       },
+      "leccion": "la-rueda-de-modos",
       "nota": "Con teleobjetivo cualquier temblor se nota mucho. Busca un apoyo firme y dispara varias veces: alguna saldrá nítida.",
       "pasos": [
         {
@@ -131,6 +134,7 @@
       "si": {
         "equipo": "camara"
       },
+      "leccion": "la-rueda-de-modos",
       "nota": "Con el objetivo normal (por ejemplo 18-55) la luna será un punto pequeño. Funciona mejor incluida en un paisaje.",
       "pasos": [
         {

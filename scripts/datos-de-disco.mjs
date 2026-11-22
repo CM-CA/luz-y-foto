@@ -1,6 +1,6 @@
 /*
  * Lee la carpeta data/ del disco con la misma forma que `datosIncluidos()` (src/datos-incluidos.js)
- * y que Datos.cargar() de la versión actual: {comun, indice, generos, perfil, glosario, recetas}.
+ * (y que Datos.cargar() de la versión actual): {comun, indice, generos, perfil, glosario, recetas, lecciones}, con lecciones = {indice, porId}.
  * La usan `npm run validar`, la compilación y las pruebas.
  */
 import fs from "node:fs";
@@ -20,5 +20,8 @@ export function cargarDeDisco(carpeta = CARPETA_DATOS) {
     generos[id] = leer("generos/" + id + ".json");
     recetas[id] = leer("recetas/" + id + ".json");
   });
-  return { comun: leer("comun.json"), indice, generos, perfil: leer("perfil.json"), glosario: leer("glosario.json"), recetas };
+  const indiceLecciones = leer("lecciones.json");
+  const porId = {};
+  (indiceLecciones.grupos || []).forEach((g) => (g.lecciones || []).forEach((id) => { porId[id] = leer("lecciones/" + id + ".json"); }));
+  return { comun: leer("comun.json"), indice, generos, perfil: leer("perfil.json"), glosario: leer("glosario.json"), recetas, lecciones: { indice: indiceLecciones, porId } };
 }

@@ -1,12 +1,16 @@
 // Pruebas de la carga y validación de data/. Se ejecutan con: npm test (o npx vitest run).
 // Mismas comprobaciones que test/datos.test.cjs, pero sobre la lógica nueva (src/).
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { it } from "vitest";
 import { cargarDeDisco as cargarDatos } from "../../scripts/datos-de-disco.mjs";
 import * as Datos from "../../src/nucleo/datos.js";
 import { datosIncluidos } from "../../src/datos-incluidos.js";
 
 const prueba = it;
+const IMAGENES = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "src", "imagenes");
 const copia = (x) => JSON.parse(JSON.stringify(x));
 const errores = (mut) => { const c = copia(cargarDatos()); mut(c); return Datos.validar(c); };
 const contiene = (lista, trozo) => lista.some((e) => e.includes(trozo));
@@ -156,3 +160,176 @@ prueba("validar: valor por defecto del perfil fuera de las opciones", () => {
   assert.ok(contiene(errores((c) => { c.perfil.porDefecto.nivel = "experto"; }), "perfil.porDefecto.nivel"));
 });
 
+
+/* ---------- Las lecciones (Aprender) ---------- */
+
+const LECCION = "la-rueda-de-modos";
+const palabrasDe = (n) => Array.from({ length: n }, (_, i) => "palabra" + i).join(" ");
+const bloquesDe = (c) => c.lecciones.porId[LECCION].bloques;
+
+prueba("lecciones: los datos reales son válidos y están en la carga", () => {
+  const c = cargarDatos();
+  assert.deepEqual(Datos.validar(c), []);
+  assert.ok(c.lecciones.indice.grupos[0].lecciones.includes(LECCION));
+  assert.deepEqual(datosIncluidos().lecciones, c.lecciones);
+});
+
+prueba("lecciones: falta el índice", () => {
+  assert.ok(contiene(errores((c) => { delete c.lecciones; }), "lecciones.json"));
+});
+
+prueba("lecciones: una del índice sin archivo", () => {
+  assert.ok(contiene(errores((c) => { c.lecciones.indice.grupos[0].lecciones.push("fantasma"); }), "fantasma"));
+});
+
+prueba("lecciones: bloque desconocido, sin texto o dibujo sin alt", () => {
+  assert.ok(contiene(errores((c) => { bloquesDe(c).push({ tipo: "video" }); }), "«video»"));
+  assert.ok(contiene(errores((c) => { bloquesDe(c).push({ tipo: "parrafo" }); }), ".texto"));
+  assert.ok(contiene(errores((c) => { bloquesDe(c).push({ tipo: "dibujo", id: "modos", pie: "Un pie" }); }), ".alt"));
+  assert.ok(contiene(errores((c) => { bloquesDe(c).push({ tipo: "lista", items: [] }); }), ".items"));
+});
+
+prueba("lecciones: términos del glosario", () => {
+  const poner = (texto) => (c) => { bloquesDe(c).push({ tipo: "parrafo", texto }); };
+  assert.ok(contiene(errores(poner("Mira [[no-existe|algo]]")), "«no-existe»"));
+  assert.ok(contiene(errores(poner("Mira [[apertura]]")), "mal escrito"));
+  assert.deepEqual(errores(poner("Mira la [[apertura|apertura]]")), []);
+});
+
+prueba("lecciones: límites de palabras, minutos y público", () => {
+  assert.ok(contiene(errores((c) => { bloquesDe(c).push({ tipo: "parrafo", texto: palabrasDe(451) }); }), "palabras"));
+  // El alt y el pie de un dibujo no cuentan para el límite
+  assert.ok(!contiene(errores((c) => { bloquesDe(c).push({ tipo: "dibujo", id: "x", alt: palabrasDe(500), pie: palabrasDe(100) }); }), "palabras"));
+  assert.ok(contiene(errores((c) => { c.lecciones.porId[LECCION].minutos = 0; }), "minutos"));
+  assert.ok(contiene(errores((c) => { c.lecciones.porId[LECCION].minutos = 30; }), "minutos"));
+  assert.ok(contiene(errores((c) => { c.lecciones.porId[LECCION].para = "tablet"; }), ".para"));
+  assert.ok(contiene(errores((c) => { c.lecciones.indice.etiquetas.noExiste = ""; }), "etiquetas.noExiste"));
+});
+
+prueba("lecciones: la primera lección enseña la regla corta y los nombres según la marca", () => {
+  const l = cargarDatos().lecciones.porId[LECCION];
+  const idea = l.bloques.find((b) => b.tipo === "idea");
+  assert.ok(idea && /\bAv\b/.test(idea.texto) && /\bTv\b/.test(idea.texto) && /\bM\b/.test(idea.texto), "la idea clave nombra Av, Tv y M");
+  assert.ok(l.bloques.some((b) => b.tipo === "pruebalo"), "tiene un «Pruébalo hoy»");
+  assert.ok(JSON.stringify(l.bloques).includes("Nikon"), "dice cómo se llaman los modos en Nikon y Sony");
+});
+
+prueba("lecciones: cada dibujo citado tiene sus dos imágenes", () => {
+  const c = cargarDatos();
+  const citados = Object.values(c.lecciones.porId).flatMap((l) => l.bloques.filter((b) => b.tipo === "dibujo").map((b) => b.id));
+  assert.ok(citados.length > 0, "alguna lección cita un dibujo");
+  citados.forEach((id) => ["claro", "oscuro"].forEach((tema) => {
+    assert.ok(fs.existsSync(path.join(IMAGENES, "dibujo-" + id + "-" + tema + ".webp")), "falta src/imagenes/dibujo-" + id + "-" + tema + ".webp");
+  }));
+  const primero = c.lecciones.porId["la-rueda-de-modos"].bloques[0];
+  assert.equal(primero.tipo, "dibujo");
+  assert.equal(primero.id, "modos");
+  assert.equal(primero.alt, "Lo que eliges tú en cada modo: en Auto, nada; en P, el ISO; en Tv, el tiempo y el ISO; en Av, la apertura y el ISO; en M, los tres.");
+  assert.equal(primero.pie, "Cuadro lleno: lo eliges tú. Vacío: lo elige la cámara.");
+});
+
+// El texto que ve quien lee una lección (sin las marcas de los términos), para buscar en él
+const textoDeLeccion = (l) => l.bloques.flatMap((b) => b.items || [b.texto]).filter(Boolean).join(" ").replace(/\[\[[^|\]]+\|([^\]]+)\]\]/g, "$1");
+const dibujosDe = (l) => l.bloques.filter((b) => b.tipo === "dibujo").map((b) => b.id);
+
+prueba("lecciones: «Lo básico» trae las tres de cámara, en orden", () => {
+  const g = cargarDatos().lecciones.indice.grupos.find((x) => x.id === "basico");
+  assert.deepEqual(g.lecciones, ["la-rueda-de-modos", "el-manual-de-verdad", "parasol-y-filtro-uv"]);
+});
+
+prueba("lecciones: el grupo «Para el móvil» va aparte, después de «Lo básico»", () => {
+  const grupos = cargarDatos().lecciones.indice.grupos;
+  assert.deepEqual(grupos.map((g) => g.id), ["basico", "movil"]);
+  assert.equal(grupos[1].titulo, "Para el móvil");
+  assert.ok(grupos[1].lecciones.includes("toca-para-enfocar-y-exponer"));
+  // Las lecciones de cada grupo son del equipo del grupo: ninguna de móvil entre las de cámara y al revés
+  const porId = cargarDatos().lecciones.porId;
+  grupos[0].lecciones.forEach((id) => assert.equal(porId[id].para, "camara", id));
+  grupos[1].lecciones.forEach((id) => assert.equal(porId[id].para, "movil", id));
+});
+
+prueba("lecciones: toca para enfocar y exponer", () => {
+  const l = cargarDatos().lecciones.porId["toca-para-enfocar-y-exponer"];
+  assert.equal(l.titulo, "Toca para enfocar y exponer");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  assert.equal(l.para, "movil");
+  const texto = textoDeLeccion(l);
+  [/toca/i, /brillo/i, /bloque/i, /según tu móvil/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["toca"]);
+});
+
+prueba("lecciones: el manual de verdad", () => {
+  const l = cargarDatos().lecciones.porId["el-manual-de-verdad"];
+  assert.equal(l.titulo, "El manual de verdad");
+  assert.equal(l.minutos, 3);
+  assert.equal(l.para, "camara");
+  const texto = textoDeLeccion(l);
+  ["f/5.6", "ISO 400", "1 s", "trípode", "paso"].forEach((t) => assert.ok(texto.includes(t), "no menciona «" + t + "»"));
+  // El ejemplo vale para cualquier cámara: ni un modelo, ni una distancia focal concreta
+  ["Canon EOS", "600D", "55 mm", "8°"].forEach((t) => assert.ok(!texto.includes(t), "el ejemplo no debe llevar «" + t + "»"));
+  assert.ok(/un ejemplo, no una receta/i.test(texto), "dice que son ajustes de ejemplo, no una receta");
+  assert.deepEqual(dibujosDe(l), ["exposicion"]);
+});
+
+prueba("lecciones: luz baja y modo noche", () => {
+  const datos = cargarDatos();
+  const grupo = datos.lecciones.indice.grupos.find((g) => g.id === "movil").lecciones;
+  assert.equal(grupo.indexOf("luz-baja-y-modo-noche"), 1, "va la segunda del grupo «Para el móvil»");
+  const l = datos.lecciones.porId["luz-baja-y-modo-noche"];
+  assert.equal(l.titulo, "Luz baja y modo noche");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  assert.equal(l.para, "movil");
+  const texto = textoDeLeccion(l);
+  [/modo noche/i, /quiet/i, /apoy/i, /luna/i, /según tu móvil/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["noche"]);
+});
+
+prueba("lecciones: zoom y lentes", () => {
+  const datos = cargarDatos();
+  assert.deepEqual(datos.lecciones.indice.grupos.find((g) => g.id === "movil").lecciones, ["toca-para-enfocar-y-exponer", "luz-baja-y-modo-noche", "zoom-y-lentes"]);
+  const l = datos.lecciones.porId["zoom-y-lentes"];
+  assert.equal(l.titulo, "Zoom y lentes: cuál usar");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  assert.equal(l.para, "movil");
+  const texto = textoDeLeccion(l);
+  [/0,5x/, /zoom digital/i, /recorta/i, /según tu móvil/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["zoom"]);
+});
+
+prueba("lecciones: parasol y filtro UV", () => {
+  const l = cargarDatos().lecciones.porId["parasol-y-filtro-uv"];
+  assert.equal(l.titulo, "Parasol y filtro UV");
+  assert.equal(l.minutos, 2);
+  assert.equal(l.para, "camara");
+  const texto = textoDeLeccion(l);
+  assert.ok(/parasol/i.test(texto) && texto.includes("UV"), "habla del parasol y del filtro UV");
+  assert.deepEqual(dibujosDe(l), ["parasol"]);
+});
+
+prueba("glosario: los términos de las lecciones nuevas existen", () => {
+  const g = cargarDatos().glosario;
+  ["paso-de-luz", "parasol", "filtro-uv"].forEach((id) => {
+    assert.ok(g[id] && g[id].termino && g[id].texto, "falta el término «" + id + "»");
+  });
+});
+
+prueba("recetas: la lección de una variante tiene que existir", () => {
+  let e = errores((c) => { c.recetas.luna.variantes[0].leccion = "no-existe"; });
+  assert.ok(contiene(e, "leccion") && contiene(e, "no-existe"), e.join("\n"));
+  e = errores((c) => { c.recetas.luna.variantes[0].leccion = 3; });
+  assert.ok(contiene(e, "leccion"), e.join("\n"));
+  const c = cargarDatos();
+  let con = 0;
+  Object.values(c.recetas).forEach((g) => (g.variantes || []).forEach((v) => {
+    if (v.leccion === undefined) return;
+    con++;
+    assert.ok(c.lecciones.porId[v.leccion], "la variante «" + v.id + "» enlaza a «" + v.leccion + "», que no existe");
+  }));
+  assert.ok(con >= 7, "enlazan las variantes de cámara (" + con + ")");
+  assert.equal(c.recetas.luna.variantes.find((v) => v.id === "camara-tele-tripode").leccion, "el-manual-de-verdad");
+  [["amanecer", "toca-para-enfocar-y-exponer"], ["atardecer", "toca-para-enfocar-y-exponer"], ["luna", "luz-baja-y-modo-noche"]].forEach(([g, id]) =>
+    assert.equal(c.recetas[g].variantes.find((v) => v.id === "movil").leccion, id, "la de móvil de " + g));
+});

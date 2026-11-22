@@ -1,0 +1,59 @@
+{
+  "id": "parasol-y-filtro-uv",
+  "titulo": "Parasol y filtro UV",
+  "resumen": "Para qué sirven y cuándo merece la pena cada uno.",
+  "minutos": 2,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "parasol",
+      "alt": "Dos objetivos vistos de lado, con una flecha de luz que llega desde arriba y de lado. Sin parasol, esa luz llega al cristal delantero y se cuela dentro del objetivo. Con parasol, la luz de lado se corta antes de llegar al cristal, y solo entra la luz que viene de frente.",
+      "pie": "Sin parasol, la luz de lado llega al cristal. Con parasol, se corta antes."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Un parasol suele ser buena idea. Un filtro UV solo compensa si el sitio es duro con tu objetivo, y de noche, con luces o la luna, conviene probar sin él."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "El parasol"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "El [[parasol|parasol]] corta la luz que llega de lado, desde fuera del encuadre, como la del sol cuando está bajo. Con menos luz perdida dentro del objetivo hay menos reflejos y la foto sale con más contraste, menos lavada. Además puede amortiguar un golpe y protege el cristal de gotas y dedos."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Lo que no hace: si el sol sale dentro de la foto, el parasol no puede cortarlo. Y si lo que quieres es el reflejo del sol como efecto, quítalo."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "El filtro UV"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Con película, el [[filtro-uv|filtro UV]] servía para filtrar la luz ultravioleta; en una cámara digital ya no hace falta. Hoy es sobre todo una protección del cristal contra arañazos, polvo, arena y salpicaduras; contra un golpe fuerte sirve poco."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Y tiene un precio: un cristal más delante del objetivo puede sumar reflejos «fantasma» cuando hay una luz muy brillante en el encuadre, como una farola o la luna sobre un cielo oscuro. Los filtros baratos lo hacen más."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cuándo merece la pena"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Parasol: casi siempre, si es el de tu objetivo.",
+        "Filtro UV: en la playa, el desierto o donde haya arena, polvo o salpicaduras.",
+        "De noche, con la luna, un planeta o luces en el encuadre: prueba sin filtro."
+      ]
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Si tienes un filtro UV, haz esta noche dos fotos de la luna: una con él y otra sin él. Mira si aparece algún reflejo extraño cerca de la luna."
+    }
+  ]
+}

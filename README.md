@@ -6,6 +6,7 @@ Webapp (PWA) solo frontend para ayudar a principiantes a hacer mejores fotos: te
 - Sol y luna se calculan en el móvil (funciona sin conexión).
 - Se puede instalar en la pantalla de inicio, abre sin conexión y, si no puede actualizar la previsión, enseña la última guardada (avisando de la hora).
 - Meteorología con Open-Meteo (sin clave).
+- Aprender: lecciones cortas con dibujos, para cámara (la rueda de modos, el manual de verdad, parasol y filtro UV) y para móvil (tocar para enfocar y exponer, luz baja y modo noche, zoom y lentes), a las que enlazan las recetas.
 
 Estado: la web publicada en [cm-ca.github.io/luz-y-foto](https://cm-ca.github.io/luz-y-foto/) es una app Svelte + Vite (PWA). Antes era una web de páginas sueltas; el paso a la app (traspaso del 2026-11-21) y la retirada de la web antigua están contados en [`docs/migracion-svelte.md`](docs/migracion-svelte.md), y `/beta/` y las direcciones viejas llevan a la app. Las decisiones están en [`docs/`](docs/).
 
@@ -25,11 +26,12 @@ npm run test:todo   lógica + navegador
 npm run build       compila en dist/ (valida data/ antes; si hay un error, no genera nada) y escribe dist/sw.js (el service worker)
 node scripts/generar-iconos.mjs   vuelve a generar los iconos de public/ (solo si cambia el dibujo o los colores)
 node scripts/generar-cielos.mjs   vuelve a generar los cielos de la cabecera y las 16 fases de la luna de src/imagenes/ (solo si cambia algún dibujo de scripts/escenas-cielo.mjs)
+node scripts/generar-dibujos.mjs  vuelve a generar los dibujos de las lecciones de src/imagenes/ (solo si cambia algún dibujo de scripts/dibujos-lecciones.mjs)
 ```
 
 ## Estructura
 
-- `src/`: la app (Svelte 5 + Vite). `src/nucleo/` es la lógica sin pantalla (sol y luna, semáforo, datos, perfil, recetas, lugar, días de la pantalla Hoy); `src/proveedores/`, lo que habla con fuera (Open-Meteo, Nominatim, geocodificación, GPS); `src/pantallas/`, `src/componentes/` y `src/estado/`, la pantalla Hoy; `src/imagenes/`, los cielos de la cabecera y las fases de la luna.
+- `src/`: la app (Svelte 5 + Vite). `src/nucleo/` es la lógica sin pantalla (sol y luna, semáforo, datos, perfil, recetas, lugar, días de la pantalla Hoy); `src/proveedores/`, lo que habla con fuera (Open-Meteo, Nominatim, geocodificación, GPS); `src/pantallas/`, `src/componentes/` y `src/estado/`, las pantallas Hoy y Aprender; `src/imagenes/`, los cielos de la cabecera, las fases de la luna y los dibujos de las lecciones.
 - `data/`: umbrales, puntos, textos y consejos, separados del código (ver [`docs/datos.md`](docs/datos.md)).
 - `index.html`, `public/`, `vite.config.mjs`: la página de entrada, los iconos y el manifiesto, y la configuración de la compilación.
 - `scripts/`: validar `data/` (lo usan `npm run validar` y la compilación), generar iconos y cielos, y servir `dist/` para las pruebas.
