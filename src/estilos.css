@@ -55,6 +55,11 @@ button.principal { background: var(--texto); color: var(--fondo); border-color: 
    con sombra: el cielo es solo adorno y la imagen no cambia de color aunque el navegador oscurezca la web. */
 .cabecera { position: relative; height: 262px; overflow: hidden; color: #fff; background: #2f4a8c; }
 .cabecera .cielo { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+/* La escena anterior (cielo y luna) se queda encima del cielo nuevo y se funde; el título y el lugar (z-index 2) van siempre por encima */
+.cabecera .escena-anterior { position: absolute; inset: 0; z-index: 1; pointer-events: none; animation: cielo-se-va .9s ease-in-out forwards; }
+.cabecera .escena-anterior .fondo { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+@keyframes cielo-se-va { from { opacity: 1; } to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .cabecera .escena-anterior { display: none; } }
 .cabecera .fila { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 26px 16px 0 20px; }
 .cabecera .rotulo { flex: 1 1 0; min-width: 0; }
 .cabecera h1 { margin: 0; font-size: 27px; line-height: 1; letter-spacing: .2px; color: #fff; text-shadow: 0 1px 10px rgba(20, 15, 50, .5); }
@@ -184,9 +189,9 @@ dl.sale dd small { display: block; font-weight: 500; font-size: 14px; color: var
 
 /* La luna del cielo (la de la fase de esa noche) va en el 75 % del ancho y el 33 % del alto de la cabecera, por detrás del título y
    del lugar; con la noche cubierta se apaga. */
-.cabecera .luna-cielo { position: absolute; left: 75%; top: 33%; width: 64px; height: 64px; margin: -32px 0 0 -32px; filter: drop-shadow(0 0 18px rgba(246, 239, 210, .5)); pointer-events: none; }
-.cabecera .luna-cielo.sur { transform: scaleX(-1); }
-.cabecera[data-cielo="noche-cubierta"] .luna-cielo { opacity: .4; }
+.cabecera .luna-cielo, .cabecera .luna-anterior { position: absolute; left: 75%; top: 33%; width: 64px; height: 64px; margin: -32px 0 0 -32px; filter: drop-shadow(0 0 18px rgba(246, 239, 210, .5)); pointer-events: none; }
+.cabecera .luna-cielo.sur, .cabecera .luna-anterior.sur { transform: scaleX(-1); }
+.cabecera[data-cielo="noche-cubierta"] .luna-cielo, .cabecera .escena-anterior[data-cielo="noche-cubierta"] .luna-anterior { opacity: .4; }
 .consejo { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
 
 .asistente { background: var(--tarjeta); border: 2px solid var(--texto); border-radius: 20px; padding: 20px; margin: 12px 0; }
