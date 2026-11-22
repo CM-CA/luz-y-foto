@@ -141,6 +141,25 @@ ejecutar("buscador", async ({ b, base }) => {
     await ctx.close();
   }
 
+  titulo("sugerencias: una respuesta que llega con el selector ya cerrado no rellena la lista");
+  {
+    const { ctx, p } = await sugerencias();
+    let soltar;
+    const retenida = new Promise((r) => { soltar = r; });
+    const cors = { "access-control-allow-origin": "*" };
+    await p.route("**/geocoding-api.open-meteo.com/**", async (r) => {
+      try { await retenida; r.fulfill({ contentType: "application/json", headers: cors, body: JSON.stringify({ results: [{ name: "Viejo", latitude: 1, longitude: 1, country: "Nada" }] }) }); } catch (e) { /* cancelada por la página */ }
+    });
+    await escribir(p, "Vigo"); await p.clock.runFor(450);           // sale la sugerencia y se queda retenida
+    await p.click("#cambiar");                                       // se cierra el selector
+    await p.waitForSelector("#selector", { state: "hidden" });
+    soltar(); await p.waitForTimeout(250);                           // llega la respuesta, ya sin selector
+    ok(await filas(p) === 0, "con el selector cerrado la respuesta tardía no deja filas en la lista");
+    await p.click("#cambiar"); await p.waitForSelector("#selector:not([hidden])");
+    ok(await filas(p) === 0 && (await p.locator("#msgLugar").textContent()).trim() === MENSAJE_INICIAL, "al reabrirlo está limpio, con el mensaje inicial");
+    await ctx.close();
+  }
+
   titulo("sugerencias: si falla la red mientras se escribe, ni aviso ni excepción; la búsqueda explícita sí avisa");
   {
     const { ctx, p } = await sugerencias();
