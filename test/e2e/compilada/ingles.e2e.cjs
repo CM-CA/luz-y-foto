@@ -89,18 +89,18 @@ ejecutar("ingles", async ({ b, base }) => {
     await ctx.close();
   }
 
-  titulo("la elección guardada manda sobre el teléfono, y «Automático» devuelve el idioma del teléfono");
+  titulo("la elección guardada manda sobre el teléfono, y el selector solo tiene Español e English");
   ({ ctx, p } = await nuevaPagina(b, { lugar: LUGAR, locale: "es-ES" }));
   await p.addInitScript((k) => { if (!sessionStorage.getItem("__sembrado")) { localStorage.setItem(k, "en"); sessionStorage.setItem("__sembrado", "1"); } }, CLAVE);
   await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
   ok((await lang(p)) === "en" && (await p.locator("[data-tab]").allInnerTexts()).join() === "Sunrise,Sunset,Night", "teléfono en español con «en» guardado: la app sale en inglés");
   ok((await pulsado(p)).join() === "en", "English marcado en el selector");
   ok(/^Idioma \/ Language$/.test(await p.locator(".selector-idioma h3").innerText()), "el rótulo del selector sigue siendo «Idioma / Language»");
-  ok((await p.locator(".selector-idioma button").allInnerTexts()).map((t) => t.trim()).join("|").includes("Automatic"), "el botón de «Automático» se lee «Automatic»");
-  await Promise.all([p.waitForNavigation(), p.click(".selector-idioma button[data-idioma=auto]")]);
+  ok((await p.locator(".selector-idioma button").allInnerTexts()).map((t) => t.replace(/^✓\s*/, "").trim()).join("|") === "Español|English", "los botones son «Español» y «English», cada uno en su idioma y sin «Automático»");
+  await Promise.all([p.waitForNavigation(), p.click(".selector-idioma button[data-idioma=es]")]);
   await p.waitForSelector(".veredicto");
-  ok((await p.evaluate((k) => localStorage.getItem(k), CLAVE)) === "auto" && (await lang(p)) === "es", "«Automatic» guarda auto y la app vuelve al español del teléfono");
-  ok((await pulsado(p)).join() === "auto", "«Automático» marcado");
+  ok((await p.evaluate((k) => localStorage.getItem(k), CLAVE)) === "es" && (await lang(p)) === "es", "«Español» guarda es y la app pasa a español");
+  ok((await pulsado(p)).join() === "es", "«Español» marcado");
   ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
   await ctx.close();
 

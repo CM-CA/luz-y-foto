@@ -237,7 +237,8 @@ details.receta li { margin-bottom: 10px; }
 .tripode button[aria-pressed="true"], .idiomas button[aria-pressed="true"] { background: var(--texto); color: var(--fondo); border: 2px solid var(--texto); font-weight: 700; }
 .selector-idioma { margin-top: 24px; }
 .selector-idioma h3 { margin: 0 0 8px; }
-.idiomas { display: flex; gap: 8px; flex-wrap: wrap; }
+.idiomas { display: flex; justify-content: space-between; gap: 8px; }   /* Español pegado a la izquierda, English a la derecha y el centro vacío */
+.idiomas button { flex: none; white-space: nowrap; }
 button.termino { padding: 0 2px; border: none; border-bottom: 2px dotted var(--suave); border-radius: 0; background: none; font: inherit; color: inherit; }
 .def { display: block; margin: 6px 0 2px; padding: 8px 12px; border-radius: 8px; background: var(--gris-fondo); font-size: .95rem; font-weight: 400; }
 .suave { color: var(--suave); font-size: .95rem; }
