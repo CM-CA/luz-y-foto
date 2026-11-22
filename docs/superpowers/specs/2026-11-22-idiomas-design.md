@@ -1,6 +1,6 @@
 # Idiomas: español e inglés (diseño)
 
-Pendiente de aprobación. La persona preguntó si la app podría traducirse al idioma del teléfono, eligió **español e inglés** y la **opción B para los dibujos** (abajo), y fijó la regla: «si está en español que se muestre en español y si es otro idioma, en inglés».
+Aprobado en la práctica el 22-11-2026 («termina la traducción para fusionar todo»); la persona preguntó si la app podría traducirse al idioma del teléfono, eligió **español e inglés** y la **opción B para los dibujos** (abajo), y fijó la regla: «si está en español que se muestre en español y si es otro idioma, en inglés».
 
 ## Intención
 Hoy la app solo existe en español. Quien la abra con el teléfono en otro idioma debe poder usarla y aprender con ella igual que quien la lee en español, sin restos de español por ninguna pantalla.
@@ -106,5 +106,5 @@ El reparto exacto de claves del diccionario, la lista de claves de prosa de la p
 5. Inglés: diccionario, datos y textos de los dibujos.
 6. Pruebas en inglés, ajuste del peso y documentación.
 
-## Pendiente de la persona
-**Gallego, catalán y euskera.** Con la regla literal, un teléfono solo en gallego (muy común en Vigo), catalán o euskera mostraría inglés. Propuesta: tratarlos como español, porque quien los usa lee español. Si la persona prefiere la regla al pie de la letra, esos teléfonos verán inglés (y pueden cambiarlo con el selector).
+## Decidido sin respuesta expresa (la persona puede cambiarlo)
+**Gallego, catalán y euskera.** La persona no contestó a la pregunta; se sigue la propuesta: cuentan como español en el recorrido de `navigator.languages` (`gl`, `ca`, `eu`), porque quien los usa lee español. Con la regla literal esos teléfonos verían inglés; cambiarlo es quitar esos tres códigos de `ESPANOL_DE_HECHO` en `src/nucleo/idioma.js`. El selector permite elegir el otro idioma en cualquier caso.
