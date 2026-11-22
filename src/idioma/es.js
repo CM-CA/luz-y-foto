@@ -11,7 +11,6 @@ export default {
   "app.volverAHoy": "Volver a Hoy",
   "nav.secciones": "Secciones",
   "nav.hoy": "Hoy",
-  "idioma.automatico": "Automático",
 
   // El asistente del equipo
   "asistente.pregunta": "Pregunta {n} de {total}",

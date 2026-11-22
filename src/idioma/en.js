@@ -10,7 +10,6 @@ export default {
   "app.volverAHoy": "Back to Today",
   "nav.secciones": "Sections",
   "nav.hoy": "Today",
-  "idioma.automatico": "Automatic",
 
   // The gear assistant
   "asistente.pregunta": "Question {n} of {total}",

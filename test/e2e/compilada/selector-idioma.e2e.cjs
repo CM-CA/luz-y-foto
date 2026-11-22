@@ -1,5 +1,6 @@
 // El selector «Idioma / Language» (al final de Hoy y de Aprender) y el idioma con que arranca la app: el del teléfono si no se ha elegido
-// nada, lo elegido si se ha elegido; elegir guarda y recarga; si el navegador no deja guardar, lo dice y no recarga.
+// nada, lo elegido si se ha elegido; el selector tiene solo Español e English (uno a cada lado, el centro vacío) y marca el idioma que se ve;
+// elegir el otro guarda y recarga; tocar el que ya se ve no hace nada; si el navegador no deja guardar, lo dice y no recarga.
 //
 // Ejecutar: node test/e2e/compilada/selector-idioma.e2e.cjs   (antes: npm run build)
 "use strict";
@@ -18,7 +19,7 @@ const guardado = (p) => p.evaluate((k) => localStorage.getItem(k), CLAVE);
 const pulsado = (p) => p.evaluate(() => [...document.querySelectorAll(".selector-idioma button")].filter((b) => b.getAttribute("aria-pressed") === "true").map((b) => b.dataset.idioma));
 
 ejecutar("selector-idioma", async ({ b, base }) => {
-  titulo("el selector está al final de Hoy y de Aprender, con tres opciones y «Automático» marcado");
+  titulo("el selector está al final de Hoy y de Aprender, con dos opciones y el idioma que se ve marcado");
   let { ctx, p } = await nuevaPagina(b, { lugar: LUGAR });
   await p.goto(base); await p.waitForSelector(".veredicto");
   for (const [pantalla, url] of [["Hoy", base + "#/hoy"], ["Aprender", base + "#/aprender"]]) {
@@ -26,9 +27,9 @@ ejecutar("selector-idioma", async ({ b, base }) => {
     await p.waitForSelector(".selector-idioma");
     ok(await p.locator(".selector-idioma").count() === 1, pantalla + ": un solo selector");
     ok((await p.locator(".selector-idioma h3").innerText()) === "Idioma / Language", pantalla + ": rótulo «Idioma / Language»");
-    ok((await p.locator(".selector-idioma button").evaluateAll((l) => l.map((e) => e.dataset.idioma))).join() === "auto,es,en", pantalla + ": opciones auto, es, en");
-    ok((await pulsado(p)).join() === "auto", pantalla + ": «Automático» marcado");
-    ok(await p.locator(".selector-idioma button[data-idioma=auto]").evaluate((e) => getComputedStyle(e, "::before").content.startsWith('"✓')), pantalla + ": lo marcado lleva ✓ (no solo color)");
+    ok((await p.locator(".selector-idioma button").evaluateAll((l) => l.map((e) => e.dataset.idioma))).join() === "es,en", pantalla + ": opciones es, en (sin «Automático»)");
+    ok((await pulsado(p)).join() === "es", pantalla + ": «Español» marcado (el teléfono está en español)");
+    ok(await p.locator(".selector-idioma button[data-idioma=es]").evaluate((e) => getComputedStyle(e, "::before").content.startsWith('"✓')), pantalla + ": lo marcado lleva ✓ (no solo color)");
     const caja = await p.locator(".selector-idioma").boundingBox();
     const antes = await p.locator(pantalla === "Hoy" ? "details.instalar" : "ol.lecciones >> nth=-1").boundingBox();
     ok(caja.x >= 0 && caja.x + caja.width <= 390, pantalla + ": el selector cabe en 390 px");
@@ -66,17 +67,31 @@ ejecutar("selector-idioma", async ({ b, base }) => {
   await p.addInitScript((k) => { if (!sessionStorage.getItem("__sembrado")) { localStorage.setItem(k, "es"); sessionStorage.setItem("__sembrado", "1"); } }, CLAVE);
   await p.goto(base); await p.waitForSelector(".veredicto");
   ok((await lang(p)) === "es", "elección «es» manda sobre un teléfono en inglés");
-  await Promise.all([p.waitForNavigation(), p.click(".selector-idioma button[data-idioma=auto]")]);
+  ok((await pulsado(p)).join() === "es", "Español marcado");
+  await Promise.all([p.waitForNavigation(), p.click(".selector-idioma button[data-idioma=en]")]);
   await p.waitForSelector(".veredicto");
-  ok((await guardado(p)) === "auto" && (await lang(p)) === "en", "volver a «Automático»: guarda auto y vuelve al idioma del teléfono (en)");
+  ok((await guardado(p)) === "en" && (await lang(p)) === "en" && (await pulsado(p)).join() === "en", "elegir English con «es» guardado: guarda en, recarga en inglés y lo marca");
   await ctx.close();
 
-  titulo("una elección guardada rara se trata como «Automático»");
-  ({ ctx, p } = await nuevaPagina(b, { lugar: LUGAR, locale: "es-ES" }));
-  await p.addInitScript((k) => { localStorage.setItem(k, "klingon"); }, CLAVE);
+  titulo("tocar el idioma que ya se ve no guarda ni recarga");
+  ({ ctx, p } = await nuevaPagina(b, { lugar: LUGAR, locale: "en-US" }));
   await p.goto(base); await p.waitForSelector(".veredicto");
-  ok((await lang(p)) === "es" && (await pulsado(p)).join() === "auto", "«klingon» guardado: sale en el idioma del teléfono y «Automático» marcado");
-  ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
+  ok((await pulsado(p)).join() === "en", "teléfono en inglés y nada guardado: English marcado");
+  await p.evaluate(() => { window.__marca = true; });
+  await p.click(".selector-idioma button[data-idioma=en]");
+  await p.waitForTimeout(300);
+  ok((await p.evaluate(() => window.__marca === true)) && (await guardado(p)) === null, "no recarga y no guarda nada");
+  await ctx.close();
+
+  titulo("una elección guardada rara, o la «auto» de versiones anteriores, se trata como sin elegir: manda el teléfono");
+  for (const raro of ["auto", "klingon"]) {   // la última página se queda abierta para la prueba de «no deja guardar»
+    ({ ctx, p } = await nuevaPagina(b, { lugar: LUGAR, locale: "es-ES" }));
+    await p.addInitScript(({ k, v }) => { localStorage.setItem(k, v); }, { k: CLAVE, v: raro });
+    await p.goto(base); await p.waitForSelector(".veredicto");
+    ok((await lang(p)) === "es" && (await pulsado(p)).join() === "es", "«" + raro + "» guardado: sale en el idioma del teléfono y «Español» marcado");
+    ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
+    if (raro !== "klingon") await ctx.close();
+  }
 
   titulo("si el navegador no deja guardar: lo dice y no recarga");
   await p.evaluate((k) => {

@@ -125,21 +125,22 @@ ejecutar("maquetacion", async ({ b, base }) => {
       }, niveles);
       ok(v.length === 0, "  veredicto: los " + niveles.length + " títulos posibles se quedan dentro de la tarjeta" + (v.length ? " (se salen: " + v.map((x) => "«" + x + "»").join(", ") + ")" : ""));
     }
-    // El selector de idioma, al final de Hoy: dentro de la pantalla, con sus tres botones dentro de su caja y sin que el texto se salga de ellos
+    // El selector de idioma, al final de Hoy: dentro de la pantalla, con sus dos botones dentro de su caja y sin que el texto se salga de ellos
     const sel = await p.evaluate(() => {
       const e = document.querySelector(".selector-idioma");
       if (!e) return null;
       const caja = e.getBoundingClientRect(), botones = [...e.querySelectorAll("button")];
       const dentro = (c, padre) => c.left >= padre.left - 0.5 && c.right <= padre.right + 0.5;
       const c = botones.map((x) => x.getBoundingClientRect());
-      // Los tres en una sola fila y la fila centrada en su caja: lo que sobra a la izquierda del primero es lo que sobra a la derecha del último
+      // Los dos en una sola fila, uno pegado a cada lado de su caja y el centro vacío
       return { dentro: caja.left >= 0 && caja.right <= document.documentElement.clientWidth + 0.5, botones: botones.length, botonesDentro: c.every((x) => dentro(x, caja)), textoDentro: botones.every((x) => x.scrollWidth <= x.clientWidth + 1),
         unaFila: Math.max(...c.map((x) => x.top)) - Math.min(...c.map((x) => x.top)) <= 1,
-        izquierda: c[0].left - caja.left, derecha: caja.right - c[c.length - 1].right };
+        izquierda: c[0].left - caja.left, derecha: caja.right - c[c.length - 1].right, hueco: c[1].left - c[0].right };
     });
-    ok(sel && sel.dentro && sel.botones === 3 && sel.botonesDentro && sel.textoDentro, "  selector de idioma: " + (sel ? sel.botones + " botones, dentro de la pantalla: " + sel.dentro + ", dentro de su caja: " + sel.botonesDentro + ", texto dentro de cada botón: " + sel.textoDentro : "no está"));
-    ok(sel && sel.unaFila, "  selector de idioma: los tres botones en una sola fila");
-    ok(sel && Math.abs(sel.izquierda - sel.derecha) <= 1.5, "  selector de idioma: la fila va centrada" + (sel ? " (sobran " + Math.round(sel.izquierda) + " px a la izquierda y " + Math.round(sel.derecha) + " px a la derecha)" : ""));
+    ok(sel && sel.dentro && sel.botones === 2 && sel.botonesDentro && sel.textoDentro, "  selector de idioma: " + (sel ? sel.botones + " botones, dentro de la pantalla: " + sel.dentro + ", dentro de su caja: " + sel.botonesDentro + ", texto dentro de cada botón: " + sel.textoDentro : "no está"));
+    ok(sel && sel.unaFila, "  selector de idioma: los dos botones en una sola fila");
+    ok(sel && sel.izquierda <= 1.5 && sel.derecha <= 1.5, "  selector de idioma: uno a cada lado" + (sel ? " (sobran " + Math.round(sel.izquierda) + " px a la izquierda del primero y " + Math.round(sel.derecha) + " px a la derecha del último)" : ""));
+    ok(sel && sel.hueco >= 16, "  selector de idioma: el centro queda vacío" + (sel ? " (" + Math.round(sel.hueco) + " px entre los dos)" : ""));
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
   }
