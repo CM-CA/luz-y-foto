@@ -131,9 +131,15 @@ ejecutar("maquetacion", async ({ b, base }) => {
       if (!e) return null;
       const caja = e.getBoundingClientRect(), botones = [...e.querySelectorAll("button")];
       const dentro = (c, padre) => c.left >= padre.left - 0.5 && c.right <= padre.right + 0.5;
-      return { dentro: caja.left >= 0 && caja.right <= document.documentElement.clientWidth + 0.5, botones: botones.length, botonesDentro: botones.every((x) => dentro(x.getBoundingClientRect(), caja)), textoDentro: botones.every((x) => x.scrollWidth <= x.clientWidth + 1) };
+      const c = botones.map((x) => x.getBoundingClientRect());
+      // Los tres en una sola fila y la fila centrada en su caja: lo que sobra a la izquierda del primero es lo que sobra a la derecha del último
+      return { dentro: caja.left >= 0 && caja.right <= document.documentElement.clientWidth + 0.5, botones: botones.length, botonesDentro: c.every((x) => dentro(x, caja)), textoDentro: botones.every((x) => x.scrollWidth <= x.clientWidth + 1),
+        unaFila: Math.max(...c.map((x) => x.top)) - Math.min(...c.map((x) => x.top)) <= 1,
+        izquierda: c[0].left - caja.left, derecha: caja.right - c[c.length - 1].right };
     });
     ok(sel && sel.dentro && sel.botones === 3 && sel.botonesDentro && sel.textoDentro, "  selector de idioma: " + (sel ? sel.botones + " botones, dentro de la pantalla: " + sel.dentro + ", dentro de su caja: " + sel.botonesDentro + ", texto dentro de cada botón: " + sel.textoDentro : "no está"));
+    ok(sel && sel.unaFila, "  selector de idioma: los tres botones en una sola fila");
+    ok(sel && Math.abs(sel.izquierda - sel.derecha) <= 1.5, "  selector de idioma: la fila va centrada" + (sel ? " (sobran " + Math.round(sel.izquierda) + " px a la izquierda y " + Math.round(sel.derecha) + " px a la derecha)" : ""));
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
   }
