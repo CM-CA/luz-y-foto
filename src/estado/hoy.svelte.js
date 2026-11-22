@@ -240,7 +240,13 @@ export function elegirTripode(valor) { hoy.tripodeHoy = valor; hoy.recetaAbierta
 
 /* ---------- Arranque ---------- */
 
+// Solo hace algo la primera vez que se llama en la página: al volver a Hoy desde otra pantalla (Aprender) se muestra el estado que ya hay,
+// sin pedir la previsión otra vez ni cambiar la pestaña, el día o el lugar.
+let arrancado = false;
+
 export async function arrancar() {
+  if (arrancado) return;
+  arrancado = true;
   escucharConexion();
   const primeraVez = !Perfil.existe();
   hoy.perfil = Perfil.cargar(config.perfil);
