@@ -36,9 +36,9 @@ body { margin: 0; background: var(--fondo); color: var(--texto); font: 17px/1.5 
 main { max-width: 760px; margin: 0 auto; padding: 0 0 80px; }   /* el relleno de abajo deja el final de cada pantalla por encima de la barra */
 .pagina { padding: 20px 16px 0; }   /* pantallas sin cabecera */
 .cuerpo { padding: 0 16px; }        /* lo que va bajo la cabecera, que ocupa todo el ancho */
-h1, h3 { font-family: var(--display); font-weight: 400; color: var(--texto); }
-h1 { font-size: 1.6rem; margin: 0 0 4px; }
-h3 { font-size: 21px; line-height: 1.2; margin: 26px 0 12px; }
+h1, h3 { color: var(--texto); }
+h1 { font: 400 1.6rem/1.2 var(--display); margin: 0 0 4px; }   /* la serif es solo para el nombre de la app y los títulos de pantalla */
+h3 { font: 700 21px/1.2 var(--cuerpo); margin: 26px 0 12px; }
 
 .selector { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 20px; padding: 14px; margin-top: 12px; }
 .selector[hidden] { display: none; }
@@ -56,6 +56,11 @@ button.principal { background: var(--texto); color: var(--fondo); border-color: 
    con sombra: el cielo es solo adorno y la imagen no cambia de color aunque el navegador oscurezca la web. */
 .cabecera { position: relative; height: 262px; overflow: hidden; color: #fff; background: #2f4a8c; }
 .cabecera .cielo { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+/* La escena anterior (cielo y luna) se queda encima del cielo nuevo y se funde; el título y el lugar (z-index 2) van siempre por encima */
+.cabecera .escena-anterior { position: absolute; inset: 0; z-index: 1; pointer-events: none; animation: cielo-se-va .9s ease-in-out forwards; }
+.cabecera .escena-anterior .fondo { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+@keyframes cielo-se-va { from { opacity: 1; } to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .cabecera .escena-anterior { display: none; } }
 .cabecera .fila { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 26px 16px 0 20px; }
 .cabecera .rotulo { flex: 1 1 0; min-width: 0; }
 .cabecera h1 { margin: 0; font-size: 27px; line-height: 1; letter-spacing: .2px; color: #fff; text-shadow: 0 1px 10px rgba(20, 15, 50, .5); }
@@ -113,10 +118,9 @@ button.principal { background: var(--texto); color: var(--fondo); border-color: 
 .veredicto.rojo  { color: var(--rojo);  background: var(--rojo-fondo); }
 .veredicto.ninguno { color: var(--gris); background: var(--gris-fondo); }
 /* El símbolo y la palabra son texto; el bloque de color y el medidor (que también lleva el color como texto) son adorno. */
-.veredicto .titulo { display: flex; align-items: baseline; gap: 12px; font: 400 37px/1.05 var(--display); }
-.veredicto .titulo i { font: normal 27px/1 var(--cuerpo); transform: translateY(2px); }
-/* En pantallas de 345 px o menos el título del veredicto es más pequeño: palabras como «Prometedor» o «Promising», a 37 px, se salían de la tarjeta. */
-@media (max-width: 345px) { .veredicto .titulo { font-size: 29px; } .veredicto .titulo i { font-size: 23px; } }
+/* El título del veredicto, en mayúsculas y negrita con la letra del cuerpo; baja con el ancho para que «PROMETEDOR» quepa a 320 px */
+.veredicto .titulo { display: flex; align-items: baseline; gap: .4em; font: 800 clamp(20px, 6.4vw, 27px)/1.12 var(--cuerpo); letter-spacing: .03em; text-transform: uppercase; overflow-wrap: anywhere; }
+.veredicto .titulo i { font: normal 1em/1 var(--cuerpo); transform: translateY(1px); }
 .veredicto .nota { margin-top: 7px; font: 700 16.5px/1.3 var(--cuerpo); }
 .veredicto .barra { height: 10px; margin-top: 11px; border: 0; border-radius: 6px; background: rgba(31, 39, 64, .12); }
 .veredicto .barra span { font-size: 12px; line-height: 10px; }
@@ -183,7 +187,7 @@ tr.mejor td { font-weight: 700; background: var(--verde-fondo); }
 .luz-de-hoy .horas b { display: block; font: 800 18px/1.2 var(--cuerpo); color: var(--texto); }
 .luz-de-hoy .horas div:nth-child(2) { text-align: center; }
 .luz-de-hoy .horas div:last-child { text-align: right; }
-.luna-nombre { display: block; font: 400 22px/1.15 var(--display); }
+.luna-nombre { display: block; font: 700 22px/1.15 var(--cuerpo); }
 .luna-detalle { display: block; margin-top: 2px; color: var(--suave); font-size: 16px; }
 dl.sale { margin: 16px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; font-size: 16px; }
 dl.sale dt { color: var(--suave); }
@@ -192,9 +196,9 @@ dl.sale dd small { display: block; font-weight: 500; font-size: 14px; color: var
 
 /* La luna del cielo (la de la fase de esa noche) va en el 75 % del ancho y el 33 % del alto de la cabecera, por detrás del título y
    del lugar; con la noche cubierta se apaga. */
-.cabecera .luna-cielo { position: absolute; left: 75%; top: 33%; width: 64px; height: 64px; margin: -32px 0 0 -32px; filter: drop-shadow(0 0 18px rgba(246, 239, 210, .5)); pointer-events: none; }
-.cabecera .luna-cielo.sur { transform: scaleX(-1); }
-.cabecera[data-cielo="noche-cubierta"] .luna-cielo { opacity: .4; }
+.cabecera .luna-cielo, .cabecera .luna-anterior { position: absolute; left: 75%; top: 33%; width: 64px; height: 64px; margin: -32px 0 0 -32px; filter: drop-shadow(0 0 18px rgba(246, 239, 210, .5)); pointer-events: none; }
+.cabecera .luna-cielo.sur, .cabecera .luna-anterior.sur { transform: scaleX(-1); }
+.cabecera[data-cielo="noche-cubierta"] .luna-cielo, .cabecera .escena-anterior[data-cielo="noche-cubierta"] .luna-anterior { opacity: .4; }
 .consejo { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
 
 .asistente { background: var(--tarjeta); border: 2px solid var(--texto); border-radius: 20px; padding: 20px; margin: 12px 0; }
@@ -287,7 +291,7 @@ main:has(.aviso-version) { padding-bottom: 150px; } /* con el aviso fijo a la vi
 .idea .rotulo { display: block; margin-bottom: 4px; font: 800 14px/1.2 var(--cuerpo); color: var(--suave); }
 .idea p { margin: 0; font: 600 17px/1.45 var(--cuerpo); }
 .pruebalo { margin-top: 18px; padding: 14px 16px; border: 2px solid var(--texto); border-radius: 16px; }
-.pruebalo .rotulo { display: block; margin-bottom: 4px; font: 400 19px/1.2 var(--display); }
+.pruebalo .rotulo { display: block; margin-bottom: 4px; font: 700 19px/1.2 var(--cuerpo); }
 .pruebalo p { margin: 0; font-size: 16px; line-height: 1.45; }
 .dibujo { margin: 0 0 18px; padding: 18px 16px 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 16px; }
 .dibujo svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
