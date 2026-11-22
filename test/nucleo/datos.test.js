@@ -1,12 +1,16 @@
 // Pruebas de la carga y validación de data/. Se ejecutan con: npm test (o npx vitest run).
 // Mismas comprobaciones que test/datos.test.cjs, pero sobre la lógica nueva (src/).
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { it } from "vitest";
 import { cargarDeDisco as cargarDatos } from "../../scripts/datos-de-disco.mjs";
 import * as Datos from "../../src/nucleo/datos.js";
 import { datosIncluidos } from "../../src/datos-incluidos.js";
 
 const prueba = it;
+const IMAGENES = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "src", "imagenes");
 const copia = (x) => JSON.parse(JSON.stringify(x));
 const errores = (mut) => { const c = copia(cargarDatos()); mut(c); return Datos.validar(c); };
 const contiene = (lista, trozo) => lista.some((e) => e.includes(trozo));
@@ -208,4 +212,18 @@ prueba("lecciones: la primera lección enseña la regla corta y los nombres seg�
   assert.ok(idea && /\bAv\b/.test(idea.texto) && /\bTv\b/.test(idea.texto) && /\bM\b/.test(idea.texto), "la idea clave nombra Av, Tv y M");
   assert.ok(l.bloques.some((b) => b.tipo === "pruebalo"), "tiene un «Pruébalo hoy»");
   assert.ok(JSON.stringify(l.bloques).includes("Nikon"), "dice cómo se llaman los modos en Nikon y Sony");
+});
+
+prueba("lecciones: cada dibujo citado tiene sus dos imágenes", () => {
+  const c = cargarDatos();
+  const citados = Object.values(c.lecciones.porId).flatMap((l) => l.bloques.filter((b) => b.tipo === "dibujo").map((b) => b.id));
+  assert.ok(citados.length > 0, "alguna lección cita un dibujo");
+  citados.forEach((id) => ["claro", "oscuro"].forEach((tema) => {
+    assert.ok(fs.existsSync(path.join(IMAGENES, "dibujo-" + id + "-" + tema + ".webp")), "falta src/imagenes/dibujo-" + id + "-" + tema + ".webp");
+  }));
+  const primero = c.lecciones.porId["la-rueda-de-modos"].bloques[0];
+  assert.equal(primero.tipo, "dibujo");
+  assert.equal(primero.id, "modos");
+  assert.equal(primero.alt, "Lo que eliges tú en cada modo: en Auto, nada; en P, el ISO; en Tv, el tiempo y el ISO; en Av, la apertura y el ISO; en M, los tres.");
+  assert.equal(primero.pie, "Cuadro lleno: lo eliges tú. Vacío: lo elige la cámara.");
 });

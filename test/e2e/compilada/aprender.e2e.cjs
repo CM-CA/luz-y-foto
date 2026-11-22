@@ -132,6 +132,39 @@ ejecutar("aprender", async ({ b, base }) => {
     await ctx.close();
   }
 
+  titulo("G: el dibujo de la lección carga, tiene texto alternativo y cambia con el tema");
+  for (const [esquema, tema] of [["light", "claro"], ["dark", "oscuro"]]) {
+    const { ctx, p } = await nuevaPagina(b, { colorScheme: esquema, perfil: PERFIL, lugar: LUGAR });
+    await p.goto(base + "#/aprender/la-rueda-de-modos"); await p.waitForSelector("figure.dibujo img");
+    await p.waitForFunction(() => document.querySelector("figure.dibujo img").complete);
+    const d = await p.evaluate(() => { const i = document.querySelector("figure.dibujo img"); return { ancho: i.naturalWidth, alt: i.alt, src: i.currentSrc, pie: document.querySelector("figure.dibujo figcaption").textContent.trim(), caja: i.getBoundingClientRect().width }; });
+    ok(d.ancho > 0, tema + ": la imagen carga (" + d.ancho + " px de ancho)");
+    ok(d.alt.length > 20, tema + ": con texto alternativo («" + d.alt.slice(0, 40) + "…»)");
+    ok(d.src.includes("-" + tema), tema + ": usa la imagen " + tema + " (" + d.src.split("/").pop() + ")");
+    ok(d.pie === "Cuadro lleno: lo eliges tú. Vacío: lo elige la cámara.", tema + ": con su pie");
+    ok(d.caja > 200, tema + ": se ve con un tamaño razonable (" + Math.round(d.caja) + " px)");
+    ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
+    await ctx.close();
+  }
+
+  titulo("H: sin conexión, la lección y su dibujo se abren desde la caché");
+  {
+    const { ctx, p } = await nuevaPagina(b, { permisos: false, serviceWorkers: "allow", perfil: PERFIL, lugar: LUGAR });
+    await p.goto(base); await p.waitForSelector("[data-tab]");
+    await p.waitForFunction(() => !!navigator.serviceWorker.controller, null, { timeout: 10000 });
+    const guardados = await p.evaluate(async () => { const salida = []; for (const k of await caches.keys()) salida.push(...(await (await caches.open(k)).keys()).map((q) => new URL(q.url).pathname)); return salida; });
+    ok(guardados.some((a) => /dibujo-modos-claro/.test(a)) && guardados.some((a) => /dibujo-modos-oscuro/.test(a)), "el service worker guardó los dos dibujos");
+    await ctx.setOffline(true);
+    await p.route("**/api.open-meteo.com/**", (r) => r.abort("internetdisconnected"));
+    await p.goto(base + "#/aprender/la-rueda-de-modos");
+    await p.reload(); await p.waitForSelector("figure.dibujo img");
+    await p.waitForFunction(() => document.querySelector("figure.dibujo img").complete);
+    const ancho = await p.evaluate(() => document.querySelector("figure.dibujo img").naturalWidth);
+    ok(ancho > 0, "recargando la lección sin red, el dibujo carga (" + ancho + " px)");
+    ok(await p.locator("h1.apr-titulo").innerText() === "La rueda de modos", "y la lección también");
+    await ctx.close();
+  }
+
   titulo("F: medidas: 320, 360 y 390 px, claro y oscuro, letra normal y ancha");
   for (const esquema of ["light", "dark"]) {
     for (const [nombreLetra, css] of [["la del sistema", null], ["una letra ancha", LETRA_ANCHA]]) {

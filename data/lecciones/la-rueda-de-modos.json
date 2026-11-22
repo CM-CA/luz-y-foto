@@ -6,6 +6,12 @@
   "para": "camara",
   "bloques": [
     {
+      "tipo": "dibujo",
+      "id": "modos",
+      "alt": "Lo que eliges tú en cada modo: en Auto, nada; en P, el ISO; en Tv, el tiempo y el ISO; en Av, la apertura y el ISO; en M, los tres.",
+      "pie": "Cuadro lleno: lo eliges tú. Vacío: lo elige la cámara."
+    },
+    {
       "tipo": "idea",
       "texto": "Av si te importa el fondo. Tv si te importa el movimiento. M cuando la luz no cambia y tienes tiempo."
     },

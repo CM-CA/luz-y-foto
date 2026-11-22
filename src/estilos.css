@@ -274,3 +274,6 @@ main:has(.aviso-version) { padding-bottom: 150px; } /* con el aviso fijo a la vi
 .pruebalo { margin-top: 18px; padding: 14px 16px; border: 2px solid var(--texto); border-radius: 16px; }
 .pruebalo .rotulo { display: block; margin-bottom: 4px; font: 400 19px/1.2 var(--display); }
 .pruebalo p { margin: 0; font-size: 16px; line-height: 1.45; }
+.dibujo { margin: 0 0 18px; padding: 18px 16px 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 16px; }
+.dibujo img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.dibujo figcaption { margin-top: 10px; color: var(--suave); font-size: 14.5px; line-height: 1.4; }
