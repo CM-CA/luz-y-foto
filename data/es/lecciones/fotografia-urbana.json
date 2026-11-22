@@ -1,0 +1,82 @@
+{
+  "id": "fotografia-urbana",
+  "titulo": "Fotografía urbana",
+  "resumen": "Líneas, marcos y paciencia para la calle, y cómo cuidar las luces de noche.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "urbana",
+      "alt": "Una calle en perspectiva. Los bordes de la acera y las fachadas forman líneas que llevan la mirada hacia el fondo: 1, líneas guía. A un lado, una puerta hace de marco: 2, marco. En el centro, una persona pequeña camina por un charco de luz: 3, charco de luz.",
+      "pie": "Calle en perspectiva. 1 Líneas guía. 2 Marco: una puerta o una ventana. 3 Charco de luz: espera a que alguien entre."
+    },
+    {
+      "tipo": "idea",
+      "texto": "En la calle no puedes colocar nada: elige el escenario, espera a que pase la vida por él y dispara rápido. De noche, protege las luces."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Compón con lo que hay"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Busca [[lineas-guia|líneas guía]]: una calle, una barandilla o la sombra de un edificio que lleven la mirada hasta tu sujeto. Busca también un marco natural, como una puerta o una ventana. Los charcos y las superficies brillantes dan reflejos."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Elige un fondo que te guste y espera a que alguien pase por él."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "De día"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "No hace falta huir del sol duro: sus sombras marcadas pueden ser el tema de la foto. Un charco de luz entre edificios recorta a quien pase por él, y en la [[hora-dorada|hora dorada]] la luz es más suave y cálida. Usa un [[velocidad|tiempo]] de 1/200 s o más rápido para que quien camina salga nítido, y una [[apertura|apertura]] intermedia, por ejemplo f/5,6 u f/8. En [[modo-av|Av o A]], vigila que el tiempo no se alargue."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "De noche: luces y sombras"
+    },
+    {
+      "tipo": "dibujo",
+      "id": "luces",
+      "alt": "Dos fotos de la misma calle de noche, con una farola. En la primera, muy clara, la luz de la farola se quema: es una mancha blanca sin detalle. En la segunda, con el brillo más bajo, se ve la farola y su luz con detalle, y lo oscuro se queda oscuro.",
+      "pie": "Muy clara: las luces se queman. Con el brillo más bajo: se ve el detalle de la luz y lo oscuro se queda oscuro."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Con luces fuertes y zonas muy oscuras, las luces tienden a salir como manchas blancas sin detalle."
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Protege las luces: baja la exposición hasta que se vea el detalle en lo más brillante; lo oscuro se quedará oscuro. En cámara, con la [[compensacion|compensación]] negativa (por ejemplo -1); en muchos móviles, toca la luz más fuerte y baja el brillo.",
+        "Mejor en la [[hora-azul|hora azul]]: el cielo aún tiene color y hay menos diferencia entre él y las luces.",
+        "Abre la apertura todo lo que puedas, sube el [[iso|ISO]] y, a pulso, no bajes de 1/100 s. Con un trípode y un tiempo largo, los coches dejan estelas de luz.",
+        "Limpia la lente y quita el filtro UV: una mancha o un filtro hacen halos con las luces."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Personas, con respeto"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "No a todos les gusta salir en una foto. Si alguien lo nota, sé amable; si te pide que la borres, bórrala. Si va a salir una persona reconocible y vas a publicar la foto, lo prudente es pedirle permiso; con niños, más cuidado todavía. Las normas cambian de un país a otro (en España, la ley protege la imagen de cada persona) y esto no es asesoramiento legal."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Pasa más desapercibido que una cámara. Para acercarte, hazlo tú en vez de pellizcar la pantalla, como en «Zoom y lentes». De noche, con el modo noche, quédate quieto: lo que se mueva puede salir borroso."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Elige un rincón con farolas. Haz una foto y otra con el brillo más bajo, tocando la luz más fuerte, y compara. Si sale alguien reconocible y vas a publicarla, pregúntale antes."
+    }
+  ]
+}

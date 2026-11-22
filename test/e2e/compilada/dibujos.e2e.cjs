@@ -19,8 +19,8 @@ const LOCALE = { es: "es-ES", en: "en-US" };
 const CAPTURAS = process.env.E2E_CAPTURAS ? path.resolve(process.env.E2E_CAPTURAS) : null;
 if (CAPTURAS) fs.mkdirSync(CAPTURAS, { recursive: true });
 
-// Las lecciones con dibujo de un idioma: [id de la lección, bloque del dibujo]
-const conDibujo = (idioma) => leer(idioma, "lecciones.json").grupos.flatMap((g) => g.lecciones).map((id) => [id, leer(idioma, "lecciones", id + ".json").bloques.find((b) => b.tipo === "dibujo")]).filter(([, b]) => b);
+// Los dibujos de las lecciones de un idioma, en orden: [id de la lección, bloque del dibujo, posición del dibujo dentro de la lección (0, 1…)]
+const conDibujo = (idioma) => leer(idioma, "lecciones.json").grupos.flatMap((g) => g.lecciones).flatMap((id) => leer(idioma, "lecciones", id + ".json").bloques.filter((b) => b.tipo === "dibujo").map((b, k) => [id, b, k]));
 
 ejecutar("dibujos", async ({ b, base }) => {
   for (const idioma of IDIOMAS) {
@@ -28,12 +28,13 @@ ejecutar("dibujos", async ({ b, base }) => {
       titulo(idioma + ", tema " + tema + ": cada dibujo se ve, sus textos caben y su nombre accesible es su texto alternativo (320 px)");
       const { ctx, p } = await nuevaPagina(b, { locale: LOCALE[idioma] || idioma, colorScheme: esquema, viewport: { width: 320, height: 800 }, lugar: LUGAR });
       const lecciones = conDibujo(idioma);
-      ok(lecciones.length === 8, idioma + ": ocho lecciones con dibujo (" + lecciones.length + ")");
-      for (const [id, bloque] of lecciones) {
+      ok(lecciones.length === 10, idioma + ": diez dibujos en las lecciones (" + lecciones.length + ")");
+      for (const [id, bloque, k] of lecciones) {
+        const nombreDibujo = id + (k ? " (dibujo " + (k + 1) + ")" : "");
         await p.goto(base + "#/aprender/" + id); await p.waitForSelector("figure.dibujo svg");
         await p.evaluate(() => document.fonts.ready);
-        const r = await p.evaluate(() => {
-          const figura = document.querySelector("figure.dibujo"), svg = figura.querySelector("svg"), caja = svg.getBoundingClientRect();
+        const r = await p.evaluate((k) => {
+          const figura = document.querySelectorAll("figure.dibujo")[k], svg = figura.querySelector("svg"), caja = svg.getBoundingClientRect();
           const [, , vw, vh] = svg.getAttribute("viewBox").split(" ").map(Number);
           const textos = [...svg.querySelectorAll("text")].map((t) => { const c = t.getBBox(); return { texto: t.textContent, x: c.x, y: c.y, w: c.width, h: c.height }; });
           const fuera = textos.filter((t) => t.x < 0 || t.y < 0 || t.x + t.w > vw || t.y + t.h > vh).map((t) => "«" + t.texto + "» (" + Math.round(t.x) + ".." + Math.round(t.x + t.w) + " de " + vw + ")");
@@ -46,13 +47,13 @@ ejecutar("dibujos", async ({ b, base }) => {
           }
           return { fuente: document.fonts.check("700 17px Figtree"), letra: getComputedStyle(svg.querySelector("text")).fontFamily, nombre: figura.querySelector("[role=img]").getAttribute("aria-label"),
             ancho: caja.width, derecha: caja.right, pagina: document.documentElement.scrollWidth - document.documentElement.clientWidth, n: textos.length, fuera, pisan };
-        });
-        ok(r.ancho > 100 && r.derecha <= 320 && r.pagina <= 0, id + ": se ve y cabe en 320 px (" + Math.round(r.ancho) + " px de ancho, la página no desborda)");
-        ok(r.fuente && /Figtree/.test(r.letra), id + ": con la letra de la app (" + r.letra + ")");
-        ok(r.n >= 4 && r.fuera.length === 0, id + ": ningún texto se sale del dibujo (" + r.n + " textos" + (r.fuera.length ? "; fuera: " + r.fuera.join(", ") : "") + ")");
-        ok(r.pisan.length === 0, id + ": ningún texto pisa a otro" + (r.pisan.length ? " (" + r.pisan.join("; ") + ")" : ""));
-        ok(r.nombre === bloque.alt, id + ": su nombre accesible es el texto alternativo del bloque");
-        if (CAPTURAS) await p.locator("figure.dibujo").screenshot({ path: path.join(CAPTURAS, "dibujo-" + idioma + "-" + id + "-" + tema + ".png") });
+        }, k);
+        ok(r.ancho > 100 && r.derecha <= 320 && r.pagina <= 0, nombreDibujo + ": se ve y cabe en 320 px (" + Math.round(r.ancho) + " px de ancho, la página no desborda)");
+        ok(r.fuente && /Figtree/.test(r.letra), nombreDibujo + ": con la letra de la app (" + r.letra + ")");
+        ok(r.n >= 4 && r.fuera.length === 0, nombreDibujo + ": ningún texto se sale del dibujo (" + r.n + " textos" + (r.fuera.length ? "; fuera: " + r.fuera.join(", ") : "") + ")");
+        ok(r.pisan.length === 0, nombreDibujo + ": ningún texto pisa a otro" + (r.pisan.length ? " (" + r.pisan.join("; ") + ")" : ""));
+        ok(r.nombre === bloque.alt, nombreDibujo + ": su nombre accesible es el texto alternativo del bloque");
+        if (CAPTURAS) await p.locator("figure.dibujo").nth(k).screenshot({ path: path.join(CAPTURAS, "dibujo-" + idioma + "-" + id + (k ? "-" + (k + 1) : "") + "-" + tema + ".png") });
       }
       ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
       await ctx.close();

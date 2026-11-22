@@ -319,7 +319,7 @@ prueba("lecciones: el grupo «Tipos de fotografía» va el último y sus leccion
   const g = datos.lecciones.indice.grupos.find((x) => x.id === "tipos");
   assert.ok(g, "falta el grupo tipos");
   assert.equal(g.titulo, "Tipos de fotografía");
-  assert.deepEqual(g.lecciones, ["fotografia-de-paisaje", "fotografia-deportiva"]);
+  assert.deepEqual(g.lecciones, ["fotografia-de-paisaje", "fotografia-deportiva", "fotografia-urbana"]);
   g.lecciones.forEach((id) => assert.equal(datos.lecciones.porId[id].para, "todos", id));
 });
 
@@ -348,6 +348,25 @@ prueba("lecciones: fotografía deportiva", () => {
   assert.ok(!/\b(Canon|Nikon|Sony|EOS)\b/.test(texto) || /AF-C|Servo/.test(texto), "las marcas solo salen para nombrar el enfoque continuo");
   assert.ok(/en muchos móviles|según tu móvil/i.test(texto), "dice dónde cambia de un móvil a otro");
   assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
+});
+
+prueba("lecciones: fotografía urbana", () => {
+  const l = cargarDatos().lecciones.porId["fotografia-urbana"];
+  assert.equal(l.titulo, "Fotografía urbana");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  const texto = textoDeLeccion(l);
+  [/líneas guía/i, /marco/i, /charco de luz/i, /1\/200/, /f\/5,6/, /f\/8/, /ISO/, /hora dorada/i, /permiso/i, /niños/i, /borr/i, /pellizc/i, /esper/i, /hora azul/i, /compensación/i, /1\/100/, /estelas/i, /filtro UV/i, /brillo/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["urbana", "luces"]);
+  assert.ok(!/\b(Canon|Nikon|Sony|EOS)\b/.test(texto), "no ata la lección a una marca de cámara");
+  assert.ok(/en muchos móviles|según tu móvil/i.test(texto), "dice dónde cambia de un móvil a otro");
+  assert.ok(/asesoramiento legal/i.test(texto) && /cambian de un país a otro/i.test(texto), "avisa de que la ley cambia y de que no es asesoramiento legal");
+  assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
+});
+
+prueba("glosario: líneas guía", () => {
+  const g = cargarDatos().glosario["lineas-guia"];
+  assert.ok(g && /guía/i.test(g.termino) && /mirada/.test(g.texto), "falta el término o no dice que llevan la mirada");
 });
 
 prueba("glosario: enfoque continuo y ráfaga", () => {

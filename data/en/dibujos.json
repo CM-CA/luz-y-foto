@@ -108,5 +108,28 @@
       "Burst: several photos in a row",
       "and you keep the best one"
     ]
+  },
+  "urbana": {
+    "filas": [
+      "Leading lines",
+      "Frame",
+      "Pool of light"
+    ],
+    "lineas": [
+      "Pick the background and wait",
+      "for someone to step into the light"
+    ]
+  },
+  "luces": {
+    "claro": "Too bright",
+    "lineasClaro": [
+      "lights burn out,",
+      "no detail"
+    ],
+    "oscuro": "Brightness down",
+    "lineasOscuro": [
+      "the light shows;",
+      "darks stay dark"
+    ]
   }
 }

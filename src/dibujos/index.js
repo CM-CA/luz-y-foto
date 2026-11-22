@@ -3,11 +3,13 @@
 // (un número = una lista de ese largo; null = un texto solo); `pintar(textos)` devuelve el SVG como texto.
 import deporte from "./deporte.js";
 import exposicion from "./exposicion.js";
+import luces from "./luces.js";
 import modos from "./modos.js";
 import noche from "./noche.js";
 import paisaje from "./paisaje.js";
 import parasol from "./parasol.js";
 import toca from "./toca.js";
+import urbana from "./urbana.js";
 import zoom from "./zoom.js";
 
-export const DIBUJOS = { modos, exposicion, parasol, toca, noche, zoom, paisaje, deporte };
+export const DIBUJOS = { modos, exposicion, parasol, toca, noche, zoom, paisaje, deporte, urbana, luces };

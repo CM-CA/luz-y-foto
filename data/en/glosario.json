@@ -86,5 +86,9 @@
   "rafaga": {
     "termino": "Burst (continuous shooting)",
     "texto": "You hold down the shutter button and the camera takes many photos in a row, several per second. It's useful for capturing a moment that lasts an instant and then keeping the best one. On many phones you do it by holding down the shutter button."
+  },
+  "lineas-guia": {
+    "termino": "Leading lines",
+    "texto": "Lines in the scene (a street, a railing, a shadow) that lead the eye toward the subject. Looking for them before you shoot helps the photo have direction."
   }
 }

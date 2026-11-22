@@ -86,5 +86,9 @@
   "rafaga": {
     "termino": "Ráfaga (disparo continuo)",
     "texto": "Mantienes pulsado el disparador y la cámara hace muchas fotos seguidas, varias por segundo. Sirve para captar un momento que dura un instante y quedarte después con la mejor. En muchos móviles se hace manteniendo pulsado el botón de disparo."
+  },
+  "lineas-guia": {
+    "termino": "Líneas guía",
+    "texto": "Líneas de la escena (una calle, una barandilla, una sombra) que llevan la mirada hacia el sujeto. Buscarlas antes de disparar ayuda a que la foto tenga dirección."
   }
 }

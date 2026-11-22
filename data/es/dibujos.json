@@ -108,5 +108,28 @@
       "Ráfaga: varias fotos seguidas",
       "y te quedas con la mejor"
     ]
+  },
+  "urbana": {
+    "filas": [
+      "Líneas guía",
+      "Marco",
+      "Charco de luz"
+    ],
+    "lineas": [
+      "Elige el fondo y espera",
+      "a que alguien entre en la luz"
+    ]
+  },
+  "luces": {
+    "claro": "Muy clara",
+    "lineasClaro": [
+      "las luces se queman,",
+      "sin detalle"
+    ],
+    "oscuro": "Brillo más bajo",
+    "lineasOscuro": [
+      "se ve la luz;",
+      "lo oscuro, oscuro"
+    ]
   }
 }
