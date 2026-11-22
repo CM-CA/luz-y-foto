@@ -30,7 +30,7 @@ Simulador de exposición (más adelante, como un tipo de bloque nuevo); tutorial
 
 ## Formas de hacerlo
 **Dónde viven las lecciones.**
-1. *Datos: un archivo JSON por lección y un índice con grupos, pintados por un componente genérico (recomendada y elegida).* Encaja con el principio de la app (textos fuera del código), se valida, y añadir una lección o un grupo no toca código. Coste: un lenguaje de bloques que mantener.
+1. *Datos: un archivo JSON por lección y un índice con grupos, pintados por un componente genérico (recomendada).* Encaja con el principio de la app (textos fuera del código), se valida, y añadir una lección o un grupo no toca código. Coste: un lenguaje de bloques que mantener.
 2. *Un componente Svelte por lección.* Libertad total e interactividad fácil, pero los textos acaban dentro del código, sin validar.
 3. *Markdown compilado.* Cómodo de escribir, pero exige una dependencia nueva.
 
@@ -64,7 +64,7 @@ Una lección: botón «← Aprender», título, «3 min · Para cámara», el di
 
 ## Las tres primeras lecciones (qué cuenta cada una)
 Los textos los escribe el constructor siguiendo estas ideas; la persona los revisa en la PR y comprueba los datos de su foto.
-1. **La rueda de modos.** Qué elige tú y qué elige la cámara en Auto, P, Av/A, Tv/S y M. Regla corta: *Av si te importa el fondo, Tv si te importa el movimiento, M cuando la luz no cambia y hay tiempo*. Cuándo el automático es suficiente (no hay tiempo, luz que cambia rápido). Por dónde empezar: Av. Nombres según marca.
+1. **La rueda de modos.** Qué eliges tú y qué elige la cámara en Auto, P, Av/A, Tv/S y M. Regla corta: *Av si te importa el fondo, Tv si te importa el movimiento, M cuando la luz no cambia y hay tiempo*. Cuándo el automático es suficiente (no hay tiempo, luz que cambia rápido). Por dónde empezar: Av. Nombres según marca.
 2. **El manual de verdad.** Apertura, tiempo e ISO, qué hace cada uno y **qué precio tiene** (fondo y nitidez, movimiento y trepidación, grano). Qué es «un paso» de luz. Caso real: la luna creciente con Venus (Canon EOS 600D, 55 mm, f/5.6, ISO 400, 1 s, con trípode): leer cada ajuste y qué cambiar si sale oscura o clara.
 3. **Parasol y filtro UV.** Qué hace el parasol (menos reflejos y velo con el sol bajo, protege de golpes) y cuándo no sirve; por qué un filtro UV hoy es sobre todo protección y por qué, de noche, con la luna o un planeta, puede dar reflejos fantasma. Cuándo merece la pena cada uno y cuándo no.
 
