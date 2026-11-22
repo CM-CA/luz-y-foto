@@ -1,0 +1,74 @@
+{
+  "id": "el-manual-de-verdad",
+  "titulo": "El manual de verdad",
+  "resumen": "Apertura, tiempo e ISO: lo que da cada uno y lo que cuesta.",
+  "minutos": 3,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "exposicion",
+      "alt": "Tres columnas: apertura, tiempo e ISO. Con f/2,8 el fondo sale borroso y con f/11 todo sale nítido. Con 1/500 s el movimiento se congela y con 1 s todo se mueve, así que hace falta trípode. Con ISO 100 la foto sale limpia y con ISO 3200 sale con grano.",
+      "pie": "Apertura: f/2,8, fondo borroso; f/11, todo nítido. Tiempo: 1/500 s, congela; 1 s, todo se mueve (con trípode). ISO: 100, limpia; 3200, con grano."
+    },
+    {
+      "tipo": "idea",
+      "texto": "La luz que necesitas siempre se paga: con fondo, con movimiento o con grano. Manual es elegir tú qué pagas."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Los tres ajustes controlan lo mismo: cuánta luz llega al sensor. Pero cada uno cambia además otra cosa de la foto, y ese es su precio."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué da cada uno y qué cuesta"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "[[apertura|Apertura]] (f/): cuánto se abre el objetivo. Abierta (f/2,8), entra mucha luz y el fondo sale borroso; cerrada (f/11), entra poca y todo sale nítido. Precio: el fondo y la nitidez.",
+        "[[velocidad|Tiempo]] (velocidad de obturación): cuánto rato recibe luz el sensor. Rápido (1/500 s) congela el movimiento; lento (1 s) lo mueve todo y, a pulso, también la cámara. Precio: el movimiento y la trepidación.",
+        "[[iso|ISO]]: la sensibilidad del sensor. Bajo (100), la foto sale limpia; alto (3200), ve más en la oscuridad, pero suele salir con grano. Precio: el grano."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué es un paso de luz"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Un [[paso-de-luz|paso]] de luz es el doble o la mitad de luz. Cada ajuste tiene su escala: de f/4 a f/2,8, de 1/60 s a 1/30 s o de ISO 200 a ISO 400 hay un paso más. Por eso se pueden cambiar entre sí: si abres la apertura un paso y acortas el tiempo a la mitad, la foto queda igual de clara."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Un caso real: la luna con Venus"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Una luna creciente muy fina, con Venus a unos 8° de ella. Ajustes: Canon EOS 600D, 55 mm, f/5.6, ISO 400, 1 s, con trípode. En [[modo-m|modo M]], se leen así:"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "f/5.6: una apertura intermedia, ni muy abierta ni muy cerrada.",
+        "ISO 400: bajo para ser de noche, así que el grano suele ser poco.",
+        "1 s: un tiempo largo. Solo sale nítido con la cámara quieta; por eso el trípode."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Si sale oscura o clara"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Sale oscura: dale un paso más de luz con el ajuste que menos te cueste. Con trípode, alarga el tiempo a 2 s; o sube el ISO a 800 (más grano), o abre a f/4 si tu objetivo llega (menos fondo nítido).",
+        "Sale clara o quemada: quítale un paso. Acorta el tiempo a 1/2 s, baja el ISO a 200 o cierra a f/8."
+      ]
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pon la cámara en M sobre algo firme. Haz una foto, otra con el tiempo doble y otra con la mitad. Compara cuánto cambia la claridad: eso es un paso de luz."
+    }
+  ]
+}

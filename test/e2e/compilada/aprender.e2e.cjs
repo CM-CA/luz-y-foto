@@ -18,7 +18,9 @@ const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode:
 const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const LETRA_ANCHA = "* { font-family: 'DejaVu Sans', sans-serif !important; }";
 const INDICE = JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "lecciones.json"), "utf8"));
-const TOTAL = INDICE.grupos.reduce((n, g) => n + g.lecciones.length, 0);
+const IDS = INDICE.grupos.flatMap((g) => g.lecciones);
+const TOTAL = IDS.length;
+const TITULOS = { "la-rueda-de-modos": "La rueda de modos", "el-manual-de-verdad": "El manual de verdad", "parasol-y-filtro-uv": "Parasol y filtro UV" };
 
 const activo = (p) => p.evaluate(() => [...document.querySelectorAll("nav.nav-inferior a")].filter((a) => a.getAttribute("aria-current") === "page").map((a) => a.textContent.trim()));
 const hash = (p) => p.evaluate(() => location.hash);
@@ -165,11 +167,37 @@ ejecutar("aprender", async ({ b, base }) => {
     await ctx.close();
   }
 
+  titulo("I: las tres lecciones: cada una se abre desde la lista, con su título y su dibujo, sin desbordar a 320 px");
+  {
+    ok(IDS.length === 3 && IDS.every((id) => TITULOS[id]), "el índice trae las tres (" + IDS.join(", ") + ")");
+    const { ctx, p } = await nuevaPagina(b, { viewport: { width: 320, height: 800 }, perfil: PERFIL, lugar: LUGAR });
+    await p.goto(base + "#/aprender"); await p.waitForSelector("ol.lecciones");
+    const filas = await p.evaluate(() => [...document.querySelectorAll("ol.lecciones li a")].map((a) => a.querySelector(".lec-t").textContent.trim()));
+    ok(JSON.stringify(filas) === JSON.stringify(IDS.map((id) => TITULOS[id])), "la lista las muestra en orden: " + filas.join(" | "));
+    for (const id of IDS) {
+      await p.goto(base + "#/aprender"); await p.waitForSelector("ol.lecciones");
+      await p.click("ol.lecciones li a[href='#/aprender/" + id + "']");
+      await p.waitForSelector(".leccion-meta"); await p.waitForSelector("figure.dibujo img");
+      await p.waitForFunction(() => document.querySelector("figure.dibujo img").complete);
+      const r = await p.evaluate(() => ({
+        h1: document.querySelector("h1").textContent.trim(), ancho: document.querySelector("figure.dibujo img").naturalWidth,
+        alt: document.querySelector("figure.dibujo img").alt, pagina: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        meta: document.querySelector(".leccion-meta").textContent.trim()
+      }));
+      ok(r.h1 === TITULOS[id], id + ": el título es «" + r.h1 + "»");
+      ok(r.ancho > 0 && r.alt.length > 20, id + ": su dibujo carga y tiene texto alternativo");
+      ok(r.pagina <= 0, id + ": no desborda a 320 px");
+      ok(/ · Para cámara$/.test(r.meta), id + ": «" + r.meta + "»");
+    }
+    ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
+    await ctx.close();
+  }
+
   titulo("F: medidas: 320, 360 y 390 px, claro y oscuro, letra normal y ancha");
   for (const esquema of ["light", "dark"]) {
     for (const [nombreLetra, css] of [["la del sistema", null], ["una letra ancha", LETRA_ANCHA]]) {
       for (const ancho of [320, 360, 390]) {
-        for (const destino of ["#/hoy", "#/aprender", "#/aprender/la-rueda-de-modos"]) {
+        for (const destino of ["#/hoy", "#/aprender", ...IDS.map((id) => "#/aprender/" + id)]) {
           const { ctx, p } = await nuevaPagina(b, { viewport: { width: ancho, height: 900 }, colorScheme: esquema, perfil: PERFIL, lugar: LUGAR });
           await p.goto(base + destino);
           await p.waitForSelector(destino === "#/hoy" ? ".veredicto" : destino === "#/aprender" ? "ol.lecciones" : ".leccion-meta");

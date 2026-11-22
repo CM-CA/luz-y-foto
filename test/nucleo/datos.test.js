@@ -227,3 +227,38 @@ prueba("lecciones: cada dibujo citado tiene sus dos imágenes", () => {
   assert.equal(primero.alt, "Lo que eliges tú en cada modo: en Auto, nada; en P, el ISO; en Tv, el tiempo y el ISO; en Av, la apertura y el ISO; en M, los tres.");
   assert.equal(primero.pie, "Cuadro lleno: lo eliges tú. Vacío: lo elige la cámara.");
 });
+
+// El texto que ve quien lee una lección (sin las marcas de los términos), para buscar en él
+const textoDeLeccion = (l) => l.bloques.flatMap((b) => b.items || [b.texto]).filter(Boolean).join(" ").replace(/\[\[[^|\]]+\|([^\]]+)\]\]/g, "$1");
+const dibujosDe = (l) => l.bloques.filter((b) => b.tipo === "dibujo").map((b) => b.id);
+
+prueba("lecciones: el índice trae las tres, en orden", () => {
+  assert.deepEqual(cargarDatos().lecciones.indice.grupos.flatMap((g) => g.lecciones), ["la-rueda-de-modos", "el-manual-de-verdad", "parasol-y-filtro-uv"]);
+});
+
+prueba("lecciones: el manual de verdad", () => {
+  const l = cargarDatos().lecciones.porId["el-manual-de-verdad"];
+  assert.equal(l.titulo, "El manual de verdad");
+  assert.equal(l.minutos, 3);
+  assert.equal(l.para, "camara");
+  const texto = textoDeLeccion(l);
+  ["55 mm", "f/5.6", "ISO 400", "1 s", "trípode", "paso"].forEach((t) => assert.ok(texto.includes(t), "no menciona «" + t + "»"));
+  assert.deepEqual(dibujosDe(l), ["exposicion"]);
+});
+
+prueba("lecciones: parasol y filtro UV", () => {
+  const l = cargarDatos().lecciones.porId["parasol-y-filtro-uv"];
+  assert.equal(l.titulo, "Parasol y filtro UV");
+  assert.equal(l.minutos, 2);
+  assert.equal(l.para, "camara");
+  const texto = textoDeLeccion(l);
+  assert.ok(/parasol/i.test(texto) && texto.includes("UV"), "habla del parasol y del filtro UV");
+  assert.deepEqual(dibujosDe(l), ["parasol"]);
+});
+
+prueba("glosario: los términos de las lecciones nuevas existen", () => {
+  const g = cargarDatos().glosario;
+  ["paso-de-luz", "parasol", "filtro-uv"].forEach((id) => {
+    assert.ok(g[id] && g[id].termino && g[id].texto, "falta el término «" + id + "»");
+  });
+});

@@ -19,7 +19,11 @@
       "id": "basico",
       "titulo": "Lo básico",
       "subtitulo": "Para quien dispara con cámara.",
-      "lecciones": ["la-rueda-de-modos"]
+      "lecciones": [
+        "la-rueda-de-modos",
+        "el-manual-de-verdad",
+        "parasol-y-filtro-uv"
+      ]
     }
   ]
 }
