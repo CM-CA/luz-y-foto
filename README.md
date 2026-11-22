@@ -17,7 +17,7 @@ Hace falta Node 22.12 o superior.
 ```
 npm ci              instala las dependencias (versiones exactas del package-lock.json)
 npm run dev         servidor de desarrollo con recarga
-npm run validar     comprueba los archivos de data/ (con las mismas reglas que la compilación)
+npm run validar     comprueba los archivos de data/ de todos los idiomas (con las mismas reglas que la compilación)
 npm test            pruebas de lógica (Vitest) y validación de los datos: rápidas, sin navegador
 npm run test:logica solo las de la lógica (Vitest)
 npm run test:vigilar Vitest en modo vigilancia mientras se programa
@@ -32,7 +32,7 @@ node scripts/generar-dibujos.mjs  vuelve a generar los dibujos de las lecciones 
 ## Estructura
 
 - `src/`: la app (Svelte 5 + Vite). `src/nucleo/` es la lógica sin pantalla (sol y luna, semáforo, datos, perfil, recetas, lugar, días de la pantalla Hoy); `src/proveedores/`, lo que habla con fuera (Open-Meteo, Nominatim, geocodificación, GPS); `src/pantallas/`, `src/componentes/` y `src/estado/`, las pantallas Hoy y Aprender; `src/imagenes/`, los cielos de la cabecera, las fases de la luna y los dibujos de las lecciones.
-- `data/`: umbrales, puntos, textos y consejos, separados del código (ver [`docs/datos.md`](docs/datos.md)).
+- `data/<idioma>/`: umbrales, puntos, textos y consejos, separados del código, una carpeta por idioma (`es`, ...; ver [`docs/datos.md`](docs/datos.md)).
 - `index.html`, `public/`, `vite.config.mjs`: la página de entrada, los iconos y el manifiesto, y la configuración de la compilación.
 - `scripts/`: validar `data/` (lo usan `npm run validar` y la compilación), generar iconos y cielos, y servir `dist/` para las pruebas.
 - `transicion/`: lo que se publica junto a la app y no es de ella: el 404 que lleva a la app desde las direcciones viejas y la redirección de `/beta/` (ver [`docs/migracion-svelte.md`](docs/migracion-svelte.md)).

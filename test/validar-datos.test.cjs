@@ -16,7 +16,7 @@ function prueba(nombre, f) {
 
 const copia = fs.mkdtempSync(path.join(os.tmpdir(), "datos-"));
 fs.cpSync(path.join(RAIZ, "data"), copia, { recursive: true });
-const luna = path.join(copia, "generos", "luna.json");
+const luna = path.join(copia, "es", "generos", "luna.json");
 const datosLuna = JSON.parse(fs.readFileSync(luna, "utf8"));
 datosLuna.nubes.verdeMenosDe = 90; // error: debe ser menor o igual que ambarHasta
 fs.writeFileSync(luna, JSON.stringify(datosLuna));

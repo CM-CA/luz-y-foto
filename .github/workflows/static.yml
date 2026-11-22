@@ -40,7 +40,7 @@ jobs:
       - name: Instalar dependencias
         run: npm ci
 
-      - name: Validar los datos (data/)
+      - name: Validar los datos (data/, todos los idiomas)
         run: npm run validar
 
       - name: Pruebas de lógica

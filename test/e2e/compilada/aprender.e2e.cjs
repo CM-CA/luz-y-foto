@@ -18,11 +18,11 @@ const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode:
 const PERFIL_MOVIL = { equipo: "movil", marca: "desconocida", objetivos: [], tripode: "no", nivel: "empiezo", respondidas: ["equipo", "tripode", "nivel"] };
 const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const LETRA_ANCHA = "* { font-family: 'DejaVu Sans', sans-serif !important; }";
-const INDICE = JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "lecciones.json"), "utf8"));
+const INDICE = JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "es", "lecciones.json"), "utf8"));
 const IDS = INDICE.grupos.flatMap((g) => g.lecciones);
 const TOTAL = IDS.length;
 // Lo que debe verse de cada lección sale de sus datos: el título y la etiqueta «Para cámara» / «Para móvil» según `para`
-const LECCIONES = Object.fromEntries(IDS.map((id) => [id, JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "lecciones", id + ".json"), "utf8"))]));
+const LECCIONES = Object.fromEntries(IDS.map((id) => [id, JSON.parse(fs.readFileSync(path.join(RAIZ, "data", "es", "lecciones", id + ".json"), "utf8"))]));
 const TITULOS = Object.fromEntries(IDS.map((id) => [id, LECCIONES[id].titulo]));
 const PARA = Object.fromEntries(IDS.map((id) => [id, INDICE.etiquetas.para[LECCIONES[id].para]]));
 // Que los datos de ejemplo no se hayan vaciado: estas lecciones tienen que estar, con su título y su etiqueta

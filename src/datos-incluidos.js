@@ -1,14 +1,18 @@
-// Los archivos de data/ se incluyen en la compilación (no se piden al abrir la página).
-// Devuelve {comun, indice, generos, perfil, glosario, recetas, lecciones}; lecciones es {indice, porId}.
-const archivos = import.meta.glob("../data/**/*.json", { eager: true, import: "default" });
+// Los archivos de data/ se incluyen en la compilación (no se piden al abrir la página): una carpeta por idioma, data/es/ y data/en/.
+// `datosIncluidos(idioma)` devuelve {comun, indice, generos, perfil, glosario, recetas, lecciones} del idioma; lecciones es {indice, porId}.
+const archivos = import.meta.glob("../data/*/**/*.json", { eager: true, import: "default" });
 
-function leer(ruta) {
-  const clave = "../data/" + ruta;
-  if (!(clave in archivos)) throw new Error("Falta el archivo data/" + ruta);
-  return archivos[clave];
-}
+// Los idiomas que hay en data/ ("es", "en"…), en orden alfabético
+export const IDIOMAS_DE_DATOS = [...new Set(Object.keys(archivos).map((k) => k.split("/")[2]))].sort();
 
-export function datosIncluidos() {
+// Si no hay datos del idioma pedido se usan los del español (el de referencia): la app se ve entera, aunque en el idioma de siempre
+export function datosIncluidos(idioma = "es") {
+  const carpeta = IDIOMAS_DE_DATOS.includes(idioma) ? idioma : "es";
+  const leer = (ruta) => {
+    const clave = "../data/" + carpeta + "/" + ruta;
+    if (!(clave in archivos)) throw new Error("Falta el archivo data/" + carpeta + "/" + ruta);
+    return archivos[clave];
+  };
   const indice = leer("generos.json");
   const generos = {};
   const recetas = { comun: leer("recetas/comun.json") };

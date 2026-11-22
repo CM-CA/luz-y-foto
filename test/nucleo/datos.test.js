@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { it } from "vitest";
 import { cargarDeDisco as cargarDatos } from "../../scripts/datos-de-disco.mjs";
 import * as Datos from "../../src/nucleo/datos.js";
-import { datosIncluidos } from "../../src/datos-incluidos.js";
+import { datosIncluidos, IDIOMAS_DE_DATOS } from "../../src/datos-incluidos.js";
 
 const prueba = it;
 const IMAGENES = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "src", "imagenes");
@@ -116,6 +116,11 @@ prueba("validar: los mensajes dicen dónde está el error", () => {
 // Ahora los datos van incluidos en la compilación: se comprueba que son los mismos que los del disco.
 prueba("datos incluidos: lo que lleva la compilación es lo mismo que hay en data/", () => {
   assert.deepEqual(datosIncluidos(), cargarDatos());
+});
+
+prueba("datos incluidos: un idioma sin carpeta en data/ se ve con los datos del español", () => {
+  assert.deepEqual(datosIncluidos("klingon"), cargarDatos());
+  assert.ok(IDIOMAS_DE_DATOS.includes("es"));
 });
 
 prueba("datos incluidos: cumplen la validación", () => {
