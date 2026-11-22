@@ -78,6 +78,6 @@ Los textos los escribe el constructor siguiendo estas ideas; la persona los revi
 ## Lo que queda al constructor
 - El lenguaje exacto de bloques y el componente que los pinta; cómo se lee la ruta con dos tramos (`ruta.svelte.js` hoy solo entiende una pantalla).
 - Los textos y los dibujos, con los datos comprobados contra fuentes fiables; el peso nuevo y su límite en `pwa.e2e.cjs`.
-- Barra inferior: altura, áreas seguras del iPhone y que no tape el contenido de Hoy ni el aviso de versión.
+- Barra inferior: altura, áreas seguras del iPhone y que no tape el contenido de Hoy ni el aviso de versión. El nombre de clase `.barra` ya lo usan las barras de datos (`Barra.svelte`): usar otro. La pestaña activa se marca con negrita y una línea, no solo con el color.
 - Pruebas: validador de lecciones; navegación Hoy → Aprender → lección → atrás; el enlace de la receta abre su lección; sin desbordes a 320, 360 y 390 px en claro y oscuro (también con letra ancha); un término del glosario se abre dentro de una lección; el service worker guarda lecciones e imágenes y funciona sin conexión.
 - Actualizar `docs/diseno.md` (Aprender, barra inferior, el tutorial de la rueda de modos ya cubierto) y `docs/datos.md`.
