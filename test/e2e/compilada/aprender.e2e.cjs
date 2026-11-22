@@ -175,6 +175,29 @@ ejecutar("aprender", async ({ b, base }) => {
     await ctx.close();
   }
 
+  titulo("H2: sin conexión, con móvil: el enlace de la receta abre su lección y el dibujo sale de la caché");
+  {
+    const { ctx, p } = await nuevaPagina(b, { permisos: false, serviceWorkers: "allow", perfil: PERFIL_MOVIL, lugar: LUGAR });
+    await p.goto(base + "#/hoy"); await p.waitForSelector(".veredicto");
+    await p.waitForFunction(() => !!navigator.serviceWorker.controller, null, { timeout: 10000 });
+    await ctx.setOffline(true);
+    await p.route("**/api.open-meteo.com/**", (r) => r.abort("internetdisconnected"));
+    for (const [pestana, id] of [["atardecer", "toca-para-enfocar-y-exponer"], ["luna", "luz-baja-y-modo-noche"]]) {
+      await p.goto(base + "#/hoy"); await p.reload(); await p.waitForSelector("[data-tab=" + pestana + "]");
+      await p.click("[data-tab=" + pestana + "]");
+      if (pestana === "luna") await p.click("#dias button[data-i='0']");
+      await p.waitForSelector("#receta");
+      if (await p.locator("#receta").getAttribute("open") === null) await p.click("#receta summary");
+      await p.click("#receta a.aprende-por-que"); await p.waitForSelector("figure.dibujo img");
+      await p.waitForFunction(() => document.querySelector("figure.dibujo img").complete);
+      const ancho = await p.evaluate(() => document.querySelector("figure.dibujo img").naturalWidth);
+      ok(await hash(p) === "#/aprender/" + id && ancho > 0, "sin red, desde la receta de " + pestana + " se abre «" + id + "» con su dibujo (" + ancho + " px)");
+    }
+    const propios = p.errores.filter((e) => !/ERR_INTERNET_DISCONNECTED/.test(e)); // la previsión cortada a propósito da ese aviso
+    ok(propios.length === 0, "sin más errores: " + propios.join(";"));
+    await ctx.close();
+  }
+
   titulo("I: las lecciones: cada una se abre desde la lista, con su título y su dibujo, sin desbordar a 320 px");
   {
     ok(Object.keys(ESPERADAS).every((id) => IDS.includes(id) && TITULOS[id] === ESPERADAS[id][0] && PARA[id] === ESPERADAS[id][1]), "el índice trae las lecciones esperadas, con su título y para quién son (" + IDS.join(", ") + ")");
