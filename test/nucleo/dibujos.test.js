@@ -13,7 +13,7 @@ const lineas = (v) => (Array.isArray(v) ? v : [v]);
 
 prueba("cada dibujo citado en una lección tiene su función y sus textos", () => {
   const citados = idsCitados(ES);
-  assert.equal(citados.length, 8, "las ocho lecciones con dibujo: " + citados.join(", "));
+  assert.equal(citados.length, 10, "los diez dibujos de las lecciones: " + citados.join(", "));
   for (const id of citados) {
     assert.ok(DIBUJOS[id], "falta src/dibujos/ para el dibujo «" + id + "»");
     assert.ok(ES.dibujos && ES.dibujos[id], "faltan los textos de «" + id + "» en data/es/dibujos.json");
@@ -42,7 +42,8 @@ prueba("los textos del dibujo tienen la letra de la app y los colores salen de l
     textos.forEach((t) => assert.match(t, /font-family="Figtree, sans-serif"/, id + ": un <text> sin la letra Figtree: " + t));
     // Los colores del tema (claro y oscuro) no van escritos en el dibujo: lo hacen las variables de estilos.css
     for (const hex of ["#ffffff", "#1f2740", "#59607f", "#18213a", "#ecebf5", "#a8afcb"]) {
-      assert.ok(!svg.toLowerCase().includes(hex) || id === "toca" && ["#ffffff", "#1f2740"].includes(hex), id + ": el color " + hex + " debe salir de var(--dibujo-…)");
+      // «toca» y «luces» dibujan fotos (colores fijos, iguales en claro y oscuro): ahí sí puede haber blanco y tinta fijos
+      assert.ok(!svg.toLowerCase().includes(hex) || ["toca", "luces"].includes(id) && ["#ffffff", "#1f2740"].includes(hex), id + ": el color " + hex + " debe salir de var(--dibujo-…)");
     }
     assert.match(svg, /var\(--dibujo-tinta\)/, id + ": usa la tinta del tema");
   }

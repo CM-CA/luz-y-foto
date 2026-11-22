@@ -20,6 +20,8 @@ Los términos que se repiten en `data/en/` y en `src/idioma/en.js`, para que se 
 | parasol | lens hood |
 | filtro UV | UV filter |
 | enfoque continuo | continuous focus (AF-C, AI Servo) |
+| líneas guía | leading lines |
+| charco de luz (dibujo de la lección urbana) | pool of light |
 | ráfaga | burst |
 | disparador automático / temporizador | timer («2-second timer») |
 | bloqueo AE/AF | AE/AF Lock |

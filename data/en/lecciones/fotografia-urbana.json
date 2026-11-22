@@ -1,0 +1,82 @@
+{
+  "id": "fotografia-urbana",
+  "titulo": "Urban photography",
+  "resumen": "Lines, frames and patience for the street, and how to look after the lights at night.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "urbana",
+      "alt": "A street in perspective. The edges of the sidewalk and the building fronts form lines that lead the eye to the back: 1, leading lines. On one side, a door acts as a frame: 2, frame. In the middle, a small person walks through a pool of light: 3, pool of light.",
+      "pie": "Street in perspective. 1 Leading lines. 2 Frame: a door or a window. 3 Pool of light: wait for someone to step in."
+    },
+    {
+      "tipo": "idea",
+      "texto": "In the street you can't arrange anything: pick the setting, wait for life to pass through it and shoot fast. At night, protect the lights."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Compose with what's there"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Look for [[lineas-guia|leading lines]]: a street, a railing or the shadow of a building that lead the eye to your subject. Also look for a natural frame, like a door or a window. Puddles and shiny surfaces give reflections."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Pick a background you like and wait for someone to walk through it."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "By day"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "You don't have to avoid harsh sun: its strong shadows can be the subject of the photo. A pool of light between buildings sets off whoever walks through it, and in the [[hora-dorada|golden hour]] the light is softer and warmer. Use a [[velocidad|shutter speed]] of 1/200 s or faster so that someone walking comes out sharp, and a middle [[apertura|aperture]], for example f/5.6 or f/8. In [[modo-av|Av or A]], watch that the shutter speed doesn't get longer."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "At night: lights and shadows"
+    },
+    {
+      "tipo": "dibujo",
+      "id": "luces",
+      "alt": "Two photos of the same street at night, with a street lamp. In the first, too bright, the lamp's light burns out: it is a white blob with no detail. In the second, with the brightness lowered, the lamp and its light show detail, and the dark parts stay dark.",
+      "pie": "Too bright: the lights burn out. With the brightness lowered: the light shows detail and the dark parts stay dark."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "With strong lights and very dark areas, the lights tend to come out as white blobs with no detail."
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Protect the lights: lower the exposure until you can see detail in the brightest part; the dark parts will stay dark. On a camera, with negative [[compensacion|exposure compensation]] (for example -1); on many phones, tap the strongest light and lower the brightness.",
+        "Better in the [[hora-azul|blue hour]]: the sky still has color and there is less difference between it and the lights.",
+        "Open the aperture as much as you can, raise the [[iso|ISO]] and, handheld, don't go below 1/100 s. With a tripod and a long shutter speed, cars leave trails of light.",
+        "Clean the lens and take off the UV filter: a smudge or a filter makes halos around lights."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "People, with respect"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Not everyone likes being in a photo. If someone notices, be friendly; if they ask you to delete it, delete it. If a recognizable person is going to appear and you're going to publish the photo, the prudent thing is to ask permission; with children, be even more careful. Rules change from one country to another (in Spain, the law protects each person's image) and this is not legal advice."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "It goes more unnoticed than a camera. To get closer, move closer yourself instead of pinching the screen, as in “Zoom and lenses”. At night, with night mode, stay still: anything that moves can come out blurry."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pick a spot with street lamps. Take one photo and another with the brightness lowered, by tapping the strongest light, and compare. If a recognizable person appears and you're going to publish it, ask them first."
+    }
+  ]
+}
