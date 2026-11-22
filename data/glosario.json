@@ -49,7 +49,7 @@
   },
   "hora-dorada": {
     "termino": "Hora dorada",
-    "texto": "La hora antes de la puesta de sol, cuando la luz es cálida y suave."
+    "texto": "La hora después de la salida del sol y la hora antes de la puesta, cuando la luz es cálida y suave."
   },
   "hora-azul": {
     "termino": "Hora azul",
@@ -74,5 +74,17 @@
   "zoom-digital": {
     "termino": "Zoom digital",
     "texto": "Recortar una parte de la foto y agrandarla. No añade detalle: cuanto más se agranda, más borrosa o pixelada sale. Es lo mismo que recortar después en un editor. El zoom óptico, en cambio, usa otra lente."
+  },
+  "regla-de-tercios": {
+    "termino": "Regla de los tercios",
+    "texto": "Imagina la foto dividida en tres partes iguales a lo ancho y a lo alto, como una cuadrícula de tres por tres. Poner el sujeto o el horizonte sobre una de esas líneas, o donde se cruzan, suele dar una foto más equilibrada que ponerlos en el centro."
+  },
+  "enfoque-continuo": {
+    "termino": "Enfoque continuo (AF-C, AI Servo)",
+    "texto": "Un modo de enfoque en el que la cámara sigue enfocando mientras mantienes el disparador a medias, para que un sujeto que se mueve no salga desenfocado. Se llama AF-C en Nikon y AI Servo en Canon; cada marca lo llama a su manera."
+  },
+  "rafaga": {
+    "termino": "Ráfaga (disparo continuo)",
+    "texto": "Mantienes pulsado el disparador y la cámara hace muchas fotos seguidas, varias por segundo. Sirve para captar un momento que dura un instante y quedarte después con la mejor. En muchos móviles se hace manteniendo pulsado el botón de disparo."
   }
 }

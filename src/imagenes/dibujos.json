@@ -22,5 +22,13 @@
   "zoom": {
     "ancho": 358,
     "alto": 232
+  },
+  "paisaje": {
+    "ancho": 358,
+    "alto": 208
+  },
+  "deporte": {
+    "ancho": 358,
+    "alto": 232
   }
 }

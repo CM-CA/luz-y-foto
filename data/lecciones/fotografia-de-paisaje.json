@@ -1,0 +1,67 @@
+{
+  "id": "fotografia-de-paisaje",
+  "titulo": "Fotografía de paisaje",
+  "resumen": "Planos, horizonte, apertura y luz para que un paisaje salga con profundidad y nítido.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "paisaje",
+      "alt": "Un paisaje dentro de la cuadrícula de tercios. El horizonte está sobre la línea de abajo, no en el medio. Se marcan tres planos: 1, el primer plano, unas rocas; 2, el plano medio, unos árboles; 3, el fondo, las montañas.",
+      "pie": "Horizonte en un tercio, no en el medio. Tres planos: 1 primer plano, 2 plano medio, 3 fondo."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Pon algo en primer plano, el horizonte en un tercio y cierra la apertura para que todo salga nítido."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En un paisaje se busca que la foto tenga profundidad y que se vea nítida de lo más cercano a lo más lejano. Se consigue con la composición, la apertura, un apoyo firme y la luz."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Compón con tres planos"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Si solo hay un fondo lejano, la foto se ve plana. Busca algo en primer plano (unas rocas, flores, una valla), algo en el plano medio (árboles, una casa) y el fondo (montañas, el mar). Así el ojo recorre la foto y gana profundidad. Si el primer plano está vacío, acércate o cambia de sitio."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Pon el horizonte sobre la línea de arriba o sobre la de abajo de la [[regla-de-tercios|cuadrícula de tercios]], no en el medio. Con un cielo bonito, déjalo abajo y el cielo ocupa más foto; con un primer plano bonito, déjalo arriba. Activa la cuadrícula en la pantalla: casi todas las cámaras y los móviles la tienen (en el móvil, en los ajustes de la cámara) y también sirve para que el horizonte salga recto."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Que salga todo nítido"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Cierra la [[apertura|apertura]], por ejemplo a f/11 o f/16: así se ven nítidos el primer plano y el fondo. Si usas [[modo-av|Av]], solo tienes que elegirla.",
+        "Con la apertura cerrada entra poca luz y el tiempo se alarga. Apoya la cámara en un trípode o en algo firme para que la foto no salga movida.",
+        "Mantén el [[iso|ISO]] bajo y súbelo solo si, aun así, el tiempo sigue siendo demasiado largo para hacer la foto sin apoyo."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "La luz"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Evita el sol fuerte del mediodía: da sombras duras y mucho contraste. Al principio y al final del día la luz es más suave y el cielo tiene color. Es la [[hora-dorada|hora dorada]], que Hoy ya te marca en Amanecer y en Atardecer."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Vale lo mismo: tres planos, el horizonte en un tercio con la cuadrícula activada y el móvil apoyado en algo firme. Si tu móvil tiene la lente 0,5x, mete más paisaje en la foto. Y toca el cielo para que no salga quemado, como en «Toca para enfocar y exponer»."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Elige un paisaje con algo cerca. Haz una foto con el horizonte en el medio y otra con el horizonte en un tercio y ese algo en primer plano. Compara cuál tiene más profundidad."
+    }
+  ]
+}

@@ -6,7 +6,7 @@ Webapp (PWA) solo frontend para ayudar a principiantes a hacer mejores fotos: te
 - Sol y luna se calculan en el móvil (funciona sin conexión).
 - Se puede instalar en la pantalla de inicio, abre sin conexión y, si no puede actualizar la previsión, enseña la última guardada (avisando de la hora).
 - Meteorología con Open-Meteo (sin clave).
-- Aprender: lecciones cortas con dibujos, para cámara (la rueda de modos, el manual de verdad, parasol y filtro UV) y para móvil (tocar para enfocar y exponer, luz baja y modo noche, zoom y lentes), a las que enlazan las recetas.
+- Aprender: lecciones cortas con dibujos, para cámara (la rueda de modos, el manual de verdad, parasol y filtro UV) para móvil (tocar para enfocar y exponer, luz baja y modo noche, zoom y lentes) y por tipo de fotografía (paisaje y deportiva); las recetas enlazan a las de cámara y a las de móvil.
 
 Estado: la web publicada en [cm-ca.github.io/luz-y-foto](https://cm-ca.github.io/luz-y-foto/) es una app Svelte + Vite (PWA). Antes era una web de páginas sueltas; el paso a la app (traspaso del 2026-11-21) y la retirada de la web antigua están contados en [`docs/migracion-svelte.md`](docs/migracion-svelte.md), y `/beta/` y las direcciones viejas llevan a la app. Las decisiones están en [`docs/`](docs/).
 

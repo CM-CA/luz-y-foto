@@ -1,0 +1,60 @@
+{
+  "id": "fotografia-deportiva",
+  "titulo": "Fotografía deportiva",
+  "resumen": "Tiempo rápido, enfoque continuo y ráfaga para congelar la acción.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "deporte",
+      "alt": "Dos formas de fotografiar un movimiento y una ráfaga. Con un tiempo lento, 1/60 s, la pelota sale movida, con estela. Con un tiempo rápido, 1/1000 s, sale congelada. Debajo, cinco fotos seguidas de una ráfaga y una de ellas marcada como la mejor.",
+      "pie": "1/60 s: sale movido. 1/1000 s: se congela. Ráfaga: varias fotos seguidas y te quedas con la mejor."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Para congelar la acción: tiempo rápido, enfoque que siga al sujeto y varias fotos seguidas. Después, elige la mejor."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En el deporte todo se mueve y el momento dura un instante. La cámara tiene que ser más rápida que el movimiento."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Tiempo rápido"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Para congelar la acción hace falta un [[velocidad|tiempo]] corto: 1/500 s o más rápido, y 1/1000 s o más si el sujeto es muy rápido, como un balón o una moto. Con un tiempo más lento, el sujeto sale movido. Pon la cámara en [[modo-tv|Tv o S]]: eliges el tiempo y la cámara ajusta el resto."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Un tiempo corto deja entrar poca luz. Abre la [[apertura|apertura]] al máximo y, si aun así sale oscura, sube el [[iso|ISO]]: es mejor una foto con algo de grano que una movida."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Enfoque, ráfaga y anticipación"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "[[enfoque-continuo|Enfoque continuo]] (AF-C o Servo, según la marca): la cámara sigue enfocando al sujeto mientras se mueve, si mantienes el disparador a medias.",
+        "[[rafaga|Ráfaga]]: mantén pulsado el disparador y la cámara hace muchas fotos seguidas. Hazla en tandas de uno o dos segundos, porque la memoria se llena.",
+        "Anticípate: fíjate dónde va a pasar la jugada (la portería, la meta) y espera allí con el enfoque preparado.",
+        "Si no puedes acercarte, usa un zoom o un teleobjetivo."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En muchos móviles la ráfaga se hace manteniendo pulsado el botón de disparo; en el iPhone, deslizándolo hacia la izquierda. Funciona mejor con buena luz: con poca, el movimiento sale borroso. Para acercarte, usa los botones de zoom (2x, 3x) en vez de pellizcar, o acércate tú, como en «Zoom y lentes». Al terminar, repasa las fotos y quédate con la mejor."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Fotografía a alguien que corre o a un balón en movimiento, con luz de día. Haz una ráfaga (en cámara, en Tv a 1/500 s o más) y elige la mejor foto. Cuenta cuántas salen nítidas de diez."
+    }
+  ]
+}

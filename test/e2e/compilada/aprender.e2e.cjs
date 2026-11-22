@@ -26,7 +26,7 @@ const LECCIONES = Object.fromEntries(IDS.map((id) => [id, JSON.parse(fs.readFile
 const TITULOS = Object.fromEntries(IDS.map((id) => [id, LECCIONES[id].titulo]));
 const PARA = Object.fromEntries(IDS.map((id) => [id, INDICE.etiquetas.para[LECCIONES[id].para]]));
 // Que los datos de ejemplo no se hayan vaciado: estas lecciones tienen que estar, con su título y su etiqueta
-const ESPERADAS = { "la-rueda-de-modos": ["La rueda de modos", "Para cámara"], "el-manual-de-verdad": ["El manual de verdad", "Para cámara"], "parasol-y-filtro-uv": ["Parasol y filtro UV", "Para cámara"], "toca-para-enfocar-y-exponer": ["Toca para enfocar y exponer", "Para móvil"], "luz-baja-y-modo-noche": ["Luz baja y modo noche", "Para móvil"], "zoom-y-lentes": ["Zoom y lentes: cuál usar", "Para móvil"] };
+const ESPERADAS = { "la-rueda-de-modos": ["La rueda de modos", "Para cámara"], "el-manual-de-verdad": ["El manual de verdad", "Para cámara"], "parasol-y-filtro-uv": ["Parasol y filtro UV", "Para cámara"], "toca-para-enfocar-y-exponer": ["Toca para enfocar y exponer", "Para móvil"], "luz-baja-y-modo-noche": ["Luz baja y modo noche", "Para móvil"], "zoom-y-lentes": ["Zoom y lentes: cuál usar", "Para móvil"], "fotografia-de-paisaje": ["Fotografía de paisaje", "Para todos"], "fotografia-deportiva": ["Fotografía deportiva", "Para todos"] };
 
 const activo = (p) => p.evaluate(() => [...document.querySelectorAll("nav.nav-inferior a")].filter((a) => a.getAttribute("aria-current") === "page").map((a) => a.textContent.trim()));
 const hash = (p) => p.evaluate(() => location.hash);
@@ -164,6 +164,10 @@ ejecutar("aprender", async ({ b, base }) => {
     await p.waitForFunction(() => !!navigator.serviceWorker.controller, null, { timeout: 10000 });
     const guardados = await p.evaluate(async () => { const salida = []; for (const k of await caches.keys()) salida.push(...(await (await caches.open(k)).keys()).map((q) => new URL(q.url).pathname)); return salida; });
     ok(guardados.some((a) => /dibujo-modos-claro/.test(a)) && guardados.some((a) => /dibujo-modos-oscuro/.test(a)), "el service worker guardó los dos dibujos");
+    // Y los de todas las lecciones, claro y oscuro: los ids salen de los datos
+    const dibujos = [...new Set(IDS.flatMap((id) => LECCIONES[id].bloques.filter((b) => b.tipo === "dibujo").map((b) => b.id)))];
+    const faltan = dibujos.flatMap((d) => ["claro", "oscuro"].map((v) => "dibujo-" + d + "-" + v)).filter((n) => !guardados.some((a) => a.includes(n)));
+    ok(faltan.length === 0, "el service worker guardó los dibujos de las " + TOTAL + " lecciones (faltan: " + (faltan.join(", ") || "ninguno") + ")");
     await ctx.setOffline(true);
     await p.route("**/api.open-meteo.com/**", (r) => r.abort("internetdisconnected"));
     await p.goto(base + "#/aprender/la-rueda-de-modos");
@@ -219,6 +223,17 @@ ejecutar("aprender", async ({ b, base }) => {
       ok(r.ancho > 0 && r.alt.length > 20, id + ": su dibujo carga y tiene texto alternativo");
       ok(r.pagina <= 0, id + ": no desborda a 320 px");
       ok(r.meta.endsWith(" · " + PARA[id]), id + ": «" + r.meta + "» (debe acabar en «" + PARA[id] + "»)");
+      // Cada término tocable de la lección abre su definición (y tocarlo otra vez la cierra)
+      const nTerminos = await p.locator("button.termino").count();
+      let abren = 0;
+      for (let i = 0; i < nTerminos; i++) {
+        const t = p.locator("button.termino").nth(i);
+        await t.click();
+        const def = await p.evaluate(() => { const d = document.querySelector(".def"); return d ? d.textContent.trim() : ""; });
+        if (def.length > 20) abren++;
+        await t.click();
+      }
+      ok(abren === nTerminos, id + ": sus " + nTerminos + " términos abren su definición (" + abren + ")");
     }
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
