@@ -12,6 +12,7 @@ import { prepararVista, evaluarDia } from "../nucleo/dias.js";
 import { pedirPrevision } from "../proveedores/open-meteo.js";
 import { nombreDeLugar } from "../proveedores/nominatim.js";
 import { buscarCiudad } from "../proveedores/geocodificacion.js";
+import { crearSugeridor } from "../nucleo/sugerencias.js";
 import { posicionGps } from "../proveedores/gps.js";
 
 const MENSAJES_GPS = {
@@ -130,8 +131,16 @@ function escucharConexion() {
 /* ---------- Lugar ---------- */
 
 const MENSAJE_INICIAL = "Escribe tu ciudad o usa tu ubicación.";
+// Las sugerencias mientras se escribe llenan la misma lista que la búsqueda con Intro o con la lupa
+const sugeridor = crearSugeridor({
+  buscar: buscarCiudad,
+  alVaciar: () => { hoy.resultados = []; hoy.mensajeLugar = MENSAJE_INICIAL; },
+  alRecibir: (resultados) => { hoy.resultados = resultados; hoy.mensajeLugar = resultados.length ? "Elige tu lugar:" : MENSAJE_INICIAL; }
+});
+export function escribirCiudad(texto) { sugeridor.escribir(texto); }
+
 function abrirSelector(mensaje) { hoy.selectorAbierto = true; hoy.mensajeLugar = mensaje || ""; }
-function cerrarSelector() { hoy.selectorAbierto = false; hoy.resultados = []; hoy.mensajeLugar = ""; }
+function cerrarSelector() { sugeridor.cancelar(); hoy.selectorAbierto = false; hoy.resultados = []; hoy.mensajeLugar = ""; }
 export function alternarSelector() { if (hoy.selectorAbierto) cerrarSelector(); else abrirSelector(MENSAJE_INICIAL); }
 
 async function fijarLugar(lat, lon, nombre, origen) {
@@ -173,6 +182,7 @@ async function refrescarGps(guardado) {
 }
 
 export async function buscar(texto) {
+  sugeridor.cancelar();
   const q = texto.trim();
   if (q.length < 2) { hoy.mensajeLugar = "Escribe al menos dos letras."; return; }
   hoy.mensajeLugar = "Buscando…"; hoy.resultados = [];

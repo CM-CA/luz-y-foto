@@ -1,5 +1,5 @@
 <script>
-  import { hoy, usarGps, buscar, elegirResultado } from "../estado/hoy.svelte.js";
+  import { hoy, usarGps, buscar, escribirCiudad, elegirResultado } from "../estado/hoy.svelte.js";
 
   let texto = $state("");
 </script>
@@ -7,7 +7,7 @@
 <section class="selector" id="selector" hidden={!hoy.selectorAbierto}>
   <p id="msgLugar" role="status" aria-live="polite">{hoy.mensajeLugar}</p>
   <form id="buscar" role="search" onsubmit={(ev) => { ev.preventDefault(); buscar(texto); }}>
-    <input id="ciudad" type="search" placeholder="Ciudad o pueblo" aria-label="Buscar ciudad o pueblo" autocomplete="off" bind:value={texto}>
+    <input id="ciudad" type="search" placeholder="Ciudad o pueblo" aria-label="Buscar ciudad o pueblo" autocomplete="off" bind:value={texto} oninput={(ev) => escribirCiudad(ev.currentTarget.value)}>
     <button type="button" class="icono principal" id="gps" aria-label="Usar mi ubicación" title="Usar mi ubicación" onclick={() => usarGps(false)}>
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
         <circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>

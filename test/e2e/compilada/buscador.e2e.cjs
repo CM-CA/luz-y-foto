@@ -55,4 +55,104 @@ ejecutar("buscador", async ({ b, base }) => {
     ok(await p.getByRole("button", { name: "Buscar", exact: true }).count() === 1, "la lupa se llama «Buscar»");
     await ctx.close();
   }
+
+  // ---- Sugerencias al escribir. El reloj se congela con el selector abierto: no corre solo y se adelanta con runFor,
+  // así «escribir Vigo» es una sola ráfaga de teclas por muy lenta que sea la máquina.
+  const congelar = async (p) => { const t = await p.evaluate(() => Date.now()); await p.clock.pauseAt(t + 50); };
+  const escribir = (p, texto) => p.locator("#ciudad").pressSequentially(texto);
+  const filas = (p) => p.locator("#resultados li").count();
+  const sugerencias = async (esquema) => {
+    const { ctx, p } = await abrirSelector(b, base, 360, esquema);
+    await congelar(p);
+    return { ctx, p };
+  };
+
+  titulo("sugerencias: «Vigo» tecleado de seguido da una sola búsqueda, 0,4 s después");
+  {
+    const { ctx, p } = await sugerencias();
+    await escribir(p, "Vigo");
+    ok(await filas(p) === 0 && p.llamadas.geocoding === 0, "antes de que pasen 0,4 s no se ha buscado nada");
+    await p.clock.runFor(450);
+    await p.waitForSelector("#resultados li");
+    ok(await filas(p) === 2, "aparecen las 2 sugerencias");
+    ok(p.llamadas.geocoding === 1, "una sola petición (" + p.llamadas.geocoding + ")");
+    ok((await p.locator("#msgLugar").textContent()).trim() === "Elige tu lugar:", "el mensaje pasa a «Elige tu lugar:»");
+
+    await p.keyboard.press("Backspace"); await p.keyboard.press("Backspace");
+    await p.waitForFunction(() => document.querySelectorAll("#resultados li").length === 0);
+    ok(true, "al dejar «Vi» la lista se vacía al momento");
+    ok((await p.locator("#msgLugar").textContent()).trim() === MENSAJE_INICIAL, "y vuelve el mensaje inicial");
+    await ctx.close();
+  }
+
+  titulo("sugerencias: con menos de 3 letras no se busca");
+  {
+    const { ctx, p } = await sugerencias();
+    await escribir(p, "Vi");
+    await p.clock.runFor(1000);
+    ok(await filas(p) === 0 && p.llamadas.geocoding === 0, "«Vi» no lanza ninguna petición");
+    await ctx.close();
+  }
+
+  titulo("sugerencias: Intro busca al momento y cancela la espera");
+  {
+    const { ctx, p } = await sugerencias();
+    await escribir(p, "Vigo"); await p.keyboard.press("Enter");
+    await p.waitForSelector("#resultados li");
+    ok(await filas(p) === 2 && p.llamadas.geocoding === 1, "Intro muestra los 2 resultados sin esperar (" + p.llamadas.geocoding + " petición)");
+    await p.clock.runFor(450);
+    await p.waitForTimeout(150);
+    ok(p.llamadas.geocoding === 1, "pasada la espera no hay una segunda petición (" + p.llamadas.geocoding + ")");
+    await ctx.close();
+  }
+
+  titulo("sugerencias: elegir una sugerencia cambia el lugar y cierra el selector");
+  {
+    const { ctx, p } = await sugerencias();
+    await escribir(p, "Vigo"); await p.clock.runFor(450);
+    await p.waitForSelector("#resultados li");
+    await p.click("#resultados li >> nth=0");
+    await p.waitForSelector("#selector", { state: "hidden" });
+    ok((await p.locator("#cambiar").textContent()).includes("España"), "la cabecera lleva el lugar elegido («" + (await p.locator("#cambiar").textContent()).trim() + "»)");
+    await ctx.close();
+  }
+
+  titulo("sugerencias: una respuesta tardía no pisa la búsqueda explícita");
+  {
+    const { ctx, p } = await sugerencias();
+    let peticiones = 0, soltar;
+    const retenida = new Promise((r) => { soltar = r; });
+    const cors = { "access-control-allow-origin": "*" };
+    await p.route("**/geocoding-api.open-meteo.com/**", async (r) => {
+      const n = ++peticiones;
+      try {
+        if (n === 1) { await retenida; return r.fulfill({ contentType: "application/json", headers: cors, body: JSON.stringify({ results: [{ name: "Viejo", latitude: 1, longitude: 1, country: "Nada" }] }) }); }
+        r.fulfill({ contentType: "application/json", headers: cors, body: JSON.stringify({ results: [
+          { name: "Vigo", latitude: 42.23282, longitude: -8.72264, country: "España", admin1: "Galicia", admin2: "Pontevedra" },
+          { name: "Vigo", latitude: 38.0, longitude: -121.0, country: "Estados Unidos", admin1: "California" }] }) });
+      } catch (e) { /* la página canceló la petición retenida: es lo que se busca */ }
+    });
+    await escribir(p, "Vigo"); await p.clock.runFor(450);          // sale la sugerencia y se queda retenida
+    await p.keyboard.press("Enter");                                 // búsqueda explícita
+    await p.waitForSelector("#resultados li");
+    soltar(); await p.waitForTimeout(250);                           // llega la vieja
+    const nombres = await p.locator("#resultados li").evaluateAll((l) => l.map((x) => x.querySelector("button").firstChild.textContent));
+    ok(peticiones === 2 && nombres.length === 2 && nombres.every((n) => n === "Vigo"), "la lista sigue siendo la de la búsqueda explícita (" + nombres.join(", ") + ")");
+    await ctx.close();
+  }
+
+  titulo("sugerencias: si falla la red mientras se escribe, ni aviso ni excepción; la búsqueda explícita sí avisa");
+  {
+    const { ctx, p } = await sugerencias();
+    const excepciones = [];
+    p.on("pageerror", (e) => excepciones.push(e.message));
+    await p.route("**/geocoding-api.open-meteo.com/**", (r) => r.abort());
+    await escribir(p, "Vigo"); await p.clock.runFor(450); await p.waitForTimeout(250);
+    ok((await p.locator("#msgLugar").textContent()).trim() === MENSAJE_INICIAL && await filas(p) === 0, "sin aviso mientras se escribe");
+    ok(excepciones.length === 0, "sin excepciones sin atrapar (" + excepciones.join("; ") + ")");
+    await p.keyboard.press("Enter");
+    await p.waitForFunction(() => document.querySelector("#msgLugar").textContent.includes("No he podido buscar"));
+    ok(true, "Intro sí avisa: «No he podido buscar. Comprueba la conexión e inténtalo de nuevo.»");
+    await ctx.close();
+  }
 }, { carpeta: dist, prefijo: "/luz-y-foto/" });
