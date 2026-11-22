@@ -129,9 +129,10 @@ function escucharConexion() {
 
 /* ---------- Lugar ---------- */
 
+const MENSAJE_INICIAL = "Escribe tu ciudad o usa tu ubicación.";
 function abrirSelector(mensaje) { hoy.selectorAbierto = true; hoy.mensajeLugar = mensaje || ""; }
 function cerrarSelector() { hoy.selectorAbierto = false; hoy.resultados = []; hoy.mensajeLugar = ""; }
-export function alternarSelector() { if (hoy.selectorAbierto) cerrarSelector(); else abrirSelector(""); }
+export function alternarSelector() { if (hoy.selectorAbierto) cerrarSelector(); else abrirSelector(MENSAJE_INICIAL); }
 
 async function fijarLugar(lat, lon, nombre, origen) {
   const mia = ++peticion;
