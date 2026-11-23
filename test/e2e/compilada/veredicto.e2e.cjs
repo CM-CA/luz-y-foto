@@ -6,7 +6,7 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
-const { RAIZ, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, LUGAR, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
@@ -15,7 +15,6 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 }
 
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
-const LUGAR = { lat: 42.2328, lon: -8.7226, nombre: "Vigo, Galicia", origen: "busqueda" };
 // Todas las palabras del semáforo que puede llevar el título (amanecer, atardecer y luna) en cada idioma, para probar la más larga en cada ancho
 const IDIOMAS = [{ id: "es", locale: "es-ES" }, { id: "en", locale: "en-US" }];
 const titulosDe = (id) => [...new Set(["amanecer", "atardecer", "luna"].flatMap((g) => Object.values(JSON.parse(fs.readFileSync(path.join(RAIZ, "data", id, "generos", g + ".json"), "utf8")).niveles)))];

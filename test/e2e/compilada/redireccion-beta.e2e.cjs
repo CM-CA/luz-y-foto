@@ -10,7 +10,7 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
-const { RAIZ, VIGO, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, LUGAR, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const transicion = path.join(RAIZ, "transicion");
 const faltan = ["beta/index.html", "beta/sw.js", "404.html"].filter((a) => !fs.existsSync(path.join(transicion, a)));
@@ -28,7 +28,6 @@ if (compilacion.status !== 0) {
   process.exit(1);
 }
 
-const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
 
 // Un sitio como el publicado: una raíz de mentira (solo para saber que se llegó a ella), el 404.html y lo que haya en /beta/

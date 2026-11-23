@@ -8,7 +8,7 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
-const { RAIZ, VIGO, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, LUGAR, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
@@ -17,7 +17,6 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 }
 
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
-const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const SANTIAGO_DE_CHILE = { lat: -33.45, lon: -70.66, nombre: "Santiago de Chile", origen: "busqueda" };
 const A_LAS_21 = "2026-11-19T21:00:00+01:00"; // la noche del 19 ya está en curso y la luna en el cielo
 const LETRA_ANCHA = "* { font-family: 'DejaVu Sans', sans-serif !important; }";

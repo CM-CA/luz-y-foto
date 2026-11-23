@@ -6,7 +6,7 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
-const { RAIZ, VIGO, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, LUGAR, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 const { recorrer } = require("../recorrido-texto.cjs");
 
 const dist = path.join(RAIZ, "dist");
@@ -14,7 +14,6 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
   console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
-const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const CLAVE = "luz-y-foto:idioma";
 const lang = (p) => p.evaluate(() => document.documentElement.lang);
 const descripcion = (p) => p.evaluate(() => document.querySelector('meta[name="description"]').getAttribute("content"));
