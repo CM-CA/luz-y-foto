@@ -1,6 +1,6 @@
 # Ollada
 
-Ollada («mirada», en gallego) es el nombre de la app; el repositorio y la dirección de la web siguen llamándose `luz-y-foto`.
+Ollada («mirada», en gallego) es el nombre de la app, del repositorio y de la dirección de la web (antes se llamaba «Luz y foto» y estaba en `luz-y-foto`). Por dentro conservan el nombre antiguo las claves de lo guardado en el dispositivo (`luz-y-foto:*`) y el prefijo de la caché, para no perder lo que ya hay guardado.
 
 Webapp (PWA) solo frontend para ayudar a principiantes a hacer mejores fotos: te dice **si merece la pena salir hoy**, cuándo, hacia dónde mirar y qué ajustes usar según tu equipo.
 
@@ -11,7 +11,7 @@ Webapp (PWA) solo frontend para ayudar a principiantes a hacer mejores fotos: te
 - Español e inglés: la app usa el idioma del teléfono (gallego, catalán y euskera se leen como español; cualquier otro idioma, en inglés) y un selector «Idioma / Language», al final de Hoy y de Aprender, deja elegir otro.
 - Aprender: lecciones cortas con dibujos, para cámara (la rueda de modos, el manual de verdad, parasol y filtro UV) para móvil (tocar para enfocar y exponer, luz baja y modo noche, zoom y lentes) y por tipo de fotografía (paisaje, deportiva y urbana); las recetas enlazan a las de cámara y a las de móvil.
 
-Estado: la web publicada en [cm-ca.github.io/luz-y-foto](https://cm-ca.github.io/luz-y-foto/) es una app Svelte + Vite (PWA). Antes era una web de páginas sueltas; el paso a la app (traspaso del 2026-11-21) y la retirada de la web antigua están contados en [`docs/migracion-svelte.md`](docs/migracion-svelte.md), y `/beta/` y las direcciones viejas llevan a la app. Las decisiones están en [`docs/`](docs/).
+Estado: la web publicada en [cm-ca.github.io/ollada](https://cm-ca.github.io/ollada/) es una app Svelte + Vite (PWA). Antes era una web de páginas sueltas; el paso a la app (traspaso del 2026-11-21) y la retirada de la web antigua están contados en [`docs/migracion-svelte.md`](docs/migracion-svelte.md), y `/beta/` y las direcciones viejas llevan a la app. Las decisiones están en [`docs/`](docs/).
 
 ## Idiomas
 

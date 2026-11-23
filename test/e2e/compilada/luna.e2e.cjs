@@ -111,4 +111,4 @@ ejecutar("luna", async ({ b, base }) => {
     ok(r.panel && r.panel.opacidad === 1, "la del panel no (opacidad " + (r.panel && r.panel.opacidad) + ")");
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

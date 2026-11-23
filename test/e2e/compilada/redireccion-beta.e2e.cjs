@@ -3,7 +3,7 @@
 //   - una visita nueva a /beta/ llega a la raíz con su misma ruta (#/hoy),
 //   - una dirección vieja (por ejemplo /prueba/hoy.html) lleva a la app en lugar de a una página de error.
 //
-// Se compila aquí mismo una copia «vieja» con la ruta /luz-y-foto/beta/ (la app tal como estaba publicada en /beta/).
+// Se compila aquí mismo una copia «vieja» con la ruta /ollada/beta/ (la app tal como estaba publicada en /beta/).
 // Ejecutar: node test/e2e/compilada/redireccion-beta.e2e.cjs
 "use strict";
 const fs = require("node:fs");
@@ -22,9 +22,9 @@ if (faltan.length) {
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "luz-redireccion-"));
 const viejo = path.join(tmp, "viejo");
 const sitio = path.join(tmp, "sitio");
-const compilacion = spawnSync("npx", ["vite", "build", "--base=/luz-y-foto/beta/", "--outDir", viejo, "--emptyOutDir"], { cwd: RAIZ, encoding: "utf8" });
+const compilacion = spawnSync("npx", ["vite", "build", "--base=/ollada/beta/", "--outDir", viejo, "--emptyOutDir"], { cwd: RAIZ, encoding: "utf8" });
 if (compilacion.status !== 0) {
-  console.log("FALLA: no compila la versión vieja con la ruta /luz-y-foto/beta/:\n" + (compilacion.stderr || compilacion.stdout));
+  console.log("FALLA: no compila la versión vieja con la ruta /ollada/beta/:\n" + (compilacion.stderr || compilacion.stdout));
   process.exit(1);
 }
 
@@ -81,7 +81,7 @@ ejecutar("redireccion-beta", async ({ b, base }) => {
     for (let i = 0; i < 75 && (e.registros || e.caches.length > 1); i++) { await q.waitForTimeout(200); e = await estado(); }
     ok(e.registros === 0, "el service worker viejo se ha dado de baja");
     ok(e.caches.length === 1 && e.caches[0] === "luz-y-foto-de-la-raiz", "se ha borrado la caché de la vista previa y sigue la de la raíz");
-    ok(await q.evaluate(async () => !!(await (await caches.open("luz-y-foto-de-la-raiz")).match(location.origin + "/luz-y-foto/index.html"))), "con su contenido");
+    ok(await q.evaluate(async () => !!(await (await caches.open("luz-y-foto-de-la-raiz")).match(location.origin + "/ollada/index.html"))), "con su contenido");
     const despues = await q.evaluate(guardado);
     ok(despues.perfil === antes.perfil && despues.lugar === antes.lugar, "el perfil y el lugar guardados siguen ahí (mismo origen)");
     await ctx.close();
@@ -99,13 +99,13 @@ ejecutar("redireccion-beta", async ({ b, base }) => {
   titulo("C: una dirección vieja lleva a la app en lugar de a un error");
   {
     const html404 = fs.readFileSync(path.join(transicion, "404.html"), "utf8");
-    ok(/Esta página ya no existe/.test(html404) && /href="\/luz-y-foto\/"/.test(html404), "el 404.html lo dice y tiene un enlace a la app para quien no tenga JavaScript");
+    ok(/Esta página ya no existe/.test(html404) && /href="\/ollada\/"/.test(html404), "el 404.html lo dice y tiene un enlace a la app para quien no tenga JavaScript");
     const { ctx, p } = await nuevaPagina(b, { permisos: false });
     // GitHub Pages contesta un 404 con el cuerpo de 404.html en la propia dirección que falta
-    await p.route("**/luz-y-foto/prueba/hoy.html", (r) => r.fulfill({ status: 404, contentType: "text/html; charset=utf-8", body: html404 }));
+    await p.route("**/ollada/prueba/hoy.html", (r) => r.fulfill({ status: 404, contentType: "text/html; charset=utf-8", body: html404 }));
     await p.goto(base + "prueba/hoy.html");
     await p.waitForURL(base, { timeout: 10000 });
     ok(await p.title() === "raíz", "de /prueba/hoy.html a la raíz");
     await ctx.close();
   }
-}, { carpeta: sitio, prefijo: "/luz-y-foto/" });
+}, { carpeta: sitio, prefijo: "/ollada/" });

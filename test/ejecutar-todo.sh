@@ -6,11 +6,11 @@
 #   bash test/ejecutar-todo.sh compilada  solo el navegador (es lo que pasa en Actions, además de `rapido`)
 #
 # Hace falta `npm ci`. La lógica son las pruebas de Vitest (test/nucleo/) y la validación de los datos. El navegador compila la app
-# con la ruta de producción (/luz-y-foto/), le pasa las pruebas de test/e2e/compilada/ (maquetación en móvil, género nuevo solo con
+# con la ruta de producción (/ollada/), le pasa las pruebas de test/e2e/compilada/ (maquetación en móvil, género nuevo solo con
 # datos, ruta base, sin conexión…) y la sirve para las de test/e2e/comportamiento/ (lugar y perfil).
 #
 # Para pasar las de comportamiento a otra copia de la app que ya esté sirviéndose:
-#   E2E_BASE_URL=http://localhost:4173/luz-y-foto/ E2E_HOY_URL=http://localhost:4173/luz-y-foto/#/hoy bash test/ejecutar-todo.sh
+#   E2E_BASE_URL=http://localhost:4173/ollada/ E2E_HOY_URL=http://localhost:4173/ollada/#/hoy bash test/ejecutar-todo.sh
 # En ese caso solo se ejecuta la carpeta `comportamiento`.
 set -u
 cd "$(dirname "$0")/.."
@@ -37,7 +37,7 @@ if [ "$modo" != "rapido" ]; then
     for f in test/e2e/compilada/*.e2e.cjs; do correr "$(basename "$f" .e2e.cjs)" node "$f"; done
     echo "Navegador: comportamiento (versión compilada)"
     registro=$(mktemp)
-    node scripts/servir-dist.mjs --puerto=0 --base=/luz-y-foto/ > "$registro" 2>&1 &
+    node scripts/servir-dist.mjs --puerto=0 --base=/ollada/ > "$registro" 2>&1 &
     servidor=$!
     for _ in $(seq 1 50); do grep -q '^LISTO' "$registro" && break; sleep 0.1; done
     direccion=$(sed -n 's/^LISTO //p' "$registro")

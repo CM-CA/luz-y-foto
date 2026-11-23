@@ -172,4 +172,4 @@ ejecutar("luz-de-hoy", async ({ b, base }) => {
     ok(/^Dirección: \d+ grados desde el norte$/.test(r.etiqueta), "y su etiqueta para lectores de pantalla (" + r.etiqueta + ")");
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

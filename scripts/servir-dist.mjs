@@ -1,6 +1,6 @@
 // Sirve la carpeta compilada (dist/) bajo una ruta, como hace GitHub Pages, para probarla en el navegador.
 //
-//   node scripts/servir-dist.mjs [--puerto=4173] [--base=/luz-y-foto/] [--carpeta=dist]
+//   node scripts/servir-dist.mjs [--puerto=4173] [--base=/ollada/] [--carpeta=dist]
 //
 // Escribe en la salida «LISTO http://127.0.0.1:PUERTO/BASE» cuando está en marcha. Con --puerto=0 elige uno libre.
 import http from "node:http";
@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 
 const argumento = (nombre, defecto) => (process.argv.find((a) => a.startsWith("--" + nombre + "=")) || "").split("=")[1] ?? defecto;
 const puerto = Number(argumento("puerto", "4173"));
-const base = argumento("base", "/luz-y-foto/").replace(/\/?$/, "/");
+const base = argumento("base", "/ollada/").replace(/\/?$/, "/");
 const dist = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", argumento("carpeta", "dist"));
 
 const TIPOS = {

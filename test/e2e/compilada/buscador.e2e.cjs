@@ -173,4 +173,4 @@ ejecutar("buscador", async ({ b, base }) => {
     ok(true, "Intro sí avisa: «No he podido buscar. Comprueba la conexión e inténtalo de nuevo.»");
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

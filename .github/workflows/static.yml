@@ -1,4 +1,4 @@
-# Publica el sitio en GitHub Pages: la versión nueva (Svelte), compilada desde master, en https://cm-ca.github.io/luz-y-foto/
+# Publica el sitio en GitHub Pages: la versión nueva (Svelte), compilada desde master, en https://cm-ca.github.io/ollada/
 #
 #   construir  valida los datos, pasa las pruebas (lógica y navegador), compila y prepara lo que se publica.
 #              Se ejecuta en cada push a master y en cada pull request a master (así una PR se prueba con este mismo flujo).
@@ -53,7 +53,7 @@ jobs:
       - name: Pruebas de navegador (versión compilada)
         run: npm run test:navegador
 
-      - name: Compilar para /luz-y-foto/
+      - name: Compilar para /ollada/
         run: npm run build
 
       # Después de compilar: el service worker de la app guarda todo lo que hay en dist/ al compilar, y esto no es de la app

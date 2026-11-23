@@ -1,4 +1,4 @@
-// La versión COMPILADA es una app instalable (PWA): manifiesto e iconos correctos bajo /luz-y-foto/.
+// La versión COMPILADA es una app instalable (PWA): manifiesto e iconos correctos bajo /ollada/.
 // (El service worker y el uso sin conexión se prueban en sin-conexion.e2e.cjs.)
 //
 // Antes: npm run build
@@ -23,7 +23,7 @@ ejecutar("pwa", async ({ b, base }) => {
 
   titulo("el manifiesto está enlazado y es válido");
   const enlace = await p.locator("link[rel=manifest]").getAttribute("href");
-  ok(enlace === "/luz-y-foto/manifest.webmanifest", "enlace bajo la ruta base: " + enlace);
+  ok(enlace === "/ollada/manifest.webmanifest", "enlace bajo la ruta base: " + enlace);
   const respuesta = await ctx.request.get(new URL(enlace, base).href);
   ok(respuesta.status() === 200, "responde 200");
   const m = await respuesta.json();
@@ -87,4 +87,4 @@ ejecutar("pwa", async ({ b, base }) => {
   ok(sinCachear.length === 0, "todos van en la caché del service worker (" + (sinCachear.length ? "faltan: " + sinCachear.join(", ") : lista.length + " archivos en la lista") + ")");
   ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
   await ctx.close();
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

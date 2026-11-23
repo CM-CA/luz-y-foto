@@ -130,4 +130,4 @@ ejecutar("amanecer", async ({ b, base }) => {
     ok(await p.locator(".veredicto.rojo").count() === 1, "con niebla y lluvia fuerte el semáforo sigue en rojo");
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

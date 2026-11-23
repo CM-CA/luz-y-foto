@@ -185,4 +185,4 @@ ejecutar("cabecera", async ({ b, base }) => {
     ok(ancho === 780, "la imagen del cielo carga con la red cortada: " + ancho);
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

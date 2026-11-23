@@ -1,5 +1,5 @@
 /*
- * Motores del semáforo de luz-y-foto.
+ * Motores del semáforo de Ollada.
  *
  * Los umbrales, los puntos y los textos NO están aquí: se leen de data/ (ver docs/datos.md).
  * Aquí solo están los dos motores de cálculo (la explicación en palabras de sus reglas está en explicacion.js):

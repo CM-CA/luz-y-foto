@@ -17,7 +17,7 @@ if (!fs.existsSync(path.join(dist, "sw.js"))) {
 const copia = fs.mkdtempSync(path.join(os.tmpdir(), "luz-pwa-"));
 fs.cpSync(dist, copia, { recursive: true });
 
-const PREFIJO = "/luz-y-foto/";
+const PREFIJO = "/ollada/";
 // Con un lugar ya guardado (como en el uso normal) la app pide la previsión nada más abrir
 const conServiceWorker = { permisos: false, serviceWorkers: "allow", lugar: { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" } };
 const tituloDe = (p) => p.title();

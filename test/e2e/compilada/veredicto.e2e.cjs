@@ -120,4 +120,4 @@ ejecutar("veredicto", async ({ b, base }) => {
     ok(/Young Serif/.test(r.app), "el nombre de la app sí (" + r.app.split(",")[0] + ")");
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

@@ -110,4 +110,4 @@ ejecutar("ingles", async ({ b, base }) => {
     ok(decimal.test(await p.locator("main").innerText()), locale + ": «f/2" + (locale === "en-US" ? "." : ",") + "8» en la lección del manual");
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

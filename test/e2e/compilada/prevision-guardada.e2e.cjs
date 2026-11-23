@@ -141,4 +141,4 @@ ejecutar("prevision-guardada", async ({ b, base }) => {
   soltar(); await p.waitForTimeout(400);
   ok(/Europe\/Madrid/.test(await texto(p, "#estado")) && !/Azores/.test(await texto(p, "#estado")), "la respuesta lenta del lugar anterior se descarta: " + await texto(p, "#estado"));
   await ctx.close();
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

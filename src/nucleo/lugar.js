@@ -1,5 +1,5 @@
 /*
- * Lugar para luz-y-foto: coordenadas, distancia y el último lugar usado.
+ * Lugar para Ollada: coordenadas, distancia y el último lugar usado.
  *
  * - El último lugar se guarda en el propio dispositivo (localStorage), con la misma clave que la versión actual.
  * - La ubicación del dispositivo y los nombres de ciudad vienen de src/proveedores/ (gps, Nominatim, geocodificación).

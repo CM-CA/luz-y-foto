@@ -19,10 +19,10 @@ function validarDatos() {
   };
 }
 
-// La web se publica en https://cm-ca.github.io/luz-y-foto/ y se compila con esa ruta (`vite build`, sin opciones).
+// La web se publica en https://cm-ca.github.io/ollada/ y se compila con esa ruta (`vite build`, sin opciones).
 // Para ensayar otra ruta: `vite build --base=/otra/ruta/`.
 export default defineConfig(({ command }) => ({
-  base: command === "build" ? "/luz-y-foto/" : "/",
+  base: command === "build" ? "/ollada/" : "/",
   plugins: [svelte(), validarDatos(), servicioSinConexion()],
   // assetsInlineLimit: 0 -> las imágenes pequeñas (las lunas, algún cielo) no se meten dentro del JS en base64:
   // cada una es un archivo de dist/ y el service worker la guarda por separado.
