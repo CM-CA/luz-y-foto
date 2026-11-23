@@ -1,6 +1,6 @@
 // Lo que comparten los dibujos de las lecciones. Cada dibujo es una función de sus textos que devuelve un SVG como texto, para pintarlo
 // dentro de la página (src/componentes/Dibujo.svelte). Los colores no van escritos: salen de las variables --dibujo-fondo, --dibujo-tinta
-// y --dibujo-suave de src/estilos.css, que valen lo del tema claro o lo del oscuro, así que un solo dibujo sirve para los dos.
+// y --dibujo-suave de src/estilos/base.css, que valen lo del tema claro o lo del oscuro, así que un solo dibujo sirve para los dos.
 export const FONDO = "var(--dibujo-fondo)";
 export const TINTA = "var(--dibujo-tinta)";
 export const SUAVE = "var(--dibujo-suave)";

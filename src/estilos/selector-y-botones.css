@@ -1,0 +1,12 @@
+/* El selector de lugar (el campo de búsqueda y su lista) y los botones de toda la app. */
+.selector { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 20px; padding: 14px; margin-top: 12px; }
+.selector[hidden] { display: none; }
+.selector form { display: flex; gap: 8px; margin: 12px 0 0; }
+.selector button.icono { flex: none; width: 44px; min-height: 44px; padding: 0; display: grid; place-items: center; }
+.selector input { flex: 1; min-width: 0; min-height: 44px; font: inherit; padding: 10px 12px; border: 1px solid var(--borde); border-radius: 8px; background: var(--fondo); color: var(--texto); }
+.selector ul { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 6px; }
+.selector li button { width: 100%; text-align: left; }
+.selector li small { display: block; color: var(--suave); }
+#msgLugar { margin: 0; min-height: 1.4em; color: var(--suave); font-size: .95rem; }
+button { font: inherit; padding: 9px 16px; border-radius: 8px; cursor: pointer; border: 1px solid var(--borde); background: var(--tarjeta); color: var(--texto); }
+button.principal { background: var(--texto); color: var(--fondo); border-color: var(--texto); }

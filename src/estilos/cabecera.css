@@ -1,0 +1,17 @@
+/* La cabecera: el cielo, la escena que se funde al cambiar de cielo, el título, el estado y la pastilla del lugar. */
+/* La cabecera: un cielo (imagen) con el título, la hora de la previsión y el lugar encima. Todo lo que se lee es texto blanco
+   con sombra: el cielo es solo adorno y la imagen no cambia de color aunque el navegador oscurezca la web. */
+.cabecera { position: relative; height: 262px; overflow: hidden; color: #fff; background: #2f4a8c; }
+.cabecera .cielo { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+/* La escena anterior (cielo y luna) se queda encima del cielo nuevo y se funde; el título y el lugar (z-index 2) van siempre por encima */
+.cabecera .escena-anterior { position: absolute; inset: 0; z-index: 1; pointer-events: none; animation: cielo-se-va .9s ease-in-out forwards; }
+.cabecera .escena-anterior .fondo { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+@keyframes cielo-se-va { from { opacity: 1; } to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .cabecera .escena-anterior { display: none; } }
+.cabecera .fila { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 26px 16px 0 20px; }
+.cabecera .rotulo { flex: 1 1 0; min-width: 0; }
+.cabecera h1 { margin: 0; font-size: 27px; line-height: 1; letter-spacing: .2px; color: #fff; text-shadow: 0 1px 10px rgba(20, 15, 50, .5); }
+#estado { margin: 6px 0 0; font: 600 14px/1.3 var(--cuerpo); }
+.cabecera #estado { color: #fff; text-shadow: 0 0 2px rgba(12, 14, 38, .9), 0 0 6px rgba(12, 14, 38, .85), 0 1px 10px rgba(12, 14, 38, .7); overflow-wrap: anywhere; }
+.lugar .flecha { margin-left: .4em; }
+.lugar { flex: 0 1 auto; max-width: 55%; min-height: 44px; padding: 9px 13px; border: 0; border-radius: 18px; background: rgba(18, 16, 48, .45); color: #fff; font: 700 15px/1.2 var(--cuerpo); text-align: left; text-shadow: 0 1px 6px rgba(20, 15, 50, .5); overflow-wrap: anywhere; }

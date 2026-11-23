@@ -1,0 +1,42 @@
+/* El asistente del perfil de equipo, la receta, el trípode, el selector de idioma y los términos del glosario. */
+.asistente { background: var(--tarjeta); border: 2px solid var(--texto); border-radius: 20px; padding: 20px; margin: 12px 0; }
+.asistente[hidden] { display: none; }
+.asistente h2 { font-size: 1.35rem; margin: 4px 0 8px; }
+.asistente h2:focus { outline: none; }
+.asistente .paso { color: var(--suave); font-size: .9rem; margin: 0; }
+.asistente .ayuda { color: var(--suave); margin: 0 0 12px; }
+.opciones { display: grid; gap: 8px; margin: 14px 0; }
+.opciones button { text-align: left; padding: 14px 16px; border-width: 2px; }
+.opciones button[aria-pressed="true"] { border-color: var(--texto); background: var(--gris-fondo); font-weight: 700; }
+.opciones button[aria-pressed="true"]::before { content: "✓ "; }
+.acciones { display: flex; gap: 8px; flex-wrap: wrap; justify-content: space-between; margin-top: 8px; }
+.acciones .derecha { display: flex; gap: 8px; flex-wrap: wrap; }
+button.enlace { border: none; background: none; text-decoration: underline; color: var(--suave); padding: 9px 6px; }
+
+/* La receta es un desplegable: lleva debajo del título el equipo y para qué nivel está explicada, y dentro, el botón para cambiar el
+   equipo (el equipo ya no tiene tarjeta propia). Sin el equipo configurado no hay receta: en su lugar, una invitación con borde discontinuo.
+   El borde y la flecha son adorno; el texto lo dice todo. */
+details.receta { margin-top: 22px; border: 2px solid var(--texto); border-radius: 20px; padding: 14px 16px; }
+details.receta summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; cursor: pointer; list-style: none; font: 800 17.5px/1.3 var(--cuerpo); }
+details.receta summary::-webkit-details-marker { display: none; }
+details.receta summary::after { content: "▾" / ""; flex: none; font-size: 18px; }
+details.receta[open] summary::after { transform: rotate(180deg); }
+.receta-texto { min-width: 0; overflow-wrap: anywhere; }
+details.receta summary small { display: block; margin-top: 2px; font: 500 14.5px/1.3 var(--cuerpo); color: var(--suave); }
+details.receta #editarEquipo { min-height: 44px; margin: 6px 0 0 -6px; }
+.invitacion { margin: 22px 0 0; padding: 14px 16px; border: 2px dashed var(--suave); border-radius: 20px; }
+.invitacion p { margin: 0; color: var(--suave); }
+.invitacion strong { color: var(--texto); font-weight: 800; }
+.invitacion button { min-height: 44px; margin-top: 12px; }
+details.receta ol { padding-left: 22px; margin: 8px 0; }
+details.receta li { margin-bottom: 10px; }
+.aviso-fijo { margin: 6px 0; padding: 8px 12px; border-radius: 8px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }
+.tripode { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 0; }
+.tripode button[aria-pressed="true"], .idiomas button[aria-pressed="true"] { background: var(--texto); color: var(--fondo); border: 2px solid var(--texto); font-weight: 700; }
+.selector-idioma { margin-top: 24px; }
+.selector-idioma h3 { margin: 0 0 8px; }
+.idiomas { display: flex; justify-content: space-between; gap: 8px; }   /* Español pegado a la izquierda, English a la derecha y el centro vacío */
+.idiomas button { flex: none; white-space: nowrap; }
+button.termino { padding: 0 2px; border: none; border-bottom: 2px dotted var(--suave); border-radius: 0; background: none; font: inherit; color: inherit; }
+.def { display: block; margin: 6px 0 2px; padding: 8px 12px; border-radius: 8px; background: var(--gris-fondo); font-size: .95rem; font-weight: 400; }
+.suave { color: var(--suave); font-size: .95rem; }

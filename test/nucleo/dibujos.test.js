@@ -40,7 +40,7 @@ prueba("los textos del dibujo tienen la letra de la app y los colores salen de l
     const textos = svg.match(/<text\b[^>]*>/g) || [];
     assert.ok(textos.length >= 3, id + ": tiene textos");
     textos.forEach((t) => assert.match(t, /font-family="Figtree, sans-serif"/, id + ": un <text> sin la letra Figtree: " + t));
-    // Los colores del tema (claro y oscuro) no van escritos en el dibujo: lo hacen las variables de estilos.css
+    // Los colores del tema (claro y oscuro) no van escritos en el dibujo: lo hacen las variables de estilos/base.css
     for (const hex of ["#ffffff", "#1f2740", "#59607f", "#18213a", "#ecebf5", "#a8afcb"]) {
       // «toca» y «luces» dibujan fotos (colores fijos, iguales en claro y oscuro): ahí sí puede haber blanco y tinta fijos
       assert.ok(!svg.toLowerCase().includes(hex) || ["toca", "luces"].includes(id) && ["#ffffff", "#1f2740"].includes(hex), id + ": el color " + hex + " debe salir de var(--dibujo-…)");

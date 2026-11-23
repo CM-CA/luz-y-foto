@@ -1,0 +1,32 @@
+/* La barra de abajo (Hoy | Aprender) y la pantalla Aprender con sus lecciones. */
+/* Barra de abajo (Hoy | Aprender) y pantalla Aprender. Texto y bordes del color del texto: el navegador del móvil puede oscurecer fondos y bordes. */
+.nav-inferior { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; background: var(--tarjeta); border-top: 1px solid var(--borde); padding-bottom: env(safe-area-inset-bottom); }
+.nav-inferior a { flex: 1; min-height: 62px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--suave); font: 600 13px/1.2 var(--cuerpo); text-decoration: none; }
+.nav-inferior a[aria-current="page"] { color: var(--texto); font-weight: 800; box-shadow: inset 0 3px 0 var(--texto); }
+.apr-titulo { margin: 0 0 4px; font: 400 30px/1.15 var(--display); }
+.apr-titulo:focus { outline: none; }
+.apr-meta { margin: 0 0 18px; color: var(--suave); font-size: 15px; }
+.lecciones { list-style: none; margin: 0; padding: 0 16px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 16px; }
+.lecciones li + li { border-top: 1px solid var(--borde); }
+.lecciones a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: baseline; min-height: 44px; padding: 16px 0; color: var(--texto); text-decoration: none; }
+.lec-t { font: 700 18px/1.25 var(--cuerpo); }
+.lec-min { color: var(--suave); font: 600 14px/1.2 var(--cuerpo); white-space: nowrap; }
+.lec-r { grid-column: 1 / -1; color: var(--suave); font-size: 15px; line-height: 1.4; }
+.volver { display: inline-flex; align-items: center; min-height: 44px; margin: -8px 0 0 -6px; padding: 9px 6px; color: var(--suave); font: 600 16px/1.2 var(--cuerpo); text-decoration: underline; }
+.bloque-parrafo { margin: 0 0 14px; }
+.bloque-lista { margin: 0 0 14px; padding-left: 20px; }
+.bloque-lista li + li { margin-top: 8px; }
+.idea { margin: 0 0 18px; padding: 14px 16px; border-radius: 16px; background: var(--gris-fondo); }
+.idea .rotulo { display: block; margin-bottom: 4px; font: 800 14px/1.2 var(--cuerpo); color: var(--suave); }
+.idea p { margin: 0; font: 600 17px/1.45 var(--cuerpo); }
+.pruebalo { margin-top: 18px; padding: 14px 16px; border: 2px solid var(--texto); border-radius: 16px; }
+.pruebalo .rotulo { display: block; margin-bottom: 4px; font: 700 19px/1.2 var(--cuerpo); }
+.pruebalo p { margin: 0; font-size: 16px; line-height: 1.45; }
+.dibujo { margin: 0 0 18px; padding: 18px 16px 12px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 16px; }
+.dibujo svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.dibujo figcaption { margin-top: 10px; color: var(--suave); font-size: 14.5px; line-height: 1.4; }
+.aprende-por-que { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; margin: 14px 0 4px; padding: 12px 14px; border: 1px solid var(--borde); border-radius: 14px; background: var(--fondo); color: var(--texto); text-decoration: none; }
+.aprende-por-que span { min-width: 0; }
+.apq-t { display: block; font: 700 16px/1.3 var(--cuerpo); }
+.apq-s { display: block; font: 500 14px/1.3 var(--cuerpo); color: var(--suave); }
+.sin-corte { white-space: nowrap; }
