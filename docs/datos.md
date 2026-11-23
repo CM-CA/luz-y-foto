@@ -151,7 +151,7 @@ La pestaña aparece con su semáforo, su brújula y su explicación. Hay una pru
 
 ## Qué pasa si te equivocas al editar
 
-Al compilar se **validan** los datos (`src/nucleo/datos.js`) y, si hay un error, se dice con la ruta exacta y no se genera nada (`npm run validar` lo hace sin compilar):
+Al compilar se **validan** los datos (`src/nucleo/datos.js`, que junta los validadores de `src/nucleo/validacion/`: géneros, perfil, recetas, lecciones y dibujos, uno por archivo) y, si hay un error, se dice con la ruta exacta y no se genera nada (`npm run validar` lo hace sin compilar):
 
 > Hay un error en los datos: generos/luna.nubes: verdeMenosDe debe ser un número menor o igual que ambarHasta
 
