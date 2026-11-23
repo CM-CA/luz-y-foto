@@ -9,9 +9,11 @@ const pct = (v) => t("formato.pct", { n: Math.round(v) });
 // Guion que no se parte al final de línea («nor-noreste» no queda cortado)
 const unida = (p) => (p || "").replace(/-/g, "‑");
 const mayus = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+// Rellena los {huecos} de un texto con sus valores; un hueco sin valor sale como «—»
+const plantilla = (texto, valores) => texto.replace(/\{(\w+)\}/g, (_, k) => (k in valores ? valores[k] : "—"));
 
 /*
- * Igual que plantilla() de semaforo.js, pero devuelve trozos {texto, negrita} en vez de un texto,
+ * Igual que plantilla(), pero devuelve trozos {texto, negrita} en vez de un texto,
  * para pintarlos sin HTML. `negrita` lista las claves que van en negrita.
  */
 function trozosDePlantilla(texto, valores, negrita = []) {
@@ -27,4 +29,4 @@ function trozosDePlantilla(texto, valores, negrita = []) {
   return trozos;
 }
 
-export { hm, pct, unida, mayus, trozosDePlantilla };
+export { hm, pct, unida, mayus, plantilla, trozosDePlantilla };

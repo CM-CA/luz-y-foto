@@ -6,6 +6,7 @@ import { fijarIdioma } from "../../src/idioma/index.js";
 import * as Astro from "../../src/nucleo/astro.js";
 import * as Guardada from "../../src/nucleo/previsionGuardada.js";
 import * as Semaforo from "../../src/nucleo/semaforo.js";
+import { describirTramo } from "../../src/nucleo/explicacion.js";
 import { tituloDeLaLuz } from "../../src/nucleo/franja.js";
 import { hm, pct, unida } from "../../src/nucleo/formato.js";
 import { urlBusqueda } from "../../src/proveedores/geocodificacion.js";
@@ -61,15 +62,15 @@ it("«La luz de…»: hoy, mañana y el día de la semana, en los dos idiomas", 
 });
 
 it("describirTramo con números en inglés: punto decimal y sin espacio antes del %", () => {
-  assert.equal(Semaforo.describirTramo({ desde: 10, menosDe: 20.5 }), "de 10 % a menos de 20,5 %");
+  assert.equal(describirTramo({ desde: 10, menosDe: 20.5 }), "de 10 % a menos de 20,5 %");
   fijarIdioma("en", ["en-US"]);
-  assert.equal(Semaforo.describirTramo({ desde: 10, menosDe: 20.5 }), "10% to under 20.5%");
-  assert.equal(Semaforo.describirTramo({ menosDe: 20 }), "under 20%");
-  assert.equal(Semaforo.describirTramo({ desde: 20, hasta: 70 }), "20 to 70%");
-  assert.equal(Semaforo.describirTramo({ masDe: 70, hasta: 85 }), "over 70% and up to 85%");
-  assert.equal(Semaforo.describirTramo({ desde: 70 }), "70% or more");
-  assert.equal(Semaforo.describirTramo({}), "the rest");
-  assert.equal(Semaforo.describirTramo({ menosDe: 0.5 }, " mm/h"), "under 0.5 mm/h");
+  assert.equal(describirTramo({ desde: 10, menosDe: 20.5 }), "10% to under 20.5%");
+  assert.equal(describirTramo({ menosDe: 20 }), "under 20%");
+  assert.equal(describirTramo({ desde: 20, hasta: 70 }), "20 to 70%");
+  assert.equal(describirTramo({ masDe: 70, hasta: 85 }), "over 70% and up to 85%");
+  assert.equal(describirTramo({ desde: 70 }), "70% or more");
+  assert.equal(describirTramo({}), "the rest");
+  assert.equal(describirTramo({ menosDe: 0.5 }, " mm/h"), "under 0.5 mm/h");
 });
 
 it("«Cómo se calcula» en inglés: todas las líneas salen en inglés, con los niveles de lluvia con nombre", () => {

@@ -8,7 +8,7 @@ import { it } from "vitest";
 import { cargarDeDisco } from "../../scripts/datos-de-disco.mjs";
 import * as Astro from "../../src/nucleo/astro.js";
 import * as Semaforo from "../../src/nucleo/semaforo.js";
-import { hm, pct, unida, mayus, trozosDePlantilla } from "../../src/nucleo/formato.js";
+import { hm, pct, unida, mayus, plantilla, trozosDePlantilla } from "../../src/nucleo/formato.js";
 import { nochesDe, listaDe, evaluarDia, etiquetaDia, numeroDia, lunaDe, pestanaPorDefecto, prepararVista } from "../../src/nucleo/dias.js";
 import { pedirPrevision, urlPrevision } from "../../src/proveedores/open-meteo.js";
 
@@ -34,7 +34,7 @@ it("trozosDePlantilla: da lo mismo que plantilla() y marca la negrita", () => {
   const t = "Atardecer a las {hora} (dorada {dorada}) {falta}";
   const v = { hora: "18:05", dorada: "17:20" };
   const trozos = trozosDePlantilla(t, v, ["hora"]);
-  assert.equal(trozos.map((x) => x.texto).join(""), Semaforo.plantilla(t, v));
+  assert.equal(trozos.map((x) => x.texto).join(""), plantilla(t, v));
   assert.deepEqual(trozos.filter((x) => x.negrita).map((x) => x.texto), ["18:05"]);
   assert.equal(trozos[trozos.length - 1].texto, "—", "una clave que falta se pinta como «—»");
   assert.deepEqual(trozosDePlantilla("sin marcas", {}), [{ texto: "sin marcas" }]);

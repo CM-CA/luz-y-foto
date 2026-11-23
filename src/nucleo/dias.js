@@ -4,8 +4,7 @@
  * El tipo de lista depende del motor del género, no del género: un género nuevo que use un motor existente funciona sin tocar esto.
  */
 import * as Astro from "./astro.js";
-import { plantilla } from "./semaforo.js";
-import { mayus } from "./formato.js";
+import { mayus, plantilla } from "./formato.js";
 import { locale } from "../idioma/index.js";
 
 const HORA = 3600000;
