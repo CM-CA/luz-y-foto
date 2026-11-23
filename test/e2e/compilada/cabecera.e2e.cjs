@@ -39,7 +39,7 @@ ejecutar("cabecera", async ({ b, base }) => {
     ok(Math.abs(c.alto - 262) <= 1, "la cabecera mide 262 px de alto a 390 px: " + c.alto);
     ok(c.ancho === 780 && c.altoImg === 524, "la imagen del cielo carga y mide 780 × 524: " + c.ancho + " × " + c.altoImg);
     ok(c.alt === "", "la imagen es decorativa (alt vacío)");
-    ok(c.h1.length === 1 && c.h1[0] === "Luz y foto", "un solo h1, «Luz y foto»: " + c.h1.join("|"));
+    ok(c.h1.length === 1 && c.h1[0] === "Ollada", "un solo h1, «Ollada»: " + c.h1.join("|"));
     ok(/^Previsión de las \d\d:\d\d/.test(c.estado), "la hora de la previsión: " + c.estado);
     ok(c.lugar === "Vigo, Galicia", "el lugar: " + c.lugar);
 
@@ -75,7 +75,7 @@ ejecutar("cabecera", async ({ b, base }) => {
     });
     ok(c.hay && /^(tarde|noche)$/.test(c.cielo), "hay cabecera con un cielo por defecto: " + c.cielo);
     ok(c.ancho === 780, "la imagen carga");
-    ok(c.h1 === "Luz y foto" && c.lugar === "Vigo, Galicia", "título y lugar siguen ahí");
+    ok(c.h1 === "Ollada" && c.lugar === "Vigo, Galicia", "título y lugar siguen ahí");
     ok(p.errores.every((e) => /net::ERR_INTERNET_DISCONNECTED/.test(e)), "solo los errores de red: " + p.errores.join(";"));
     await ctx.close();
   }

@@ -19,9 +19,9 @@ const lang = (p) => p.evaluate(() => document.documentElement.lang);
 const descripcion = (p) => p.evaluate(() => document.querySelector('meta[name="description"]').getAttribute("content"));
 const pulsado = (p) => p.evaluate(() => [...document.querySelectorAll(".selector-idioma button")].filter((b) => b.getAttribute("aria-pressed") === "true").map((b) => b.dataset.idioma));
 
-// Lo que no es de la app y por tanto no se traduce: el nombre de la app («Luz y foto», también en el nombre de su caché) y los nombres de lugar que
+// Lo que no es de la app y por tanto no se traduce: el nombre de la app («Ollada», también en el nombre de su caché) y los nombres de lugar que
 // devuelven los servicios (Open-Meteo y Nominatim, simulados aquí con nombres españoles).
-const AJENO = /Luz y foto|luz-y-foto-CACHE|Vigo|Galicia|Pontevedra|España|Estados Unidos|California/g;
+const AJENO = /Ollada|luz-y-foto-CACHE|Vigo|Galicia|Pontevedra|España|Estados Unidos|California/g;
 // Palabras vacías del español (no existen como palabra suelta en inglés), signos de apertura y letras con tilde
 const VACIAS = /(?<![\p{L}'’-])(el|la|los|las|de|del|que|para|con|por|una|un|y|o)(?![\p{L}'’-])/giu;
 const SIGNOS = /[¿¡áéíóúñü]/i;
@@ -47,7 +47,7 @@ ejecutar("ingles", async ({ b, base }) => {
   await p.goto(base); await p.waitForSelector(".veredicto");
   ok((await lang(p)) === "en", "<html lang> = en");
   ok(/^Tells you whether it's worth going out/.test(await descripcion(p)), "descripción en inglés: «" + (await descripcion(p)).slice(0, 50) + "…»");
-  ok((await p.title()) === "Luz y foto", "título «Luz y foto» (el nombre no se traduce): «" + (await p.title()) + "»");
+  ok((await p.title()) === "Ollada", "título «Ollada» (el nombre no se traduce): «" + (await p.title()) + "»");
   ok((await p.locator("[data-tab]").allInnerTexts()).join() === "Sunrise,Sunset,Night", "pestañas: " + (await p.locator("[data-tab]").allInnerTexts()).join());
   ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
   await ctx.close();

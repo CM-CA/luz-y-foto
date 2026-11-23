@@ -5,7 +5,7 @@
  */
 export default {
   // La app
-  "app.nombre": "Luz y foto",
+  "app.nombre": "Ollada",
   "app.descripcion": "Te dice si merece la pena salir a fotografiar el atardecer o la luna, cuándo, hacia dónde mirar y qué ajustes usar.",
   "app.noEncuentro": "No encuentro esa pantalla",
   "app.volverAHoy": "Volver a Hoy",
@@ -23,7 +23,7 @@ export default {
   "sinConexion.resto": "Te enseño la que guardé {cuando} ({hace}); puede haber cambiado.",
   "sinConexion.reintentando": "Reintentando…",
   "sinConexion.reintentar": "Reintentar",
-  "version.hay": "Hay una versión nueva de Luz y foto.",
+  "version.hay": "Hay una versión nueva de Ollada.",
   "version.actualizando": "Actualizando…",
   "version.actualizar": "Actualizar",
   "version.descartado": "El navegador descartó el service worker al instalarlo (suele ser que no pudo descargar alguno de los archivos de la app).",

@@ -27,7 +27,7 @@ ejecutar("pwa", async ({ b, base }) => {
   const respuesta = await ctx.request.get(new URL(enlace, base).href);
   ok(respuesta.status() === 200, "responde 200");
   const m = await respuesta.json();
-  ok(m.name === "Luz y foto" && m.short_name === "Luz y foto", "nombre: " + m.name + " / " + m.short_name);
+  ok(m.name === "Ollada" && m.short_name === "Ollada", "nombre: " + m.name + " / " + m.short_name);
   ok(m.lang === "es" && m.display === "standalone", "idioma «" + m.lang + "» y se abre como app (" + m.display + ")");
   const raiz = new URL(base).pathname;
   ok(new URL(m.start_url, new URL(enlace, base)).pathname === raiz, "start_url vuelve a la app: " + m.start_url);
