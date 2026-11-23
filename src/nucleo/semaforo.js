@@ -2,7 +2,7 @@
  * Motores del semáforo de luz-y-foto.
  *
  * Los umbrales, los puntos y los textos NO están aquí: se leen de data/ (ver docs/datos.md).
- * Aquí solo están los dos motores de cálculo:
+ * Aquí solo están los dos motores de cálculo (la explicación en palabras de sus reglas está en explicacion.js):
  *   - "puntos-ventana": suma puntos de varios factores sobre las horas alrededor de un evento
  *     del sol (la puesta, el amanecer...). Es el del atardecer.
  *   - "mejor-hora-nocturna": busca las horas de la noche con la luna alta y valora la mejor. Es el de la luna.
@@ -11,7 +11,8 @@
  * Módulo ES: funciona en el navegador y en Node.
  */
 import * as Astro from "./astro.js";
-import { idioma, t } from "../idioma/index.js";
+import { plantilla } from "./formato.js";
+import { explicarGenero } from "./explicacion.js";
 
 const MIN = 60000;
 const HORA = 3600000;
@@ -52,12 +53,6 @@ function prepararPrevision(datos) {
 const media = (xs, f) => xs.reduce((a, x) => a + f(x), 0) / xs.length;
 const maximo = (xs, f) => Math.max(...xs.map(f));
 const minimo = (xs, f) => Math.min(...xs.map(f));
-const plantilla = (texto, valores) => texto.replace(/\{(\w+)\}/g, (_, k) => (k in valores ? valores[k] : "—"));
-// Un número dicho en palabras: coma decimal en español, punto en inglés
-const num = (n) => (idioma === "es" ? String(n).replace(".", ",") : String(n));
-// El nombre de cada nivel de lluvia (los identificadores de data/ no son para leerlos)
-const CLAVES_LLUVIA = { sin: "lluvia.sin", llovizna: "lluvia.llovizna", moderada: "lluvia.moderada", fuerte: "lluvia.fuerte" };
-const nombreLluvia = (id) => (CLAVES_LLUVIA[id] ? t(CLAVES_LLUVIA[id]) : id);
 
 // Un tramo cumple si cumple todas sus condiciones (las que tenga): desde (>=), menosDe (<), hasta (<=), masDe (>)
 function cumple(t, v) {
@@ -65,19 +60,6 @@ function cumple(t, v) {
     (t.hasta === undefined || v <= t.hasta) && (t.masDe === undefined || v > t.masDe);
 }
 const tramoDe = (tramos, v) => tramos.find((t) => cumple(t, v));
-
-function describirTramo(tr, unidad) {
-  const u = unidad || t("formato.unidadPct");
-  const v = { desde: num(tr.desde), hasta: num(tr.hasta), masDe: num(tr.masDe), menosDe: num(tr.menosDe), u };
-  if (tr.desde !== undefined && tr.hasta !== undefined) return t("tramo.desdeHasta", v);
-  if (tr.desde !== undefined && tr.menosDe !== undefined) return t("tramo.desdeMenosDe", v);
-  if (tr.masDe !== undefined && tr.hasta !== undefined) return t("tramo.masDeHasta", v);
-  if (tr.menosDe !== undefined) return t("tramo.menosDe", v);
-  if (tr.hasta !== undefined) return t("tramo.hasta", v);
-  if (tr.masDe !== undefined) return t("tramo.masDe", v);
-  if (tr.desde !== undefined) return t("tramo.desde", v);
-  return t("tramo.resto");
-}
 
 /* ---------- Motores ---------- */
 
@@ -246,55 +228,11 @@ function crear(config) {
     return MOTORES[g.motor].ventana(g, prev, ctx);
   }
 
-  /* ----- Explicación en palabras, generada desde los mismos datos ----- */
+  /* ----- Explicación en palabras (explicacion.js) ----- */
 
-  function explicar(id) {
-    const g = genero(id);
-    const L2 = comun.lluvia;
-    const lineas = [];
-    const nivelesLluvia = t("exp.nivelesLluvia", { sin: num(L2.sinLluviaMm), llovizna: num(L2.lloviznaMm), moderada: num(L2.fuerteMm) });
-
-    if (g.motor === "puntos-ventana") {
-      lineas.push(t("exp.ventana", { antes: g.ventana.antesMin, despues: g.ventana.despuesMin, evento: g.eventoNombre }));
-      g.factores.forEach((f) => {
-        if (f.tipo === "lluvia") {
-          lineas.push(t("exp.factorLluvia", { etiqueta: f.etiqueta, max: f.max, puntos: Object.keys(f.puntos).map((n) => nombreLluvia(n) + " " + f.puntos[n]).join(", "), niveles: nivelesLluvia }));
-        } else {
-          // Tramos "menos de 20, menos de 40..." se cuentan como "de 20 a 40": así se lee como una escala
-          let previo = null;
-          const trozos = f.tramos.map((tr) => {
-            const soloMenosDe = tr.menosDe !== undefined && Object.keys(tr).every((k) => k === "menosDe" || k === "puntos");
-            const cond = soloMenosDe && previo !== null ? t("tramo.desdeHasta", { desde: num(previo), hasta: num(tr.menosDe), u: t("formato.unidadPct") }) : describirTramo(tr);
-            previo = soloMenosDe ? tr.menosDe : null;
-            return t("exp.tramoDa", { cond, puntos: tr.puntos });
-          });
-          lineas.push(t("exp.factorTramos", { etiqueta: f.etiqueta, max: f.max, tramos: trozos.join("; ") }));
-        }
-      });
-      lineas.push(t("exp.semaforoPuntos", { verdeDesde: comun.niveles.verdeDesde, ambarDesde: comun.niveles.ambarDesde, ambarHasta: comun.niveles.verdeDesde - 1,
-        verde: g.niveles.verde, ambar: g.niveles.ambar, rojo: g.niveles.rojo }));
-      (g.vetos || []).forEach((v) => {
-        const cond = v.factor === "lluvia" ? t("exp.vetoLluvia", { nivel: nombreLluvia(v.nivel) })
-          : t("exp.vetoFactor", { etiqueta: g.factores.find((f) => f.id === v.factor).etiqueta.toLowerCase(), masDe: num(v.masDe) });
-        lineas.push(t("exp.rojoDirecto", { cond }));
-      });
-      if (g.nieblaVentaja) {
-        const f = g.factores.find((x) => x.id === g.nieblaVentaja.factor);
-        lineas.push(t("exp.niebla", { km: num(comun.nieblaKm), etiqueta: f.etiqueta, max: f.max }));
-      }
-      lineas.push(t("exp.lluviaAmbar", { nivel: nombreLluvia(g.ambarSiLluviaDesde) }));
-    } else {
-      const n = g.nubes;
-      lineas.push(t("exp.nocheLuna", { luna: g.luna.alturaMinGrados, sol: g.luna.solMaxGrados }));
-      lineas.push(t("exp.nocheNubes", { nivel: nombreLluvia(g.lluvia.vetoDesde), esFuerte: g.lluvia.vetoDesde === "fuerte", verdeMenosDe: n.verdeMenosDe, ambarHasta: n.ambarHasta,
-        verde: g.niveles.verde, ambar: g.niveles.ambar, rojo: g.niveles.rojo }));
-      lineas.push(t("exp.lluviaAmbar", { nivel: nombreLluvia(g.lluvia.ambarSiLluviaDesde) }));
-      lineas.push(t("exp.nocheFase", { pct: Math.round(g.luna.fraccionMinima * 100) }));
-    }
-    return lineas;
-  }
+  const explicar = (id) => explicarGenero(comun, genero(id));
 
   return { evaluar, ventana, explicar, prepararPrevision, nivelLluvia, genero };
 }
 
-export { crear, prepararPrevision, describirTramo, plantilla };
+export { crear, prepararPrevision };

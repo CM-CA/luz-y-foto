@@ -5,6 +5,7 @@ import { it } from "vitest";
 import { cargarDeDisco as cargarDatos } from "../../scripts/datos-de-disco.mjs";
 import * as Astro from "../../src/nucleo/astro.js";
 import * as Semaforo from "../../src/nucleo/semaforo.js";
+import { describirTramo } from "../../src/nucleo/explicacion.js";
 import * as Datos from "../../src/nucleo/datos.js";
 
 // El semáforo se prueba con los datos reales de data/, así que si se cambia un umbral aquí se nota
@@ -386,11 +387,11 @@ prueba("datos: un género NUEVO (amanecer) se añade solo con datos", () => {
 });
 
 prueba("tramos: descripción en palabras", () => {
-  assert.equal(Semaforo.describirTramo({ menosDe: 20 }), "menos de 20 %");
-  assert.equal(Semaforo.describirTramo({ desde: 20, hasta: 70 }), "de 20 a 70 %");
-  assert.equal(Semaforo.describirTramo({ desde: 10, menosDe: 20 }), "de 10 % a menos de 20 %");
-  assert.equal(Semaforo.describirTramo({ masDe: 70, hasta: 85 }), "más de 70 % y hasta 85 %");
-  assert.equal(Semaforo.describirTramo({}), "el resto");
+  assert.equal(describirTramo({ menosDe: 20 }), "menos de 20 %");
+  assert.equal(describirTramo({ desde: 20, hasta: 70 }), "de 20 a 70 %");
+  assert.equal(describirTramo({ desde: 10, menosDe: 20 }), "de 10 % a menos de 20 %");
+  assert.equal(describirTramo({ masDe: 70, hasta: 85 }), "más de 70 % y hasta 85 %");
+  assert.equal(describirTramo({}), "el resto");
 });
 
 prueba("género inexistente da un error claro", () => {
