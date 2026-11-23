@@ -7,7 +7,7 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
-const { RAIZ, VIGO, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, LUGAR, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
@@ -16,7 +16,6 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 }
 
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
-const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const LETRA_ANCHA = "* { font-family: 'DejaVu Sans', sans-serif !important; }";
 
 // Lo que se ve de la sección en el día elegido

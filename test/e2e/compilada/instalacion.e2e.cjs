@@ -7,14 +7,13 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const os = require("node:os");
-const { RAIZ, VIGO, servir, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, LUGAR, servir, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "sw.js"))) {
   console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
-const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const informe = (p) => p.locator("[data-testid=informe-instalacion]").innerText();
 const lineas = async (p) => (await informe(p)).split("\n").map((s) => s.replace(/^[✓✗•]\s*/, "").trim()).filter(Boolean);
 

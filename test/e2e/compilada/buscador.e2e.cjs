@@ -5,7 +5,7 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
-const { RAIZ, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, LUGAR, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
@@ -14,7 +14,6 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 }
 
 const PERFIL = { equipo: "movil", marca: "desconocida", objetivos: [], tripode: "no", nivel: "empiezo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
-const LUGAR = { lat: 42.2328, lon: -8.7226, nombre: "Vigo, Galicia", origen: "busqueda" };
 const MENSAJE_INICIAL = "Escribe tu ciudad o usa tu ubicación.";
 
 async function abrirSelector(b, base, ancho, esquema) {

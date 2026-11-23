@@ -17,6 +17,8 @@ const http = require("node:http");
 const RAIZ = path.join(__dirname, "..", "..");
 const VIGO = { latitude: 42.2328, longitude: -8.7226 };
 const PONTE = { latitude: 42.4338, longitude: -8.6476 };
+// El lugar guardado que usan casi todas las pruebas para no pasar por el buscador: Vigo (con las mismas coordenadas que VIGO, el GPS simulado)
+const LUGAR = Object.freeze({ lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" });
 const FECHA = "2026-11-19T15:00:00+01:00";
 
 const TIPOS = {
@@ -137,4 +139,4 @@ async function ejecutar(nombre, cuerpo, opcionesServidor) {
   process.exit(fallos ? 1 : 0);
 }
 
-module.exports = { RAIZ, VIGO, PONTE, playwright, servir, urlHoy, simulada, previsionConCambios, nuevaPagina, ok, titulo, ejecutar };
+module.exports = { RAIZ, VIGO, PONTE, LUGAR, playwright, servir, urlHoy, simulada, previsionConCambios, nuevaPagina, ok, titulo, ejecutar };

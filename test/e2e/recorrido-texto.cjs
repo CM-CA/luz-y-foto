@@ -10,11 +10,10 @@
  * `compilada/dibujos.e2e.cjs` y, en inglés, que no quede español en ellos, la prueba del inglés (que pide `conDibujos`).
  */
 "use strict";
-const { nuevaPagina } = require("./ayudas.cjs");
+const { LUGAR, nuevaPagina } = require("./ayudas.cjs");
 
 const MOVIL = { equipo: "movil", marca: "desconocida", objetivos: [], tripode: "no", nivel: "empiezo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
 const CAMARA = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
-const LUGAR = { lat: 42.2328, lon: -8.7226, nombre: "Vigo, Galicia", origen: "busqueda" };
 
 // Las barras y la franja son hileras de «█» (una por línea o seguidas): se dejan en un solo «█»
 const normalizar = (t) => t.replace(/index-[\w-]+\.js/g, "index-HASH.js").replace(/luz-y-foto-[\w.-]+/g, "luz-y-foto-CACHE").replace(/(?:█\s*)+/g, "█\n");

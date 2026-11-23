@@ -6,7 +6,7 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
-const { RAIZ, VIGO, PONTE, simulada, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, VIGO, PONTE, LUGAR, simulada, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
@@ -14,7 +14,6 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
   process.exit(1);
 }
 
-const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const A = "**/api.open-meteo.com/**";
 const sinRed = (r) => r.abort("internetdisconnected");
 const caido = (r) => r.fulfill({ status: 500, headers: { "access-control-allow-origin": "*" }, body: "caído" });

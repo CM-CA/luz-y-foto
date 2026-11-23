@@ -6,13 +6,12 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
-const { RAIZ, VIGO, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, LUGAR, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 if (!fs.existsSync(path.join(RAIZ, "dist", "index.html"))) {
   console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
-const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const leer = (...ruta) => JSON.parse(fs.readFileSync(path.join(RAIZ, "data", ...ruta), "utf8"));
 const IDIOMAS = fs.readdirSync(path.join(RAIZ, "data"), { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name).sort();
 const LOCALE = { es: "es-ES", en: "en-US" };

@@ -6,7 +6,7 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
-const { RAIZ, VIGO, simulada, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, LUGAR, simulada, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
@@ -15,7 +15,6 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 }
 
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
-const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const SANTIAGO_DE_CHILE = { lat: -33.45, lon: -70.66, nombre: "Santiago de Chile", origen: "busqueda" };
 // El nombre del archivo lleva el número de fase (00 a 15) y el código que le pone Vite (8 caracteres)
 const FASE = /\/luna-(\d\d)-[A-Za-z0-9_-]{8}\.webp$/;

@@ -6,13 +6,12 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
-const { RAIZ, VIGO, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, LUGAR, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 if (!fs.existsSync(path.join(RAIZ, "dist", "index.html"))) {
   console.log("FALLA: no hay dist/. Compila antes con: npm run build");
   process.exit(1);
 }
-const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const CLAVE = "luz-y-foto:idioma";
 const lang = (p) => p.evaluate(() => document.documentElement.lang);
 const guardado = (p) => p.evaluate((k) => localStorage.getItem(k), CLAVE);

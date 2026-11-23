@@ -6,7 +6,7 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
-const { RAIZ, VIGO, previsionConCambios, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, LUGAR, previsionConCambios, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
@@ -15,7 +15,6 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 }
 
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
-const LUGAR = { lat: VIGO.latitude, lon: VIGO.longitude, nombre: "Vigo, Galicia", origen: "busqueda" };
 const LARGO = { ...LUGAR, nombre: "Santiago de Compostela, A Coruña, Galicia (comarca de Santiago)" };
 const A = "**/api.open-meteo.com/**";
 // Un día despejado de verdad, con buena visibilidad (el 20 de noviembre, el primer amanecer de la lista a las 15:00 del 19)

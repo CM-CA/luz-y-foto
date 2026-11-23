@@ -7,7 +7,7 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
-const { RAIZ, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
+const { RAIZ, LUGAR, nuevaPagina, ok, titulo, ejecutar } = require("../ayudas.cjs");
 
 const dist = path.join(RAIZ, "dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
@@ -16,7 +16,6 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 }
 
 const PERFIL = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
-const LUGAR = { lat: 42.2328, lon: -8.7226, nombre: "Vigo, Galicia", origen: "busqueda" };
 // [nombre, botones, atributo de «elegido», ¿se exige negrita?, dónde está la ✓ dentro del botón, qué elemento cambia de fondo y de peso]
 const GRUPOS = [
   ["pestañas", "#tabs button", "aria-selected", false, null, null], // las pestañas van siempre en negrita
