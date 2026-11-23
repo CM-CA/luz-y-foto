@@ -48,7 +48,7 @@ node scripts/generar-cielos.mjs   vuelve a generar los cielos de la cabecera y l
 
 ## Estructura
 
-- `src/`: la app (Svelte 5 + Vite). `src/nucleo/` es la lógica sin pantalla (sol y luna, semáforo, datos, perfil, recetas, lugar, días de la pantalla Hoy); `src/proveedores/`, lo que habla con fuera (Open-Meteo, Nominatim, geocodificación, GPS); `src/pantallas/`, `src/componentes/` y `src/estado/`, las pantallas Hoy y Aprender; `src/imagenes/`, los cielos de la cabecera y las fases de la luna; `src/dibujos/`, los dibujos de las lecciones (SVG con texto, pintados dentro de la página).
+- `src/`: la app (Svelte 5 + Vite). `src/nucleo/` es la lógica sin pantalla (sol y luna, semáforo, datos —su validación está repartida en `src/nucleo/validacion/`—, perfil, recetas, lugar, días de la pantalla Hoy); `src/proveedores/`, lo que habla con fuera (Open-Meteo, Nominatim, geocodificación, GPS); `src/pantallas/`, `src/componentes/` y `src/estado/`, las pantallas Hoy y Aprender; `src/imagenes/`, los cielos de la cabecera y las fases de la luna; `src/dibujos/`, los dibujos de las lecciones (SVG con texto, pintados dentro de la página).
 - `data/<idioma>/`: umbrales, puntos, textos y consejos, separados del código, una carpeta por idioma (`es`, ...; ver [`docs/datos.md`](docs/datos.md)).
 - `index.html`, `public/`, `vite.config.mjs`: la página de entrada, los iconos y el manifiesto, y la configuración de la compilación.
 - `scripts/`: validar `data/` (lo usan `npm run validar` y la compilación), generar iconos y cielos, y servir `dist/` para las pruebas.
