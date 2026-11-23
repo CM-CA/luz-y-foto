@@ -4,7 +4,7 @@
  */
 export default {
   // The app
-  "app.nombre": "Luz y foto",
+  "app.nombre": "Ollada",
   "app.descripcion": "Tells you whether it's worth going out to photograph the sunset or the moon, when to go, where to look and which settings to use.",
   "app.noEncuentro": "I can't find that screen",
   "app.volverAHoy": "Back to Today",
@@ -22,7 +22,7 @@ export default {
   "sinConexion.resto": "Showing the one I saved {cuando} ({hace}); it may have changed.",
   "sinConexion.reintentando": "Retrying…",
   "sinConexion.reintentar": "Retry",
-  "version.hay": "There is a new version of Luz y foto.",
+  "version.hay": "There is a new version of Ollada.",
   "version.actualizando": "Updating…",
   "version.actualizar": "Update",
   "version.descartado": "The browser discarded the service worker while installing it (usually it couldn't download one of the app's files).",

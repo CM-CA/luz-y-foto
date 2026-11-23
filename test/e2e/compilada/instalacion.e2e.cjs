@@ -30,7 +30,7 @@ ejecutar("instalacion", async ({ b, base }) => {
   const archivo = await p.evaluate(() => [...document.scripts].map((s) => s.src).find((u) => /\/assets\/index-/.test(u)).split("/").pop());
   ok(t.includes("App cargada: " + archivo), "dice qué archivo de la app se ejecuta: " + archivo);
   ok(/✓ Conexión segura/.test(t), "conexión segura");
-  ok(/✓ Manifiesto leído \(.+\): «Luz y foto», se abre como «standalone»/.test(t), "manifiesto: " + t.split("\n").find((s) => /Manifiesto/.test(s)));
+  ok(/✓ Manifiesto leído \(.+\): «Ollada», se abre como «standalone»/.test(t), "manifiesto: " + t.split("\n").find((s) => /Manifiesto/.test(s)));
   ok(/✓ Icono de 192 px: se descarga \(image\/png\)/.test(t) && /✓ Icono de 512 px: se descarga \(image\/png\)/.test(t), "iconos de 192 y 512 px");
   ok(/✓ Dirección de inicio dentro del ámbito de la app \(\/luz-y-foto\/\)/.test(t), "inicio dentro del ámbito");
   const versionSw = t.match(/versión ([0-9a-f]{12})/)[1];

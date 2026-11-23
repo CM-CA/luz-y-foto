@@ -41,4 +41,4 @@ Los términos que se repiten en `data/en/` y en `src/idioma/en.js`, para que se 
 - Lo que está escrito con el nombre de otro texto (por ejemplo «Toca para enfocar y exponer» dentro de otra lección) se escribe con el título inglés de esa lección: “Tap to focus and expose”.
 - Un texto de un dibujo tiene que caber en su sitio a 320 px: `test/e2e/compilada/dibujos.e2e.cjs` lo comprueba. Por eso hay etiquetas más cortas que su frase en español («soft background», «Tap the dark part»).
 - Los enlaces al glosario `[[id|texto]]` conservan el `id` en español y cambian el texto visible: `[[apertura|aperture]]`.
-- El nombre de la app («Luz y foto») y el manifest no se traducen.
+- El nombre de la app («Ollada») y el manifest no se traducen.

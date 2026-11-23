@@ -63,7 +63,7 @@ ejecutar("sin-conexion", async ({ b, base }) => {
   const sinRed = (r) => r.abort("internetdisconnected");
   await p.route("**/api.open-meteo.com/**", sinRed);
   await p.reload(); await p.waitForSelector("[data-tab]");
-  ok(await tituloDe(p) === "Luz y foto", "carga la página sin red: «" + await tituloDe(p) + "»");
+  ok(await tituloDe(p) === "Ollada", "carga la página sin red: «" + await tituloDe(p) + "»");
   const pestanas = (await p.locator("[data-tab]").allInnerTexts()).join(",");
   ok(pestanas === "Amanecer,Atardecer,Noche", "con sus pestañas: " + pestanas);
   ok(await p.evaluate(() => getComputedStyle(document.querySelector("main")).maxWidth) === "760px", "con sus estilos");
@@ -85,16 +85,16 @@ ejecutar("sin-conexion", async ({ b, base }) => {
   titulo("se publica una versión nueva: avisa, pero no cambia sola");
   // «Publicar»: cambia la página y regenera el service worker, como haría una compilación nueva
   const html = path.join(copia, "index.html");
-  fs.writeFileSync(html, fs.readFileSync(html, "utf8").replace("<title>Luz y foto</title>", "<title>Luz y foto (versión 2)</title>"));
+  fs.writeFileSync(html, fs.readFileSync(html, "utf8").replace("<title>Ollada</title>", "<title>Ollada (versión 2)</title>"));
   const nueva = construirServiceWorker(copia);
   fs.writeFileSync(path.join(copia, "sw.js"), nueva.texto);
   await p.evaluate(() => navigator.serviceWorker.getRegistration().then((r) => r.update()));
   await p.waitForSelector("[data-testid=aviso-version]", { timeout: 10000 });
   ok(/Hay una versión nueva/.test(await p.locator("[data-testid=aviso-version]").innerText()), "aparece el aviso: " + (await p.locator("[data-testid=aviso-version]").innerText()).replace(/\n/g, " "));
-  ok(await tituloDe(p) === "Luz y foto", "la página sigue siendo la antigua mientras no se pulse");
+  ok(await tituloDe(p) === "Ollada", "la página sigue siendo la antigua mientras no se pulse");
   ok(Object.keys(await cachesDe(p)).length === 2, "la versión nueva está guardada aparte: " + Object.keys(await cachesDe(p)).join(", "));
   await p.reload(); await p.waitForSelector("[data-tab]");
-  ok(await tituloDe(p) === "Luz y foto", "recargar la página tampoco la actualiza");
+  ok(await tituloDe(p) === "Ollada", "recargar la página tampoco la actualiza");
   await p.waitForSelector("[data-testid=aviso-version]", { timeout: 10000 });
   ok(true, "y el aviso sigue ahí tras recargar");
   const visible = await p.locator("[data-testid=aviso-version]").boundingBox();
@@ -109,13 +109,13 @@ ejecutar("sin-conexion", async ({ b, base }) => {
   await Promise.all([p.waitForEvent("load"), p.click("[data-accion=actualizar]")]);
   await p.waitForSelector("[data-tab]");
   await controlada(p);
-  ok(await tituloDe(p) === "Luz y foto (versión 2)", "ahora es la versión nueva: «" + await tituloDe(p) + "»");
+  ok(await tituloDe(p) === "Ollada (versión 2)", "ahora es la versión nueva: «" + await tituloDe(p) + "»");
   ok(await p.locator("[data-testid=aviso-version]").count() === 0, "el aviso desaparece");
   const finales = Object.keys(await cachesDe(p));
   ok(finales.length === 1 && finales[0] === "luz-y-foto-" + nueva.version, "solo queda la caché nueva: " + finales.join(", "));
   await ctx.setOffline(true);
   await p.reload(); await p.waitForSelector("[data-tab]");
-  ok(await tituloDe(p) === "Luz y foto (versión 2)", "y la versión nueva también abre sin red");
+  ok(await tituloDe(p) === "Ollada (versión 2)", "y la versión nueva también abre sin red");
   await ctx.close();
 
   titulo("en inglés (teléfono en en-US): sin red abre desde la caché con sus textos en inglés, y avisa de la versión nueva en inglés");
@@ -137,11 +137,11 @@ ejecutar("sin-conexion", async ({ b, base }) => {
     await ctxEn.setOffline(false);
     await pEn.unroute("**/api.open-meteo.com/**", sinRedEn);
     // «Publicar» otra versión (la 3)
-    fs.writeFileSync(html, fs.readFileSync(html, "utf8").replace("<title>Luz y foto (versión 2)</title>", "<title>Luz y foto (versión 3)</title>"));
+    fs.writeFileSync(html, fs.readFileSync(html, "utf8").replace("<title>Ollada (versión 2)</title>", "<title>Ollada (versión 3)</title>"));
     fs.writeFileSync(path.join(copia, "sw.js"), construirServiceWorker(copia).texto);
     await pEn.evaluate(() => navigator.serviceWorker.getRegistration().then((r) => r.update()));
     await pEn.waitForSelector("[data-testid=aviso-version]", { timeout: 10000 });
-    ok(/There is a new version of Luz y foto\./.test(await pEn.locator("[data-testid=aviso-version]").innerText()), "aviso de versión nueva en inglés: «" + (await pEn.locator("[data-testid=aviso-version]").innerText()).replace(/\n/g, " ") + "»");
+    ok(/There is a new version of Ollada\./.test(await pEn.locator("[data-testid=aviso-version]").innerText()), "aviso de versión nueva en inglés: «" + (await pEn.locator("[data-testid=aviso-version]").innerText()).replace(/\n/g, " ") + "»");
     ok(/^Update$/.test((await pEn.locator("[data-accion=actualizar]").innerText()).trim()), "con el botón «Update»");
     ok(!/[¿¡áéíóúñ]/.test(await pEn.locator("[data-testid=aviso-version]").innerText()), "sin español en el aviso");
     await ctxEn.close();

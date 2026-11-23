@@ -27,7 +27,7 @@ ejecutar("pwa", async ({ b, base }) => {
   const respuesta = await ctx.request.get(new URL(enlace, base).href);
   ok(respuesta.status() === 200, "responde 200");
   const m = await respuesta.json();
-  ok(m.name === "Luz y foto" && m.short_name === "Luz y foto", "nombre: " + m.name + " / " + m.short_name);
+  ok(m.name === "Ollada" && m.short_name === "Ollada", "nombre: " + m.name + " / " + m.short_name);
   ok(m.lang === "es" && m.display === "standalone", "idioma «" + m.lang + "» y se abre como app (" + m.display + ")");
   const raiz = new URL(base).pathname;
   ok(new URL(m.start_url, new URL(enlace, base)).pathname === raiz, "start_url vuelve a la app: " + m.start_url);
@@ -56,7 +56,7 @@ ejecutar("pwa", async ({ b, base }) => {
   ok(colores.length === 2 && colores.some((c) => /light/.test(c)) && colores.some((c) => /dark/.test(c)), "theme-color claro y oscuro: " + colores.join(" | "));
   ok(colores.some((c) => /light.* #f3eff4$/.test(c)) && colores.some((c) => /dark.* #0f1626$/.test(c)), "y son los fondos claro (#f3eff4) y oscuro (#0f1626) de la web: " + colores.join(" | "));
 
-  titulo("los iconos llevan la paleta nueva (fondo azul noche, sol naranja)");
+  titulo("los iconos llevan la paleta de la app (fondo azul noche, ojo y visor azul claro, iris naranja)");
   const pixeles = await p.evaluate(async (urls) => {
     const leer = async (url, x, y) => {
       const imagen = new Image();
@@ -65,12 +65,13 @@ ejecutar("pwa", async ({ b, base }) => {
       const c = lienzo.getContext("2d"); c.drawImage(imagen, 0, 0);
       return [...c.getImageData(x, y, 1, 1).data];
     };
-    // En el de 192 px el dibujo se amplía por 3: el fondo, arriba en el centro; el sol, que asoma sobre el horizonte, en (96, 100)
-    return { fondo: await leer(urls.icono, 96, 8), sol: await leer(urls.icono, 96, 100) };
+    // En el de 192 px el dibujo se amplía por 3: el fondo, arriba en el centro; el trazo del párpado de arriba, en (96, 57); el iris, a la derecha del centro y fuera del anillo oscuro, en (119, 96)
+    return { fondo: await leer(urls.icono, 96, 8), ojo: await leer(urls.icono, 96, 57), iris: await leer(urls.icono, 119, 96) };
   }, { icono: new URL("icon-192.png", base).href });
   const cerca = (a, b) => a.every((v, i) => Math.abs(v - b[i]) <= 2);
   ok(cerca(pixeles.fondo.slice(0, 3), [0x1f, 0x27, 0x40]), "icon-192.png: fondo #1f2740 (" + pixeles.fondo.join(",") + ")");
-  ok(cerca(pixeles.sol.slice(0, 3), [0xee, 0x7d, 0x2f]), "icon-192.png: sol #ee7d2f (" + pixeles.sol.join(",") + ")");
+  ok(cerca(pixeles.ojo.slice(0, 3), [0x7f, 0x9b, 0xe0]), "icon-192.png: ojo y visor #7f9be0 (" + pixeles.ojo.join(",") + ")");
+  ok(cerca(pixeles.iris.slice(0, 3), [0xee, 0x7d, 0x2f]), "icon-192.png: iris #ee7d2f (" + pixeles.iris.join(",") + ")");
   const favicon = await (await ctx.request.get(new URL("favicon.svg", base).href)).text();
   ok(/#1f2740/i.test(favicon) && /#ee7d2f/i.test(favicon) && /#7f9be0/i.test(favicon) && !/#1d2b44|#f5a623|#8fb4ff/i.test(favicon), "favicon.svg con los mismos colores");
 

@@ -52,7 +52,7 @@ export function traducirLista(clave) {
 }
 
 // Al arrancar: la página dice en qué idioma está (lectores de pantalla, traductores del navegador) y se describe en él.
-// El título («Luz y foto») es el mismo en los dos idiomas y queda como lo trae index.html.
+// El título («Ollada») es el mismo en los dos idiomas y queda como lo trae index.html.
 export function aplicarAPagina() {
   if (typeof document === "undefined") return;
   document.documentElement.lang = idioma;
