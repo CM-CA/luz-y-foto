@@ -1,0 +1,45 @@
+/* La luna y la brújula, «La luz de hoy», la luna del cielo y el consejo. */
+.luna-cab { display: flex; align-items: center; gap: 16px; margin-top: 20px; }
+.luna-cab img { width: 66px; height: 66px; flex: none; }
+.luna-cab img.sur { transform: scaleX(-1); } /* en el hemisferio sur la luna se ve al revés */
+.luna-cab p { margin: 0; }
+.brujula { display: flex; align-items: center; gap: 16px; margin-top: 22px; }
+.brujula svg { width: 62px; height: 62px; flex: none; }
+.brujula-texto { flex: 1 1 0; min-width: 0; }
+.brujula p { margin: 0; line-height: 1.35; }
+.brujula p + p { margin-top: 4px; }
+.brujula strong { font-weight: 800; }
+/* La brújula del móvil: el botón y lo que dice, debajo de la flecha fija */
+.brujula-viva { margin-top: 6px; }
+.brujula-viva button { min-height: 44px; padding: 9px 0; text-align: left; }
+.brujula-viva p { margin: 4px 0 0; line-height: 1.35; }
+.brujula-viva .nota { font-size: 14px; color: var(--suave); }
+
+/* «La luz de hoy»: franja de 48 bloques de texto «█» (cada uno con su color), el marcador de ahora (otro texto) y las tres horas. */
+.luz-de-hoy h3 { margin-top: 26px; }
+.franja { position: relative; height: 14px; }
+/* Cada «█» es más ancho que su bloque y se solapa con el siguiente, que lo pinta encima: así los bordes de los bloques, que caen
+   entre dos píxeles, se mezclan con el color vecino y no con el fondo (si cada bloque recortara su propio texto quedaría una
+   costura clara). Quien recorta es el contenedor, que también redondea los extremos.
+   El cuerpo de la letra crece con el ancho de la franja (cada bloque mide 1/48; el «█» ocupa más de media «m», así que con
+   1/24 del ancho de letra sobra) para que en una pantalla grande tampoco queden huecos. */
+.franja .bloques { display: flex; height: 14px; border-radius: 7px; overflow: hidden; container-type: inline-size; }
+.franja span { flex: 1 1 0; min-width: 0; white-space: nowrap; font-size: 18px; font-size: max(18px, calc(100cqw / 24)); line-height: 14px; user-select: none; }
+.franja .ahora { position: absolute; top: -5px; transform: translateX(-50%); font: normal 24px/24px var(--cuerpo); color: #fff6d6; text-shadow: 0 0 1px var(--texto), 0 0 2px var(--texto), 0 0 3px var(--texto); pointer-events: none; }
+.luz-de-hoy .horas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; font-size: 15px; line-height: 1.3; color: var(--suave); }
+.luz-de-hoy .horas b { display: block; font: 800 18px/1.2 var(--cuerpo); color: var(--texto); }
+.luz-de-hoy .horas div:nth-child(2) { text-align: center; }
+.luz-de-hoy .horas div:last-child { text-align: right; }
+.luna-nombre { display: block; font: 700 22px/1.15 var(--cuerpo); }
+.luna-detalle { display: block; margin-top: 2px; color: var(--suave); font-size: 16px; }
+dl.sale { margin: 16px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; font-size: 16px; }
+dl.sale dt { color: var(--suave); }
+dl.sale dd { margin: 0; font-weight: 800; text-align: right; }
+dl.sale dd small { display: block; font-weight: 500; font-size: 14px; color: var(--suave); }
+
+/* La luna del cielo (la de la fase de esa noche) va en el 75 % del ancho y el 33 % del alto de la cabecera, por detrás del título y
+   del lugar; con la noche cubierta se apaga. */
+.cabecera .luna-cielo, .cabecera .luna-anterior { position: absolute; left: 75%; top: 33%; width: 64px; height: 64px; margin: -32px 0 0 -32px; filter: drop-shadow(0 0 18px rgba(246, 239, 210, .5)); pointer-events: none; }
+.cabecera .luna-cielo.sur, .cabecera .luna-anterior.sur { transform: scaleX(-1); }
+.cabecera[data-cielo="noche-cubierta"] .luna-cielo, .cabecera .escena-anterior[data-cielo="noche-cubierta"] .luna-anterior { opacity: .4; }
+.consejo { margin: 14px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--ambar-fondo); border-left: 6px solid var(--ambar); font-size: .95rem; }

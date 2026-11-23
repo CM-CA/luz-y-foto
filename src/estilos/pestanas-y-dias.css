@@ -1,0 +1,38 @@
+/* Las pestañas (Amanecer, Atardecer, Noche) y los botones de día, con la ✓ de lo elegido. */
+/* Las pestañas son una tarjeta que monta 27 px sobre el cielo (clase «solapa», que Pestanas.svelte quita mientras hay algo
+   abierto entre la cabecera y ellas: el selector de lugar o el asistente). La elegida va con colores invertidos y una ✓ (texto). */
+.pestanas { position: relative; z-index: 3; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(max-content, 1fr); gap: 4px; margin: 14px 0 12px; padding: 5px; border-radius: 22px; background: var(--tarjeta); box-shadow: 0 8px 22px rgba(30, 24, 64, .2); }
+.pestanas.solapa { margin-top: -27px; }
+.pestanas button { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 44px; padding: 12px clamp(6px, 2.4vw, 12px); border: 0; border-radius: 17px; background: transparent; color: var(--texto); font: 700 clamp(13px, 4.2vw, 18px)/1.2 var(--cuerpo); } /* 18 px salvo en móviles estrechos; las columnas miden al menos lo que mide su texto más el relleno, y el sobrante se reparte a partes iguales */
+.pestanas button[aria-selected="true"] { background: var(--texto); color: var(--fondo); }
+.pestanas button[aria-selected="true"]::before { margin-right: .4em; } /* en un contenedor flex el espacio final de «✓ » se pierde */
+/* Los días van siempre en una sola fila (tres columnas iguales). Cada botón lleva arriba el semáforo de ese día
+   (símbolo con el color del nivel) y abajo el nombre del día. */
+.dias { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 14px; }
+.dias button { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; padding: 8px 4px 10px; border: 2px solid var(--borde); border-radius: 16px; background: var(--tarjeta); }
+.dias .cima { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.dias .marca { font-size: 23px; line-height: 1; }
+.dias .num { font-size: 20px; font-weight: 700; line-height: 1; color: var(--texto); }
+.dias [data-nivel="verde"] .marca { color: var(--verde); }
+.dias [data-nivel="ambar"] .marca { color: var(--ambar-simbolo); }
+.dias [data-nivel="rojo"] .marca { color: var(--rojo); }
+.dias [data-nivel="ninguno"] .marca { color: var(--gris); }
+.dias .etq { max-width: 100%; padding: 2px 10px; border-radius: 999px; font-size: 16px; font-weight: 500; line-height: 1.25; }
+/* Red de seguridad: con una letra muy ancha y una pantalla estrecha, el nombre de día más largo («Wednesday») se corta con «…» en vez de salirse del botón.
+   Con la letra de la app (Figtree) cabe entero; un lector de pantalla lo lee entero. */
+.dias .etq { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* «Wednesday», elegido (en negrita), es más ancho que «Miércoles» y con la letra de la app se saldría de su pastilla a 320 y a 390 px: menos aire a los lados en inglés. */
+:lang(en) .dias .etq { padding-inline: 5px; }
+@media (max-width: 380px) { :lang(en) .dias .etq { padding-inline: 3px; font-size: .8rem; } }
+/* El día elegido lleva su nombre con el color invertido y en negrita, y una ✓ junto al símbolo. El color del símbolo
+   no cambia, así que sigue viéndose el semáforo del día elegido. */
+.dias button[aria-pressed="true"] { border-color: var(--texto); }
+.dias button[aria-pressed="true"] .etq { background: var(--texto); color: var(--fondo); font-weight: 700; }
+@media (max-width: 380px) { .dias .etq { padding: 2px 6px; font-size: .85rem; } }
+/* Texto que solo oyen los lectores de pantalla (el nivel de cada día; el símbolo es solo para la vista) */
+.solo-lector { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* Lo elegido se marca también con una ✓: así no depende solo del color (hay navegadores que oscurecen por su cuenta
+   los fondos y los bordes, y personas que no distinguen bien los colores). La ✓ es un texto y se pinta con el color
+   del texto; el texto alternativo vacío evita que un lector de pantalla la lea. */
+.pestanas button[aria-selected="true"]::before, .tripode button[aria-pressed="true"]::before, .idiomas button[aria-pressed="true"]::before { content: "✓ " / ""; }
+.dias button[aria-pressed="true"] .marca::before { content: "✓ " / ""; color: var(--texto); font-size: 18px; font-weight: 800; }

@@ -1,0 +1,35 @@
+/* Lo común a toda la app: la letra, los colores del tema claro y del oscuro, y la tipografía y la estructura básicas de la página. */
+@font-face { font-family: "Young Serif"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fuentes/young-serif-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-weight: 300 900; font-display: swap; src: url("../fuentes/figtree-latin-wght-normal.woff2") format("woff2"); }
+:root {
+  color-scheme: light dark; /* la web tiene tema claro y oscuro: el navegador no debe oscurecerla por su cuenta */
+  --display: "Young Serif", Georgia, serif;
+  --cuerpo: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fondo: #f3eff4; --tarjeta: #ffffff; --texto: #1f2740; --suave: #59607f; --borde: #d8d1df;
+  --verde: #1b7a47; --verde-fondo: #ddf1e5;
+  --ambar: #8f5a00; --ambar-fondo: #fbe9c0; --ambar-simbolo: #b06b00; /* el símbolo es gráfico: basta 3:1 sobre el fondo */
+  --rojo: #a9362f; --rojo-fondo: #f8dcd8;
+  --gris: #59607f; --gris-fondo: #e9e4ee;
+  --oro: #f4b94f; --sol: #ee7d2f; --violeta: #6d5aa6; --azul-hora: #3f5fa8;
+  --barra-baja: #55657a; --barra-media: #2b6cb0; --barra-alta: #8e44ad;
+  --dibujo-fondo: var(--tarjeta); --dibujo-tinta: var(--texto); --dibujo-suave: var(--suave); /* los colores de los dibujos de las lecciones (src/dibujos/): los del tema, claro u oscuro */
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #0f1626; --tarjeta: #18213a; --texto: #ecebf5; --suave: #a8afcb; --borde: #2c3658;
+    --verde: #78d9a3; --verde-fondo: #173a2b;
+    --ambar: #f5c867; --ambar-fondo: #3a2f17; --ambar-simbolo: #f5c867;
+    --rojo: #f7a199; --rojo-fondo: #40201f;
+    --gris: #a8afcb; --gris-fondo: #232c47;
+    --oro: #f4b94f; --sol: #f08a3a; --violeta: #9985d8; --azul-hora: #7f9be0;
+    --barra-baja: #9db0c4; --barra-media: #6aa9ff; --barra-alta: #c792ea;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--texto); font: 17px/1.5 var(--cuerpo); }
+main { max-width: 760px; margin: 0 auto; padding: 0 0 80px; }   /* el relleno de abajo deja el final de cada pantalla por encima de la barra */
+.pagina { padding: 20px 16px 0; }   /* pantallas sin cabecera */
+.cuerpo { padding: 0 16px; }        /* lo que va bajo la cabecera, que ocupa todo el ancho */
+h1, h3 { color: var(--texto); }
+h1 { font: 400 1.6rem/1.2 var(--display); margin: 0 0 4px; }   /* la serif es solo para el nombre de la app y los títulos de pantalla */
+h3 { font: 700 21px/1.2 var(--cuerpo); margin: 26px 0 12px; }

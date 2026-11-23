@@ -3,7 +3,7 @@
   import { DIBUJOS } from "../dibujos/index.js";
 
   // Un dibujo de una lección, pintado como SVG dentro de la página con los textos del idioma activo (data/<idioma>/dibujos.json). Los colores
-  // salen de las variables --dibujo-* de estilos.css (un solo dibujo sirve para el tema claro y el oscuro). Para un lector de pantalla es una
+  // salen de las variables --dibujo-* de estilos/base.css (un solo dibujo sirve para el tema claro y el oscuro). Para un lector de pantalla es una
   // imagen con el texto alternativo del bloque; todo lo que dice el dibujo está también en ese texto y en el pie.
   let { id, alt } = $props();
   const dibujo = $derived(DIBUJOS[id]);
