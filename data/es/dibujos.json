@@ -325,5 +325,52 @@
       "Tele",
       "lo lejano, cerca"
     ]
+  },
+  "macro": {
+    "rotulos": [
+      "Abierta",
+      "Cerrada"
+    ],
+    "lineas": [
+      "Solo una franja",
+      "fina es nítida",
+      "Más nítido, pero",
+      "pide más luz"
+    ]
+  },
+  "astro": {
+    "rotulos": [
+      "Tiempo corto",
+      "Tiempo largo"
+    ],
+    "lineas": [
+      "Las estrellas",
+      "son puntos",
+      "Las estrellas",
+      "son rayitas"
+    ]
+  },
+  "fauna": {
+    "filas": [
+      "Ojo enfocado",
+      "A su altura",
+      "Fondo limpio"
+    ],
+    "lineas": [
+      "Ojo nítido, tiempo rápido",
+      "y a la altura del animal"
+    ]
+  },
+  "mascotas": {
+    "rotulos": [
+      "Desde arriba",
+      "A su altura"
+    ],
+    "lineas": [
+      "Lejos de él:",
+      "parece pequeño",
+      "Cerca de él:",
+      "ves su mundo"
+    ]
   }
 }

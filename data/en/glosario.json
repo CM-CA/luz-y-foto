@@ -118,5 +118,9 @@
   "enfoque-simple": {
     "termino": "Single focus (AF-S, One Shot)",
     "texto": "A focus mode where, when you half-press the shutter button, focus locks and stays put. It suits still subjects; if the subject moves, you have to focus again."
+  },
+  "macro": {
+    "termino": "Macro",
+    "texto": "Photographing something very small from very close, so it fills the photo. Strictly speaking, the subject appears on the sensor at its real size (1:1). Up close, what comes out sharp is a very thin slice."
   }
 }

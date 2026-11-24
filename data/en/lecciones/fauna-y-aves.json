@@ -1,0 +1,60 @@
+{
+  "id": "fauna-y-aves",
+  "titulo": "Wildlife and birds",
+  "resumen": "A telephoto lens, a fast shutter speed and patience to photograph animals without disturbing them.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "fauna",
+      "alt": "A bird perched on a branch, seen from the side. On the left, a camera at the same height as the bird's eye, with a dotted line between them. A focus square marks the eye: 1, eye in focus. The camera is at the animal's level: 2, at its level. Behind, the background is blurry and clean: 3, clean background.",
+      "pie": "1 Focus on the eye. 2 Get to the animal's level. 3 A clean, blurry background."
+    },
+    {
+      "tipo": "idea",
+      "texto": "With animals, you don't get closer: your lens does. Fast shutter speed, the eye in focus and patience."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Keep your distance"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "A frightened animal leaves or changes its behavior, and getting too close can disturb it, especially if there is a nest. Use a telephoto lens or a long zoom (more in “Focal lengths”), move slowly and without sudden gestures, and if the animal gets restless, back off. Stay still and wait for it to calm down."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Starting settings"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "A fast [[velocidad|shutter speed]]: 1/1000 s or faster if the animal flies or runs. It's the same principle as in “Sports photography”.",
+        "A wide-open [[apertura|aperture]]: more light gets in for that short shutter speed and the background comes out blurrier.",
+        "[[enfoque-continuo|Continuous focus]] and [[rafaga|burst]]: the camera follows the animal and then you pick the best photo.",
+        "Focus on the eye: if it's sharp, the photo works."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Light, height and background"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Many animals are more active at sunrise and sunset, in the soft, warm light of the [[hora-dorada|golden hour]]. Get to the level of their eyes, even if you have to crouch or lie down: the photo feels closer than if you shoot from above. And look at the background: a clean one makes the animal stand out."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "On many phones the zoom doesn't reach nearly as far as a telephoto lens: don't get closer to the animal, wait for it to come closer. Tap the screen on the animal to focus, as in “Tap to focus and expose”, and take a burst."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Find a place with birds, like the edge of a pond or a tree with birds, and sit still for a while. When they move, take a burst with a fast shutter speed and count how many come out sharp."
+    }
+  ]
+}

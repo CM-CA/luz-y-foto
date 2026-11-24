@@ -1,0 +1,72 @@
+{
+  "id": "fotografia-macro",
+  "titulo": "Fotografía macro",
+  "resumen": "Acercarte a lo pequeño: poca zona nítida, luz suave y una cámara que no se mueva.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "macro",
+      "alt": "Dos dibujos de tres flores en fila, vistas de lado, con la cámara a la izquierda. A la izquierda, con la apertura abierta, solo la flor del medio cae dentro de la franja nítida, que es muy fina, y las otras dos salen borrosas: 1, abierta. A la derecha, con la apertura cerrada, la franja es más ancha y las tres flores salen nítidas, pero hace falta más luz: 2, cerrada.",
+      "pie": "1 Apertura abierta: solo una franja fina es nítida. 2 Apertura cerrada: más zona nítida, pero entra menos luz."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Cuanto más cerca estás, menos cabe nítido. En macro, lo que decide la foto es dónde enfocas y que nada se mueva."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué es"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "La [[macro|fotografía macro]] acerca lo pequeño (una flor, un insecto, una gota) hasta que llena la foto. En sentido estricto, el sujeto sale en el sensor de su tamaño real (1:1), pero algunos objetivos que se llaman «macro» solo llegan a la mitad (1:2)."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Muy poca zona nítida"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "De cerca, lo nítido es una franja finísima: si enfocas la cabeza de un insecto, el cuerpo ya sale borroso. Cerrar la [[apertura|apertura]] ensancha la franja, pero entra menos luz y hace falta un tiempo más lento."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Pasa a [[enfoque-manual|enfoque manual]] y amplía la imagen en la pantalla. Para afinar, gira el aro o acerca y aleja la cámara muy poco a poco hasta que lo importante se vea nítido."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Que no se mueva nada"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Sujeto quieto: trípode y [[disparador|temporizador]] (o disparador remoto), para no tocar la cámara.",
+        "Un insecto o una flor con brisa: tiempo rápido y la cámara bien sujeta. De cerca, hasta una brisa se nota mucho.",
+        "Luz suave, como la de un día nublado. A primera hora de la mañana los insectos suelen estar más tranquilos.",
+        "Si el objetivo no enfoca, estás más cerca de su distancia mínima de enfoque: aléjate un poco."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Sin objetivo macro"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Los filtros de aproximación y los tubos de extensión te dejan acercarte más con el objetivo que ya tienes, sin comprar uno macro."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En muchos móviles hay un modo macro integrado; si no, se puede añadir una lente de clip. Apoya el móvil o usa un trípode, busca buena luz, suave si puedes, y cuida que tu sombra no caiga sobre el sujeto."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Busca una flor o una hoja con la luz de un día nublado y apoya la cámara. Haz una foto desde cerca y mira qué parte sale nítida; si tu cámara tiene apertura, prueba abierta y cerrada. Compara."
+    }
+  ]
+}

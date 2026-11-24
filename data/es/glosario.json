@@ -118,5 +118,9 @@
   "enfoque-simple": {
     "termino": "Enfoque simple (AF-S, One Shot)",
     "texto": "Un modo de enfoque en el que, al pulsar el disparador a medias, el enfoque se fija y no se mueve. Sirve para sujetos quietos; si el sujeto se mueve, hay que volver a enfocar."
+  },
+  "macro": {
+    "termino": "Macro",
+    "texto": "Fotografiar algo muy pequeño desde muy cerca, de modo que llene la foto. En sentido estricto, el sujeto sale en el sensor de su tamaño real (1:1). De cerca, lo que sale nítido es una franja muy fina."
   }
 }

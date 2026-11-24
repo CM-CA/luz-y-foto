@@ -29,7 +29,7 @@ Cada tanda con su propia rama, su pull request, su suite completa y su publicaci
 1. Histograma y Composición (hecha).
 2. **La luz**: luz dura y suave, contraluz y siluetas, balance de blancos (hecha: ver «La luz» abajo).
 3. **Técnica**: RAW y JPEG, medición y modos de enfoque, larga exposición y filtros, distancias focales (hecha: ver «Técnica» abajo).
-4. **Más tipos de fotografía**: macro, astrofotografía, fauna y aves, mascotas, viajes, comida, familia y niños.
+4. **Más tipos de fotografía**: macro, astrofotografía, fauna y aves, mascotas (hecha: ver «Más tipos, primera parte» abajo), viajes, comida, familia y niños (pendiente).
 5. El **simulador de exposición** (es una función, no una lección: se diseña aparte).
 
 ## Decisiones mías (la persona puede cambiarlas)
@@ -51,3 +51,9 @@ Cada tanda con su propia rama, su pull request, su suite completa y su publicaci
 - Los cinco dibujos usan los colores del tema.
 - Decisiones mías, tras volver a comprobar cada afirmación con las páginas (detalle en el documento de fuentes): el temporizador de «Larga exposición y filtros» no dice «de 2 segundos» (las fuentes dan de 1 a 3 s o no dan cifra); el modo Bulb se nombra sin explicar cómo funciona (solo lo explica una fuente); la fuerza del filtro con luz suave es «de 3 a 6 pasos» porque dos fuentes dan 3 y 5-6; el tele empieza «en unos 70 u 85 mm» porque las fuentes dan una cifra u otra; en «Modos de enfoque» no se dice que la zona amplia sea «un buen punto de partida» (ninguna fuente lo dice). La perspectiva «depende de dónde te pones» la sostienen cuatro fuentes; dos atribuyen la compresión a la focal, y la lección sigue a las cuatro.
 - Dejado fuera por tener una sola fuente: que en AF-A convenga empezar por el continuo, que al fijar y recomponer con aperturas muy abiertas se desplaza el plano de enfoque, la regla de 1/focal, la larga exposición con el móvil, que el RAW del móvil no tiene modo noche, los filtros ND con tinte o degradados y el polarizador.
+
+## Más tipos, primera parte (cuarta tanda de la hoja de ruta, 2026-11-24)
+- Cuatro lecciones nuevas al final del grupo «Tipos de fotografía» («Types of photography»), todas «Para todos» y de 3 min: «Fotografía macro» (`macro`), «Astrofotografía» (`astro`), «Fauna y aves» (`fauna`) y «Fotografía de mascotas» (`mascotas`). Término nuevo del glosario: macro. La tanda se parte en dos entregas (esta y otra con viajes, comida, familia y niños) para que cada suite y cada comprobación de fuentes sea de tamaño razonable.
+- Los cuatro dibujos usan los colores del tema, y su geometría queda toda dentro de su marco (la prueba `aprender.e2e.cjs` falla si algo se sale del ancho de la página).
+- Decisiones mías, tras comprobar cada afirmación con las páginas (detalle en el documento de fuentes): la macro no da números de apertura (las fuentes dan de f/8 a f/22 y dos avisan de la difracción) ni dice que los filtros de aproximación y los tubos sean «más baratos» (solo lo dice una); la astrofotografía da «de 10 a 20 s» como orden de magnitud y no explica la regla de los 500 (las fuentes la dan distinta y una la da por anticuada); fauna y aves no habla de comederos ni de cebos (una fuente los recomienda y otra los condena) ni del ISO automático; mascotas no habla de la luz de ventana ni del modo retrato del móvil (una sola fuente).
+- Dejado fuera por tener una sola fuente: ver el final de cada sección «Tipos de fotografía: Macro / Astrofotografía / Fauna y aves / Mascotas» del documento de fuentes.

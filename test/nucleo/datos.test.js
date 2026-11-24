@@ -319,7 +319,7 @@ prueba("lecciones: el grupo «Tipos de fotografía» va el último y sus leccion
   const g = datos.lecciones.indice.grupos.find((x) => x.id === "tipos");
   assert.ok(g, "falta el grupo tipos");
   assert.equal(g.titulo, "Tipos de fotografía");
-  assert.deepEqual(g.lecciones, ["fotografia-de-paisaje", "fotografia-deportiva", "fotografia-urbana", "fotografia-nocturna", "fotografia-de-retrato", "fotografia-de-arquitectura"]);
+  assert.deepEqual(g.lecciones, ["fotografia-de-paisaje", "fotografia-deportiva", "fotografia-urbana", "fotografia-nocturna", "fotografia-de-retrato", "fotografia-de-arquitectura", "fotografia-macro", "astrofotografia", "fauna-y-aves", "fotografia-de-mascotas"]);
   g.lecciones.forEach((id) => assert.equal(datos.lecciones.porId[id].para, "todos", id));
 });
 
@@ -565,6 +565,41 @@ prueba("lecciones: distancias focales", () => {
 prueba("lecciones: paisaje, deportiva y retrato remiten a las distancias focales", () => {
   const l = cargarDatos().lecciones.porId;
   ["fotografia-de-paisaje", "fotografia-deportiva", "fotografia-de-retrato"].forEach((id) => assert.ok(/Distancias focales/.test(textoDeLeccion(l[id])), id + " no enlaza «Distancias focales»"));
+});
+
+prueba("lecciones: fotografía macro", () => {
+  const texto = comunes(cargarDatos().lecciones.porId["fotografia-macro"], "Fotografía macro", "macro");
+  [/macro/i, /1:1/, /1:2/, /franja/i, /apertura/i, /luz/i, /enfoque manual/i, /amplía/i, /aleja/i, /trípode/i, /temporizador/i, /insecto/i, /brisa/i, /nublado/i, /distancia mínima de enfoque/i, /filtros de aproximación/i, /tubos de extensión/i, /en muchos móviles/i, /modo macro/i, /sombra/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(!/tubo|hielo|nevera|frío|f\/22|difracción|zoom digital/i.test(texto.replace(/tubos de extensión/gi, "")), "lo que tiene una sola fuente se queda fuera (enfriar insectos, difracción, zoom digital)");
+});
+
+prueba("lecciones: astrofotografía", () => {
+  const texto = comunes(cargarDatos().lecciones.porId["astrofotografia"], "Astrofotografía", "astro");
+  [/lejos de las luces/i, /despejad/i, /luna nueva/i, /trípode/i, /temporizador|disparador remoto/i, /gran angular/i, /f\/2,8/, /ISO/, /1600/, /6400/, /segundos/i, /rayitas/i, /enfoque manual/i, /amplía/i, /estrella brillante/i, /RAW/, /balance de blancos/i, /luz roja/i, /en muchos móviles/i, /modo noche/i, /Luz baja y modo noche/, /RAW y JPEG/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(!/regla de los 500|regla de los 600|NPF|dos segundos|ojos se adaptan|adaptación/i.test(texto), "lo que tiene una sola fuente o no coincide se queda fuera (regla de los 500, temporizador de 2 s, adaptación de la vista)");
+});
+
+prueba("lecciones: fauna y aves", () => {
+  const texto = comunes(cargarDatos().lecciones.porId["fauna-y-aves"], "Fauna y aves", "fauna");
+  [/teleobjetivo/i, /distancia/i, /despacio/i, /bruscos/i, /nido/i, /1\/1000 s/, /apertura/i, /enfoque continuo/i, /ráfaga/i, /ojo/i, /amanecer/i, /atardecer/i, /hora dorada/i, /altura de sus ojos/i, /fondo/i, /en muchos móviles/i, /espera/i, /Distancias focales/, /Fotografía deportiva/, /Toca para enfocar y exponer/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(!/comedero|cebo|alimentar|ISO automático|parque/i.test(texto), "lo que tiene una sola fuente o no coincide se queda fuera (comederos, cebos, ISO automático, parques)");
+});
+
+prueba("lecciones: fotografía de mascotas", () => {
+  const texto = comunes(cargarDatos().lecciones.porId["fotografia-de-mascotas"], "Fotografía de mascotas", "mascotas");
+  [/altura/i, /ojos/i, /nublado/i, /primera y última hora/i, /flash directo/i, /oscuro/i, /1\/500 s/, /ráfaga/i, /juguete/i, /premio/i, /ruido/i, /paciencia/i, /acostumbr/i, /fondo/i, /apertura/i, /en muchos móviles/i, /Luz dura y luz suave/, /Toca para enfocar y exponer/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(!/ventana|modo retrato|estrés|pelo blanco|sesiones cortas/i.test(texto), "lo que tiene una sola fuente se queda fuera (luz de ventana, modo retrato, señales de estrés, sesiones cortas)");
+});
+
+prueba("lecciones: fauna y aves remite a las distancias focales y a la deportiva; astrofotografía, a la nocturna", () => {
+  const l = cargarDatos().lecciones.porId;
+  assert.ok(/Fotografía deportiva/.test(textoDeLeccion(l["fauna-y-aves"])) && /Distancias focales/.test(textoDeLeccion(l["fauna-y-aves"])));
+  assert.ok(/Fotografía nocturna/.test(textoDeLeccion(l["astrofotografia"])), "astrofotografía no enlaza «Fotografía nocturna»");
+});
+
+prueba("glosario: macro", () => {
+  const g = cargarDatos().glosario["macro"];
+  assert.ok(g && /Macro/.test(g.termino) && /tamaño real|1:1/.test(g.texto) && /cerca/.test(g.texto), "macro: de cerca y a tamaño real (1:1)");
 });
 
 prueba("glosario: distancia focal, filtro ND y enfoque simple", () => {

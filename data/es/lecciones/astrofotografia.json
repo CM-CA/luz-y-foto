@@ -1,0 +1,61 @@
+{
+  "id": "astrofotografia",
+  "titulo": "Astrofotografía",
+  "resumen": "Cámara fija, gran angular y un cielo oscuro para fotografiar las estrellas.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "astro",
+      "alt": "Dos dibujos del mismo cielo estrellado sobre una colina. A la izquierda, con un tiempo corto, las estrellas salen como puntos: 1, tiempo corto. A la derecha, con un tiempo largo, las estrellas salen como rayitas: 2, tiempo largo.",
+      "pie": "1 Tiempo corto: las estrellas son puntos. 2 Tiempo largo: salen como rayitas."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Para fotografiar las estrellas hacen falta tres cosas: un cielo oscuro, una cámara que no se mueva y un tiempo que no las convierta en rayitas."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Dónde y cuándo"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Busca un sitio lejos de las luces de la ciudad y una noche despejada: mira el pronóstico antes de salir. Lo mejor es cerca de la luna nueva, cuando no hay luz de luna. Con un cielo muy oscuro puedes captar incluso la Vía Láctea. Lleva una linterna con luz roja, que molesta menos a la vista."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Ajustes de partida"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Trípode firme y [[disparador|temporizador]] o disparador remoto, para no tocar la cámara.",
+        "Un gran angular y la [[apertura|apertura]] lo más abierta posible, por ejemplo f/2,8 o más: entra más luz y cabe más cielo.",
+        "[[iso|ISO]] alto: empieza hacia 1600 y sube hasta unos 3200 o 6400 si hace falta.",
+        "[[velocidad|Tiempo]] de unos 10 a 20 segundos. Más largo, las estrellas salen como rayitas, y antes aún con un objetivo menos ancho.",
+        "[[raw|RAW]], para ajustar después el [[balance-de-blancos|balance de blancos]] (más en «RAW y JPEG»)."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Enfoca a mano"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Pasa a [[enfoque-manual|enfoque manual]], amplía la imagen en la pantalla sobre una estrella brillante, un planeta o la luna, y gira hasta que el punto de luz sea lo más pequeño posible."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En muchos móviles hay un modo noche o un modo astro que capta el cielo estrellado. Funciona como un tiempo largo: apoya el móvil o usa un trípode, busca un sitio oscuro y no lo toques mientras captura, como en «Luz baja y modo noche». Para más sobre la noche, mira «Fotografía nocturna»."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Una noche despejada, lejos de las luces, pon la cámara en un trípode con gran angular e ISO 3200, y haz una foto de unos 15 segundos. Amplíala: ¿las estrellas son puntos o rayitas? Si son rayitas, acorta el tiempo. Con el móvil, usa el modo noche apoyado."
+    }
+  ]
+}

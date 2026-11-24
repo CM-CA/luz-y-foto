@@ -31,6 +31,19 @@ Los términos que se repiten en `data/en/` y en `src/idioma/en.js`, para que se 
 | distancia focal | focal length (gran angular: wide angle; tele: telephoto) |
 | filtro ND (densidad neutra) | ND (neutral density) filter |
 | enfoque simple | single focus (AF-S, One Shot) |
+| macro (fotografía macro) | macro (macro photography); «1:1» y «1:2» no cambian |
+| franja nítida | sharp slice |
+| filtros de aproximación / tubos de extensión | close-up filters / extension tubes |
+| distancia mínima de enfoque | minimum focusing distance |
+| lente de clip | clip-on lens |
+| astrofotografía | astrophotography |
+| luna nueva | new moon |
+| Vía Láctea | Milky Way |
+| rayitas (de las estrellas) | streaks |
+| luz roja (de una linterna) | red light |
+| teleobjetivo | telephoto lens |
+| fauna y aves | wildlife and birds |
+| a su altura (de la mascota o del animal) | at its level / at their level |
 | modos de medición (evaluativa, ponderada al centro, puntual, parcial) | metering modes (evaluative, center-weighted, spot, partial) |
 | modos de enfoque | focus modes |
 | factor de recorte | crop factor |

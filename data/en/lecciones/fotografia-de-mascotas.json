@@ -1,0 +1,60 @@
+{
+  "id": "fotografia-de-mascotas",
+  "titulo": "Pet photography",
+  "resumen": "At their level, in soft light and with patience: photos of your dog or your cat.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "mascotas",
+      "alt": "Two drawings of a dog seen from the side and a camera. On the left, the camera is high up and points down: the photo looks at the dog from above and feels distant: 1, from above. On the right, the camera is at the height of the dog's head: the photo enters its world and feels closer: 2, at its level.",
+      "pie": "1 From above: the photo stays far from it. 2 At its level: the photo gets close to its world."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Get to your pet's level, look for soft light and shoot fast. The rest is patience."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "At their level"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Crouch or sit on the floor: from their level the photo is closer and shows their world, instead of looking down on it. Focus on the eyes: if they're sharp, the photo works."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Soft light"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Choose an overcast day or the first and last hour of the day (more in “Hard light and soft light”). Strong sun casts hard shadows, and on dark coats it creates shiny highlights. Avoid direct flash in the face."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Fast and patient"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "A shutter speed of 1/500 s or faster if it moves, and [[rafaga|burst]]: out of many photos, some will come out well.",
+        "To make it look at the camera, use a toy, a small treat or a noise.",
+        "Patience: let it get used to the camera and move slowly.",
+        "A simple background. If you blur it with a wide-open [[apertura|aperture]], the clutter disappears."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Crouch down and tap the screen on its eyes to focus, as in “Tap to focus and expose”. On many phones burst is done by holding down the shutter button: use it if it moves."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Photograph your dog or cat from their level, in soft light, and once more from above. Compare which one gets you closer to them."
+    }
+  ]
+}
