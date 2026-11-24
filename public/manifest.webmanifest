@@ -9,7 +9,7 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f3eff4",
+  "background_color": "#1f2740",
   "theme_color": "#f3eff4",
   "categories": ["photo", "weather"],
   "icons": [
