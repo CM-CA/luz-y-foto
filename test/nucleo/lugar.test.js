@@ -87,3 +87,26 @@ prueba("coordenadas de respaldo legibles", () => {
   assert.equal(L.coordenadas(42.2406, -8.7207), "42.24, -8.72");
 });
 
+
+// El almacenamiento (localStorage) es el mismo para todas las páginas de cm-ca.github.io (el blog, otras apps…): lo guardado no es de fiar.
+const almacenCon = (valor) => ({ getItem: () => JSON.stringify(valor) });
+
+prueba("cargar devuelve solo lat, lon, nombre (texto) y un origen conocido: lo demás se descarta", () => {
+  const bueno = { lat: 42.23, lon: -8.72, nombre: "Vigo, Galicia", origen: "busqueda" };
+  assert.deepEqual(L.cargar(almacenCon({ ...bueno, extra: "<script>x</script>" })), bueno);
+  assert.deepEqual(L.cargar(almacenCon({ lat: 1, lon: 2, origen: "gps" })), { lat: 1, lon: 2, origen: "gps" });
+});
+
+prueba("cargar descarta coordenadas fuera de rango, que no sean números o un lugar que no es un objeto", () => {
+  const malos = [{ lat: 91, lon: 0 }, { lat: -91, lon: 0 }, { lat: 0, lon: 181 }, { lat: 0, lon: -181 }, { lat: "42", lon: -8 }, { lat: 42, lon: null },
+    { lat: 42 }, { lat: 1e999, lon: 0 }, null, "texto", 7, []];
+  malos.forEach((m) => assert.equal(L.cargar(almacenCon(m)), null, "debía descartarse: " + JSON.stringify(m)));
+});
+
+prueba("cargar no deja pasar un nombre que no es texto, uno larguísimo ni un origen desconocido", () => {
+  assert.equal(L.cargar(almacenCon({ lat: 1, lon: 2, nombre: { a: 1 } })).nombre, undefined);
+  assert.equal(L.cargar(almacenCon({ lat: 1, lon: 2, nombre: ["x"] })).nombre, undefined);
+  assert.equal(L.cargar(almacenCon({ lat: 1, lon: 2, nombre: "a".repeat(5000) })).nombre.length, 120);
+  assert.equal(L.cargar(almacenCon({ lat: 1, lon: 2, origen: "<img src=x onerror=alert(1)>" })).origen, undefined);
+  assert.equal(L.cargar(almacenCon({ lat: 1, lon: 2, origen: { a: 1 } })).origen, undefined);
+});

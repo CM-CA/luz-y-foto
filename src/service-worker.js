@@ -40,8 +40,6 @@ self.addEventListener("activate", (evento) => {
 self.addEventListener("message", (evento) => {
   const tipo = evento.data && evento.data.tipo;
   if (tipo === "saltar-espera") self.skipWaiting();
-  // La app pregunta qué versión es (para enseñarla en «Instalar la app y uso sin conexión»)
-  if (tipo === "version" && evento.ports && evento.ports[0]) evento.ports[0].postMessage(VERSION);
 });
 
 self.addEventListener("fetch", (evento) => {
