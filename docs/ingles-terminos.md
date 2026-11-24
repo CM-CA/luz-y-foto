@@ -23,6 +23,12 @@ Los términos que se repiten en `data/en/` y en `src/idioma/en.js`, para que se 
 | líneas guía | leading lines |
 | charco de luz (dibujo de la lección urbana) | pool of light |
 | ráfaga | burst |
+| histograma | histogram |
+| verticales convergentes | converging verticals |
+| gran angular | wide angle (ultra-wide para el 0,5x) |
+| tele corto | short telephoto |
+| disparador remoto | remote release |
+| enfoque manual | manual focus |
 | disparador automático / temporizador | timer («2-second timer») |
 | bloqueo AE/AF | AE/AF Lock |
 | zoom digital | digital zoom |

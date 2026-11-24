@@ -90,5 +90,13 @@
   "lineas-guia": {
     "termino": "Líneas guía",
     "texto": "Líneas de la escena (una calle, una barandilla, una sombra) que llevan la mirada hacia el sujeto. Buscarlas antes de disparar ayuda a que la foto tenga dirección."
+  },
+  "histograma": {
+    "termino": "Histograma",
+    "texto": "Un gráfico que dice cuánto hay de oscuro, de medio y de claro en una foto: las sombras a la izquierda y las luces a la derecha. Si todo se amontona pegado a la izquierda, la foto está oscura; si se pega a la derecha, está muy clara."
+  },
+  "verticales-convergentes": {
+    "termino": "Verticales convergentes",
+    "texto": "Las líneas verticales de un edificio que parecen juntarse hacia arriba, como si el edificio se cayera hacia atrás, cuando inclinas la cámara para fotografiarlo. Se evitan con la cámara a nivel."
   }
 }

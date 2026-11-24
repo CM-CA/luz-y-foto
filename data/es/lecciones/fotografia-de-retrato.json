@@ -1,0 +1,68 @@
+{
+  "id": "fotografia-de-retrato",
+  "titulo": "Fotografía de retrato",
+  "resumen": "Luz suave, ojos nítidos y un fondo que no distraiga: lo esencial para retratar a alguien.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "retrato",
+      "alt": "Un retrato visto de lado. A la izquierda, una ventana deja entrar una luz suave sobre una persona: 1, luz suave. En la cara, un cuadrado de enfoque marca el ojo: 2, ojo enfocado. Detrás, a cierta distancia, el fondo se ve borroso: 3, fondo lejos y borroso.",
+      "pie": "1 Luz suave de una ventana. 2 El enfoque, en el ojo. 3 El fondo, lejos de la persona: sale borroso."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Un buen retrato sale de tres cosas: luz suave, ojos nítidos y un fondo que no compita con la cara."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Luz suave"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Busca la luz de una ventana, una sombra sin sol directo en la cara o un día nublado. También sirve la [[hora-dorada|hora dorada]]. Evita el sol fuerte, que marca sombras duras en la cara."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Ojos y fondo"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Enfoca el ojo: si sale movido, el retrato se pierde. Muchas cámaras detectan los ojos, y en muchos móviles basta tocarlos en la pantalla.",
+        "Abre la [[apertura|apertura]], por ejemplo f/2,8 o más abierta, para que el fondo salga borroso.",
+        "Aleja a la persona del fondo: cuanto más lejos esté de él, más borroso saldrá.",
+        "Un fondo recargado distrae: busca uno sencillo."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Objetivo y altura"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Un gran angular muy cerca de la cara agranda la nariz y no favorece. Favorece más un tele corto (por ejemplo, 85 mm en cámaras de formato completo) o la parte larga del zoom: aléjate un poco y acércate con el zoom. Ponte a la altura de sus ojos: desde muy arriba o muy abajo el retrato favorece menos."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Habla con la persona"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Habla mientras disparas: las mejores expresiones llegan entre una pose y otra. Si la notas tensa, cuéntale qué estás haciendo."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En el modo retrato, el desenfoque lo hace el programa del móvil, no la lente, y puede fallar en el pelo, en las gafas y en los bordes. En muchos móviles, la lente de 2x o 3x favorece más que la normal, que deforma las caras de cerca."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pon a alguien junto a una ventana. Haz una foto con la persona pegada a la pared del fondo y otra con ella a unos pasos; en las dos, enfoca sus ojos. Compara el fondo."
+    }
+  ]
+}

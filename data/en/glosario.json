@@ -90,5 +90,13 @@
   "lineas-guia": {
     "termino": "Leading lines",
     "texto": "Lines in the scene (a street, a railing, a shadow) that lead the eye toward the subject. Looking for them before you shoot helps the photo have direction."
+  },
+  "histograma": {
+    "termino": "Histogram",
+    "texto": "A graph that shows how much of a photo is dark, medium and bright: shadows on the left and highlights on the right. If everything piles up against the left, the photo is dark; against the right, it is very bright."
+  },
+  "verticales-convergentes": {
+    "termino": "Converging verticals",
+    "texto": "The vertical lines of a building that seem to lean toward each other at the top, as if the building were falling backward, when you tilt the camera to photograph it. You avoid them by keeping the camera level."
   }
 }

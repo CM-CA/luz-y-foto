@@ -1,0 +1,68 @@
+{
+  "id": "fotografia-de-arquitectura",
+  "titulo": "Fotografía de arquitectura",
+  "resumen": "Verticales rectas, buena luz y otro punto de vista para fotografiar edificios.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "arquitectura",
+      "alt": "Dos dibujos del mismo edificio. A la izquierda, con la cámara inclinada hacia arriba: las líneas verticales se juntan arriba y el edificio parece caerse hacia atrás: 1, cámara inclinada. A la derecha, con la cámara a nivel: las verticales son rectas y paralelas: 2, cámara a nivel.",
+      "pie": "1 Cámara inclinada hacia arriba: las verticales se juntan. 2 Cámara a nivel: verticales rectas."
+    },
+    {
+      "tipo": "idea",
+      "texto": "En un edificio, lo que más se nota es una vertical torcida. Mantén la cámara a nivel y deja que el edificio se vea entero."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Verticales rectas"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Si inclinas la cámara hacia arriba para meter un edificio alto, las [[verticales-convergentes|verticales convergentes]] hacen que parezca caerse hacia atrás. Mantén la cámara a nivel, con la cuadrícula o el nivel de la pantalla, y aléjate hasta que quepa. Si no puedes, deja margen alrededor: luego podrás recortar o enderezar las líneas al editar, y eso pide espacio."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué buscar"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Simetría, [[lineas-guia|líneas]], patrones y detalles: un balcón, un adorno, el material de la fachada.",
+        "Reflejos en cristales, charcos o fuentes.",
+        "Una persona o un coche en la foto dan idea del tamaño.",
+        "Otro punto de vista: agáchate, súbete a algo o mira de lado, no solo de frente y a la altura de los ojos."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Luz y ajustes"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "La [[hora-dorada|hora dorada]] y la [[hora-azul|hora azul]] dan una luz suave y buen color a las fachadas, y un cielo nublado da un aire más serio. Para que todo salga nítido, cierra la [[apertura|apertura]], por ejemplo f/8 o más, y usa un trípode: te deja alargar el tiempo."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "El gran angular"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Un gran angular (el que abarca más escena) mete el edificio entero o una sala pequeña, pero acentúa las verticales inclinadas: inclina aún menos la cámara."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Activa la cuadrícula en los ajustes de la cámara para comprobar que las líneas están rectas. En muchos móviles, el 0,5x es un gran angular: acentúa las verticales inclinadas, así que usa el 1x y aléjate."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Elige un edificio alto. Haz una foto inclinando la cámara hacia arriba y otra desde más lejos, con la cámara a nivel. Compara las verticales."
+    }
+  ]
+}

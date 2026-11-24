@@ -1,0 +1,68 @@
+{
+  "id": "fotografia-de-retrato",
+  "titulo": "Portrait photography",
+  "resumen": "Soft light, sharp eyes and a background that doesn't distract: the essentials for photographing someone.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "retrato",
+      "alt": "A portrait seen from the side. On the left, a window lets soft light fall on a person: 1, soft light. On the face, a focus square marks the eye: 2, eye in focus. Behind, at some distance, the background looks blurry: 3, background far away and blurry.",
+      "pie": "1 Soft light from a window. 2 Focus on the eye. 3 The background, far from the person: it comes out blurry."
+    },
+    {
+      "tipo": "idea",
+      "texto": "A good portrait comes from three things: soft light, sharp eyes and a background that doesn't compete with the face."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Soft light"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Look for the light from a window, shade without direct sun on the face, or an overcast day. The [[hora-dorada|golden hour]] works too. Avoid strong sun, which casts harsh shadows on the face."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Eyes and background"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Focus on the eye: if it comes out soft, the portrait is lost. Many cameras detect eyes, and on many phones you can just tap them on the screen.",
+        "Open the [[apertura|aperture]], for example f/2.8 or wider, so the background comes out blurry.",
+        "Move the person away from the background: the farther they are from it, the blurrier it will be.",
+        "A busy background distracts: look for a simple one."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Lens and height"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "A wide angle very close to the face enlarges the nose and isn't flattering. A short telephoto (for example, 85 mm on full-frame cameras) or the long end of the zoom is more flattering: step back a little and get closer with the zoom. Get to their eye level: from very high or very low the portrait is less flattering."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Talk to the person"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Talk while you shoot: the best expressions come between one pose and the next. If they seem tense, tell them what you're doing."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "In portrait mode, the blur is made by the phone's software, not the lens, and it can fail on hair, glasses and edges. On many phones, the 2x or 3x lens is more flattering than the regular one, which distorts faces up close."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Put someone next to a window. Take one photo with the person right against the wall behind them and another with them a few steps away; in both, focus on their eyes. Compare the background."
+    }
+  ]
+}
