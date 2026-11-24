@@ -22,6 +22,7 @@
       "lecciones": [
         "la-rueda-de-modos",
         "el-manual-de-verdad",
+        "como-usar-el-histograma",
         "parasol-y-filtro-uv"
       ]
     },
@@ -33,6 +34,16 @@
         "toca-para-enfocar-y-exponer",
         "luz-baja-y-modo-noche",
         "zoom-y-lentes"
+      ]
+    },
+    {
+      "id": "composicion",
+      "titulo": "Composición",
+      "subtitulo": "Cómo ordenar lo que ves dentro de la foto.",
+      "lecciones": [
+        "lo-basico-de-la-composicion",
+        "el-encuadre",
+        "lineas-y-puntos-de-fuga"
       ]
     },
     {

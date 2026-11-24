@@ -249,12 +249,12 @@ const dibujosDe = (l) => l.bloques.filter((b) => b.tipo === "dibujo").map((b) =>
 
 prueba("lecciones: «Lo básico» trae las tres de cámara, en orden", () => {
   const g = cargarDatos().lecciones.indice.grupos.find((x) => x.id === "basico");
-  assert.deepEqual(g.lecciones, ["la-rueda-de-modos", "el-manual-de-verdad", "parasol-y-filtro-uv"]);
+  assert.deepEqual(g.lecciones, ["la-rueda-de-modos", "el-manual-de-verdad", "como-usar-el-histograma", "parasol-y-filtro-uv"]);
 });
 
 prueba("lecciones: los grupos van en orden y «Para el móvil» va aparte, después de «Lo básico»", () => {
   const grupos = cargarDatos().lecciones.indice.grupos;
-  assert.deepEqual(grupos.map((g) => g.id), ["basico", "movil", "tipos"]);
+  assert.deepEqual(grupos.map((g) => g.id), ["basico", "movil", "composicion", "tipos"]);
   assert.equal(grupos[1].titulo, "Para el móvil");
   assert.ok(grupos[1].lecciones.includes("toca-para-enfocar-y-exponer"));
   // Las lecciones de cada grupo son del equipo del grupo: ninguna de móvil entre las de cámara y al revés
@@ -364,12 +364,26 @@ prueba("lecciones: fotografía urbana", () => {
   assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
 });
 
+prueba("lecciones: cómo usar el histograma", () => {
+  const l = cargarDatos().lecciones.porId["como-usar-el-histograma"];
+  assert.equal(l.titulo, "Cómo usar el histograma");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  assert.equal(l.para, "camara");
+  const texto = textoDeLeccion(l);
+  [/Info/, /Display/, /manual de tu cámara/i, /vista en directo/i, /sombras/i, /luces/i, /izquierda/i, /derecha/i, /oscura/i, /clara/i, /borde/i, /quemadas/i, /negro/i, /no hay una forma correcta/i, /compensación/i, /tiempo más corto/i, /apertura más cerrada/i, /ISO más bajo/, /contrario/i, /otra foto/i, /pantalla/i, /histograma/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["histograma"]);
+  assert.ok(!/\b(Canon|Nikon|Sony|EOS)\b/.test(texto), "no ata la lección a una marca de cámara");
+  assert.ok(!/blinkies|zebra|aviso de altas luces/i.test(texto), "los avisos de altas luces solo tienen una fuente");
+  assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras: " + texto.split(/\s+/).length);
+});
+
 prueba("lecciones: fotografía nocturna", () => {
   const l = cargarDatos().lecciones.porId["fotografia-nocturna"];
   assert.equal(l.titulo, "Fotografía nocturna");
   assert.ok(l.minutos >= 2 && l.minutos <= 3);
   const texto = textoDeLeccion(l);
-  [/trípode/i, /temporizador/i, /disparador remoto/i, /ISO bajo/, /f\/8/, /f\/11/, /estrellas/i, /segundos/i, /estela/i, /enfoque manual/i, /autoenfoque/i, /amplía/i, /prueba/i, /ISO alto/, /duplicarse/i, /histograma/i, /brillo/i, /Luz baja y modo noche/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  [/trípode/i, /temporizador/i, /disparador remoto/i, /ISO bajo/, /f\/8/, /f\/11/, /estrellas/i, /segundos/i, /estela/i, /enfoque manual/i, /autoenfoque/i, /amplía/i, /prueba/i, /ISO alto/, /duplicarse/i, /histograma/i, /brillo/i, /Luz baja y modo noche/, /Cómo usar el histograma/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
   assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
   assert.deepEqual(dibujosDe(l), ["nocturna"]);
   assert.ok(!/\b(Canon|Nikon|Sony|EOS)\b/.test(texto), "no ata la lección a una marca de cámara");
@@ -404,6 +418,57 @@ prueba("lecciones: fotografía de arquitectura", () => {
   assert.ok(/en muchos móviles|según tu móvil/i.test(texto), "dice dónde cambia de un móvil a otro");
   assert.ok(!/tilt|descentrable|ISO bajo/i.test(texto), "lo que tiene una sola fuente se queda fuera (objetivo descentrable, ISO bajo)");
   assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras: " + texto.split(/\s+/).length);
+});
+
+prueba("lecciones: el grupo «Composición» va entre el móvil y los tipos y sus lecciones son para todos", () => {
+  const datos = cargarDatos();
+  const g = datos.lecciones.indice.grupos.find((x) => x.id === "composicion");
+  assert.ok(g, "falta el grupo composicion");
+  assert.equal(g.titulo, "Composición");
+  assert.deepEqual(g.lecciones, ["lo-basico-de-la-composicion", "el-encuadre", "lineas-y-puntos-de-fuga"]);
+  g.lecciones.forEach((id) => assert.equal(datos.lecciones.porId[id].para, "todos", id));
+});
+
+prueba("lecciones: lo básico de la composición", () => {
+  const l = cargarDatos().lecciones.porId["lo-basico-de-la-composicion"];
+  assert.equal(l.titulo, "Lo básico de la composición");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  const texto = textoDeLeccion(l);
+  [/sujeto/i, /tercios/i, /cuadrícula/i, /horizonte/i, /cruce/i, /ojos/i, /espacio libre/i, /fondo sencillo/i, /simétric/i, /centrad/i, /a propósito/i, /no una ley/i, /agáchate|cambia de altura/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["composicion"]);
+  assert.ok(!/\b(Canon|Nikon|Sony|EOS|iPhone)\b/.test(texto), "no ata la lección a una marca");
+  assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
+});
+
+prueba("lecciones: el encuadre", () => {
+  const l = cargarDatos().lecciones.porId["el-encuadre"];
+  assert.equal(l.titulo, "El encuadre");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  const texto = textoDeLeccion(l);
+  [/acércate/i, /zoom/i, /bordes/i, /articulaciones/i, /muñecas/i, /rodillas/i, /vertical/i, /horizontal/i, /por delante/i, /marco natural/i, /puerta/i, /ventana/i, /arco/i, /margen/i, /recortar/i, /Zoom y lentes/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["encuadre"]);
+  assert.ok(!/\b(Canon|Nikon|Sony|EOS|iPhone)\b/.test(texto), "no ata la lección a una marca");
+  assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
+});
+
+prueba("lecciones: líneas y puntos de fuga", () => {
+  const l = cargarDatos().lecciones.porId["lineas-y-puntos-de-fuga"];
+  assert.equal(l.titulo, "Líneas y puntos de fuga");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  const texto = textoDeLeccion(l);
+  [/punto de fuga/i, /líneas guía/i, /carreteras/i, /vías/i, /primer plano/i, /centro/i, /tercio/i, /flechas/i, /gran angular/i, /baja la cámara/i, /cuadrícula/i, /0,5x/, /Fotografía de arquitectura/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["fuga"]);
+  assert.ok(!/\b(Canon|Nikon|Sony|EOS|iPhone)\b/.test(texto), "no ata la lección a una marca");
+  assert.ok(/en muchos móviles|según tu móvil/i.test(texto), "dice dónde cambia de un móvil a otro");
+  assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
+});
+
+prueba("glosario: punto de fuga", () => {
+  const g = cargarDatos().glosario["punto-de-fuga"];
+  assert.ok(g && /Punto de fuga/.test(g.termino) && /paralelas/.test(g.texto) && /profundidad/.test(g.texto), "falta el término o no dice que son líneas paralelas ni que da profundidad");
 });
 
 prueba("glosario: histograma y verticales convergentes", () => {

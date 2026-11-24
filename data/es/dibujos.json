@@ -166,5 +166,59 @@
       "las verticales",
       "son rectas"
     ]
+  },
+  "histograma": {
+    "rotulos": [
+      "Oscura",
+      "Repartida",
+      "Clara"
+    ],
+    "ejes": [
+      "sombras",
+      "luces"
+    ],
+    "lineas": [
+      "Pegado a",
+      "la izquierda",
+      "Repartido,",
+      "sin cortes",
+      "Pegado a",
+      "la derecha"
+    ]
+  },
+  "composicion": {
+    "filas": [
+      "Sujeto",
+      "Horizonte",
+      "Espacio libre"
+    ],
+    "lineas": [
+      "Sujeto en un cruce, horizonte",
+      "en una línea y espacio libre"
+    ]
+  },
+  "encuadre": {
+    "rotulos": [
+      "Lejos",
+      "Cerca"
+    ],
+    "lineas": [
+      "Sobra espacio",
+      "y hay un poste",
+      "El sujeto llena",
+      "y no hay nada más"
+    ]
+  },
+  "fuga": {
+    "rotulos": [
+      "Centro",
+      "En un tercio"
+    ],
+    "lineas": [
+      "Va bien con",
+      "escenas simétricas",
+      "Más dinámico",
+      "que en el centro"
+    ]
   }
 }

@@ -1,0 +1,79 @@
+{
+  "id": "lineas-y-puntos-de-fuga",
+  "titulo": "Lines and vanishing points",
+  "resumen": "How to use roads, tracks and corridors to lead the eye to your subject.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "fuga",
+      "alt": "Two drawings of a straight road that narrows in the distance, with a person far away, over a rule-of-thirds grid. On the left, the vanishing point is in the center of the photo: 1, center, suits symmetrical scenes. On the right, the vanishing point is on a crossing of the grid, at a third: 2, on a third, more dynamic than in the center.",
+      "pie": "1 Vanishing point in the center: suits symmetrical scenes. 2 On a third: more dynamic than in the center."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Lines that meet in the distance lead the eye: put the subject where they end, or place the vanishing point on purpose."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What they are"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "[[lineas-guia|Leading lines]] lead the eye through the photo to the subject. When lines are parallel in real life (a road, train tracks, a corridor), in the photo they seem to meet at a [[punto-de-fuga|vanishing point]] and give a sense of depth."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Where to find them"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Roads, tracks, paths, bridges, fences, rivers and rows of trees.",
+        "Better if they start in the foreground: that way they run through the whole photo.",
+        "Diagonals run from the foreground to the background and add depth."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Where to put the vanishing point"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "In the center it suits symmetrical scenes, like a corridor or a straight road. On a crossing of the rule-of-thirds grid it is usually more dynamic. If you put the subject on the vanishing point or in front of it, the lines work like arrows pointing at it."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "How to make them stronger"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Get close to where the lines begin and lower the camera: they converge more.",
+        "A wide angle makes the lines longer and exaggerates the perspective.",
+        "If you move a few steps or change the height, the lines join the foreground and the background differently."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "On a phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Turn on the grid to put the vanishing point on a crossing. On many phones, 0.5x is a wide angle: it lengthens the lines and exaggerates the perspective."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Don't mix them up"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Lines that meet toward the horizon add depth. The verticals of a building that meet because you tilted the camera usually look like a mistake: see “Architecture photography”."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Find a road, a path or a corridor. Take a photo with the vanishing point in the center and another moving until it sits on a third. If you can, put someone far away and see how the lines point at them."
+    }
+  ]
+}

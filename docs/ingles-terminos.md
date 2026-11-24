@@ -25,6 +25,8 @@ Los términos que se repiten en `data/en/` y en `src/idioma/en.js`, para que se 
 | ráfaga | burst |
 | histograma | histogram |
 | verticales convergentes | converging verticals |
+| punto de fuga | vanishing point |
+| encuadre | framing |
 | gran angular | wide angle (ultra-wide para el 0,5x) |
 | tele corto | short telephoto |
 | disparador remoto | remote release |

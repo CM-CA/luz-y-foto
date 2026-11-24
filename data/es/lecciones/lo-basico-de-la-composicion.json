@@ -1,0 +1,58 @@
+{
+  "id": "lo-basico-de-la-composicion",
+  "titulo": "Lo básico de la composición",
+  "resumen": "Un sujeto claro, un fondo sencillo y los tercios: tres hábitos para que la foto cuente algo.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "composicion",
+      "alt": "Una foto dividida en nueve cuadros por dos líneas verticales y dos horizontales. Una persona, con la cabeza en uno de los cruces de la izquierda: 1, sujeto. El horizonte pasa por una de las líneas horizontales, abajo, y no por el medio: 2, horizonte. A la derecha de la persona queda espacio libre: 3, espacio libre.",
+      "pie": "1 El sujeto, en un cruce de la cuadrícula. 2 El horizonte, sobre una línea y no en el medio. 3 Espacio libre al otro lado del sujeto."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Una buena foto sabe de qué trata: decide qué quieres enseñar y haz que todo lo demás le ayude."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Elige un sujeto"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Antes de disparar, pregúntate qué es lo principal. Elige un sujeto claro y haz que lo demás le ayude o, si no, quítalo: busca un fondo sencillo y fíjate en lo que distrae."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "La regla de los tercios"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Activa la cuadrícula de la cámara o del móvil (está en los ajustes de la cámara o de la pantalla). Con la [[regla-de-tercios|regla de los tercios]], pon el sujeto sobre una línea o en un cruce, y el horizonte sobre una de las líneas horizontales, no en el medio. En un retrato, los ojos van cerca de la línea de arriba."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Equilibrio"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Si pones el sujeto a un lado, deja espacio libre al otro: lo pesado (un sujeto grande, un color fuerte) se compensa con algo más ligero en otra parte.",
+        "Cambia tu punto de vista: agáchate, súbete a algo o rodea el sujeto, en vez de disparar siempre a la altura de los ojos."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cuándo saltarte la regla"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Es una guía, no una ley. Lo redondo o cuadrado y las escenas simétricas suelen quedar mejor centrados. Aprende las reglas y rómpelas a propósito, no por descuido."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Elige un objeto (una taza, una planta, una persona) y hazle tres fotos: centrado, en un cruce de la izquierda y en uno de la derecha. Mira cuál cuenta mejor lo que querías enseñar."
+    }
+  ]
+}

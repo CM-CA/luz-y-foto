@@ -166,5 +166,59 @@
       "verticals",
       "stay straight"
     ]
+  },
+  "histograma": {
+    "rotulos": [
+      "Dark",
+      "Balanced",
+      "Bright"
+    ],
+    "ejes": [
+      "shadows",
+      "lights"
+    ],
+    "lineas": [
+      "Pushed to",
+      "the left",
+      "Spread out,",
+      "no cut-offs",
+      "Pushed to",
+      "the right"
+    ]
+  },
+  "composicion": {
+    "filas": [
+      "Subject",
+      "Horizon",
+      "Empty space"
+    ],
+    "lineas": [
+      "Subject on a crossing, horizon",
+      "on a line and room to spare"
+    ]
+  },
+  "encuadre": {
+    "rotulos": [
+      "Far",
+      "Close"
+    ],
+    "lineas": [
+      "Too much space",
+      "and a stray pole",
+      "The subject fills it",
+      "with nothing extra"
+    ]
+  },
+  "fuga": {
+    "rotulos": [
+      "Center",
+      "On a third"
+    ],
+    "lineas": [
+      "Suits symmetrical",
+      "scenes",
+      "More dynamic",
+      "than the center"
+    ]
   }
 }

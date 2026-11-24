@@ -1,0 +1,59 @@
+{
+  "id": "el-encuadre",
+  "titulo": "El encuadre",
+  "resumen": "Qué entra en la foto y qué se queda fuera: acércate, mira los bordes y deja aire donde haga falta.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "encuadre",
+      "alt": "Dos fotos de la misma escena, una persona de pie. A la izquierda, la foto hecha de lejos: la persona sale pequeña, sobra espacio y un poste se cuela por el borde derecho. Un rectángulo discontinuo marca lo que enseña la foto de la derecha. A la derecha, la foto hecha de cerca: la persona llena la foto y no hay nada más.",
+      "pie": "1 De lejos: sobra espacio y hay un poste. 2 De cerca: el sujeto llena la foto y no hay nada más."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Encuadrar es decidir qué entra en la foto y qué se queda fuera. Casi siempre mejora acercándote."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Acércate"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Es común dejar demasiado espacio vacío por no acercarse. Acércate al sujeto, o usa el zoom si no puedes: se ve mejor de qué trata la foto y quitas lo que distrae. Si el fondo cuenta algo, deja un poco. En el móvil, acércate tú antes que usar el zoom digital, como en «Zoom y lentes: cuál usar»."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Mira los bordes"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Antes de disparar, recorre con la vista los cuatro bordes, no solo el centro: busca postes, ramas, personas o colores que compitan con el sujeto. Y no cortes a una persona por las articulaciones (muñecas, codos, rodillas, tobillos): o la dejas entera o cortas claramente por otra parte."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Horizontal o vertical"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "No uses siempre el horizontal: prueba también en vertical y elige según lo que quieras enseñar y dónde vayas a verla (por ejemplo, el vertical queda bien en el móvil y en las redes)."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Aire y marcos"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Deja más espacio por delante de lo que se mueve, o de hacia donde mira una persona, que por detrás: así parece tener adónde ir.",
+        "Un marco natural, como una puerta, una ventana, un arco o unas ramas, rodea al sujeto, lo destaca y da profundidad.",
+        "Deja margen alrededor: luego puedes recortar o cambiar de formato, pero no puedes añadir lo que no capturaste."
+      ]
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Elige un objeto de casa. Hazle una foto desde lejos, otra acercándote hasta que llene la foto y otra en vertical. Antes de cada disparo, mira los cuatro bordes."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "el-encuadre",
+  "titulo": "Framing",
+  "resumen": "What goes in the photo and what stays out: get closer, check the edges and leave room where it's needed.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "encuadre",
+      "alt": "Two photos of the same scene, a person standing. On the left, the photo taken from far away: the person looks small, there is too much space and a pole sneaks in at the right edge. A dashed rectangle marks what the photo on the right shows. On the right, the photo taken up close: the person fills the photo and there is nothing else.",
+      "pie": "1 From far away: too much space and a pole. 2 Up close: the subject fills the photo and there is nothing extra."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Framing is deciding what goes in the photo and what stays out. Almost always, it gets better when you move closer."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Get closer"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "It is common to leave too much empty space by not getting close enough. Move closer to the subject, or use the zoom if you can't: it is clearer what the photo is about and you cut what distracts. If the background tells something, keep a little. On a phone, move closer yourself before using digital zoom, as in “Zoom and lenses: which to use”."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Check the edges"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Before you shoot, scan all four edges, not just the center: look for poles, branches, people or colors that compete with the subject. And don't cut a person at the joints (wrists, elbows, knees, ankles): either keep them whole or cut clearly somewhere else."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Horizontal or vertical"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Don't always shoot horizontal: try vertical too and choose according to what you want to show and where you'll see it (for example, vertical looks good on a phone and on social media)."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Room and frames"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Leave more space in front of something that moves, or of where a person looks, than behind it: it seems to have somewhere to go.",
+        "A natural frame, like a door, a window, an arch or some branches, surrounds the subject, makes it stand out and adds depth.",
+        "Leave a margin around it: you can crop or change the format later, but you can't add what you didn't capture."
+      ]
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pick an object at home. Take a photo from far away, another getting close until it fills the photo, and another in vertical. Before each shot, check the four edges."
+    }
+  ]
+}
