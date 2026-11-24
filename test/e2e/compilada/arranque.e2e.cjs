@@ -1,7 +1,9 @@
 // Arranque de la app instalada. Al abrirla desde su icono, el sistema enseña una pantalla con el color de fondo y el icono del manifiesto
 // (eso no lo controla la web ni dura más de lo que tarda la app en pintarse). Para que no se vea un icono azul oscuro pegado sobre un fondo
 // lila y se corte en seco, el manifiesto usa el azul noche del icono como fondo de arranque, y la app continúa con una pantalla propia de ese
-// mismo azul: los cuatro ángulos del visor, el ojo que se dibuja y se enfoca y el nombre, unos 2,5 s, y se funde con la pantalla Hoy.
+// mismo azul. Esa pantalla EMPIEZA con el icono entero, centrado y del mismo tamaño que el de la pantalla del sistema (medido en un móvil:
+// el dibujo mide 156 px de ancho y está en el centro), para que el paso de una a otra no se note; y a partir de ahí el ojo parpadea, el visor
+// se ajusta como un autoenfoque, el icono sube y sale el nombre. Unos 2,5 s en total, y se funde con la pantalla Hoy.
 //
 // - Solo sale si la app se abre desde su icono (modo «standalone» o «fullscreen»): en el navegador no hay ni rastro.
 // - Con «reducir movimiento» no sale nunca.
@@ -77,7 +79,7 @@ ejecutar("arranque", async ({ b, base }) => {
   ok(await a.getAttribute("aria-hidden") === "true", "oculta a los lectores de pantalla (es solo adorno)");
   ok(await p.locator("#arranque svg").count() === 1 && /Ollada/.test(await p.locator("#arranque .nombre").textContent()), "lleva el dibujo (visor y ojo) y el nombre «Ollada»");
   const animaciones = await a.evaluate((e) => e.getAnimations({ subtree: true }).map((x) => x.animationName));
-  ok(["marco", "trazo", "iris", "aparece", "sube"].every((n) => animaciones.includes(n)), "se animan el visor, el trazo del ojo, el iris, el brillo y el nombre: " + animaciones.join(", "));
+  ok(["parpadeo", "enfoque", "asciende", "sube", "arranque-fuera"].every((n) => animaciones.includes(n)), "se animan el parpadeo del ojo, el autoenfoque del visor, la subida del icono, el nombre y el fundido final: " + animaciones.join(", "));
   const fin = await a.evaluate((e) => Math.max(...e.getAnimations({ subtree: true }).map((x) => x.effect.getComputedTiming().endTime)));
   ok(fin >= 2300 && fin <= 2700, "termina a los " + fin + " ms (unos 2,5 s)");
   ok(await p.evaluate(() => document.elementFromPoint(innerWidth / 2, innerHeight / 2).closest("#arranque") !== null), "mientras dura, está por encima de la app");
@@ -90,6 +92,35 @@ ejecutar("arranque", async ({ b, base }) => {
   const violaciones = await p.evaluate(() => window.__violaciones);
   ok(violaciones.length === 0, "sin infracciones de la política de seguridad: " + violaciones.join(" ; "));
   ok(p.errores.length === 0, "sin errores en la consola: " + p.errores.join(" ; "));
+  await ctx.close();
+
+  titulo("fotogramas: empieza igual que la pantalla del sistema (icono entero, centrado, del mismo tamaño) y sigue desde ahí");
+  ({ ctx, p } = await nuevaPagina(b, { permisos: false, lugar: LUGAR }));
+  await p.goto(abierta.base, { waitUntil: "domcontentloaded" }); await p.waitForSelector("#arranque");
+  const en = (ms) => p.evaluate((ms) => { document.getElementById("arranque").getAnimations({ subtree: true }).forEach((x) => { x.pause(); x.currentTime = ms; }); }, ms);
+  const medir = () => p.evaluate(() => {
+    const caja = (s) => document.querySelector(s).getBoundingClientRect(), estilo = (s) => getComputedStyle(document.querySelector(s));
+    const svg = caja("#arranque svg"), nombre = caja("#arranque .nombre");
+    return {
+      vw: innerWidth, vh: innerHeight,
+      svg: { cx: svg.x + svg.width / 2, cy: svg.y + svg.height / 2, w: svg.width, bottom: svg.bottom },
+      nombre: { top: nombre.top, bottom: nombre.bottom, cx: nombre.x + nombre.width / 2, opacidad: Number(estilo("#arranque .nombre").opacity) },
+      ojoY: new DOMMatrix(estilo("#arranque .parpadeo").transform).d, marcoEscala: new DOMMatrix(estilo("#arranque .marco").transform).a,
+      opacidades: ["#arranque .ojo", "#arranque .iris", "#arranque .brillo", "#arranque .marco"].map((x) => Number(estilo(x).opacity))
+    };
+  });
+  await en(0); let f = await medir();
+  ok(Math.abs(f.svg.w - 171) <= 1, "el dibujo mide lo mismo que el de la pantalla del sistema (171 px de lado, 156 px de dibujo): " + f.svg.w);
+  ok(Math.abs(f.svg.cx - f.vw / 2) <= 1 && Math.abs(f.svg.cy - f.vh / 2) <= 1, "y está en el centro de la pantalla: " + f.svg.cx + ", " + f.svg.cy + " (pantalla " + f.vw + "×" + f.vh + ")");
+  ok(f.opacidades.every((o) => o === 1) && Math.abs(f.ojoY - 1) < 0.01 && Math.abs(f.marcoEscala - 1) < 0.01, "el visor, el ojo, el iris y el brillo están enteros desde el primer fotograma, sin dibujarse de cero");
+  ok(f.nombre.opacidad === 0, "todavía sin el nombre");
+  await en(450); f = await medir();
+  ok(f.ojoY < 0.2, "a los 0,45 s el ojo parpadea (cerrado casi del todo): " + f.ojoY.toFixed(2));
+  await en(925); f = await medir();
+  ok(f.marcoEscala < 0.95, "a los 0,9 s el visor se ajusta como un autoenfoque: " + f.marcoEscala.toFixed(2));
+  await en(2000); f = await medir();
+  ok(f.svg.cy < f.vh / 2 - 15, "a los 2 s el icono ha subido para dejar sitio al nombre: " + f.svg.cy + " < " + f.vh / 2);
+  ok(f.nombre.opacidad === 1 && f.nombre.top >= f.svg.bottom - 12 && f.nombre.bottom <= f.vh && Math.abs(f.nombre.cx - f.vw / 2) <= 1, "el nombre está debajo, centrado y dentro de la pantalla");
   await ctx.close();
 
   titulo("con «reducir movimiento» no hay pantalla de arranque ni siquiera como app");
