@@ -6,7 +6,7 @@ import vm from "node:vm";
 import { it } from "vitest";
 
 const TEXTO = fs.readFileSync(new URL("../../transicion/beta/sw.js", import.meta.url), "utf8");
-const RAIZ = "https://x.test/luz-y-foto/";
+const RAIZ = "https://x.test/ollada/";
 const SCOPE = RAIZ + "beta/";
 
 // Un «navegador» mínimo: cachés con las direcciones que guardan, ventanas controladas y un registro de lo que va pasando

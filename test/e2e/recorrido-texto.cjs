@@ -16,7 +16,7 @@ const MOVIL = { equipo: "movil", marca: "desconocida", objetivos: [], tripode: "
 const CAMARA = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
 
 // Las barras y la franja son hileras de «█» (una por línea o seguidas): se dejan en un solo «█»
-const normalizar = (t) => t.replace(/index-[\w-]+\.js/g, "index-HASH.js").replace(/luz-y-foto-[\w.-]+/g, "luz-y-foto-CACHE").replace(/(?:█\s*)+/g, "█\n");
+const normalizar = (t) => t.replace(/index-[\w-]+\.js/g, "index-HASH.js").replace(/ollada-[\w.-]+/g, "luz-y-foto-CACHE").replace(/(?:█\s*)+/g, "█\n");
 
 async function texto(p, conDibujos = false) {
   await p.waitForTimeout(250);

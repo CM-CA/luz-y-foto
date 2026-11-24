@@ -75,4 +75,4 @@ ejecutar("paleta", async ({ b, base }) => {
   const total = woff2.reduce((s, x) => s + fs.statSync(path.join(dist, "assets", x)).size, 0);
   ok(woff2.length === 2, "hay exactamente dos .woff2 en dist/assets: " + woff2.join(", "));
   ok(total < 50000, "juntas pesan " + total + " bytes (menos de 50 000)");
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

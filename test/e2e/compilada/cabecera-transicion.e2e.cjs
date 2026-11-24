@@ -89,4 +89,4 @@ ejecutar("cabecera-transicion", async ({ b, base }) => {
     ok(a.anterior === null && a.src !== antes.src && a.cielo.startsWith("noche"), "el cielo cambia sin cielo anterior encima");
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

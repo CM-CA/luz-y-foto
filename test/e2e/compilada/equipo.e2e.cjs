@@ -91,4 +91,4 @@ ejecutar("equipo", async ({ b, base }) => {
     ok(p.errores.length === 0, "sin errores: " + p.errores.join(";"));
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

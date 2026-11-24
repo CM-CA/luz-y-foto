@@ -1,5 +1,5 @@
 /*
- * Datos de luz-y-foto: validación de los archivos de data/.
+ * Datos de Ollada: validación de los archivos de data/.
  *
  * La validación existe para que un error al editar un JSON (un número fuera de sitio, un texto
  * que falta, un género mal escrito) se detecte con un mensaje claro y no con un fallo extraño.

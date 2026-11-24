@@ -1,5 +1,5 @@
 /*
- * Cálculos de sol y luna para luz-y-foto.
+ * Cálculos de sol y luna para Ollada.
  * Módulo ES: funciona en el navegador y en Node. Usa el paquete `suncalc` (2.1.4; su licencia está en licencias/SUNCALC-LICENSE.txt).
  * Todo se calcula en el dispositivo: no necesita conexión.
  */

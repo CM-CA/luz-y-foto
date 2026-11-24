@@ -191,4 +191,4 @@ ejecutar("maquetacion", async ({ b, base }) => {
     ok(/light/.test(css) && /dark/.test(css), "color-scheme en el CSS: " + css);
     await ctx.close();
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

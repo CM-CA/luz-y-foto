@@ -382,4 +382,4 @@ ejecutar("brujula", async ({ b, base }) => {
       }
     }
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

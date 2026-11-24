@@ -35,4 +35,4 @@ ejecutar("texto-es", async ({ b, base }) => {
     if (!(n in esperado)) { ok(false, n + ": pantalla nueva que no está en la línea base"); continue; }
     ok(actual[n] === esperado[n], n + (actual[n] === esperado[n] ? "" : ": " + diferencia(esperado[n], actual[n])));
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

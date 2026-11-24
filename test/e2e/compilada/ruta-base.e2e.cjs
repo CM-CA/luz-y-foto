@@ -1,4 +1,4 @@
-// La versión COMPILADA (dist/) debe funcionar publicada bajo /luz-y-foto/, como en GitHub Pages:
+// La versión COMPILADA (dist/) debe funcionar publicada bajo /ollada/, como en GitHub Pages:
 // todos sus archivos se cargan desde esa ruta, lee los datos incluidos y no se sale de la pantalla.
 //
 // Antes: npm run build
@@ -15,7 +15,7 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
 }
 
 ejecutar("compilada", async ({ b, base }) => {
-  titulo("carga bajo /luz-y-foto/ sin errores ni archivos que falten");
+  titulo("carga bajo /ollada/ sin errores ni archivos que falten");
   const { ctx, p } = await nuevaPagina(b, { permisos: false });
   const respuestas = [];
   p.on("response", (r) => { if (r.url().startsWith(base)) respuestas.push([r.status(), r.url().slice(base.length)]); });
@@ -45,4 +45,4 @@ ejecutar("compilada", async ({ b, base }) => {
       await c.close();
     }
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });

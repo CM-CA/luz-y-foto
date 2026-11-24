@@ -54,4 +54,4 @@ ejecutar("seleccion", async ({ b, base }) => {
       await ctx.close();
     }
   }
-}, { carpeta: dist, prefijo: "/luz-y-foto/" });
+}, { carpeta: dist, prefijo: "/ollada/" });
