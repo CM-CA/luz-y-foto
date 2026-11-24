@@ -57,8 +57,11 @@ export function registrarServiceWorker(base = import.meta.env.BASE_URL) {
   version.sw.estado = "registrando";
 
   const avisarSiHayNuevo = (reg) => {
-    // Sin service worker que controle esta página es la primera instalación: no hay nada que actualizar
-    if (reg.waiting && navigator.serviceWorker.controller) { esperando = reg.waiting; version.nueva = true; }
+    // Solo es una actualización si la página la controla el service worker ACTIVO de este mismo registro y hay otro esperando.
+    // Si no controla ninguno es la primera instalación; y si controla el de otra web del mismo dominio (el del blog, en la raíz,
+    // alcance «/») también lo es: el de la app aún no está activo y no hay nada que actualizar.
+    const controla = navigator.serviceWorker.controller;
+    if (reg.waiting && reg.active && controla && controla.scriptURL === reg.active.scriptURL) { esperando = reg.waiting; version.nueva = true; }
   };
 
   navigator.serviceWorker.addEventListener("controllerchange", () => {

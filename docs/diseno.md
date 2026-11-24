@@ -102,6 +102,8 @@ Hecho (2026-11-21, con el rediseño): lo de ser responsive que se anotó el 2026
 
 Hecho (fase 4 de la migración): manifiesto e iconos, service worker con la app en caché, aviso «hay una versión nueva» y última previsión guardada sin conexión (ver [`migracion-svelte.md`](migracion-svelte.md)).
 
+Hecho (2026-11-24): el aviso «hay una versión nueva» ya no sale en la primera visita. La app comparte dominio con el blog (`cm-ca.github.io`), cuyo service worker está en la raíz (alcance «/») y controla también las páginas de `/ollada/` hasta que se activa el de la app; ahora solo se avisa si la página la controla el service worker activo de la propia app y hay otro esperando. Lo prueba `sw-ajeno.e2e.cjs`.
+
 Hecho: diseño visual definitivo «La luz de ahora» (ver arriba; falta probarlo en el móvil real y en la tablet).
 
 Hecho (2026-11-22): la pantalla Aprender con tres lecciones para cámara, tres para móvil, aparte, en el grupo «Para el móvil», y tres de tipos de fotografía (paisaje, deportiva y urbana, esta con dos dibujos); el tutorial de la rueda de modos queda cubierto por la lección «La rueda de modos» (ver «Aprender»).
