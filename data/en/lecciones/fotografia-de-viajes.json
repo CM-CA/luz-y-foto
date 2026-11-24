@@ -1,0 +1,59 @@
+{
+  "id": "fotografia-de-viajes",
+  "titulo": "Travel photography",
+  "resumen": "Early light, a new point of view and respect for people: photos that tell the story of a place.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "viajes",
+      "alt": "Two drawings of the same monument. On the left, early in the morning: the sun is low, the light is soft, the shadow is long and faint and there is just one person: 1, early. On the right, at midday: the sun is high, the light is hard, the shadow is short and dark and there are many people: 2, midday.",
+      "pie": "1 Early: soft light and few people. 2 Midday: hard light and more people."
+    },
+    {
+      "tipo": "idea",
+      "texto": "On a trip, getting up early helps most: soft light and fewer people. Then change your point of view and ask before photographing someone."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Get up early"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The light of the [[hora-dorada|golden hour]], after sunrise or before sunset, is soft and warm, and early in the day there are fewer people at famous places, so it's easier to get the monument without a crowd in front of it. At midday the sun comes from above and the light is hard (more in “Hard light and soft light”)."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Another point of view"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Change your point of view: go up to a high spot, or try another angle and other light, instead of repeating the usual photo.",
+        "Alternate a wide photo of the place with closer ones, of details.",
+        "A person in the photo gives an idea of the size of the place."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With people"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Ask before photographing someone up close: learn how to say hello and ask permission in their language. If they don't want to, respect that. Respect local customs too."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "On many phones, for a detail it's better to get closer yourself or use the zoom buttons (2x, 3x) than to pinch the screen (more in “Zoom and lenses”). Tap the screen on what interests you to focus, as in “Tap to focus and expose”. For streets and cities, see also “Urban photography”."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pick a monument or a square and photograph it twice: first thing in the morning and at midday. Compare the light and how many people there are. Then find another point of view and a detail."
+    }
+  ]
+}

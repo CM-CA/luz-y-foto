@@ -1,0 +1,61 @@
+{
+  "id": "familia-y-ninos",
+  "titulo": "Family and kids",
+  "resumen": "At their level, in natural light and with a fast shutter speed: photos of kids playing, not posing.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "familia",
+      "alt": "A child playing, seen from the side, with a window on their left and a camera on their right, at the height of their head, with a dotted line between them. 1, at their level: the camera is at the height of the child's head. 2, natural light: the light comes in through the window. 3, fast shutter: a few small lines beside the child show that they are moving.",
+      "pie": "1 At their level. 2 Natural light from a window. 3 Fast shutter: the child is moving."
+    },
+    {
+      "tipo": "idea",
+      "texto": "With kids, get to their level, use natural light and a fast shutter speed, and let them play: the best moments can't be posed."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "At their level, not posing"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Crouch down or sit on the floor so the camera is at the height of their eyes, as in “Pet photography”. Instead of asking them to say “cheese”, let them play and keep the camera ready: the best moments show up on their own."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Light and settings"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Soft, natural light: an overcast day, shade or next to a window.",
+        "A [[velocidad|shutter speed]] of 1/250 s or faster if they move (more in “Sports photography”).",
+        "Indoors there's less light: raise the [[iso|ISO]]; some grain is better than a blurry photo.",
+        "[[enfoque-continuo|Continuous focus]], so the camera follows the child while they run (more in “Focus modes”).",
+        "A wide-open [[apertura|aperture]] blurs the background."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Details and pace"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Look for details too, like small hands. Keep it fun and don't drag it out: if they get tired or don't want to, put the camera away."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Tap the screen on their face to focus, as in “Tap to focus and expose”. On many phones, in low light movement comes out blurry: find a window or go out into daylight."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Photograph a child playing next to a window or on an overcast day: once from your adult height and once crouching, at theirs. Compare which one puts you more in their world."
+    }
+  ]
+}

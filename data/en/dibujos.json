@@ -372,5 +372,43 @@
       "Feels close:",
       "its own view"
     ]
+  },
+  "viajes": {
+    "rotulos": [
+      "Early",
+      "Midday"
+    ],
+    "lineas": [
+      "Soft light and",
+      "few people",
+      "Hard light and",
+      "more people"
+    ]
+  },
+  "comida": {
+    "rotulos": [
+      "Overhead",
+      "At 45°",
+      "Side-on"
+    ],
+    "lineas": [
+      "Flat dishes,",
+      "like a pizza",
+      "A good place",
+      "to start",
+      "Tall dishes,",
+      "like a burger"
+    ]
+  },
+  "familia": {
+    "filas": [
+      "Their level",
+      "Natural light",
+      "Fast shutter"
+    ],
+    "lineas": [
+      "At their level, in natural light",
+      "and a fast shutter if they move"
+    ]
   }
 }
