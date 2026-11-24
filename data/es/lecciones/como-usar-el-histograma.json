@@ -1,0 +1,67 @@
+{
+  "id": "como-usar-el-histograma",
+  "titulo": "Cómo usar el histograma",
+  "resumen": "Un gráfico que te dice si a la foto le falta o le sobra luz, sin fiarte de la pantalla.",
+  "minutos": 2,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "histograma",
+      "alt": "Tres histogramas, uno al lado del otro. 1, oscura: las barras se amontonan pegadas a la izquierda y la primera se corta contra el borde. 2, repartida: las barras forman una montaña en el centro, sin tocar los bordes. 3, clara: las barras se amontonan pegadas a la derecha y la última se corta contra el borde. Debajo de cada gráfico, sombras a la izquierda y luces a la derecha.",
+      "pie": "1 Pegado a la izquierda: foto oscura. 2 Repartido, sin cortes. 3 Pegado a la derecha: foto clara. A la izquierda, las sombras; a la derecha, las luces."
+    },
+    {
+      "tipo": "idea",
+      "texto": "El [[histograma|histograma]] te dice si a la foto le falta o le sobra luz, y a él no lo engañan ni el brillo de la pantalla ni la luz de la calle."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cómo verlo"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Pulsa varias veces el botón de información (Info, Display o DISP, según la cámara) hasta que aparezca. Lo verás al revisar la foto y, en muchas cámaras, también en la vista en directo, antes de disparar. Si no lo encuentras, mira el manual de tu cámara. En algunos móviles sale en la propia cámara, y hay apps de cámara manual que lo traen."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cómo se lee"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Es un gráfico de montañas: de izquierda a derecha va de lo más oscuro (las sombras) a lo más claro (las luces), con los tonos medios en el centro. Donde la montaña es más alta, hay más foto con ese tono."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué mirar"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Pegado a la izquierda: la foto está oscura y le falta luz. Pegado a la derecha: está clara y le sobra.",
+        "Cortado contra un borde: se ha perdido detalle. En la derecha son luces quemadas, zonas blancas sin detalle; en la izquierda, sombras que se quedan en negro.",
+        "No hay una forma correcta: una escena de noche tira a la izquierda y una playa con sol, a la derecha, y puede estar bien. Lo que importa es que no se pierda detalle donde lo quieres."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cómo corregirlo"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Si se corta por la derecha, sobra luz: usa una [[compensacion|compensación]] negativa, un tiempo más corto, una apertura más cerrada o un ISO más bajo. Si se corta por la izquierda, haz lo contrario: compensación positiva, tiempo más largo, apertura más abierta o ISO más alto. Cada uno tiene su precio, como en «El manual de verdad». Cambia un ajuste, haz otra foto y mira cómo se mueve el gráfico."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "La pantalla engaña"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "La pantalla cambia con su brillo y con la luz de alrededor: con sol, una foto bien expuesta parece oscura y, de noche, clara. El histograma no cambia con eso, así que fíate de él para decidir si falta o sobra luz. La pantalla sirve para componer y enfocar."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Activa el histograma. Haz una foto de algo oscuro y otra de algo claro, y mira hacia dónde va el gráfico en cada una. Después, con la misma escena, prueba la compensación en 0 y en −1 y fíjate en cómo se desplaza."
+    }
+  ]
+}

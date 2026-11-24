@@ -249,7 +249,7 @@ const dibujosDe = (l) => l.bloques.filter((b) => b.tipo === "dibujo").map((b) =>
 
 prueba("lecciones: «Lo básico» trae las tres de cámara, en orden", () => {
   const g = cargarDatos().lecciones.indice.grupos.find((x) => x.id === "basico");
-  assert.deepEqual(g.lecciones, ["la-rueda-de-modos", "el-manual-de-verdad", "parasol-y-filtro-uv"]);
+  assert.deepEqual(g.lecciones, ["la-rueda-de-modos", "el-manual-de-verdad", "como-usar-el-histograma", "parasol-y-filtro-uv"]);
 });
 
 prueba("lecciones: los grupos van en orden y «Para el móvil» va aparte, después de «Lo básico»", () => {
@@ -364,12 +364,26 @@ prueba("lecciones: fotografía urbana", () => {
   assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
 });
 
+prueba("lecciones: cómo usar el histograma", () => {
+  const l = cargarDatos().lecciones.porId["como-usar-el-histograma"];
+  assert.equal(l.titulo, "Cómo usar el histograma");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  assert.equal(l.para, "camara");
+  const texto = textoDeLeccion(l);
+  [/Info/, /Display/, /manual de tu cámara/i, /vista en directo/i, /sombras/i, /luces/i, /izquierda/i, /derecha/i, /oscura/i, /clara/i, /borde/i, /quemadas/i, /negro/i, /no hay una forma correcta/i, /compensación/i, /tiempo más corto/i, /apertura más cerrada/i, /ISO más bajo/, /contrario/i, /otra foto/i, /pantalla/i, /histograma/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["histograma"]);
+  assert.ok(!/\b(Canon|Nikon|Sony|EOS)\b/.test(texto), "no ata la lección a una marca de cámara");
+  assert.ok(!/blinkies|zebra|aviso de altas luces/i.test(texto), "los avisos de altas luces solo tienen una fuente");
+  assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras: " + texto.split(/\s+/).length);
+});
+
 prueba("lecciones: fotografía nocturna", () => {
   const l = cargarDatos().lecciones.porId["fotografia-nocturna"];
   assert.equal(l.titulo, "Fotografía nocturna");
   assert.ok(l.minutos >= 2 && l.minutos <= 3);
   const texto = textoDeLeccion(l);
-  [/trípode/i, /temporizador/i, /disparador remoto/i, /ISO bajo/, /f\/8/, /f\/11/, /estrellas/i, /segundos/i, /estela/i, /enfoque manual/i, /autoenfoque/i, /amplía/i, /prueba/i, /ISO alto/, /duplicarse/i, /histograma/i, /brillo/i, /Luz baja y modo noche/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  [/trípode/i, /temporizador/i, /disparador remoto/i, /ISO bajo/, /f\/8/, /f\/11/, /estrellas/i, /segundos/i, /estela/i, /enfoque manual/i, /autoenfoque/i, /amplía/i, /prueba/i, /ISO alto/, /duplicarse/i, /histograma/i, /brillo/i, /Luz baja y modo noche/, /Cómo usar el histograma/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
   assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
   assert.deepEqual(dibujosDe(l), ["nocturna"]);
   assert.ok(!/\b(Canon|Nikon|Sony|EOS)\b/.test(texto), "no ata la lección a una marca de cámara");

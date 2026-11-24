@@ -1,0 +1,67 @@
+{
+  "id": "como-usar-el-histograma",
+  "titulo": "How to use the histogram",
+  "resumen": "A graph that tells you whether a photo has too little or too much light, without trusting the screen.",
+  "minutos": 2,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "histograma",
+      "alt": "Three histograms side by side. 1, dark: the bars pile up against the left and the first one is cut off at the edge. 2, balanced: the bars form a hill in the middle without touching the edges. 3, bright: the bars pile up against the right and the last one is cut off at the edge. Under each graph, shadows on the left and lights on the right.",
+      "pie": "1 Pushed left: dark photo. 2 Spread out, no cut-offs. 3 Pushed right: bright photo. On the left, the shadows; on the right, the lights (highlights)."
+    },
+    {
+      "tipo": "idea",
+      "texto": "The [[histograma|histogram]] tells you whether a photo has too little or too much light, and neither the screen's brightness nor the light around you can fool it."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "How to show it"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Press the info button several times (Info, Display or DISP, depending on the camera) until it appears. You'll see it when you review a photo and, on many cameras, in live view before you shoot. If you can't find it, check your camera's manual. On some phones it shows in the camera itself, and there are manual camera apps that include it."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "How to read it"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "It is a graph of hills: from left to right it goes from the darkest tones (the shadows) to the lightest (the highlights), with the midtones in the middle. Where the hill is taller, more of the photo has that tone."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What to look for"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Pushed to the left: the photo is dark and lacks light. Pushed to the right: it is bright and has too much.",
+        "Cut off at an edge: detail has been lost. On the right, blown highlights: white areas with no detail; on the left, shadows that turn solid black.",
+        "There is no one correct shape: a night scene leans left and a sunny beach leans right, and both can be fine. What matters is not losing detail where you want it."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "How to fix it"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "If it is cut off on the right, there is too much light: use negative [[compensacion|exposure compensation]], a faster shutter speed, a smaller aperture (a higher f-number) or a lower ISO. If it is cut off on the left, do the opposite: positive compensation, a slower shutter speed, a wider aperture or a higher ISO. Each has its price, as in “Manual mode, for real”. Change one setting, take another photo and watch how the graph moves."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "The screen lies"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The screen changes with its brightness and the light around you: in the sun a well-exposed photo looks dark and, at night, bright. The histogram doesn't change with any of that, so trust it to decide whether there is too little or too much light. Use the screen to compose and focus."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Turn the histogram on. Take a photo of something dark and another of something bright, and see where the graph goes in each. Then, in the same scene, try compensation at 0 and at −1 and watch how it shifts."
+    }
+  ]
+}

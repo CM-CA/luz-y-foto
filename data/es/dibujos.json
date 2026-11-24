@@ -166,5 +166,24 @@
       "las verticales",
       "son rectas"
     ]
+  },
+  "histograma": {
+    "rotulos": [
+      "Oscura",
+      "Repartida",
+      "Clara"
+    ],
+    "ejes": [
+      "sombras",
+      "luces"
+    ],
+    "lineas": [
+      "Pegado a",
+      "la izquierda",
+      "Repartido,",
+      "sin cortes",
+      "Pegado a",
+      "la derecha"
+    ]
   }
 }

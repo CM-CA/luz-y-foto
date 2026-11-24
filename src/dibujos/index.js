@@ -4,6 +4,7 @@
 import arquitectura from "./arquitectura.js";
 import deporte from "./deporte.js";
 import exposicion from "./exposicion.js";
+import histograma from "./histograma.js";
 import luces from "./luces.js";
 import modos from "./modos.js";
 import noche from "./noche.js";
@@ -15,4 +16,4 @@ import toca from "./toca.js";
 import urbana from "./urbana.js";
 import zoom from "./zoom.js";
 
-export const DIBUJOS = { modos, exposicion, parasol, toca, noche, zoom, paisaje, deporte, urbana, luces, nocturna, retrato, arquitectura };
+export const DIBUJOS = { modos, exposicion, parasol, toca, noche, zoom, paisaje, deporte, urbana, luces, nocturna, retrato, arquitectura, histograma };

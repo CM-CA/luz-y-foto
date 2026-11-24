@@ -166,5 +166,24 @@
       "verticals",
       "stay straight"
     ]
+  },
+  "histograma": {
+    "rotulos": [
+      "Dark",
+      "Balanced",
+      "Bright"
+    ],
+    "ejes": [
+      "shadows",
+      "lights"
+    ],
+    "lineas": [
+      "Pushed to",
+      "the left",
+      "Spread out,",
+      "no cut-offs",
+      "Pushed to",
+      "the right"
+    ]
   }
 }
