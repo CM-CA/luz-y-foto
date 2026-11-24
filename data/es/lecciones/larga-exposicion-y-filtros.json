@@ -1,0 +1,64 @@
+{
+  "id": "larga-exposicion-y-filtros",
+  "titulo": "Larga exposición y filtros",
+  "resumen": "Trípode, tiempos largos y filtros ND para que lo que se mueve salga como un velo.",
+  "minutos": 3,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "largaexp",
+      "alt": "Dos dibujos de una cascada. A la izquierda, con un tiempo corto, el agua se congela y se ve cada gota: 1, tiempo corto. A la derecha, con un tiempo largo y la cámara en un trípode, el agua sale como un velo sedoso y las rocas siguen nítidas: 2, tiempo largo.",
+      "pie": "1 Tiempo corto: el agua se congela. 2 Tiempo largo, con trípode: el agua sale sedosa."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Con un tiempo largo, lo que se mueve se difumina y lo quieto sigue nítido. Para conseguirlo hace falta una cámara que no se mueva y poca luz que entre."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué se consigue"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Con un tiempo de [[velocidad|obturación]] largo, de varios segundos, por ejemplo, el agua sale como un velo sedoso, las nubes se estiran y las luces de los coches dejan estelas. Lo que no se mueve sigue nítido."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Lo imprescindible"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Un trípode, o un apoyo muy firme: cualquier movimiento mueve toda la foto.",
+        "Un disparador remoto o el [[disparador|temporizador]], para no tocar la cámara al disparar.",
+        "[[iso|ISO]] lo más bajo posible y la [[apertura|apertura]] cerrada, por ejemplo f/11 o más: entra menos luz y el tiempo puede ser más largo sin quemar la foto.",
+        "Modo manual: eliges tú el tiempo. Más allá de unos 30 segundos, muchas cámaras piden el modo Bulb."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Filtros ND"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "De día hay tanta luz que, incluso con ISO bajo y la apertura cerrada, un tiempo largo quema la foto. Un [[filtro-nd|filtro ND]] es un cristal oscuro y neutro que se pone delante del objetivo y deja pasar menos luz."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Su fuerza se mide en [[paso-de-luz|pasos]]: cada paso reduce la luz a la mitad, así que duplica el tiempo. Con un filtro de 6 pasos, 1/8 s se convierte en 8 s. Cuanta más luz, más fuerte el filtro: por ejemplo, de 3 a 6 pasos con la luz suave del amanecer o del atardecer y 10 o más a pleno sol."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Empieza por aquí"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Pon la cámara en el trípode, con ISO bajo, la apertura cerrada y el modo manual. Prueba un tiempo de unos segundos y mira el resultado: si sale muy clara, cierra más la apertura o usa un filtro más fuerte."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Busca una fuente, una cascada o una calle con coches, mejor con el día nublado o al atardecer. Con trípode, haz una foto con 1/250 s y otra con un tiempo de varios segundos. Compara."
+    }
+  ]
+}

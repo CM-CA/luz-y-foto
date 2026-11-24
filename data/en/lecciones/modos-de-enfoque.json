@@ -1,0 +1,72 @@
+{
+  "id": "modos-de-enfoque",
+  "titulo": "Focus modes",
+  "resumen": "When focus moves and where the camera looks.",
+  "minutos": 3,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "enfoque",
+      "alt": "Two drawings of focusing. On the left, single focus: a still subject with a focus square that stays fixed on it: 1, single, locks focus. On the right, continuous focus: a subject moving from left to right, with the focus square following it: 2, continuous, follows the subject.",
+      "pie": "1 Single: focus locks on a still subject. 2 Continuous: focus follows a moving subject."
+    },
+    {
+      "tipo": "idea",
+      "texto": "To focus well, decide two things: when the camera focuses (the mode) and where it looks (the area)."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "When it focuses: the mode"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Single ([[enfoque-simple|AF-S, One Shot]]): when you half-press the shutter button, focus locks and stays put. It is for still subjects: landscapes, objects, posed portraits. You can reframe without losing it.",
+        "Continuous ([[enfoque-continuo|AF-C, AI Servo]]): while you hold the shutter button half-pressed, the camera keeps focusing. It is for moving subjects: sports, kids, wildlife. If you lock it and recompose, it may focus on something else.",
+        "Automatic (AF-A, AI Focus): it chooses between the two by itself, but it is less predictable. Better to choose yourself."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Where it focuses: the area"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "One point: you choose where. It is the most precise, for portraits or objects.",
+        "Zone or group: a cluster of points, for a subject that moves around a predictable place.",
+        "Wide or automatic: the camera picks the points, and you don't know which ones it will pick.",
+        "Tracking: you pick a subject and the camera follows it across the frame. It works with birds or with kids."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Eyes and subjects"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Many cameras recognize faces and eyes, and some also animals, birds and vehicles. Turning it on helps most in portraits and with wildlife."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "A separate button"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Some cameras have a back button (AF-ON) that focuses without using the shutter button. That way you focus with your thumb and the shutter button only takes the photo."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "On a phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Tapping the screen focuses at that point: see “Tap to focus and expose”."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Set single focus and take a photo of someone standing still. Then set continuous and photograph someone walking toward you. Check which one comes out sharp."
+    }
+  ]
+}

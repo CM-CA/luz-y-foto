@@ -57,6 +57,18 @@
       ]
     },
     {
+      "id": "tecnica",
+      "titulo": "Technique",
+      "subtitulo": "Settings and gear, in more detail.",
+      "lecciones": [
+        "raw-y-jpeg",
+        "modos-de-medicion",
+        "modos-de-enfoque",
+        "larga-exposicion-y-filtros",
+        "distancias-focales"
+      ]
+    },
+    {
       "id": "tipos",
       "titulo": "Types of photography",
       "subtitulo": "What to look out for, depending on what you photograph.",

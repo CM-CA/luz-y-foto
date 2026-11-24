@@ -28,6 +28,12 @@ Los términos que se repiten en `data/en/` y en `src/idioma/en.js`, para que se 
 | histograma | histogram |
 | verticales convergentes | converging verticals |
 | punto de fuga | vanishing point |
+| distancia focal | focal length (gran angular: wide angle; tele: telephoto) |
+| filtro ND (densidad neutra) | ND (neutral density) filter |
+| enfoque simple | single focus (AF-S, One Shot) |
+| modos de medición (evaluativa, ponderada al centro, puntual, parcial) | metering modes (evaluative, center-weighted, spot, partial) |
+| modos de enfoque | focus modes |
+| factor de recorte | crop factor |
 | encuadre | framing |
 | gran angular | wide angle (ultra-wide para el 0,5x) |
 | tele corto | short telephoto |

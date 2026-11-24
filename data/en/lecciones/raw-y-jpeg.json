@@ -1,0 +1,71 @@
+{
+  "id": "raw-y-jpeg",
+  "titulo": "RAW and JPEG",
+  "resumen": "What each format keeps and which one to pick depending on whether you will edit or share.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "rawjpeg",
+      "alt": "Two files of the same photo. On the left, the JPEG: a small file, already processed by the camera and ready to share, with little room to edit: 1, JPEG. On the right, the RAW: a much bigger file, with almost all the sensor's data and lots of room to edit, but it has to be developed before sharing: 2, RAW.",
+      "pie": "1 JPEG: small and ready, with little room to edit. 2 RAW: big, for editing, with lots of room."
+    },
+    {
+      "tipo": "idea",
+      "texto": "A JPEG is the photo already developed by the camera; a RAW is the digital negative: it weighs more, but leaves much more room to edit."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What they are"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "A [[jpeg|JPEG]] is the photo already processed by the camera and compressed: it takes little space and you can share it directly, but compression throws away some of the data. A [[raw|RAW]] keeps almost everything the sensor captured, unprocessed: it takes much more space and you have to develop it with editing software. Unedited, a RAW looks flat, and a JPEG looks livelier."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What you gain with RAW"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "More room to edit: you can change the white balance and the exposure, and recover highlights and shadows with less noise.",
+        "A JPEG takes big changes worse: banding and odd colors show up.",
+        "It works better with difficult light and for fixing mistakes, and gives more quality in big prints."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What you gain with JPEG"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Small files: more photos fit on the card and they move faster.",
+        "Ready to share, with no editing.",
+        "Longer bursts: the camera stores more JPEGs in a row than RAWs before it slows down."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Which to choose"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "If you are going to edit, or the light is difficult, shoot RAW. If you want to share right away, or you are short on space, shoot JPEG. With RAW+JPEG the camera saves both versions of each photo, a JPEG to share and a RAW to edit later, at the cost of filling the card sooner. If in doubt, start with that."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "On a phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "On many phones you can shoot RAW: on some it is turned on in the camera settings or in Pro mode, and on others you need a separate app. The files weigh much more. And a phone's JPEG is already so worked on that, unedited, it often looks good."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "If your camera allows it, set RAW+JPEG and take a photo with lots of contrast. Open both in an editor and lift the shadows on each. Compare."
+    }
+  ]
+}

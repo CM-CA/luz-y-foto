@@ -1,0 +1,68 @@
+{
+  "id": "modos-de-medicion",
+  "titulo": "Metering modes",
+  "resumen": "Which part of the photo the camera measures and when to change modes.",
+  "minutos": 3,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "medicion",
+      "alt": "Three photos of the same scene, a backlit person, with the area the camera measures marked. On the left, evaluative metering measures the whole scene: 1, evaluative. In the middle, center-weighted metering gives more weight to the center of the image: 2, center. On the right, spot metering measures just one small point, on the face: 3, spot.",
+      "pie": "1 Evaluative: the whole scene. 2 Center: the center counts more. 3 Spot: one small point."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Metering decides which part of the photo drives the exposure calculation. Evaluative is fine almost always; change it when the subject and the background have very different light."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What it is"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The camera measures the light and tries to make the scene come out a middle gray. The [[medicion|metering]] mode tells it which part of the frame to measure and how much each part counts. Each brand names them its own way."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "The modes"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Evaluative (or matrix): it measures the whole scene at once and is usually the default. It works for almost everything, but gets fooled by very bright or very dark scenes.",
+        "Center-weighted: it gives more weight to the center of the image. It suits a centered subject, like a portrait.",
+        "Spot: it measures just one small point, which on many cameras follows the focus point. It is the most precise: use it when the subject and the background have very different light, like the moon in a dark sky or a backlit face. But everything else can come out very bright or very dark.",
+        "Partial: like spot, but with a somewhat bigger area. Not every camera has it."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "How to use spot"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Put the point on what you want well exposed, lock the exposure with the [[bloqueo-ae-af|AE/AF lock]] and frame as you like."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "When it gets it wrong"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The meter wants a middle gray: snow comes out gray and something very dark comes out too bright. Fix it with [[compensacion|compensation]]: raise the exposure with snow and lower it with dark things. Metering only decides where the calculation comes from; compensation corrects it."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "On a phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Tapping the screen measures at that point: see “Tap to focus and expose”."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Put someone in backlight. Take one photo with evaluative and another with spot on their face. Compare."
+    }
+  ]
+}

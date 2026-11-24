@@ -1,0 +1,68 @@
+{
+  "id": "modos-de-medicion",
+  "titulo": "Modos de medición",
+  "resumen": "Qué parte de la foto mide la cámara y cuándo cambiar de modo.",
+  "minutos": 3,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "medicion",
+      "alt": "Tres fotos de la misma escena, una persona a contraluz, con la zona que mide la cámara marcada. A la izquierda, la medición evaluativa mide toda la escena: 1, evaluativa. En el centro, la medición ponderada al centro da más peso al centro de la imagen: 2, al centro. A la derecha, la medición puntual mide solo un punto pequeño, sobre la cara: 3, puntual.",
+      "pie": "1 Evaluativa: toda la escena. 2 Al centro: pesa más el centro. 3 Puntual: un punto pequeño."
+    },
+    {
+      "tipo": "idea",
+      "texto": "La medición decide qué parte de la foto manda al calcular la exposición. Casi siempre vale la evaluativa; cambia cuando el sujeto y el fondo tienen una luz muy distinta."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué es"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "La cámara mide la luz y busca que la escena salga en un gris medio. El modo de [[medicion|medición]] dice qué parte del encuadre mide y cuánto pesa cada una. Cada marca los llama a su manera."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Los modos"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Evaluativa (o matricial): mide toda la escena a la vez y suele ser la de fábrica. Vale para casi todo, pero se equivoca con escenas muy claras o muy oscuras.",
+        "Ponderada al centro: da más peso al centro de la imagen. Va bien con un sujeto centrado, como un retrato.",
+        "Puntual: mide solo un punto pequeño, que en muchas cámaras sigue al punto de enfoque. Es la más precisa: sirve cuando el sujeto y el fondo tienen luces muy distintas, como la luna en un cielo oscuro o una cara a contraluz. Pero lo demás puede salir muy claro o muy oscuro.",
+        "Parcial: como la puntual, pero con un área algo mayor. No todas las cámaras la tienen."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cómo usar la puntual"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Pon el punto sobre lo que quieres bien expuesto, bloquea la exposición con el [[bloqueo-ae-af|bloqueo AE/AF]] y encuadra como quieras."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cuando se equivoca"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "El medidor quiere un gris medio: la nieve sale gris y algo muy oscuro sale demasiado claro. Corrígelo con la [[compensacion|compensación]]: sube la exposición con la nieve y bájala con lo oscuro. La medición solo decide de dónde sale el cálculo; la compensación lo corrige."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "En el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Tocar la pantalla mide en ese punto: mira «Toca para enfocar y exponer»."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pon a alguien a contraluz. Haz una foto con la evaluativa y otra con la puntual sobre su cara. Compara."
+    }
+  ]
+}

@@ -259,5 +259,71 @@
       "Sombra,",
       "sin corregir"
     ]
+  },
+  "rawjpeg": {
+    "rotulos": [
+      "JPEG",
+      "RAW"
+    ],
+    "lineas": [
+      "Pequeño y listo,",
+      "poco margen",
+      "Grande, a editar,",
+      "mucho margen"
+    ]
+  },
+  "medicion": {
+    "rotulos": [
+      "Evaluativa",
+      "Al centro",
+      "Puntual"
+    ],
+    "lineas": [
+      "Toda la escena",
+      "casi siempre",
+      "Pesa el centro",
+      "retratos",
+      "Un punto",
+      "contraluz"
+    ]
+  },
+  "enfoque": {
+    "rotulos": [
+      "Simple",
+      "Continuo"
+    ],
+    "lineas": [
+      "Se fija el enfoque",
+      "sujeto quieto",
+      "Sigue al sujeto",
+      "sujeto en movimiento"
+    ]
+  },
+  "largaexp": {
+    "rotulos": [
+      "Tiempo corto",
+      "Tiempo largo"
+    ],
+    "lineas": [
+      "Agua congelada:",
+      "se ve cada gota",
+      "Agua sedosa:",
+      "hace falta trípode"
+    ]
+  },
+  "focales": {
+    "rotulos": [
+      "24 mm",
+      "50 mm",
+      "200 mm"
+    ],
+    "lineas": [
+      "Gran angular",
+      "mucha escena",
+      "Normal",
+      "como el ojo",
+      "Tele",
+      "lo lejano, cerca"
+    ]
   }
 }

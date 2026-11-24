@@ -1,0 +1,71 @@
+{
+  "id": "raw-y-jpeg",
+  "titulo": "RAW y JPEG",
+  "resumen": "Qué guarda cada formato y cuál elegir según vayas a editar o a compartir.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "rawjpeg",
+      "alt": "Dos archivos de la misma foto. A la izquierda, el JPEG: un archivo pequeño, ya procesado por la cámara y listo para compartir, con poco margen para editar: 1, JPEG. A la derecha, el RAW: un archivo mucho más grande, con casi todos los datos del sensor y mucho margen para editar, pero que hay que revelar antes de compartir: 2, RAW.",
+      "pie": "1 JPEG: pequeño y listo, con poco margen al editar. 2 RAW: grande, para editar, con mucho margen."
+    },
+    {
+      "tipo": "idea",
+      "texto": "El JPEG es la foto ya revelada por la cámara; el RAW es el negativo digital: pesa más, pero deja mucho más margen para editar."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué son"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "El [[jpeg|JPEG]] es la foto ya procesada por la cámara y comprimida: ocupa poco y se comparte directamente, pero la compresión descarta parte de los datos. El [[raw|RAW]] guarda casi todo lo que captó el sensor, sin procesar: ocupa mucho más y hay que revelarlo con un programa de edición. Sin editar, un RAW se ve plano, y un JPEG sale más vivo."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué ganas con el RAW"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Más margen al editar: puedes cambiar el balance de blancos y la exposición, y recuperar luces y sombras con menos ruido.",
+        "Un JPEG aguanta peor los cambios fuertes: salen bandas y colores raros.",
+        "Va mejor con luz difícil y para corregir errores, y da más calidad en copias grandes."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué ganas con el JPEG"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Archivos pequeños: caben más fotos en la tarjeta y se mueven más rápido.",
+        "Listo para compartir, sin editar.",
+        "Ráfagas más largas: la cámara guarda más JPEG seguidos que RAW antes de frenarse."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cuál elegir"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Si vas a editar, o la luz es difícil, dispara en RAW. Si quieres compartir ya, o tienes poco espacio, en JPEG. Con RAW+JPEG la cámara guarda las dos versiones de cada foto, un JPEG para compartir y un RAW para editar más tarde, a costa de llenar antes la tarjeta. Si dudas, empieza así."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En muchos móviles puedes disparar en RAW: en unos se activa en los ajustes de la cámara o en el modo Pro, y en otros hace falta una app aparte. Los archivos pesan mucho más. Y el JPEG del móvil ya viene tan trabajado que, sin editar, suele quedar bien."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Si tu cámara lo permite, pon RAW+JPEG y haz una foto con mucho contraste. Abre las dos en un editor y sube las sombras de cada una. Compara."
+    }
+  ]
+}

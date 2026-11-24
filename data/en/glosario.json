@@ -106,5 +106,17 @@
   "balance-de-blancos": {
     "termino": "White balance",
     "texto": "A setting that tells the camera the color of the light so whites come out white. Under a bulb a photo leans orange, and in the shade, blue. Auto usually corrects it well."
+  },
+  "distancia-focal": {
+    "termino": "Focal length",
+    "texto": "A number, in millimeters, that tells how much of the scene a lens takes in. A small number gives a wide view (wide angle); a big one, a narrow view that looks closer (telephoto). On a zoom it changes as you zoom."
+  },
+  "filtro-nd": {
+    "termino": "ND (neutral density) filter",
+    "texto": "A dark, neutral glass that goes in front of the lens and lets less light through. It lets you use long times in full light without blowing out the photo. Its strength is measured in stops of light."
+  },
+  "enfoque-simple": {
+    "termino": "Single focus (AF-S, One Shot)",
+    "texto": "A focus mode where, when you half-press the shutter button, focus locks and stays put. It suits still subjects; if the subject moves, you have to focus again."
   }
 }

@@ -27,7 +27,7 @@ ejecutar("dibujos", async ({ b, base }) => {
       titulo(idioma + ", tema " + tema + ": cada dibujo se ve, sus textos caben y su nombre accesible es su texto alternativo (320 px)");
       const { ctx, p } = await nuevaPagina(b, { locale: LOCALE[idioma] || idioma, colorScheme: esquema, viewport: { width: 320, height: 800 }, lugar: LUGAR });
       const lecciones = conDibujo(idioma);
-      ok(lecciones.length === 20, idioma + ": veinte dibujos en las lecciones (" + lecciones.length + ")");
+      ok(lecciones.length === 25, idioma + ": veinticinco dibujos en las lecciones (" + lecciones.length + ")");
       for (const [id, bloque, k] of lecciones) {
         const nombreDibujo = id + (k ? " (dibujo " + (k + 1) + ")" : "");
         await p.goto(base + "#/aprender/" + id); await p.waitForSelector("figure.dibujo svg");
