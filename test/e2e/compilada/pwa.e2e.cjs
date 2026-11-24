@@ -33,7 +33,7 @@ ejecutar("pwa", async ({ b, base }) => {
   ok(new URL(m.start_url, new URL(enlace, base)).pathname === raiz, "start_url vuelve a la app: " + m.start_url);
   ok(new URL(m.scope, new URL(enlace, base)).pathname === raiz, "scope es la carpeta de la app: " + m.scope);
   ok(/^#[0-9a-f]{6}$/i.test(m.theme_color) && /^#[0-9a-f]{6}$/i.test(m.background_color), "colores de barra y de arranque: " + m.theme_color + " / " + m.background_color);
-  ok(m.theme_color === "#f3eff4" && m.background_color === "#f3eff4", "los colores son el fondo claro de «La luz de ahora»: " + m.theme_color + " / " + m.background_color);
+  ok(m.theme_color === "#f3eff4" && m.background_color === "#1f2740", "la barra es el fondo claro de «La luz de ahora» y el arranque el azul noche del icono (test/e2e/compilada/arranque.e2e.cjs): " + m.theme_color + " / " + m.background_color);
 
   titulo("iconos: existen, son PNG del tamaño que dicen y hay uno «maskable»");
   const iconos = m.icons.filter((i) => i.type === "image/png");

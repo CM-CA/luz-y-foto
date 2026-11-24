@@ -110,6 +110,11 @@ Hecho (2026-11-24): revisión de seguridad.
 - El lugar guardado se valida al leerlo (coordenadas reales, nombre de texto corto, origen conocido): el almacenamiento del navegador es el mismo para todas las páginas de `cm-ca.github.io` (el blog incluido).
 - Revisado y sin hallazgos: dependencias (`npm audit`, 0 vulnerabilidades), URLs de las APIs (siempre con `URLSearchParams`), dibujos SVG (los textos se escapan), secretos en el repositorio (ninguno) y permisos del flujo de Actions (solo lectura; escritura de Pages únicamente al publicar desde `master`).
 
+Hecho (2026-11-24): arranque de la app instalada. Al abrirla desde su icono, el sistema enseña su propia pantalla (fondo de `background_color` del manifiesto + icono): era un icono azul oscuro pegado sobre un fondo lila, muy breve y cortado en seco, y la web no controla ni su duración ni su animación. Ahora:
+- `background_color` del manifiesto es el azul noche del icono (`#1f2740`), así el icono se funde con el fondo. `theme_color` (barra del sistema) sigue siendo el lila de la app. Si cambia el azul del icono, hay que cambiar también `background_color` y `src/estilos/arranque.css` (lo vigila `arranque.e2e.cjs`).
+- La app continúa con una pantalla propia (`#arranque` en `index.html`, estilos en `src/estilos/arranque.css`): los cuatro ángulos del visor entran y se ajustan, el ojo se dibuja, el iris se enfoca y sale «Ollada»; a los 2 s se funde con la app (2,5 s en total). Es solo CSS (la política de seguridad no permite scripts en línea y así no depende de que la app cargue), `aria-hidden`, y solo se ve con `display-mode: standalone` o `fullscreen`; con «reducir movimiento» no sale nunca. Cada recarga de la app instalada la vuelve a enseñar (también la que hace «Actualizar»).
+- Android tarda en aplicar un cambio de manifiesto a una app ya instalada; para verlo al momento hay que desinstalarla y volver a instalarla.
+
 Hecho: diseño visual definitivo «La luz de ahora» (ver arriba; falta probarlo en el móvil real y en la tablet).
 
 Hecho (2026-11-22): la pantalla Aprender con tres lecciones para cámara, tres para móvil, aparte, en el grupo «Para el móvil», y tres de tipos de fotografía (paisaje, deportiva y urbana, esta con dos dibujos); el tutorial de la rueda de modos queda cubierto por la lección «La rueda de modos» (ver «Aprender»).
