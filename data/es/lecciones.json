@@ -57,6 +57,18 @@
       ]
     },
     {
+      "id": "tecnica",
+      "titulo": "Técnica",
+      "subtitulo": "Ajustes y equipo, con más detalle.",
+      "lecciones": [
+        "raw-y-jpeg",
+        "modos-de-medicion",
+        "modos-de-enfoque",
+        "larga-exposicion-y-filtros",
+        "distancias-focales"
+      ]
+    },
+    {
       "id": "tipos",
       "titulo": "Tipos de fotografía",
       "subtitulo": "Qué cuidar según lo que fotografíes.",

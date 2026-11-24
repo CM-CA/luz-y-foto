@@ -1,0 +1,67 @@
+{
+  "id": "distancias-focales",
+  "titulo": "Distancias focales",
+  "resumen": "Qué significan los milímetros del objetivo y cuál usar.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "focales",
+      "alt": "Tres fotos de la misma escena, hechas desde el mismo sitio con distintas distancias focales. A la izquierda, 24 mm, gran angular: se ve mucha escena y la persona queda pequeña: 1, gran angular. En el centro, 50 mm, normal: se ve como lo ve el ojo: 2, normal. A la derecha, 200 mm, tele: se ve solo una parte de la escena, más grande: 3, tele.",
+      "pie": "1 24 mm, gran angular: mucha escena. 2 50 mm, normal: como el ojo. 3 200 mm, tele: lo lejano, más cerca."
+    },
+    {
+      "tipo": "idea",
+      "texto": "La [[distancia-focal|distancia focal]], en milímetros, decide cuánta escena entra: cuanto menor es el número, más ancha es la vista; cuanto mayor, más cerca parece todo."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Los números"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Gran angular (por ejemplo, 24 mm): abarca mucha escena. Va bien para paisajes, edificios, interiores y grupos.",
+        "Normal (alrededor de 50 mm): se parece a lo que ve el ojo. Sirve para casi todo.",
+        "Tele (de unos 70 u 85 mm en adelante, por ejemplo 200 mm): acerca lo lejano. Va bien para retratos (85 mm), deporte y fauna."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Lo que cambia y lo que no"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "La perspectiva depende de dónde te pones, no de la lente. Con un gran angular te acercas al sujeto y la perspectiva se exagera: las caras de cerca se deforman. Con un tele te alejas, y el fondo parece más grande y más cerca del sujeto, y sale más borroso con la misma apertura."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Zoom o fijo"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Un zoom (por ejemplo, de 24 a 105 mm) cambia de distancia focal sin cambiar de objetivo. Uno fijo tiene una sola, suele ser más ligero y más luminoso, y te obliga a moverte para encuadrar."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Tu sensor cuenta"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Los números de arriba son de formato completo (el sensor grande). Con un sensor más pequeño, el mismo objetivo abarca menos: un 50 mm se ve como un 75 u 80 mm. Es el factor de recorte; fíjate en el «equivalente en formato completo»."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Los números 0,5x, 1x, 2x o 3x del móvil son lentes con distancias focales distintas. En muchos móviles cambian de un modelo a otro: míralo en «Zoom y lentes: cuál usar»."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Elige un sitio y no te muevas. Haz una foto con la parte ancha del zoom y otra con la parte larga. Luego haz la ancha acercándote hasta que el sujeto tenga el mismo tamaño y compara el fondo."
+    }
+  ]
+}

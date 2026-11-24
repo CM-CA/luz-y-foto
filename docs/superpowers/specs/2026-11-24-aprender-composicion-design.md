@@ -28,7 +28,7 @@ Una sola: son datos, como las anteriores (un archivo por lección en cada idioma
 Cada tanda con su propia rama, su pull request, su suite completa y su publicación:
 1. Histograma y Composición (hecha).
 2. **La luz**: luz dura y suave, contraluz y siluetas, balance de blancos (hecha: ver «La luz» abajo).
-3. **Técnica**: RAW y JPEG, medición y modos de enfoque, larga exposición y filtros, distancias focales (que las de paisaje, deportiva y retrato enlazarán).
+3. **Técnica**: RAW y JPEG, medición y modos de enfoque, larga exposición y filtros, distancias focales (hecha: ver «Técnica» abajo).
 4. **Más tipos de fotografía**: macro, astrofotografía, fauna y aves, mascotas, viajes, comida, familia y niños.
 5. El **simulador de exposición** (es una función, no una lección: se diseña aparte).
 
@@ -45,3 +45,9 @@ Cada tanda con su propia rama, su pull request, su suite completa y su publicaci
 - Los dibujos `contraluz` y `blancos` son fotos (colores fijos, iguales en claro y oscuro, como `toca` y `luces`); `luzdura` usa los colores del tema.
 - Decisiones mías: en «Contraluz y siluetas» el sol bajo es «más fuerte y más dramático» y no «más fácil de exponer» (esto último solo lo dice PhotoWorkout); en «Balance de blancos» se quitó «luz que cambia rápido» (solo PetaPixel) y el móvil dice «en el modo Pro o manual, y en algunas apps más sencillas» porque Android Authority dice que el ajuste sale también en apps básicas y la página del modo Pro de Sony no lo lista. Lo que se dejó fuera por tener una sola fuente está en el documento de fuentes.
 - El modo Pro y el RAW se nombran sin explicarlos aquí: la lección de RAW y JPEG (tanda de técnica) los desarrollará.
+
+## Técnica (tercera tanda de la hoja de ruta, 2026-11-24)
+- Grupo nuevo «Técnica» («Technique»), entre «La luz» y «Tipos de fotografía», con cinco lecciones de 3 min: «RAW y JPEG» (para todos; dibujo `rawjpeg`), «Modos de medición» y «Modos de enfoque» (para cámara; dibujos `medicion` y `enfoque`), «Larga exposición y filtros» (para cámara; dibujo `largaexp`) y «Distancias focales» (para todos; dibujo `focales`). Términos nuevos del glosario: distancia focal, filtro ND y enfoque simple. Las lecciones de paisaje, deportiva y retrato enlazan a «Distancias focales».
+- Los cinco dibujos usan los colores del tema.
+- Decisiones mías, tras volver a comprobar cada afirmación con las páginas (detalle en el documento de fuentes): el temporizador de «Larga exposición y filtros» no dice «de 2 segundos» (las fuentes dan de 1 a 3 s o no dan cifra); el modo Bulb se nombra sin explicar cómo funciona (solo lo explica una fuente); la fuerza del filtro con luz suave es «de 3 a 6 pasos» porque dos fuentes dan 3 y 5-6; el tele empieza «en unos 70 u 85 mm» porque las fuentes dan una cifra u otra; en «Modos de enfoque» no se dice que la zona amplia sea «un buen punto de partida» (ninguna fuente lo dice). La perspectiva «depende de dónde te pones» la sostienen cuatro fuentes; dos atribuyen la compresión a la focal, y la lección sigue a las cuatro.
+- Dejado fuera por tener una sola fuente: que en AF-A convenga empezar por el continuo, que al fijar y recomponer con aperturas muy abiertas se desplaza el plano de enfoque, la regla de 1/focal, la larga exposición con el móvil, que el RAW del móvil no tiene modo noche, los filtros ND con tinte o degradados y el polarizador.

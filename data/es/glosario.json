@@ -106,5 +106,17 @@
   "balance-de-blancos": {
     "termino": "Balance de blancos",
     "texto": "Un ajuste que le dice a la cámara de qué color es la luz para que lo blanco salga blanco. Con una bombilla la foto tira a naranja y en la sombra, a azul. El automático suele corregirlo bien."
+  },
+  "distancia-focal": {
+    "termino": "Distancia focal",
+    "texto": "Un número, en milímetros, que dice cuánta escena abarca un objetivo. Con un número pequeño la vista es ancha (gran angular); con uno grande, estrecha y más cerca (tele). En un zoom cambia al hacer zoom."
+  },
+  "filtro-nd": {
+    "termino": "Filtro ND (densidad neutra)",
+    "texto": "Un cristal oscuro y neutro que se pone delante del objetivo y deja pasar menos luz. Permite usar tiempos largos a plena luz sin quemar la foto. Su fuerza se mide en pasos de luz."
+  },
+  "enfoque-simple": {
+    "termino": "Enfoque simple (AF-S, One Shot)",
+    "texto": "Un modo de enfoque en el que, al pulsar el disparador a medias, el enfoque se fija y no se mueve. Sirve para sujetos quietos; si el sujeto se mueve, hay que volver a enfocar."
   }
 }

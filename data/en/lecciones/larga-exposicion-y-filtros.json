@@ -1,0 +1,64 @@
+{
+  "id": "larga-exposicion-y-filtros",
+  "titulo": "Long exposure and filters",
+  "resumen": "A tripod, long shutter times and ND filters so that what moves turns into a veil.",
+  "minutos": 3,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "largaexp",
+      "alt": "Two drawings of a waterfall. On the left, with a short time, the water freezes and you can see every drop: 1, short time. On the right, with a long time and the camera on a tripod, the water comes out like a silky veil and the rocks stay sharp: 2, long time.",
+      "pie": "1 Short time: the water freezes. 2 Long time, with a tripod: the water comes out silky."
+    },
+    {
+      "tipo": "idea",
+      "texto": "With a long time, what moves blurs and what is still stays sharp. To get it you need a camera that doesn't move and little light coming in."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What you get"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "With a long [[velocidad|shutter]] time, several seconds, for example, water comes out like a silky veil, clouds stretch and car lights leave trails. What doesn't move stays sharp."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "The essentials"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "A tripod, or a very firm support: any movement moves the whole photo.",
+        "A remote release or the [[disparador|timer]], so you don't touch the camera when you shoot.",
+        "The lowest [[iso|ISO]] possible and a closed [[apertura|aperture]], for example f/11 or more: less light comes in and the time can be longer without blowing out the photo.",
+        "Manual mode: you choose the time. Beyond about 30 seconds, many cameras ask for Bulb mode."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "ND filters"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "In daytime there is so much light that, even with low ISO and a closed aperture, a long time blows out the photo. An [[filtro-nd|ND filter]] is a dark, neutral glass that goes in front of the lens and lets less light through."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Its strength is measured in [[paso-de-luz|stops]]: each stop halves the light, so it doubles the time. With a 6-stop filter, 1/8 s becomes 8 s. The more light, the stronger the filter: for example, 3 to 6 stops in the soft light of dawn or dusk and 10 or more in full sun."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Start here"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Put the camera on the tripod, with low ISO, a closed aperture and manual mode. Try a time of a few seconds and look at the result: if it comes out too bright, close the aperture more or use a stronger filter."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Find a fountain, a waterfall or a street with cars, ideally on an overcast day or at sunset. With a tripod, take a photo at 1/250 s and another with a time of several seconds. Compare."
+    }
+  ]
+}

@@ -259,5 +259,71 @@
       "Shade,",
       "uncorrected"
     ]
+  },
+  "rawjpeg": {
+    "rotulos": [
+      "JPEG",
+      "RAW"
+    ],
+    "lineas": [
+      "Small and ready,",
+      "little room",
+      "Big, to edit,",
+      "lots of room"
+    ]
+  },
+  "medicion": {
+    "rotulos": [
+      "Evaluative",
+      "Center",
+      "Spot"
+    ],
+    "lineas": [
+      "Whole scene",
+      "most shots",
+      "Center counts",
+      "portraits",
+      "One point",
+      "backlight"
+    ]
+  },
+  "enfoque": {
+    "rotulos": [
+      "Single",
+      "Continuous"
+    ],
+    "lineas": [
+      "Focus locks",
+      "still subject",
+      "Follows the subject",
+      "moving subject"
+    ]
+  },
+  "largaexp": {
+    "rotulos": [
+      "Short time",
+      "Long time"
+    ],
+    "lineas": [
+      "Frozen water:",
+      "every drop",
+      "Silky water:",
+      "tripod needed"
+    ]
+  },
+  "focales": {
+    "rotulos": [
+      "24 mm",
+      "50 mm",
+      "200 mm"
+    ],
+    "lineas": [
+      "Wide angle",
+      "lots of scene",
+      "Standard",
+      "like the eye",
+      "Telephoto",
+      "far looks near"
+    ]
   }
 }

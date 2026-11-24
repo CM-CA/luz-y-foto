@@ -1,0 +1,67 @@
+{
+  "id": "distancias-focales",
+  "titulo": "Focal lengths",
+  "resumen": "What the millimeters on a lens mean and which one to use.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "focales",
+      "alt": "Three photos of the same scene, taken from the same spot with different focal lengths. On the left, 24 mm, wide angle: you see lots of the scene and the person is small: 1, wide angle. In the middle, 50 mm, standard: you see it as the eye does: 2, standard. On the right, 200 mm, telephoto: you see only part of the scene, bigger: 3, telephoto.",
+      "pie": "1 24 mm, wide angle: lots of scene. 2 50 mm, standard: like the eye. 3 200 mm, telephoto: far things, closer."
+    },
+    {
+      "tipo": "idea",
+      "texto": "The [[distancia-focal|focal length]], in millimeters, decides how much of the scene fits: the smaller the number, the wider the view; the bigger, the closer everything looks."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "The numbers"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Wide angle (for example, 24 mm): it takes in lots of scene. It suits landscapes, buildings, interiors and groups.",
+        "Standard (around 50 mm): it looks like what the eye sees. It works for almost everything.",
+        "Telephoto (from about 70 or 85 mm up, for example 200 mm): it brings far things closer. It suits portraits (85 mm), sports and wildlife."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What changes and what doesn't"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Perspective depends on where you stand, not on the lens. With a wide angle you get close to the subject and perspective gets exaggerated: faces up close look distorted. With a telephoto you step back, and the background looks bigger and closer to the subject, and it comes out blurrier with the same aperture."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Zoom or prime"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "A zoom (for example, 24 to 105 mm) changes focal length without changing lenses. A prime has only one, is usually lighter and faster, and makes you move to frame."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Your sensor counts"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The numbers above are for full frame (the big sensor). With a smaller sensor, the same lens takes in less: a 50 mm looks like a 75 or 80 mm. That is the crop factor; look for the “full-frame equivalent”."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "On a phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The 0.5x, 1x, 2x or 3x numbers on a phone are lenses with different focal lengths. On many phones they change from one model to another: see “Zoom and lenses: which to use”."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pick a spot and don't move. Take one photo with the wide end of the zoom and another with the long end. Then take the wide one again, moving closer until the subject is the same size, and compare the background."
+    }
+  ]
+}

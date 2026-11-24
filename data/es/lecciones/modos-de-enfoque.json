@@ -1,0 +1,72 @@
+{
+  "id": "modos-de-enfoque",
+  "titulo": "Modos de enfoque",
+  "resumen": "Cuándo se mueve el enfoque y dónde mira la cámara.",
+  "minutos": 3,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "enfoque",
+      "alt": "Dos dibujos del enfoque. A la izquierda, el enfoque simple: un sujeto quieto con un cuadrado de enfoque que se queda fijo sobre él: 1, simple, fija el enfoque. A la derecha, el enfoque continuo: un sujeto que se mueve de izquierda a derecha, con el cuadrado de enfoque siguiéndolo: 2, continuo, sigue al sujeto.",
+      "pie": "1 Simple: el enfoque se fija en un sujeto quieto. 2 Continuo: el enfoque sigue a un sujeto que se mueve."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Para enfocar bien, decide dos cosas: cuándo enfoca la cámara (el modo) y dónde mira (la zona)."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cuándo enfoca: el modo"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Simple ([[enfoque-simple|AF-S, One Shot]]): al pulsar el disparador a medias, el enfoque se fija y no se mueve. Es para sujetos quietos: paisajes, objetos, retratos posados. Puedes encuadrar de nuevo sin perderlo.",
+        "Continuo ([[enfoque-continuo|AF-C, AI Servo]]): mientras mantienes el disparador a medias, la cámara sigue enfocando. Es para sujetos que se mueven: deporte, niños, fauna. Si lo fijas y recompones, puede enfocar otra cosa.",
+        "Automático (AF-A, AI Focus): elige solo entre los dos, pero es menos predecible. Mejor elegir tú."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Dónde enfoca: la zona"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Un punto: eliges dónde. Es lo más preciso, para retratos u objetos.",
+        "Zona o grupo: un grupo de puntos, para un sujeto que se mueve por un sitio previsible.",
+        "Amplia o automática: la cámara elige los puntos, y no sabes cuáles elegirá.",
+        "Seguimiento: eliges un sujeto y la cámara lo sigue por el encuadre. Sirve con aves o con niños."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Ojos y sujetos"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Muchas cámaras reconocen caras y ojos, y algunas también animales, aves y vehículos. Activarlo ayuda sobre todo en retratos y con fauna."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Un botón aparte"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Algunas cámaras tienen un botón trasero (AF-ON) que enfoca sin usar el disparador. Así enfocas con el pulgar y el disparador solo dispara."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "En el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Tocar la pantalla enfoca en ese punto: mira «Toca para enfocar y exponer»."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pon el enfoque simple y haz una foto a alguien parado. Luego pon el continuo y fotografía a alguien que camina hacia ti. Revisa cuál sale nítida."
+    }
+  ]
+}

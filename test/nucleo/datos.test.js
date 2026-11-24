@@ -254,7 +254,7 @@ prueba("lecciones: «Lo básico» trae las tres de cámara, en orden", () => {
 
 prueba("lecciones: los grupos van en orden y «Para el móvil» va aparte, después de «Lo básico»", () => {
   const grupos = cargarDatos().lecciones.indice.grupos;
-  assert.deepEqual(grupos.map((g) => g.id), ["basico", "movil", "composicion", "luz", "tipos"]);
+  assert.deepEqual(grupos.map((g) => g.id), ["basico", "movil", "composicion", "luz", "tecnica", "tipos"]);
   assert.equal(grupos[1].titulo, "Para el móvil");
   assert.ok(grupos[1].lecciones.includes("toca-para-enfocar-y-exponer"));
   // Las lecciones de cada grupo son del equipo del grupo: ninguna de móvil entre las de cámara y al revés
@@ -511,6 +511,67 @@ prueba("lecciones: balance de blancos", () => {
   assert.ok(!/\b(Canon|Nikon|Sony|EOS|iPhone)\b/.test(texto), "no ata la lección a una marca");
   assert.ok(/en muchos móviles|según tu móvil/i.test(texto), "dice dónde cambia de un móvil a otro");
   assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
+});
+
+prueba("lecciones: el grupo «Técnica» va entre La luz y los tipos", () => {
+  const datos = cargarDatos();
+  const g = datos.lecciones.indice.grupos.find((x) => x.id === "tecnica");
+  assert.ok(g, "falta el grupo tecnica");
+  assert.equal(g.titulo, "Técnica");
+  assert.deepEqual(g.lecciones, ["raw-y-jpeg", "modos-de-medicion", "modos-de-enfoque", "larga-exposicion-y-filtros", "distancias-focales"]);
+  assert.equal(datos.lecciones.porId["raw-y-jpeg"].para, "todos");
+  assert.equal(datos.lecciones.porId["modos-de-medicion"].para, "camara");
+  assert.equal(datos.lecciones.porId["modos-de-enfoque"].para, "camara");
+  assert.equal(datos.lecciones.porId["larga-exposicion-y-filtros"].para, "camara");
+  assert.equal(datos.lecciones.porId["distancias-focales"].para, "todos");
+});
+
+const comunes = (l, titulo, dibujo, extra = []) => {
+  assert.equal(l.titulo, titulo);
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  const texto = textoDeLeccion(l);
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), [dibujo]);
+  assert.ok(!/\b(Canon|Nikon|Sony|EOS|iPhone|Samsung|Lightroom)\b/.test(texto), "no ata la lección a una marca");
+  assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras: " + texto.split(/\s+/).length);
+  return texto;
+};
+
+prueba("lecciones: RAW y JPEG", () => {
+  const texto = comunes(cargarDatos().lecciones.porId["raw-y-jpeg"], "RAW y JPEG", "rawjpeg");
+  [/sensor/i, /comprim/i, /negativo digital/i, /programa de edición/i, /plano/i, /balance de blancos/i, /bandas/i, /luz difícil/i, /tarjeta/i, /ráfagas/i, /RAW\+JPEG/, /en muchos móviles/i, /modo Pro/i, /app aparte/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+});
+
+prueba("lecciones: modos de medición", () => {
+  const texto = comunes(cargarDatos().lecciones.porId["modos-de-medicion"], "Modos de medición", "medicion");
+  [/gris medio/i, /evaluativa/i, /ponderada al centro/i, /puntual/i, /parcial/i, /punto de enfoque/i, /contraluz/i, /bloqueo AE\/AF/i, /nieve/i, /compensación/i, /Toca para enfocar y exponer/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+});
+
+prueba("lecciones: modos de enfoque", () => {
+  const texto = comunes(cargarDatos().lecciones.porId["modos-de-enfoque"], "Modos de enfoque", "enfoque");
+  [/simple/i, /AF-S/, /continuo/i, /AF-C/, /AI Servo/, /automático/i, /a medias/i, /un punto/i, /zona/i, /seguimiento/i, /ojos/i, /AF-ON/, /Toca para enfocar y exponer/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+});
+
+prueba("lecciones: larga exposición y filtros", () => {
+  const texto = comunes(cargarDatos().lecciones.porId["larga-exposicion-y-filtros"], "Larga exposición y filtros", "largaexp");
+  [/trípode/i, /temporizador/i, /ISO/, /apertura/i, /modo manual/i, /Bulb/, /30 segundos/i, /filtro ND/i, /pasos/i, /1\/8 s/, /8 s/, /sedoso/i, /estelas/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+});
+
+prueba("lecciones: distancias focales", () => {
+  const texto = comunes(cargarDatos().lecciones.porId["distancias-focales"], "Distancias focales", "focales");
+  [/milímetros/i, /gran angular/i, /24 mm/, /50 mm/, /85 mm/, /200 mm/, /dónde te pones/i, /fondo/i, /zoom/i, /formato completo/i, /factor de recorte/i, /en muchos móviles/i, /Zoom y lentes/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+});
+
+prueba("lecciones: paisaje, deportiva y retrato remiten a las distancias focales", () => {
+  const l = cargarDatos().lecciones.porId;
+  ["fotografia-de-paisaje", "fotografia-deportiva", "fotografia-de-retrato"].forEach((id) => assert.ok(/Distancias focales/.test(textoDeLeccion(l[id])), id + " no enlaza «Distancias focales»"));
+});
+
+prueba("glosario: distancia focal, filtro ND y enfoque simple", () => {
+  const g = cargarDatos().glosario;
+  assert.ok(g["distancia-focal"] && /Distancia focal/.test(g["distancia-focal"].termino) && /milímetros/.test(g["distancia-focal"].texto) && /gran angular/.test(g["distancia-focal"].texto), "distancia focal: milímetros y gran angular");
+  assert.ok(g["filtro-nd"] && /Filtro ND/.test(g["filtro-nd"].termino) && /menos luz/.test(g["filtro-nd"].texto) && /tiempos largos/.test(g["filtro-nd"].texto), "filtro ND: menos luz y tiempos largos");
+  assert.ok(g["enfoque-simple"] && /Enfoque simple/.test(g["enfoque-simple"].termino) && /AF-S/.test(g["enfoque-simple"].termino) && /a medias/.test(g["enfoque-simple"].texto), "enfoque simple: AF-S y disparador a medias");
 });
 
 prueba("glosario: balance de blancos", () => {
