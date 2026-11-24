@@ -1,0 +1,65 @@
+{
+  "id": "fotografia-de-comida",
+  "titulo": "Fotografía de comida",
+  "resumen": "Luz natural de lado, el ángulo según el plato y rapidez: comida que da ganas de comer.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "comida",
+      "alt": "Tres dibujos de un plato visto desde ángulos distintos. 1, desde arriba: una pizza redonda vista desde arriba, con sus ingredientes repartidos, para platos planos. 2, a 45 grados: un cuenco visto en perspectiva, un buen punto de partida. 3, de lado: una hamburguesa vista de perfil, con el pan de arriba, la carne y el pan de abajo, para platos altos.",
+      "pie": "1 Desde arriba: platos planos. 2 A 45°: un buen punto de partida. 3 De lado: platos altos."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Para la comida: luz natural suave de lado, el ángulo según la altura del plato y la foto enseguida, antes de que cambie."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "La luz"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "La mejor luz es la natural y suave, la de una ventana grande, con la luz entrando de lado. El sol directo da sombras duras: busca un día nublado. Un cartón o un papel blanco junto al plato devuelve luz a las sombras."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "El ángulo"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Desde arriba, para los platos planos, como una pizza o una mesa con varios platos.",
+        "A unos 45°, un buen punto de partida: sirve para muchos platos.",
+        "De lado, a la altura del plato, para los altos, como una hamburguesa o una tarta."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Rápido y sencillo"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "La comida cambia enseguida (se derrite, se seca): haz la foto pronto.",
+        "Un fondo sencillo y pocos objetos alrededor: que nada compita con el plato.",
+        "Con poca luz, usa un trípode: te deja alargar el [[velocidad|tiempo]].",
+        "Apaga el flash, sobre todo con el móvil o en un restaurante.",
+        "Las bombillas de interior tiñen la comida de naranja: ajusta el [[balance-de-blancos|balance de blancos]]."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En muchos móviles, tocar la pantalla sobre el plato enfoca y deja ajustar la exposición (más en «Toca para enfocar y exponer»). En un restaurante, busca dentro del local el sitio con mejor luz."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pon un plato junto a una ventana, con la luz entrando de lado, y fotografíalo desde arriba, a 45° y de lado. ¿Cuál le queda mejor? Prueba también con un cartón blanco junto al plato."
+    }
+  ]
+}

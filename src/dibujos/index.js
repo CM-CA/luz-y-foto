@@ -4,12 +4,14 @@
 import arquitectura from "./arquitectura.js";
 import astro from "./astro.js";
 import blancos from "./blancos.js";
+import comida from "./comida.js";
 import contraluz from "./contraluz.js";
 import composicion from "./composicion.js";
 import deporte from "./deporte.js";
 import encuadre from "./encuadre.js";
 import enfoque from "./enfoque.js";
 import exposicion from "./exposicion.js";
+import familia from "./familia.js";
 import fauna from "./fauna.js";
 import focales from "./focales.js";
 import fuga from "./fuga.js";
@@ -29,6 +31,7 @@ import rawjpeg from "./rawjpeg.js";
 import retrato from "./retrato.js";
 import toca from "./toca.js";
 import urbana from "./urbana.js";
+import viajes from "./viajes.js";
 import zoom from "./zoom.js";
 
-export const DIBUJOS = { modos, exposicion, parasol, toca, noche, zoom, paisaje, deporte, urbana, luces, nocturna, retrato, arquitectura, histograma, composicion, encuadre, fuga, luzdura, contraluz, blancos, rawjpeg, medicion, enfoque, largaexp, focales, macro, astro, fauna, mascotas };
+export const DIBUJOS = { modos, exposicion, parasol, toca, noche, zoom, paisaje, deporte, urbana, luces, nocturna, retrato, arquitectura, histograma, composicion, encuadre, fuga, luzdura, contraluz, blancos, rawjpeg, medicion, enfoque, largaexp, focales, macro, astro, fauna, mascotas, viajes, comida, familia };

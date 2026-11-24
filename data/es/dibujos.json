@@ -372,5 +372,43 @@
       "Cerca de él:",
       "ves su mundo"
     ]
+  },
+  "viajes": {
+    "rotulos": [
+      "Temprano",
+      "Mediodía"
+    ],
+    "lineas": [
+      "Luz suave y",
+      "poca gente",
+      "Luz dura y",
+      "más gente"
+    ]
+  },
+  "comida": {
+    "rotulos": [
+      "Arriba",
+      "A 45°",
+      "De lado"
+    ],
+    "lineas": [
+      "Platos planos",
+      "como la pizza",
+      "Un buen punto",
+      "de partida",
+      "Platos altos:",
+      "hamburguesa"
+    ]
+  },
+  "familia": {
+    "filas": [
+      "A su altura",
+      "Luz natural",
+      "Tiempo corto"
+    ],
+    "lineas": [
+      "A su altura, con luz natural",
+      "y un tiempo corto si se mueve"
+    ]
   }
 }

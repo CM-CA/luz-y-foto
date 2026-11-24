@@ -1,0 +1,65 @@
+{
+  "id": "fotografia-de-comida",
+  "titulo": "Food photography",
+  "resumen": "Natural side light, an angle that fits the dish and speed: food that looks good enough to eat.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "comida",
+      "alt": "Three drawings of a dish seen from different angles. 1, overhead: a round pizza seen from above, with its toppings spread out, for flat dishes. 2, at 45 degrees: a bowl seen in perspective, a good place to start. 3, side-on: a burger seen from the side, with the top bun, the patty and the bottom bun, for tall dishes.",
+      "pie": "1 Overhead: flat dishes. 2 At 45°: a good place to start. 3 Side-on: tall dishes."
+    },
+    {
+      "tipo": "idea",
+      "texto": "For food: soft natural light from the side, an angle that fits the height of the dish, and take the photo right away, before it changes."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Light"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The best light is soft, natural light, like from a big window, coming in from the side. Direct sun casts hard shadows: look for an overcast day. A white card or a sheet of paper next to the plate bounces light back into the shadows."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Angle"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Overhead, for flat dishes, like a pizza or a table with several plates.",
+        "At about 45°, a good place to start: it works for many dishes.",
+        "Side-on, at the height of the plate, for tall ones, like a burger or a cake."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Quick and simple"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Food changes quickly (it melts, it dries out): take the photo soon.",
+        "A simple background and few objects around: let nothing compete with the plate.",
+        "In low light, use a tripod: it lets you lengthen the [[velocidad|shutter speed]].",
+        "Turn off the flash, especially on a phone or in a restaurant.",
+        "Indoor bulbs tint food orange: adjust the [[balance-de-blancos|white balance]]."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "On many phones, tapping the screen on the plate focuses and lets you adjust the exposure (more in “Tap to focus and expose”). In a restaurant, look inside for the spot with the best light."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Put a plate next to a window, with the light coming in from the side, and photograph it from above, at 45° and side-on. Which one suits it best? Also try a white card next to the plate."
+    }
+  ]
+}

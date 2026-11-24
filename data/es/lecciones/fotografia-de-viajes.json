@@ -1,0 +1,59 @@
+{
+  "id": "fotografia-de-viajes",
+  "titulo": "Fotografía de viajes",
+  "resumen": "Luz de primera hora, otro punto de vista y respeto por las personas: fotos que cuentan el lugar.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "viajes",
+      "alt": "Dos dibujos del mismo monumento. A la izquierda, a primera hora: el sol está bajo, la luz es suave, la sombra es larga y tenue y solo hay una persona: 1, temprano. A la derecha, al mediodía: el sol está alto, la luz es dura, la sombra es corta y oscura y hay mucha gente: 2, mediodía.",
+      "pie": "1 Temprano: luz suave y poca gente. 2 Mediodía: luz dura y más gente."
+    },
+    {
+      "tipo": "idea",
+      "texto": "En un viaje, lo que más ayuda es madrugar: luz suave y menos gente. Después, cambia de punto de vista y pregunta antes de fotografiar a alguien."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Madruga"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "La luz de la [[hora-dorada|hora dorada]], después del amanecer o antes del anochecer, es suave y cálida, y a primera hora hay menos gente en los sitios famosos: es más fácil que el monumento salga sin tanta gente delante. Al mediodía el sol cae de arriba y la luz es dura (más en «Luz dura y luz suave»)."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Otro punto de vista"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Cambia de punto de vista: sube a un sitio alto o prueba otro ángulo y otra luz, en vez de repetir la foto de siempre.",
+        "Alterna una foto general del lugar con otras más cercanas, de detalles.",
+        "Una persona en la foto da idea del tamaño del lugar."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con las personas"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Pregunta antes de fotografiar a alguien de cerca: aprende a saludar y a pedir permiso en su idioma. Si no quiere, respétalo. Respeta también las costumbres del lugar."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En muchos móviles, para un detalle es mejor acercarte tú o usar los botones de zoom (2x, 3x) que pellizcar la pantalla (más en «Zoom y lentes»). Toca la pantalla sobre lo que te interesa para enfocar, como en «Toca para enfocar y exponer». Para calles y ciudades, mira también «Fotografía urbana»."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Elige un monumento o una plaza y fotografíalo dos veces: a primera hora y a mediodía. Compara la luz y cuánta gente hay. Después busca otro punto de vista y un detalle."
+    }
+  ]
+}

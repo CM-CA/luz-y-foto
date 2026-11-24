@@ -29,7 +29,7 @@ Cada tanda con su propia rama, su pull request, su suite completa y su publicaci
 1. Histograma y Composición (hecha).
 2. **La luz**: luz dura y suave, contraluz y siluetas, balance de blancos (hecha: ver «La luz» abajo).
 3. **Técnica**: RAW y JPEG, medición y modos de enfoque, larga exposición y filtros, distancias focales (hecha: ver «Técnica» abajo).
-4. **Más tipos de fotografía**: macro, astrofotografía, fauna y aves, mascotas (hecha: ver «Más tipos, primera parte» abajo), viajes, comida, familia y niños (pendiente).
+4. **Más tipos de fotografía**: macro, astrofotografía, fauna y aves, mascotas (ver «Más tipos, primera parte» abajo), viajes, comida, familia y niños (ver «Más tipos, segunda parte» abajo). Hecha del todo.
 5. El **simulador de exposición** (es una función, no una lección: se diseña aparte).
 
 ## Decisiones mías (la persona puede cambiarlas)
@@ -57,3 +57,10 @@ Cada tanda con su propia rama, su pull request, su suite completa y su publicaci
 - Los cuatro dibujos usan los colores del tema, y su geometría queda toda dentro de su marco (la prueba `aprender.e2e.cjs` falla si algo se sale del ancho de la página).
 - Decisiones mías, tras comprobar cada afirmación con las páginas (detalle en el documento de fuentes): la macro no da números de apertura (las fuentes dan de f/8 a f/22 y dos avisan de la difracción) ni dice que los filtros de aproximación y los tubos sean «más baratos» (solo lo dice una); la astrofotografía da «de 10 a 20 s» como orden de magnitud y no explica la regla de los 500 (las fuentes la dan distinta y una la da por anticuada); fauna y aves no habla de comederos ni de cebos (una fuente los recomienda y otra los condena) ni del ISO automático; mascotas no habla de la luz de ventana ni del modo retrato del móvil (una sola fuente).
 - Dejado fuera por tener una sola fuente: ver el final de cada sección «Tipos de fotografía: Macro / Astrofotografía / Fauna y aves / Mascotas» del documento de fuentes.
+
+## Más tipos, segunda parte (cuarta tanda de la hoja de ruta, 2026-11-24)
+- Tres lecciones nuevas al final del grupo «Tipos de fotografía» («Types of photography»), todas «Para todos» y de 3 min: «Fotografía de viajes» (`viajes`), «Fotografía de comida» (`comida`) y «Familia y niños» (`familia`). No hay términos nuevos del glosario.
+- Los tres dibujos usan los colores del tema y su geometría queda dentro del marco. `comida` usa tres marcos pequeños (como `focales`) y `familia` el marco único con tres filas (como `fauna`).
+- Decisiones mías, tras comprobar cada afirmación con las páginas (detalle en el documento de fuentes): viajes no habla de comprar a quien fotografías, de drones, de texturas ni de «series de fotos» (una sola fuente o sin acuerdo), y dice «una persona da idea del tamaño» sin añadir lo que enseña de la vida del lugar; comida no recomienda pedir mesa junto a la ventana (una fuente lo dice y otra recomienda un rincón con luz pareja), no da cifras de apertura ni de tiempo, y limita lo de apagar el flash al móvil y a los restaurantes (otras fuentes admiten un flash difuminado); familia da «1/250 s o más» (dos fuentes; una tercera dice 1/200 s y una cuarta no da cifra), no habla de ráfaga ni de contraluz (una sola fuente), y no dice nada de pedir permiso a los padres ni de fondos sencillos (ninguna de las páginas leídas lo trata).
+- Dejado fuera por tener una sola fuente: ver el final de cada sección «Tipos de fotografía: Viajes / Comida / Familia y niños» del documento de fuentes.
+- Con esta entrega queda hecha la hoja de ruta de las tandas, salvo el simulador de exposición (una función, no una lección), que se diseña aparte.

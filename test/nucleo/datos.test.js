@@ -319,7 +319,7 @@ prueba("lecciones: el grupo «Tipos de fotografía» va el último y sus leccion
   const g = datos.lecciones.indice.grupos.find((x) => x.id === "tipos");
   assert.ok(g, "falta el grupo tipos");
   assert.equal(g.titulo, "Tipos de fotografía");
-  assert.deepEqual(g.lecciones, ["fotografia-de-paisaje", "fotografia-deportiva", "fotografia-urbana", "fotografia-nocturna", "fotografia-de-retrato", "fotografia-de-arquitectura", "fotografia-macro", "astrofotografia", "fauna-y-aves", "fotografia-de-mascotas"]);
+  assert.deepEqual(g.lecciones, ["fotografia-de-paisaje", "fotografia-deportiva", "fotografia-urbana", "fotografia-nocturna", "fotografia-de-retrato", "fotografia-de-arquitectura", "fotografia-macro", "astrofotografia", "fauna-y-aves", "fotografia-de-mascotas", "fotografia-de-viajes", "fotografia-de-comida", "familia-y-ninos"]);
   g.lecciones.forEach((id) => assert.equal(datos.lecciones.porId[id].para, "todos", id));
 });
 
@@ -595,6 +595,31 @@ prueba("lecciones: fauna y aves remite a las distancias focales y a la deportiva
   const l = cargarDatos().lecciones.porId;
   assert.ok(/Fotografía deportiva/.test(textoDeLeccion(l["fauna-y-aves"])) && /Distancias focales/.test(textoDeLeccion(l["fauna-y-aves"])));
   assert.ok(/Fotografía nocturna/.test(textoDeLeccion(l["astrofotografia"])), "astrofotografía no enlaza «Fotografía nocturna»");
+});
+
+prueba("lecciones: fotografía de viajes", () => {
+  const texto = comunes(cargarDatos().lecciones.porId["fotografia-de-viajes"], "Fotografía de viajes", "viajes");
+  [/hora dorada/i, /menos gente/i, /sin tanta gente/i, /mediodía/i, /punto de vista/i, /sitio alto/i, /detalle/i, /una persona/i, /tamaño/i, /pregunta antes/i, /saludar/i, /costumbres/i, /en muchos móviles/i, /Luz dura y luz suave/, /Zoom y lentes/, /Toca para enfocar y exponer/, /Fotografía urbana/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(!/vendedor|dron|serie de fotos|propina|textura|la vida/i.test(texto), "lo que tiene una sola fuente se queda fuera (comprar a quien fotografías, drones, series de fotos, texturas, cómo es la vida allí)");
+});
+
+prueba("lecciones: fotografía de comida", () => {
+  const texto = comunes(cargarDatos().lecciones.porId["fotografia-de-comida"], "Fotografía de comida", "comida");
+  [/luz natural/i, /ventana/i, /de lado/i, /sombras duras/i, /nublado/i, /cartón/i, /desde arriba/i, /pizza/i, /45°/, /hamburguesa/i, /tarta/i, /enseguida/i, /fondo sencillo/i, /trípode/i, /apaga el flash/i, /bombillas/i, /balance de blancos/i, /en muchos móviles/i, /Toca para enfocar y exponer/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(!/pide mesa|mesa junto a la ventana|limpia el plato|f\/1,8|1\/100/i.test(texto), "lo que tiene una sola fuente o no coincide se queda fuera (mesa junto a la ventana, limpiar el plato, cifras de apertura y tiempo)");
+});
+
+prueba("lecciones: familia y niños", () => {
+  const texto = comunes(cargarDatos().lecciones.porId["familia-y-ninos"], "Familia y niños", "familia");
+  [/altura de sus ojos/i, /Fotografía de mascotas/, /patata/i, /jugar/i, /luz natural/i, /nublado/i, /sombra/i, /ventana/i, /1\/250 s/, /Fotografía deportiva/, /ISO/, /enfoque continuo/i, /Modos de enfoque/, /apertura/i, /detalles/i, /manos/i, /divertido/i, /guarda la cámara/i, /en muchos móviles/i, /Toca para enfocar y exponer/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(!/ráfaga|1\/200|permiso de los padres|hambre|sueño|contraluz/i.test(texto), "lo que tiene una sola fuente o no coincide se queda fuera (ráfaga, 1/200 s, permiso de los padres, hambre y sueño, contraluz)");
+});
+
+prueba("lecciones: comida y familia remiten a otras lecciones; viajes, a la urbana y a la luz", () => {
+  const l = cargarDatos().lecciones.porId;
+  assert.ok(/Toca para enfocar y exponer/.test(textoDeLeccion(l["fotografia-de-comida"])) && /balance de blancos/i.test(textoDeLeccion(l["fotografia-de-comida"])));
+  assert.ok(/Fotografía de mascotas/.test(textoDeLeccion(l["familia-y-ninos"])) && /Fotografía deportiva/.test(textoDeLeccion(l["familia-y-ninos"])) && /Modos de enfoque/.test(textoDeLeccion(l["familia-y-ninos"])));
+  assert.ok(/Fotografía urbana/.test(textoDeLeccion(l["fotografia-de-viajes"])) && /Luz dura y luz suave/.test(textoDeLeccion(l["fotografia-de-viajes"])));
 });
 
 prueba("glosario: macro", () => {

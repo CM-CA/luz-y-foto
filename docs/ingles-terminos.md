@@ -44,6 +44,11 @@ Los términos que se repiten en `data/en/` y en `src/idioma/en.js`, para que se 
 | teleobjetivo | telephoto lens |
 | fauna y aves | wildlife and birds |
 | a su altura (de la mascota o del animal) | at its level / at their level |
+| familia y niños | family and kids |
+| hora dorada (en viajes: madrugar) | golden hour (get up early) |
+| desde arriba / a 45° / de lado (ángulos de comida) | overhead / at 45° / side-on |
+| cartón blanco (para devolver luz a las sombras) | white card (to bounce light back into the shadows) |
+| «patata» (decirles que sonrían) | “cheese” |
 | modos de medición (evaluativa, ponderada al centro, puntual, parcial) | metering modes (evaluative, center-weighted, spot, partial) |
 | modos de enfoque | focus modes |
 | factor de recorte | crop factor |

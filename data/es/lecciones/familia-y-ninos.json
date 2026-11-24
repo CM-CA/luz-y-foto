@@ -1,0 +1,61 @@
+{
+  "id": "familia-y-ninos",
+  "titulo": "Familia y niños",
+  "resumen": "A su altura, con luz natural y un tiempo rápido: fotos de niños jugando, sin posar.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "familia",
+      "alt": "Un niño jugando, visto de lado, con una ventana a su izquierda y la cámara a su derecha, a la altura de su cabeza, con una línea de puntos entre las dos. 1, a su altura: la cámara está a la altura de la cabeza del niño. 2, luz natural: la luz entra por la ventana. 3, tiempo corto: unas rayitas junto al niño marcan que se mueve.",
+      "pie": "1 A su altura. 2 Luz natural de una ventana. 3 Tiempo corto: el niño se mueve."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Con niños, ponte a su altura, usa luz natural y un tiempo rápido, y déjalos jugar: los mejores momentos no se posan."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "A su altura y sin posar"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Agáchate o siéntate en el suelo para que la cámara quede a la altura de sus ojos, como en «Fotografía de mascotas». En vez de pedirles que digan «patata», déjalos jugar y ten la cámara lista: los mejores momentos aparecen solos."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Luz y ajustes"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Luz natural y suave: un día nublado, la sombra o junto a una ventana.",
+        "Un [[velocidad|tiempo]] de 1/250 s o más rápido si se mueven (más en «Fotografía deportiva»).",
+        "Dentro de casa hay menos luz: sube el [[iso|ISO]]; es mejor algo de grano que una foto movida.",
+        "[[enfoque-continuo|Enfoque continuo]], para que la cámara siga al niño mientras corre (más en «Modos de enfoque»).",
+        "Una [[apertura|apertura]] abierta desenfoca el fondo."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Detalles y ritmo"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Fíjate también en los detalles, como unas manos pequeñas. Hazlo divertido y sin alargarlo: si se cansan o no quieren, guarda la cámara."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Toca la pantalla sobre su cara para enfocar, como en «Toca para enfocar y exponer». En muchos móviles, con poca luz el movimiento sale borroso: busca una ventana o sal a la luz del día."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Fotografía a un niño jugando junto a una ventana o en un día nublado: una vez desde tu altura y otra agachado, a la suya. Compara cuál te mete más en su mundo."
+    }
+  ]
+}
