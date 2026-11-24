@@ -1,0 +1,75 @@
+{
+  "id": "fotografia-nocturna",
+  "titulo": "Night photography",
+  "resumen": "A steady support, a long shutter speed and manual focus for clean photos at night.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "nocturna",
+      "alt": "Two photos of the same street at night. The first is the test (1): high ISO and a short exposure; it comes out grainy, but it shows you the framing. The second is the final photo (2): low ISO and a long exposure; it comes out clean and a car's lights leave a trail.",
+      "pie": "1 Test: high ISO and short exposure. 2 Final: low ISO and long exposure, with the camera supported."
+    },
+    {
+      "tipo": "idea",
+      "texto": "At night the camera needs time to see. Your job is to keep it from moving while it looks."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Support the camera"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "With a shutter speed of several seconds, any shake blurs everything. Use a tripod or rest the camera on something solid, and fire with the [[disparador|timer]] or a remote release so you don't touch it."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Starting settings"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Low [[iso|ISO]], for example 100: the photo comes out clean, and with the camera supported you can pay for it with time.",
+        "A middle [[apertura|aperture]], for example f/8 or f/11. If you close it a lot, strong lights turn into little stars.",
+        "A [[velocidad|shutter speed]] of several seconds, depending on the light. Anything that moves (cars, clouds, water) comes out as a trail or a veil, and anyone who walks past can disappear."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Focus by hand"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "At night autofocus often fails. Switch to [[enfoque-manual|manual focus]], zoom in on the image on the screen and turn the ring until a distant light looks sharp. Another way: autofocus on a bright light at the distance of your scene and switch to manual to lock it."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Quick test, final photo"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "A long photo takes a while to come out and, if it fails, you've lost another stretch of time. First take a test with a high ISO and a short shutter speed: it comes out grainy, but it shows you the framing, the light and whether it focused well. Then lower the ISO, lengthen the shutter speed (if you halve the ISO, the time must double) and take the final photo. Don't forget to lower the ISO: with a high ISO and a long shutter speed it would come out overexposed."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Don't trust the screen"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "In the dark the screen looks brighter than the photo really is. Lower its brightness and look at the [[histograma|histogram]]: if everything is pushed against the left, there isn't enough light."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "On many phones, night mode works as a long exposure: rest the phone or use a tripod and don't touch it while it captures, as in “Low light and night mode”."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Rest the camera on a wall or a tripod, facing a street at night, and use the timer. Take a test with a high ISO and a short shutter speed, and the final photo with a low ISO and several seconds. Compare them."
+    }
+  ]
+}

@@ -131,5 +131,40 @@
       "se ve la luz;",
       "lo oscuro, oscuro"
     ]
+  },
+  "nocturna": {
+    "rotulos": [
+      "Prueba",
+      "Final"
+    ],
+    "lineas": [
+      "ISO alto,",
+      "tiempo corto",
+      "ISO bajo,",
+      "tiempo largo"
+    ]
+  },
+  "retrato": {
+    "filas": [
+      "Luz suave",
+      "Ojo enfocado",
+      "Fondo lejos"
+    ],
+    "lineas": [
+      "Luz suave, ojos nítidos",
+      "y un fondo lejos de la cara"
+    ]
+  },
+  "arquitectura": {
+    "rotulos": [
+      "Inclinada",
+      "A nivel"
+    ],
+    "lineas": [
+      "las verticales",
+      "se juntan",
+      "las verticales",
+      "son rectas"
+    ]
   }
 }

@@ -1,0 +1,75 @@
+{
+  "id": "fotografia-nocturna",
+  "titulo": "Fotografía nocturna",
+  "resumen": "Apoyo firme, tiempo largo y enfoque a mano para hacer fotos limpias de noche.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "nocturna",
+      "alt": "Dos fotos de la misma calle de noche. La primera es la prueba (1): ISO alto y tiempo corto; sale con grano, pero sirve para ver el encuadre. La segunda es la foto final (2): ISO bajo y tiempo largo; sale limpia y las luces de un coche dejan una estela.",
+      "pie": "1 Prueba: ISO alto y tiempo corto. 2 Final: ISO bajo y tiempo largo, con la cámara apoyada."
+    },
+    {
+      "tipo": "idea",
+      "texto": "De noche la cámara necesita tiempo para ver. Tu trabajo es que no se mueva mientras mira."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Apoya la cámara"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Con un tiempo de varios segundos, cualquier temblor lo emborrona todo. Usa un trípode o apoya la cámara en algo firme, y dispara con el [[disparador|temporizador]] o con un disparador remoto, para no tocarla."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Ajustes de partida"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "[[iso|ISO]] bajo, por ejemplo 100: la foto sale limpia, y con la cámara apoyada puedes pagarlo con tiempo.",
+        "[[apertura|Apertura]] intermedia, por ejemplo f/8 u f/11. Si la cierras mucho, las luces fuertes se convierten en estrellas.",
+        "[[velocidad|Tiempo]] de varios segundos, según la luz. Lo que se mueve (coches, nubes, agua) sale como una estela o un velo, y quien pase por delante puede desaparecer."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Enfoca a mano"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "De noche el autoenfoque suele fallar. Pasa a [[enfoque-manual|enfoque manual]], amplía la imagen en la pantalla y gira hasta ver nítida una luz lejana. Otra forma: enfoca con el autoenfoque una luz brillante que esté a la distancia de tu escena y cambia a manual para dejarlo fijo."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Prueba rápida, foto final"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Una foto larga tarda en salir y, si falla, has perdido otro rato. Haz primero una prueba con el ISO alto y un tiempo corto: sale con grano, pero te enseña el encuadre, la luz y si enfocó bien. Después baja el ISO, alarga el tiempo (si bajas el ISO a la mitad, el tiempo debe duplicarse) y haz la foto final. No olvides bajar el ISO: con el ISO alto y el tiempo largo saldría quemada."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "No te fíes de la pantalla"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En la oscuridad la pantalla parece más clara de lo que es la foto. Baja su brillo y mira el [[histograma|histograma]]: si todo está pegado a la izquierda, falta luz."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En muchos móviles, el modo noche hace de tiempo largo: apoya el móvil o usa un trípode y no lo toques mientras captura, como en «Luz baja y modo noche»."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Apoya la cámara en un muro o en un trípode, frente a una calle de noche, y usa el temporizador. Haz una prueba con el ISO alto y un tiempo corto, y la foto final con el ISO bajo y varios segundos. Compáralas."
+    }
+  ]
+}

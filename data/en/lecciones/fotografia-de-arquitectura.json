@@ -1,0 +1,68 @@
+{
+  "id": "fotografia-de-arquitectura",
+  "titulo": "Architecture photography",
+  "resumen": "Straight verticals, good light and a different point of view for photographing buildings.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "arquitectura",
+      "alt": "Two drawings of the same building. On the left, with the camera tilted up: the vertical lines come together at the top and the building seems to fall backward: 1, tilted camera. On the right, with the camera level: the verticals are straight and parallel: 2, level camera.",
+      "pie": "1 Camera tilted up: the verticals come together. 2 Level camera: straight verticals."
+    },
+    {
+      "tipo": "idea",
+      "texto": "In a building, the most noticeable thing is a crooked vertical. Keep the camera level and let the whole building show."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Straight verticals"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "If you tilt the camera up to fit in a tall building, [[verticales-convergentes|converging verticals]] make it look like it's falling backward. Keep the camera level, using the grid or the level on the screen, and step back until it fits. If you can't, leave room around it: later you can crop or straighten the lines when editing, and that takes space."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What to look for"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Symmetry, [[lineas-guia|lines]], patterns and details: a balcony, an ornament, the material of the facade.",
+        "Reflections in glass, puddles or fountains.",
+        "A person or a car in the photo gives an idea of the size.",
+        "Another point of view: crouch down, climb onto something or look from the side, not just straight on and at eye level."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Light and settings"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The [[hora-dorada|golden hour]] and the [[hora-azul|blue hour]] give soft light and good color to facades, and an overcast sky gives a more serious feel. So that everything comes out sharp, close the [[apertura|aperture]], for example f/8 or more, and use a tripod: it lets you lengthen the shutter speed."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "The wide angle"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "A wide angle (the one that takes in more of the scene) fits the whole building or a small room, but it exaggerates tilted verticals: tilt the camera even less."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Turn on the grid in the camera settings to check that the lines are straight. On many phones, 0.5x is a wide angle: it exaggerates tilted verticals, so use 1x and step back."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pick a tall building. Take one photo tilting the camera up and another from farther away, with the camera level. Compare the verticals."
+    }
+  ]
+}
