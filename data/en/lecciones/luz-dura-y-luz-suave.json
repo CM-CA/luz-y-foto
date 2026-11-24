@@ -1,0 +1,67 @@
+{
+  "id": "luz-dura-y-luz-suave",
+  "titulo": "Hard light and soft light",
+  "resumen": "Why some shadows cut and others blend, and how to get the light you want.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "luzdura",
+      "alt": "Two drawings of a ball on a table with its shadow. On the left, the light comes from a small source, like the sun: the shadow has a sharp edge: 1, hard light. On the right, the light comes from a large source, like a window or an overcast sky: the shadow is soft and blends into the light: 2, soft light.",
+      "pie": "1 Hard light: small source, sharp shadow. 2 Soft light: large source, shadow that blends."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Light looks like its source: small, it is hard and leaves sharp shadows; large, it is soft and its shadows blend."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What changes"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "With hard light, the shadow has a sharp edge and there is a lot of contrast. With soft light, the shadow blends gradually into the light and everything looks calmer."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What it depends on"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "The size of the source compared to the subject: the high sun, the camera's flash or an indoor lamp without a diffuser are small sources; an overcast sky or a window are large sources.",
+        "Distance: the closer the light, the softer.",
+        "Time of day: midday sun is hard, and a low sun is softer."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "When to use each"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Soft light: it flatters in a portrait and hides skin imperfections.",
+        "Hard light: it adds drama, emphasizes textures, and works well in black and white. But it also brings out skin imperfections."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "How to soften it"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Look for shade or an overcast day: clouds spread the sunlight.",
+        "Indoors, use a window: with direct sun it is hard, and with a sheer curtain, soft.",
+        "Bring the light closer to the subject or bounce it off a white wall.",
+        "The flash on a camera or phone, pointed straight ahead, is a small source: it gives hard light."
+      ]
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Take a photo of a cup (or a person) at midday, in direct sun, and another in the shade or next to a window. Compare the edges of the shadows."
+    }
+  ]
+}

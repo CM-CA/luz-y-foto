@@ -1,0 +1,65 @@
+{
+  "id": "contraluz-y-siluetas",
+  "titulo": "Contraluz y siluetas",
+  "resumen": "Qué hacer cuando la luz viene de detrás: ver al sujeto o convertirlo en silueta.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "contraluz",
+      "alt": "Dos fotos de una persona con el sol detrás. A la izquierda, se mide la luz para el sujeto: la persona se ve bien, pero el cielo se queda blanco, quemado: 1, para el sujeto. A la derecha, se mide para el cielo: el cielo conserva sus colores y la persona queda como una silueta oscura: 2, para el cielo.",
+      "pie": "1 Medido para el sujeto: se ve, pero el cielo se quema. 2 Medido para el cielo: silueta oscura y cielo con color."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Con la luz detrás del sujeto, la cámara se confunde: decide tú si quieres ver al sujeto o al cielo."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué pasa"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Cuando la luz viene de detrás, la cámara mide el fondo brillante y el sujeto sale mucho más oscuro. Tienes dos caminos: exponer para el sujeto (el cielo se queda blanco, quemado) o exponer para el cielo (el sujeto se queda en silueta)."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Si quieres ver al sujeto"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Mide en su cara con [[medicion|medición]] puntual; en muchos móviles, toca su cara en la pantalla.",
+        "O sube la [[compensacion|compensación]] de exposición, por ejemplo +1 o +2: el sujeto se aclara, pero el fondo también.",
+        "Rebota luz sobre el sujeto con un reflector (o algo blanco que haga de reflector) o añade un flash suave: rellena sus sombras.",
+        "Pon el [[parasol|parasol]] para que el sol no meta velos ni manchas de luz en la foto."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Si quieres una silueta"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Pon al sujeto delante de algo muy brillante, como el cielo de un atardecer.",
+        "Mide en el cielo; en muchos móviles, toca el cielo y baja el brillo.",
+        "Elige una forma clara y separa las figuras para que no se junten. Un fondo sencillo, como un cielo despejado, deja la forma sola.",
+        "Si no queda lo bastante negra, baja un poco más la exposición."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cuándo"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Con el sol bajo, al amanecer o al atardecer, el contraluz es más fuerte y más dramático. Con el sol alto se nota menos."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Al atardecer, pon a alguien (o un objeto) con el sol detrás. Haz una foto midiendo en su cara y otra midiendo en el cielo. Compara."
+    }
+  ]
+}

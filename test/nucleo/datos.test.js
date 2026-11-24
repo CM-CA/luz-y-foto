@@ -254,7 +254,7 @@ prueba("lecciones: «Lo básico» trae las tres de cámara, en orden", () => {
 
 prueba("lecciones: los grupos van en orden y «Para el móvil» va aparte, después de «Lo básico»", () => {
   const grupos = cargarDatos().lecciones.indice.grupos;
-  assert.deepEqual(grupos.map((g) => g.id), ["basico", "movil", "composicion", "tipos"]);
+  assert.deepEqual(grupos.map((g) => g.id), ["basico", "movil", "composicion", "luz", "tipos"]);
   assert.equal(grupos[1].titulo, "Para el móvil");
   assert.ok(grupos[1].lecciones.includes("toca-para-enfocar-y-exponer"));
   // Las lecciones de cada grupo son del equipo del grupo: ninguna de móvil entre las de cámara y al revés
@@ -464,6 +464,58 @@ prueba("lecciones: líneas y puntos de fuga", () => {
   assert.ok(!/\b(Canon|Nikon|Sony|EOS|iPhone)\b/.test(texto), "no ata la lección a una marca");
   assert.ok(/en muchos móviles|según tu móvil/i.test(texto), "dice dónde cambia de un móvil a otro");
   assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
+});
+
+prueba("lecciones: el grupo «La luz» va entre Composición y los tipos y sus lecciones son para todos", () => {
+  const datos = cargarDatos();
+  const g = datos.lecciones.indice.grupos.find((x) => x.id === "luz");
+  assert.ok(g, "falta el grupo luz");
+  assert.equal(g.titulo, "La luz");
+  assert.deepEqual(g.lecciones, ["luz-dura-y-luz-suave", "contraluz-y-siluetas", "balance-de-blancos"]);
+  g.lecciones.forEach((id) => assert.equal(datos.lecciones.porId[id].para, "todos", id));
+});
+
+prueba("lecciones: luz dura y luz suave", () => {
+  const l = cargarDatos().lecciones.porId["luz-dura-y-luz-suave"];
+  assert.equal(l.titulo, "Luz dura y luz suave");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  const texto = textoDeLeccion(l);
+  [/sombra/i, /borde/i, /tamaño de la fuente/i, /distancia/i, /mediodía/i, /nublado/i, /ventana/i, /cortina/i, /pared blanca/i, /flash/i, /retrato/i, /blanco y negro/i, /piel/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["luzdura"]);
+  assert.ok(!/\b(Canon|Nikon|Sony|EOS|iPhone)\b/.test(texto), "no ata la lección a una marca");
+  assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
+});
+
+prueba("lecciones: contraluz y siluetas", () => {
+  const l = cargarDatos().lecciones.porId["contraluz-y-siluetas"];
+  assert.equal(l.titulo, "Contraluz y siluetas");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  const texto = textoDeLeccion(l);
+  [/mucho más oscuro/i, /medición/i, /compensación/i, /reflector/i, /flash/i, /parasol/i, /silueta/i, /cielo/i, /forma clara/i, /atardecer/i, /sol bajo/i, /baja el brillo/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["contraluz"]);
+  assert.ok(!/\b(Canon|Nikon|Sony|EOS|iPhone)\b/.test(texto), "no ata la lección a una marca");
+  assert.ok(/en muchos móviles|según tu móvil/i.test(texto), "dice dónde cambia de un móvil a otro");
+  assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
+});
+
+prueba("lecciones: balance de blancos", () => {
+  const l = cargarDatos().lecciones.porId["balance-de-blancos"];
+  assert.equal(l.titulo, "Balance de blancos");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  const texto = textoDeLeccion(l);
+  [/bombilla/i, /sombra/i, /naranja/i, /azul/i, /automático/i, /preajustes/i, /luz de día/i, /nublado/i, /Kelvin/, /luces mezcladas/i, /RAW/, /JPEG/, /modo Pro/i, /volver a automático/i].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.deepEqual(dibujosDe(l), ["blancos"]);
+  assert.ok(!/\b(Canon|Nikon|Sony|EOS|iPhone)\b/.test(texto), "no ata la lección a una marca");
+  assert.ok(/en muchos móviles|según tu móvil/i.test(texto), "dice dónde cambia de un móvil a otro");
+  assert.ok(texto.split(/\s+/).length <= 450, "pasa de 450 palabras");
+});
+
+prueba("glosario: balance de blancos", () => {
+  const g = cargarDatos().glosario["balance-de-blancos"];
+  assert.ok(g && /Balance de blancos/.test(g.termino) && /blanco/.test(g.texto) && /bombilla/.test(g.texto), "falta el término o no habla de blanco y de bombilla");
 });
 
 prueba("glosario: punto de fuga", () => {

@@ -102,5 +102,9 @@
   "punto-de-fuga": {
     "termino": "Punto de fuga",
     "texto": "El sitio de la foto donde parece que se juntan unas líneas que en realidad son paralelas, como los bordes de una carretera o las vías del tren. Da sensación de profundidad y atrae la mirada."
+  },
+  "balance-de-blancos": {
+    "termino": "Balance de blancos",
+    "texto": "Un ajuste que le dice a la cámara de qué color es la luz para que lo blanco salga blanco. Con una bombilla la foto tira a naranja y en la sombra, a azul. El automático suele corregirlo bien."
   }
 }

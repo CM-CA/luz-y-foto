@@ -1,0 +1,65 @@
+{
+  "id": "contraluz-y-siluetas",
+  "titulo": "Backlight and silhouettes",
+  "resumen": "What to do when the light comes from behind: show the subject or turn it into a silhouette.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "contraluz",
+      "alt": "Two photos of a person with the sun behind them. On the left, the light is measured for the subject: the person looks fine, but the sky turns white, blown out: 1, for the subject. On the right, it is measured for the sky: the sky keeps its colors and the person becomes a dark silhouette: 2, for the sky.",
+      "pie": "1 Measured for the subject: visible, but the sky blows out. 2 Measured for the sky: dark silhouette and colorful sky."
+    },
+    {
+      "tipo": "idea",
+      "texto": "With the light behind the subject, the camera gets confused: you decide whether you want to see the subject or the sky."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What happens"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "When the light comes from behind, the camera measures the bright background and the subject comes out much darker. You have two paths: expose for the subject (the sky goes white, blown out) or expose for the sky (the subject becomes a silhouette)."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "If you want to see the subject"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Measure on their face with spot [[medicion|metering]]; on many phones, tap their face on the screen.",
+        "Or raise the exposure [[compensacion|compensation]], for example +1 or +2: the subject gets brighter, but so does the background.",
+        "Bounce light onto the subject with a reflector (or something white that works as one) or add a gentle flash: it fills their shadows.",
+        "Put on the [[parasol|lens hood]] so the sun doesn't add haze or light spots to the photo."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "If you want a silhouette"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Put the subject in front of something very bright, like a sunset sky.",
+        "Measure on the sky; on many phones, tap the sky and lower the brightness.",
+        "Pick a clear shape and keep figures apart so they don't merge. A simple background, like a clear sky, leaves the shape alone.",
+        "If it isn't black enough, lower the exposure a little more."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "When"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "With a low sun, at sunrise or sunset, backlight is stronger and more dramatic. With a high sun it is less noticeable."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "At sunset, put someone (or an object) with the sun behind them. Take one photo measuring on their face and another measuring on the sky. Compare."
+    }
+  ]
+}

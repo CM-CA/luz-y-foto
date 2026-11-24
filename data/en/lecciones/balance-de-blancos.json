@@ -1,0 +1,71 @@
+{
+  "id": "balance-de-blancos",
+  "titulo": "White balance",
+  "resumen": "Why a photo comes out orange or bluish and how to make whites come out white.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "blancos",
+      "alt": "Three drawings of the same white cup. On the left, under bulb light left uncorrected, the whole scene leans orange: 1, orange. In the middle, with white balance set right, the cup is white: 2, neutral. On the right, under shade light left uncorrected, the whole scene leans blue: 3, bluish.",
+      "pie": "1 Bulb light, uncorrected: orange. 2 White balance set right: whites come out white. 3 Shade, uncorrected: bluish."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Light has color, and white balance tells the camera what color it is so whites come out white."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Why it is needed"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "The light of a bulb is orange and the light of the shade is bluish. If the camera doesn't correct it, everything white comes out with that tint. [[balance-de-blancos|White balance]] corrects it."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "The settings"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Auto: it usually works well.",
+        "Presets: daylight, cloudy, shade, bulb, fluorescent and flash. Pick the one for the light you have.",
+        "Manual: on many cameras you can set the color temperature, in Kelvin."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "When to change it"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "When auto gets confused: with mixed lights (a window and a bulb).",
+        "When you want a color on purpose: a warmer sunset or a cool, bluish feel.",
+        "If you set it by hand, remember to go back to auto or to adjust it when the light changes, for example from sun to clouds."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "RAW: you decide later"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "If you shoot in [[raw|RAW]], you can change the white balance when you edit without losing quality. In [[jpeg|JPEG]] only a small correction fits."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "On a phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "On many phones you change it in the camera's Pro or manual mode, and in some simpler camera apps too."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "At home, with a bulb on, take a photo of a white sheet of paper in auto and another with the bulb preset. If your phone doesn't let you change it, compare the paper under the bulb and next to a window."
+    }
+  ]
+}

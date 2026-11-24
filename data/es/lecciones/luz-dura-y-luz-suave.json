@@ -1,0 +1,67 @@
+{
+  "id": "luz-dura-y-luz-suave",
+  "titulo": "Luz dura y luz suave",
+  "resumen": "Por qué unas sombras cortan y otras se funden, y cómo conseguir la luz que quieres.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "luzdura",
+      "alt": "Dos dibujos de una pelota sobre una mesa con su sombra. A la izquierda, la luz viene de una fuente pequeña, como el sol: la sombra tiene el borde marcado: 1, luz dura. A la derecha, la luz viene de una fuente grande, como una ventana o un cielo nublado: la sombra es suave y se funde con la luz: 2, luz suave.",
+      "pie": "1 Luz dura: fuente pequeña, sombra marcada. 2 Luz suave: fuente grande, sombra que se funde."
+    },
+    {
+      "tipo": "idea",
+      "texto": "La luz se parece a su fuente: pequeña, es dura y deja sombras marcadas; grande, es suave y sus sombras se funden."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué cambia"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Con luz dura, la sombra tiene el borde marcado y hay mucho contraste. Con luz suave, la sombra se funde poco a poco con la luz y todo se ve más tranquilo."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "De qué depende"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Del tamaño de la fuente respecto al sujeto: el sol alto, el flash de la cámara o una lámpara de interior sin difusor son fuentes pequeñas; un cielo nublado o una ventana son fuentes grandes.",
+        "De la distancia: cuanto más cerca está la luz, más suave.",
+        "De la hora: el sol del mediodía es duro, y con el sol bajo es más suave."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cuándo usar cada una"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Luz suave: favorece en un retrato y disimula las imperfecciones de la piel.",
+        "Luz dura: da drama y marca las texturas, y va bien en blanco y negro. Pero también resalta las imperfecciones de la piel."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cómo suavizarla"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Busca sombra o un día nublado: las nubes reparten la luz del sol.",
+        "Dentro, usa una ventana: con el sol directo es dura, y con una cortina fina, suave.",
+        "Acerca la luz al sujeto o rebótala en una pared blanca.",
+        "El flash de la cámara o del móvil, de frente, es una fuente pequeña: da luz dura."
+      ]
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Haz una foto de una taza (o de una persona) a mediodía, con sol directo, y otra en la sombra o junto a una ventana. Compara los bordes de las sombras."
+    }
+  ]
+}

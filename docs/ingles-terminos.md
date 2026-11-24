@@ -16,6 +16,8 @@ Los términos que se repiten en `data/en/` y en `src/idioma/en.js`, para que se 
 | balance de blancos | white balance |
 | contraluz | backlight |
 | siluetas | silhouettes |
+| luz dura, luz suave | hard light, soft light |
+| fuente de luz (pequeña, grande) | light source (small, large) |
 | semáforo (verde, ámbar, rojo) | traffic light (green, amber, red) |
 | parasol | lens hood |
 | filtro UV | UV filter |

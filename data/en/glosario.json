@@ -102,5 +102,9 @@
   "punto-de-fuga": {
     "termino": "Vanishing point",
     "texto": "The spot in a photo where lines that are really parallel, like the edges of a road or train tracks, seem to meet. It gives a sense of depth and pulls the eye."
+  },
+  "balance-de-blancos": {
+    "termino": "White balance",
+    "texto": "A setting that tells the camera the color of the light so whites come out white. Under a bulb a photo leans orange, and in the shade, blue. Auto usually corrects it well."
   }
 }
