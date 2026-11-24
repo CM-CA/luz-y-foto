@@ -1,0 +1,60 @@
+{
+  "id": "fauna-y-aves",
+  "titulo": "Fauna y aves",
+  "resumen": "Teleobjetivo, tiempo rápido y paciencia para fotografiar animales sin molestarlos.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "fauna",
+      "alt": "Un pájaro posado en una rama, visto de lado. A la izquierda, una cámara a la misma altura que el ojo del pájaro, con una línea de puntos entre los dos. Un cuadrado de enfoque marca el ojo: 1, ojo enfocado. La cámara está a la altura del animal: 2, a su altura. Detrás, el fondo sale borroso y limpio: 3, fondo limpio.",
+      "pie": "1 Enfoca el ojo. 2 Ponte a la altura del animal. 3 Un fondo limpio y borroso."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Con los animales no te acercas tú: se acerca tu objetivo. Tiempo rápido, el ojo enfocado y paciencia."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Mantén la distancia"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Un animal asustado se va o cambia de comportamiento, y acercarte demasiado puede molestarlo, sobre todo si hay un nido. Usa un teleobjetivo o un zoom largo (más en «Distancias focales»), muévete despacio y sin gestos bruscos, y si el animal se inquieta, retrocede. Quédate quieto y espera a que se tranquilice."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Ajustes de partida"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "[[velocidad|Tiempo]] rápido: 1/1000 s o más si el animal vuela o corre. Es el mismo principio que en «Fotografía deportiva».",
+        "[[apertura|Apertura]] abierta: entra más luz para ese tiempo corto y el fondo sale más borroso.",
+        "[[enfoque-continuo|Enfoque continuo]] y [[rafaga|ráfaga]]: la cámara sigue al animal y luego eliges la mejor foto.",
+        "Enfoca el ojo: si sale nítido, la foto funciona."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Luz, altura y fondo"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Muchos animales están más activos al amanecer y al atardecer, con la luz suave y cálida de la [[hora-dorada|hora dorada]]. Ponte a la altura de sus ojos, aunque tengas que agacharte o tumbarte: la foto es más cercana que si disparas desde arriba. Y mira el fondo: uno limpio hace destacar al animal."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En muchos móviles el zoom llega mucho menos lejos que un teleobjetivo: no te acerques más al animal, espera a que se acerque él. Toca la pantalla sobre el animal para enfocar, como en «Toca para enfocar y exponer», y haz una ráfaga."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Busca un sitio con aves, como el borde de un estanque o un árbol con pájaros, y siéntate quieto un rato. Cuando se muevan, haz una ráfaga con un tiempo rápido y cuenta cuántas salen nítidas."
+    }
+  ]
+}

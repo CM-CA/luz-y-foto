@@ -325,5 +325,52 @@
       "Telephoto",
       "far looks near"
     ]
+  },
+  "macro": {
+    "rotulos": [
+      "Open",
+      "Closed"
+    ],
+    "lineas": [
+      "Only a thin slice",
+      "is sharp",
+      "Sharper, but",
+      "needs more light"
+    ]
+  },
+  "astro": {
+    "rotulos": [
+      "Short time",
+      "Long time"
+    ],
+    "lineas": [
+      "Stars come out",
+      "as dots",
+      "Stars come out",
+      "as streaks"
+    ]
+  },
+  "fauna": {
+    "filas": [
+      "Eye in focus",
+      "Its level",
+      "Clean backdrop"
+    ],
+    "lineas": [
+      "Sharp eye, fast shutter",
+      "and at the animal's level"
+    ]
+  },
+  "mascotas": {
+    "rotulos": [
+      "From above",
+      "Eye level"
+    ],
+    "lineas": [
+      "Feels far:",
+      "looks small",
+      "Feels close:",
+      "its own view"
+    ]
   }
 }

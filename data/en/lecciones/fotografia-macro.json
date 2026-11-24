@@ -1,0 +1,72 @@
+{
+  "id": "fotografia-macro",
+  "titulo": "Macro photography",
+  "resumen": "Getting close to small things: very little in focus, soft light and a camera that doesn't move.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "macro",
+      "alt": "Two drawings of three flowers in a row, seen from the side, with the camera on the left. On the left, with the aperture open, only the middle flower falls inside the very thin sharp slice, and the other two come out blurry: 1, open. On the right, with the aperture closed, the slice is wider and all three flowers come out sharp, but more light is needed: 2, closed.",
+      "pie": "1 Open aperture: only a thin slice is sharp. 2 Closed aperture: more in focus, but less light gets in."
+    },
+    {
+      "tipo": "idea",
+      "texto": "The closer you are, the less fits in focus. In macro, what makes the photo is where you focus and that nothing moves."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What it is"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "[[macro|Macro photography]] brings small things (a flower, an insect, a drop) close until they fill the photo. Strictly speaking, the subject appears on the sensor at its real size (1:1), but some lenses called “macro” only reach half that (1:2)."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Very little in focus"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Up close, what's sharp is a very thin slice: if you focus on an insect's head, its body is already blurry. Closing the [[apertura|aperture]] widens the slice, but less light gets in and you need a slower shutter speed."
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Switch to [[enfoque-manual|manual focus]] and zoom in on the image on the screen. To fine-tune, turn the ring or move the camera closer and farther, very slowly, until what matters looks sharp."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Keep everything still"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Still subject: a tripod and the [[disparador|timer]] (or a remote release), so you don't touch the camera.",
+        "An insect or a flower in a breeze: a fast shutter speed and the camera held firmly. Up close, even a breeze is very noticeable.",
+        "Soft light, like on an overcast day. Early in the morning, insects tend to be calmer.",
+        "If the lens won't focus, you're closer than its minimum focusing distance: step back a little."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Without a macro lens"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Close-up filters and extension tubes let you get closer with the lens you already have, without buying a macro lens."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Many phones have a built-in macro mode; if not, you can add a clip-on lens. Rest the phone or use a tripod, look for good light, soft if you can, and make sure your shadow doesn't fall on the subject."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Find a flower or a leaf in the light of an overcast day and support the camera. Take a photo from close up and see which part comes out sharp; if your camera has an aperture, try it open and closed. Compare."
+    }
+  ]
+}

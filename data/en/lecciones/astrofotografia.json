@@ -1,0 +1,61 @@
+{
+  "id": "astrofotografia",
+  "titulo": "Astrophotography",
+  "resumen": "A still camera, a wide angle and a dark sky to photograph the stars.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "astro",
+      "alt": "Two drawings of the same starry sky over a hill. On the left, with a short shutter speed, the stars come out as dots: 1, short time. On the right, with a long shutter speed, the stars come out as streaks: 2, long time.",
+      "pie": "1 Short time: stars are dots. 2 Long time: they come out as streaks."
+    },
+    {
+      "tipo": "idea",
+      "texto": "To photograph the stars you need three things: a dark sky, a camera that doesn't move and a shutter speed that doesn't turn them into streaks."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Where and when"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Find a place far from the city lights and a clear night: check the forecast before you go out. It's best near the new moon, when there is no moonlight. Under a very dark sky you can even capture the Milky Way. Bring a flashlight with red light, which is easier on the eyes."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Starting settings"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "A sturdy tripod and the [[disparador|timer]] or a remote release, so you don't touch the camera.",
+        "A wide angle and the [[apertura|aperture]] as wide open as possible, for example f/2.8 or wider: more light gets in and more sky fits.",
+        "High [[iso|ISO]]: start around 1600 and go up to about 3200 or 6400 if you need to.",
+        "A [[velocidad|shutter speed]] of about 10 to 20 seconds. Longer, and the stars come out as streaks, sooner still with a less wide lens.",
+        "[[raw|RAW]], to adjust the [[balance-de-blancos|white balance]] afterwards (more in “RAW and JPEG”)."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Focus by hand"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Switch to [[enfoque-manual|manual focus]], zoom in on the image on the screen on a bright star, a planet or the moon, and turn until the point of light is as small as possible."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "With your phone"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Many phones have a night mode or an astro mode that captures the starry sky. It works like a long shutter speed: rest the phone or use a tripod, find a dark place and don't touch it while it captures, as in “Low light and night mode”. For more about the night, see “Night photography”."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "On a clear night, far from the lights, put the camera on a tripod with a wide angle and ISO 3200, and take a photo of about 15 seconds. Zoom in: are the stars dots or streaks? If they're streaks, shorten the time. With your phone, use night mode, rested on something."
+    }
+  ]
+}

@@ -13,7 +13,7 @@ const lineas = (v) => (Array.isArray(v) ? v : [v]);
 
 prueba("cada dibujo citado en una lección tiene su función y sus textos", () => {
   const citados = idsCitados(ES);
-  assert.equal(citados.length, 25, "los veinticinco dibujos de las lecciones: " + citados.join(", "));
+  assert.equal(citados.length, 29, "los veintinueve dibujos de las lecciones: " + citados.join(", "));
   for (const id of citados) {
     assert.ok(DIBUJOS[id], "falta src/dibujos/ para el dibujo «" + id + "»");
     assert.ok(ES.dibujos && ES.dibujos[id], "faltan los textos de «" + id + "» en data/es/dibujos.json");

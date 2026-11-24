@@ -1,0 +1,60 @@
+{
+  "id": "fotografia-de-mascotas",
+  "titulo": "Fotografía de mascotas",
+  "resumen": "A su altura, con luz suave y paciencia: fotos de tu perro o de tu gato.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "mascotas",
+      "alt": "Dos dibujos de un perro de lado y una cámara. A la izquierda, la cámara está arriba y apunta hacia abajo: la foto mira al perro desde arriba y parece lejana: 1, desde arriba. A la derecha, la cámara está a la altura de la cabeza del perro: la foto entra en su mundo y es más cercana: 2, a su altura.",
+      "pie": "1 Desde arriba: la foto queda lejos de él. 2 A su altura: la foto se acerca a su mundo."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Ponte a la altura de tu mascota, busca luz suave y dispara rápido. Lo demás es paciencia."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "A su altura"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Agáchate o siéntate en el suelo: desde su altura la foto es más cercana y enseña su mundo, en vez de verlo desde arriba. Enfoca los ojos: si salen nítidos, la foto funciona."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Luz suave"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Elige un día nublado o la primera y última hora del día (más en «Luz dura y luz suave»). El sol fuerte da sombras duras, y en los pelajes oscuros crea brillos. Evita el flash directo a la cara."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Rápido y con paciencia"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Tiempo de 1/500 s o más rápido si se mueve, y [[rafaga|ráfaga]]: de muchas fotos, alguna saldrá bien.",
+        "Para que mire a la cámara, usa un juguete, un premio pequeño o un ruido.",
+        "Paciencia: deja que se acostumbre a la cámara y muévete despacio.",
+        "Un fondo sencillo. Si lo desenfocas con la [[apertura|apertura]] abierta, el desorden desaparece."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Agáchate y toca la pantalla sobre sus ojos para enfocar, como en «Toca para enfocar y exponer». En muchos móviles la ráfaga se hace manteniendo pulsado el botón de disparo: úsala si se mueve."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Fotografía a tu perro o a tu gato desde su altura, con luz suave, y otra vez desde arriba. Compara cuál te acerca más a él."
+    }
+  ]
+}
