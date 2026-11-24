@@ -37,6 +37,16 @@
       ]
     },
     {
+      "id": "composicion",
+      "titulo": "Composition",
+      "subtitulo": "How to arrange what you see inside the photo.",
+      "lecciones": [
+        "lo-basico-de-la-composicion",
+        "el-encuadre",
+        "lineas-y-puntos-de-fuga"
+      ]
+    },
+    {
       "id": "tipos",
       "titulo": "Types of photography",
       "subtitulo": "What to look out for, depending on what you photograph.",

@@ -98,5 +98,9 @@
   "verticales-convergentes": {
     "termino": "Converging verticals",
     "texto": "The vertical lines of a building that seem to lean toward each other at the top, as if the building were falling backward, when you tilt the camera to photograph it. You avoid them by keeping the camera level."
+  },
+  "punto-de-fuga": {
+    "termino": "Vanishing point",
+    "texto": "The spot in a photo where lines that are really parallel, like the edges of a road or train tracks, seem to meet. It gives a sense of depth and pulls the eye."
   }
 }

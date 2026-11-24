@@ -1,0 +1,79 @@
+{
+  "id": "lineas-y-puntos-de-fuga",
+  "titulo": "Líneas y puntos de fuga",
+  "resumen": "Cómo usar carreteras, vías y pasillos para llevar la mirada hasta el sujeto.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "fuga",
+      "alt": "Dos dibujos de una carretera recta que se junta a lo lejos, con una persona al fondo, sobre una cuadrícula de tercios. A la izquierda, el punto de fuga está en el centro de la foto: 1, centro, va bien con escenas simétricas. A la derecha, el punto de fuga está en un cruce de la cuadrícula, a un tercio: 2, en un tercio, más dinámico que en el centro.",
+      "pie": "1 Punto de fuga en el centro: va bien con escenas simétricas. 2 En un tercio: más dinámico que en el centro."
+    },
+    {
+      "tipo": "idea",
+      "texto": "Las líneas que se juntan a lo lejos llevan la mirada: pon al sujeto donde acaban, o coloca el punto de fuga con intención."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué son"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Las [[lineas-guia|líneas guía]] llevan la mirada por la foto hasta el sujeto. Cuando unas líneas son paralelas en la realidad (una carretera, unas vías, un pasillo), en la foto parecen juntarse en un [[punto-de-fuga|punto de fuga]] y dan sensación de profundidad."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Dónde buscarlas"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Carreteras, vías, caminos, puentes, vallas, ríos y filas de árboles.",
+        "Mejor si empiezan en el primer plano: así recorren toda la foto.",
+        "Las diagonales van del primer plano al fondo y dan profundidad."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Dónde poner el punto de fuga"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En el centro va bien con escenas simétricas, como un pasillo o una carretera recta. En un cruce de la cuadrícula de tercios suele ser más dinámico. Si pones al sujeto en el punto de fuga o delante de él, las líneas funcionan como flechas que lo señalan."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cómo marcarlas más"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Acércate al principio de las líneas y baja la cámara: convergen más.",
+        "Un gran angular alarga las líneas y exagera la perspectiva.",
+        "Si te mueves unos pasos o cambias la altura, las líneas unen distinto el primer plano con el fondo."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Activa la cuadrícula para poner el punto de fuga en un cruce. En muchos móviles, el 0,5x es un gran angular: alarga las líneas y exagera la perspectiva."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "No las confundas"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Unas líneas que se juntan hacia el horizonte dan profundidad. Las verticales de un edificio que se juntan por inclinar la cámara suelen parecer un error: míralo en «Fotografía de arquitectura»."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Busca una carretera, un camino o un pasillo. Haz una foto con el punto de fuga en el centro y otra moviéndote hasta que quede en un tercio. Si puedes, pon a alguien al fondo y mira cómo las líneas lo señalan."
+    }
+  ]
+}

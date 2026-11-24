@@ -98,5 +98,9 @@
   "verticales-convergentes": {
     "termino": "Verticales convergentes",
     "texto": "Las líneas verticales de un edificio que parecen juntarse hacia arriba, como si el edificio se cayera hacia atrás, cuando inclinas la cámara para fotografiarlo. Se evitan con la cámara a nivel."
+  },
+  "punto-de-fuga": {
+    "termino": "Punto de fuga",
+    "texto": "El sitio de la foto donde parece que se juntan unas líneas que en realidad son paralelas, como los bordes de una carretera o las vías del tren. Da sensación de profundidad y atrae la mirada."
   }
 }

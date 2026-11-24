@@ -1,0 +1,58 @@
+{
+  "id": "lo-basico-de-la-composicion",
+  "titulo": "The basics of composition",
+  "resumen": "A clear subject, a simple background and the thirds: three habits so your photo says something.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "composicion",
+      "alt": "A photo divided into nine boxes by two vertical lines and two horizontal lines. A person, with their head on one of the left crossings: 1, subject. The horizon runs along one of the horizontal lines, low down, not through the middle: 2, horizon. To the right of the person there is empty space: 3, empty space.",
+      "pie": "1 The subject, on a crossing of the grid. 2 The horizon, on a line and not in the middle. 3 Empty space on the other side of the subject."
+    },
+    {
+      "tipo": "idea",
+      "texto": "A good photo knows what it is about: decide what you want to show and make everything else help it."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Pick a subject"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Before you shoot, ask yourself what the main thing is. Pick a clear subject and make everything else help it or, if it doesn't, leave it out: look for a simple background and watch for what distracts."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "The rule of thirds"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Turn on the grid on your camera or phone (it is in the camera or display settings). With the [[regla-de-tercios|rule of thirds]], put the subject on a line or on a crossing, and the horizon on one of the horizontal lines, not in the middle. In a portrait, the eyes go near the top line."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Balance"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "If you put the subject to one side, leave empty space on the other: something heavy (a big subject, a strong color) is balanced by something lighter elsewhere.",
+        "Change your point of view: crouch, climb on something or walk around the subject, instead of always shooting at eye level."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "When to skip the rule"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "It is a guideline, not a law. Round or square subjects and symmetrical scenes often look best centered. Learn the rules and break them on purpose, not by accident."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pick an object (a cup, a plant, a person) and take three photos of it: centered, on a crossing on the left and on one on the right. See which one tells better what you wanted to show."
+    }
+  ]
+}
