@@ -24,10 +24,19 @@ function guardar(lugar, almacen) {
   try { (almacen || globalThis.localStorage).setItem(CLAVE, JSON.stringify(lugar)); } catch (e) { /* sin almacenamiento: no pasa nada */ }
 }
 
+// El almacenamiento (localStorage) es el mismo para todas las páginas de cm-ca.github.io (el blog, otras apps…), así que lo guardado
+// no es de fiar: solo se acepta un lugar con coordenadas reales, y de él solo lat, lon, el nombre (texto corto) y un origen conocido.
+const ORIGENES = ["gps", "busqueda"];
+const NOMBRE_MAXIMO = 120;
+
 function cargar(almacen) {
   try {
     const l = JSON.parse((almacen || globalThis.localStorage).getItem(CLAVE));
-    return l && typeof l.lat === "number" && typeof l.lon === "number" ? l : null;
+    if (!l || typeof l !== "object" || !Number.isFinite(l.lat) || !Number.isFinite(l.lon) || Math.abs(l.lat) > 90 || Math.abs(l.lon) > 180) return null;
+    const lugar = { lat: l.lat, lon: l.lon };
+    if (typeof l.nombre === "string") lugar.nombre = l.nombre.slice(0, NOMBRE_MAXIMO);
+    if (ORIGENES.includes(l.origen)) lugar.origen = l.origen;
+    return lugar;
   } catch (e) { return null; }
 }
 

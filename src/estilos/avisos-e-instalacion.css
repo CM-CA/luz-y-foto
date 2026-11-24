@@ -1,4 +1,4 @@
-/* Reglas y panel de instalación, pie, y los avisos fijos (versión nueva y previsión guardada) con el informe de instalación. */
+/* Reglas y panel de instalación, pie, y los avisos fijos (versión nueva y previsión guardada). */
 details.reglas, details.instalar { margin-top: 20px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 12px 16px; }
 details.reglas summary, details.instalar summary { cursor: pointer; font-weight: 600; }
 details.reglas h4, details.instalar h4 { margin: 16px 0 4px; }
@@ -20,9 +20,3 @@ main:has(.aviso-version) { padding-bottom: 150px; } /* con el aviso fijo a la vi
 .aviso-sin-conexion button { font-weight: 700; }
 .aviso-sin-conexion button:disabled { opacity: .7; cursor: default; }
 
-/* Informe de instalación: la marca (✓ ✗ •) es texto, no color de fondo */
-.informe { list-style: none; padding-left: 0; margin: 4px 0 0; }
-.informe li { margin: 4px 0; overflow-wrap: anywhere; }
-.informe .marca { display: inline-block; width: 1.2em; font-weight: 700; }
-.informe [data-estado=si] .marca { color: var(--verde); }
-.informe [data-estado=no] .marca { color: var(--rojo); }
