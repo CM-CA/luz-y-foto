@@ -26,8 +26,8 @@ Una sola: son datos, como las anteriores (un archivo por lección en cada idioma
 
 ## Hoja de ruta de lo que se pidió después («todo lo que me mostraste»)
 Cada tanda con su propia rama, su pull request, su suite completa y su publicación:
-1. Esta: histograma y Composición.
-2. **La luz**: luz dura y suave, contraluz y siluetas, balance de blancos.
+1. Histograma y Composición (hecha).
+2. **La luz**: luz dura y suave, contraluz y siluetas, balance de blancos (hecha: ver «La luz» abajo).
 3. **Técnica**: RAW y JPEG, medición y modos de enfoque, larga exposición y filtros, distancias focales (que las de paisaje, deportiva y retrato enlazarán).
 4. **Más tipos de fotografía**: macro, astrofotografía, fauna y aves, mascotas, viajes, comida, familia y niños.
 5. El **simulador de exposición** (es una función, no una lección: se diseña aparte).
@@ -39,3 +39,9 @@ Cada tanda con su propia rama, su pull request, su suite completa y su publicaci
 - En inglés, el dibujo del histograma rotula «lights» y no «highlights» porque «highlights» pisaba a «shadows» a 320 px; el texto de la lección sí dice «highlights».
 - Dejado fuera por tener una sola fuente: los avisos de altas luces (blinkies), que el histograma de la cámara se calcula sobre el JPEG, la composición en Z y la espiral, el bokeh como marco, que varios puntos de fuga recargan, que un tele da un resultado menos dramático y la perspectiva de uno, dos y tres puntos (detalle en el documento de fuentes). Las páginas de Samsung sobre su modo Pro no mencionan el histograma, así que se dice «en algunos móviles» y no «en todos».
 - Adorama recomienda fotografiar estructuras altas desde abajo para que converjan; la lección de líneas no lo recomienda (contradice «Fotografía de arquitectura», que tiene cuatro fuentes en contra).
+
+## La luz (segunda tanda de la hoja de ruta, 2026-11-24)
+- Grupo nuevo «La luz» («Light»), entre «Composición» y «Tipos de fotografía», con tres lecciones de 3 min para todos: «Luz dura y luz suave» (dibujo `luzdura`: la misma pelota con una fuente pequeña y con una grande), «Contraluz y siluetas» (dibujo `contraluz`: medido para el sujeto frente a medido para el cielo) y «Balance de blancos» (dibujo `blancos`: la misma taza con luz de bombilla, bien puesta y con luz de sombra). Término nuevo del glosario: balance de blancos.
+- Los dibujos `contraluz` y `blancos` son fotos (colores fijos, iguales en claro y oscuro, como `toca` y `luces`); `luzdura` usa los colores del tema.
+- Decisiones mías: en «Contraluz y siluetas» el sol bajo es «más fuerte y más dramático» y no «más fácil de exponer» (esto último solo lo dice PhotoWorkout); en «Balance de blancos» se quitó «luz que cambia rápido» (solo PetaPixel) y el móvil dice «en el modo Pro o manual, y en algunas apps más sencillas» porque Android Authority dice que el ajuste sale también en apps básicas y la página del modo Pro de Sony no lo lista. Lo que se dejó fuera por tener una sola fuente está en el documento de fuentes.
+- El modo Pro y el RAW se nombran sin explicarlos aquí: la lección de RAW y JPEG (tanda de técnica) los desarrollará.

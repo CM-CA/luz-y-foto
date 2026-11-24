@@ -1,0 +1,71 @@
+{
+  "id": "balance-de-blancos",
+  "titulo": "Balance de blancos",
+  "resumen": "Por qué una foto sale naranja o azulada y cómo hacer que lo blanco salga blanco.",
+  "minutos": 3,
+  "para": "todos",
+  "bloques": [
+    {
+      "tipo": "dibujo",
+      "id": "blancos",
+      "alt": "Tres dibujos de la misma taza blanca. A la izquierda, con luz de bombilla sin corregir, toda la escena tira a naranja: 1, naranja. En el centro, con el balance de blancos bien puesto, la taza es blanca: 2, neutra. A la derecha, con luz de sombra sin corregir, toda la escena tira a azul: 3, azulada.",
+      "pie": "1 Bombilla sin corregir: naranja. 2 Balance de blancos bien puesto: los blancos salen blancos. 3 Sombra sin corregir: azulada."
+    },
+    {
+      "tipo": "idea",
+      "texto": "La luz tiene color, y el balance de blancos le dice a la cámara de qué color es para que lo blanco salga blanco."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Por qué hace falta"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "La luz de una bombilla es anaranjada y la de la sombra, azulada. Si la cámara no lo corrige, todo lo blanco sale con ese tinte. El [[balance-de-blancos|balance de blancos]] lo corrige."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Los ajustes"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Automático: suele funcionar bien.",
+        "Preajustes: luz de día, nublado, sombra, bombilla, fluorescente y flash. Elige el de la luz que tengas.",
+        "A mano: en muchas cámaras puedes poner la temperatura de color, en grados Kelvin."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Cuándo cambiarlo"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "Cuando el automático se confunde: con luces mezcladas (una ventana y una bombilla).",
+        "Cuando quieres un color a propósito: un atardecer más cálido o un aire frío y azulado.",
+        "Si lo cambias a mano, acuérdate de volver a automático o de ajustarlo cuando cambie la luz, por ejemplo al pasar del sol a las nubes."
+      ]
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "RAW: decides después"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Si disparas en [[raw|RAW]], puedes cambiar el balance de blancos al editar sin perder calidad. En [[jpeg|JPEG]] solo cabe una pequeña corrección."
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Con el móvil"
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "En muchos móviles se cambia en el modo Pro o manual de la cámara, y en algunas apps de cámara más sencillas también."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "En casa, con una bombilla encendida, haz una foto de un papel blanco en automático y otra con el preajuste de bombilla. Si tu móvil no deja cambiarlo, compara el papel bajo la bombilla y junto a una ventana."
+    }
+  ]
+}

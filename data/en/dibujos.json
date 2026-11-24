@@ -220,5 +220,44 @@
       "More dynamic",
       "than the center"
     ]
+  },
+  "luzdura": {
+    "rotulos": [
+      "Hard light",
+      "Soft light"
+    ],
+    "lineas": [
+      "Small source:",
+      "sharp shadow",
+      "Large source:",
+      "soft shadow"
+    ]
+  },
+  "contraluz": {
+    "rotulos": [
+      "Subject",
+      "Sky"
+    ],
+    "lineas": [
+      "They show,",
+      "the sky blows out",
+      "Dark silhouette,",
+      "colorful sky"
+    ]
+  },
+  "blancos": {
+    "rotulos": [
+      "Orange",
+      "Neutral",
+      "Bluish"
+    ],
+    "lineas": [
+      "Bulb light,",
+      "uncorrected",
+      "Whites",
+      "set right",
+      "Shade,",
+      "uncorrected"
+    ]
   }
 }

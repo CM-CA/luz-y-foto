@@ -220,5 +220,44 @@
       "Más dinámico",
       "que en el centro"
     ]
+  },
+  "luzdura": {
+    "rotulos": [
+      "Luz dura",
+      "Luz suave"
+    ],
+    "lineas": [
+      "Fuente pequeña:",
+      "sombra marcada",
+      "Fuente grande:",
+      "sombra suave"
+    ]
+  },
+  "contraluz": {
+    "rotulos": [
+      "Sujeto",
+      "Cielo"
+    ],
+    "lineas": [
+      "Se ve él,",
+      "el cielo se quema",
+      "Silueta oscura,",
+      "cielo con color"
+    ]
+  },
+  "blancos": {
+    "rotulos": [
+      "Naranja",
+      "Neutra",
+      "Azulada"
+    ],
+    "lineas": [
+      "Bombilla,",
+      "sin corregir",
+      "Blancos",
+      "bien puestos",
+      "Sombra,",
+      "sin corregir"
+    ]
   }
 }

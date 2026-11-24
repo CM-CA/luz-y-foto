@@ -2,6 +2,8 @@
 // (y su viewBox, así la página le reserva el sitio antes de pintarlo); `claves` dice qué textos pide de data/<idioma>/dibujos.json
 // (un número = una lista de ese largo; null = un texto solo); `pintar(textos)` devuelve el SVG como texto.
 import arquitectura from "./arquitectura.js";
+import blancos from "./blancos.js";
+import contraluz from "./contraluz.js";
 import composicion from "./composicion.js";
 import deporte from "./deporte.js";
 import encuadre from "./encuadre.js";
@@ -9,6 +11,7 @@ import exposicion from "./exposicion.js";
 import fuga from "./fuga.js";
 import histograma from "./histograma.js";
 import luces from "./luces.js";
+import luzdura from "./luzdura.js";
 import modos from "./modos.js";
 import noche from "./noche.js";
 import nocturna from "./nocturna.js";
@@ -19,4 +22,4 @@ import toca from "./toca.js";
 import urbana from "./urbana.js";
 import zoom from "./zoom.js";
 
-export const DIBUJOS = { modos, exposicion, parasol, toca, noche, zoom, paisaje, deporte, urbana, luces, nocturna, retrato, arquitectura, histograma, composicion, encuadre, fuga };
+export const DIBUJOS = { modos, exposicion, parasol, toca, noche, zoom, paisaje, deporte, urbana, luces, nocturna, retrato, arquitectura, histograma, composicion, encuadre, fuga, luzdura, contraluz, blancos };

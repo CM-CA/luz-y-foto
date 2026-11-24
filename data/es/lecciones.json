@@ -47,6 +47,16 @@
       ]
     },
     {
+      "id": "luz",
+      "titulo": "La luz",
+      "subtitulo": "Cómo cambia la foto con la luz que tienes.",
+      "lecciones": [
+        "luz-dura-y-luz-suave",
+        "contraluz-y-siluetas",
+        "balance-de-blancos"
+      ]
+    },
+    {
       "id": "tipos",
       "titulo": "Tipos de fotografía",
       "subtitulo": "Qué cuidar según lo que fotografíes.",
