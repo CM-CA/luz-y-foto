@@ -128,7 +128,8 @@ ejecutar("cabecera", async ({ b, base }) => {
     const sin = (await p.locator("header.cabecera").screenshot()).toString("base64");
     await estilo.evaluate((e) => e.remove());
     return p.evaluate(async ({ con, sin, cajas }) => {
-      const abrir = async (b64) => { const img = new Image(); await new Promise((si, no) => { img.onload = si; img.onerror = no; img.src = "data:image/png;base64," + b64; }); const c = document.createElement("canvas"); c.width = img.width; c.height = img.height; const x = c.getContext("2d"); x.drawImage(img, 0, 0); return x; };
+      // createImageBitmap decodifica los bytes sin pedir nada: una imagen «data:» la bloquearía la política de seguridad de la app (img-src 'self')
+      const abrir = async (b64) => { const img = await createImageBitmap(new Blob([Uint8Array.from(atob(b64), (ch) => ch.charCodeAt(0))], { type: "image/png" })); const c = document.createElement("canvas"); c.width = img.width; c.height = img.height; const x = c.getContext("2d"); x.drawImage(img, 0, 0); return x; };
       const [X, Y] = [await abrir(con), await abrir(sin)];
       const lum = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
       const salida = {};

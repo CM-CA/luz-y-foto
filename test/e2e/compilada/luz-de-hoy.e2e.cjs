@@ -41,8 +41,8 @@ const leerSeccion = (p) => p.evaluate(() => {
 const contarHuecos = async (p) => {
   const png = (await p.locator(".luz-de-hoy .franja").screenshot()).toString("base64");
   return p.evaluate(async (b64) => {
-    const imagen = new Image();
-    await new Promise((resolver, rechazar) => { imagen.onload = resolver; imagen.onerror = rechazar; imagen.src = "data:image/png;base64," + b64; });
+    // createImageBitmap decodifica los bytes sin pedir nada: una imagen «data:» la bloquearía la política de seguridad de la app (img-src 'self')
+    const imagen = await createImageBitmap(new Blob([Uint8Array.from(atob(b64), (ch) => ch.charCodeAt(0))], { type: "image/png" }));
     const lienzo = document.createElement("canvas"); lienzo.width = imagen.width; lienzo.height = imagen.height;
     const c = lienzo.getContext("2d"); c.drawImage(imagen, 0, 0);
     let e = document.querySelector(".luz-de-hoy .franja"), fondo = "rgb(255, 255, 255)";
