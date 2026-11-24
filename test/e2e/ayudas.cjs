@@ -32,6 +32,7 @@ function playwright() {
 }
 
 // Servidor estático. Por defecto sirve dist/ bajo /ollada/, como hace GitHub Pages; con {carpeta, prefijo} sirve otra carpeta.
+// Con {extras: {"/ruta": {tipo, cuerpo}}} sirve además archivos sueltos fuera de la ruta base (otras webs del mismo dominio).
 // Se usa 127.0.0.1 porque el navegador lo trata como contexto seguro, y la ubicación (GPS) solo
 // funciona en contextos seguros.
 function servir(opciones = {}) {
@@ -41,6 +42,8 @@ function servir(opciones = {}) {
   return new Promise((resolver) => {
     const s = http.createServer((q, r) => {
       let ruta = decodeURIComponent(new URL(q.url, "http://x").pathname);
+      const extra = (opciones.extras || {})[ruta];
+      if (extra) { r.writeHead(200, { "content-type": extra.tipo, "cache-control": "no-cache" }); return r.end(extra.cuerpo); }
       if (!ruta.startsWith(prefijo)) { r.writeHead(404); return r.end("fuera de la ruta base"); }
       ruta = "/" + ruta.slice(prefijo.length);
       let f = path.join(carpeta, ruta);
