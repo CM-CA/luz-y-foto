@@ -17,6 +17,10 @@ prueba("rutas: una lección", () => {
   assert.deepEqual(analizarRuta("aprender/la-rueda-de-modos"), { pantalla: "leccion", id: "la-rueda-de-modos" });
 });
 
+prueba("rutas: la pantalla del aviso legal", () => {
+  ["aviso-legal", "aviso-legal/"].forEach((t) => assert.deepEqual(analizarRuta(t), { pantalla: "aviso-legal", id: null }, "«" + t + "»"));
+});
+
 prueba("rutas: cualquier otra cosa es una pantalla desconocida", () => {
-  ["otra", "aprender/a/b", "leccion/x", "hoy/x", "aprender//", "Aprender"].forEach((t) => assert.deepEqual(analizarRuta(t), { pantalla: "desconocida", id: null }, "«" + t + "»"));
+  ["otra", "aprender/a/b", "leccion/x", "hoy/x", "aprender//", "Aprender", "aviso-legal/x", "Aviso-legal", "licencias"].forEach((t) => assert.deepEqual(analizarRuta(t), { pantalla: "desconocida", id: null }, "«" + t + "»"));
 });

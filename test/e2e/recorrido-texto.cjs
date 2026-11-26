@@ -16,7 +16,10 @@ const MOVIL = { equipo: "movil", marca: "desconocida", objetivos: [], tripode: "
 const CAMARA = { equipo: "camara", marca: "canon", objetivos: ["tele"], tripode: "aveces", nivel: "defiendo", respondidas: ["equipo", "marca", "objetivos", "tripode", "nivel"] };
 
 // Las barras y la franja son hileras de «█» (una por línea o seguidas): se dejan en un solo «█»
-const normalizar = (t) => t.replace(/index-[\w-]+\.js/g, "index-HASH.js").replace(/ollada-[\w.-]+/g, "luz-y-foto-CACHE").replace(/(?:█\s*)+/g, "█\n");
+// La versión de la app (píldora y aviso legal) cambia con cada subida de versión y su commit y su fecha con cada commit: no son parte de la línea base
+const normalizar = (t) => t.replace(/index-[\w-]+\.js/g, "index-HASH.js").replace(/ollada-[\w.-]+/g, "luz-y-foto-CACHE").replace(/(?:█\s*)+/g, "█\n")
+  .replace(/\bv\d+\.\d+\.\d+[\w.-]*(?= · (?:Aviso legal|Legal notice))/g, "vN.N.N")
+  .replace(/\b(Versión|Version) \d+\.\d+\.\d+[\w.-]*(?: \([0-9a-f]{7}, \d{4}-\d{2}-\d{2}\))?/g, "$1 N.N.N (HASH, DATE)");
 
 async function texto(p, conDibujos = false) {
   await p.waitForTimeout(250);
@@ -104,6 +107,14 @@ async function recorrer({ b, base, locale = "es-ES", viewport, conDibujos = fals
       const t = p.locator(".termino").first();
       if (await t.count()) { await t.click(); salida["leccion/" + id + "/termino"] = await texto(p, conDibujos); }
     }
+    await ctx.close();
+  }
+
+  // Aviso legal (con los textos de licencia de lo de dentro cerrados)
+  {
+    const { ctx, p } = await ab({ perfil: MOVIL, lugar: LUGAR });
+    await p.goto(base + "#/aviso-legal"); await p.waitForSelector(".aviso");
+    salida["aviso-legal"] = await texto(p, conDibujos);
     await ctx.close();
   }
   return salida;
