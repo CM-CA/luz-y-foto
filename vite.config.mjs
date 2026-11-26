@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { erroresDeDatos } from "./scripts/validar-datos.mjs";
 import { servicioSinConexion } from "./scripts/pwa.mjs";
+import { datosDeVersion } from "./scripts/version.mjs";
 
 // Si los datos de data/ (cada idioma) tienen un error, la compilación se detiene y lo explica:
 // así un JSON mal editado no llega nunca a publicarse.
@@ -51,8 +52,16 @@ function politicaDeSeguridad() {
 
 // La web se publica en https://cm-ca.github.io/ollada/ y se compila con esa ruta (`vite build`, sin opciones).
 // Para ensayar otra ruta: `vite build --base=/otra/ruta/`.
+// La versión (de package.json) y el commit y la fecha del último cambio se meten en la app para que se vean en el aviso legal (src/version.js).
+const version = datosDeVersion(import.meta.dirname);
+
 export default defineConfig(({ command }) => ({
   base: command === "build" ? "/ollada/" : "/",
+  define: {
+    __OLLADA_VERSION__: JSON.stringify(version.version),
+    __OLLADA_COMMIT__: JSON.stringify(version.commit),
+    __OLLADA_FECHA__: JSON.stringify(version.fecha)
+  },
   plugins: [svelte(), validarDatos(), politicaDeSeguridad(), servicioSinConexion()],
   // assetsInlineLimit: 0 -> las imágenes pequeñas (las lunas, algún cielo) no se meten dentro del JS en base64:
   // cada una es un archivo de dist/ y el service worker la guarda por separado.

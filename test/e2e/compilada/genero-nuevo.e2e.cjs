@@ -18,7 +18,7 @@ if (!fs.existsSync(path.join(RAIZ, "node_modules", ".bin", "vite"))) {
 const temporal = fs.mkdtempSync(path.join(os.tmpdir(), "luz-y-foto-genero-"));
 const proyecto = path.join(temporal, "proyecto"), dist = path.join(temporal, "dist");
 fs.mkdirSync(proyecto);
-for (const nombre of ["src", "data", "scripts", "index.html", "package.json", "svelte.config.mjs", "public", ...fs.readdirSync(RAIZ).filter((f) => /^vite\.config\./.test(f))]) {
+for (const nombre of ["src", "data", "scripts", "licencias", "index.html", "package.json", "svelte.config.mjs", "public", ...fs.readdirSync(RAIZ).filter((f) => /^vite\.config\./.test(f))]) {
   if (fs.existsSync(path.join(RAIZ, nombre))) fs.cpSync(path.join(RAIZ, nombre), path.join(proyecto, nombre), { recursive: true });
 }
 fs.symlinkSync(path.join(RAIZ, "node_modules"), path.join(proyecto, "node_modules"), "dir");

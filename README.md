@@ -55,5 +55,23 @@ node scripts/generar-cielos.mjs   vuelve a generar los cielos de la cabecera y l
 - `index.html`, `public/`, `vite.config.mjs`: la página de entrada, los iconos y el manifiesto, y la configuración de la compilación.
 - `scripts/`: validar `data/` (lo usan `npm run validar` y la compilación), generar iconos y cielos, y servir `dist/` para las pruebas.
 - `transicion/`: lo que se publica junto a la app y no es de ella: el 404 que lleva a la app desde las direcciones viejas y la redirección de `/beta/` (ver [`docs/migracion-svelte.md`](docs/migracion-svelte.md)).
-- `licencias/`: la licencia de [SunCalc](https://github.com/mourner/suncalc), la librería que calcula sol y luna (la app usa el paquete `suncalc` 2.1.4).
+- `licencias/`: los avisos de licencia de lo que va dentro de la app: [SunCalc](https://github.com/mourner/suncalc), la librería que calcula sol y luna (la app usa el paquete `suncalc` 2.1.4), Svelte y Vite. Las fuentes llevan los suyos en `src/fuentes/`. La app los muestra en su pantalla «Aviso legal» (`#/aviso-legal`).
 - `test/`: pruebas. Todas se lanzan con `bash test/ejecutar-todo.sh` (o `npm run test:todo`); con `rapido` solo la lógica. `test/nucleo/` (Vitest) prueba la lógica y `test/e2e/` la app compilada en el navegador.
+
+## Licencias
+
+© 2026 Camilo Manuel Couselo Alonso. Ollada se puede usar, copiar y modificar **sin fines comerciales**; para un uso comercial hace falta un permiso aparte.
+
+| Qué | Licencia | Dónde |
+|---|---|---|
+| El código (`src/`, `scripts/`, `test/`, `public/`…) | [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) | [`LICENSE`](LICENSE) |
+| Los textos y la documentación (`data/`, `docs/`, este README) | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/): se pueden compartir y adaptar (por ejemplo, traducir) sin fines comerciales, citando al autor y con la misma licencia | [`LICENSE-CONTENIDO`](LICENSE-CONTENIDO) |
+| El nombre «Ollada» y su icono | Sin licencia: una copia o una versión modificada debe usar otro nombre y otro icono | [`LICENSE`](LICENSE) |
+| Lo de terceros (SunCalc, Svelte, Vite, Figtree, Young Serif) | La suya, que se conserva | `licencias/` y `src/fuentes/` |
+
+- **Qué es «no comercial».** PolyForm Noncommercial no lo define en abstracto: lo concreta con lo que sí se permite: el uso personal (estudio, investigación, proyectos de afición) y el de organizaciones benéficas, centros educativos, instituciones públicas y de investigación, de salud o seguridad pública y de protección ambiental. Lo demás (vender la app o sus textos, ponerles publicidad, usarlos en un servicio de pago) necesita permiso.
+- **Uso comercial.** Se pide abriendo una incidencia en <https://github.com/CM-CA/ollada/issues>. El titular puede dar licencias comerciales aparte.
+- **Versiones anteriores.** Todo lo publicado hasta el cambio de licencia (desde el 2026-11-18) lo estaba con la licencia MIT, y quien lo copió entonces conserva esos derechos sobre esa copia.
+- **Datos.** La previsión es de [Open-Meteo](https://open-meteo.com/) (CC BY 4.0; su API gratuita es solo para uso no comercial, así que una copia comercial tendría que contratar su plan de pago) y el nombre del lugar, de [OpenStreetMap](https://www.openstreetmap.org/copyright) (ODbL, © colaboradores de OpenStreetMap).
+- **En la app.** La píldora «v1.0.0 · Aviso legal» del final de Hoy y de Aprender lleva a la pantalla «Aviso legal» (titular, licencias, uso y responsabilidad, privacidad, avisos de terceros y créditos) y muestra la versión, que es la de `package.json` más el commit y el día del último cambio.
+- Las decisiones y lo que cuestan están en [`docs/licencias.md`](docs/licencias.md). No es asesoramiento legal.

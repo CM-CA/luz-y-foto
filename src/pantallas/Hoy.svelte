@@ -10,6 +10,7 @@
   import Reglas from "../componentes/Reglas.svelte";
   import Instalacion from "../componentes/Instalacion.svelte";
   import SelectorIdioma from "../componentes/SelectorIdioma.svelte";
+  import PildoraAviso from "../componentes/PildoraAviso.svelte";
   import { crudo } from "../idioma/index.js";
   import { trozosDePlantilla } from "../nucleo/formato.js";
   import AvisoSinConexion from "../componentes/AvisoSinConexion.svelte";
@@ -33,4 +34,5 @@
   <SelectorIdioma />
 
   <p class="pie">{#each trozosDePlantilla(crudo("hoy.pie"), { enlace: "Open-Meteo" }, ["enlace"]) as tr}{#if tr.negrita}<a href="https://open-meteo.com/">{tr.texto}</a>{:else}{tr.texto}{/if}{/each}</p>
+  <PildoraAviso />
 </div>

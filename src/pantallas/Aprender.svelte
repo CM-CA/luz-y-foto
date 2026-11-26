@@ -3,6 +3,7 @@
   import { config } from "../estado/datos.js";
   import { listaDeLecciones, etiquetaMinutos } from "../nucleo/lecciones.js";
   import SelectorIdioma from "../componentes/SelectorIdioma.svelte";
+  import PildoraAviso from "../componentes/PildoraAviso.svelte";
 
   // La lista de lecciones, agrupadas, con lo justo para elegir: título, duración y de qué va.
   const indice = config.lecciones.indice;
@@ -33,4 +34,5 @@
   {/each}
 
   <SelectorIdioma />
+  <PildoraAviso />
 </div>

@@ -63,6 +63,10 @@ Los términos que se repiten en `data/en/` y en `src/idioma/en.js`, para que se 
 | plano (primer plano, plano medio, fondo) | layer (foreground, middle ground, background) |
 | modo Av, Tv, M | Av, Tv (A and S on Nikon and Sony), M |
 | «Hoy», «Aprender» | Today, Learn |
+| «Aviso legal» (pantalla y píldora «v1.0.0 · Aviso legal») | Legal notice («v1.0.0 · Legal notice») |
+| «Quién está detrás», «Uso y responsabilidad», «Privacidad y datos» | Who is behind it, Use and liability, Privacy and data |
+| «Datos y créditos» | Data and credits |
+| «© colaboradores de OpenStreetMap» | © OpenStreetMap contributors |
 | simulador de exposición (lección y bloque) | exposure simulator |
 | «Sale quemada», «Sale oscura» (lectura del simulador) | comes out blown out, comes out dark |
 | luz de la escena: «Sol», «Nublado», «Interior» | Sun, Cloudy, Indoors |

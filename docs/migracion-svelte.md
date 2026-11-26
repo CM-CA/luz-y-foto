@@ -149,7 +149,7 @@ Comprobada la web publicada en el móvil, se retiró lo que ya no se usaba: `js/
 
 Se quedan:
 - `transicion/`: el 404 y la redirección de `/beta/`, que siguen sirviendo a quien entra por una dirección vieja.
-- `licencias/SUNCALC-LICENSE.txt`: la licencia de SunCalc, que antes estaba en `lib/`. La compilación no la incluye en `dist/`; si se quiere publicarla con la web (por ejemplo, en Ajustes), es un cambio aparte.
+- `licencias/SUNCALC-LICENSE.txt`: la licencia de SunCalc, que antes estaba en `lib/`. La compilación no la incluye en `dist/`, pero desde el 2026-11-26 la app la muestra, con la de Svelte, Vite y las fuentes, en su pantalla «Aviso legal» (`#/aviso-legal`; ver [`licencias.md`](licencias.md)).
 - `test/e2e/capturas.cjs`, como herramienta para revisar el responsive a ojo; ahora escribe en `test/e2e/capturas/`, que git ignora.
 
 El lanzador de pruebas (`test/ejecutar-todo.sh`) ya no distingue entre «versión actual» y «compilada»: `rapido` pasa Vitest y la validación de los datos; el resto compila y pasa las pruebas de navegador. Las pruebas de `test/e2e/` usan por defecto `dist/`.
