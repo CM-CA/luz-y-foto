@@ -61,7 +61,7 @@ La pantalla Aprender sale de `data/es/lecciones.json` (el título, las etiquetas
 ```
 
 - `minutos` va de 1 a 10 y `para` es `camara`, `movil` o `todos`.
-- Los **bloques** son `subtitulo`, `parrafo` y `idea` (con `texto`), `lista` (con `items`), `pruebalo` (con `texto`: la práctica de «Pruébalo hoy») y `dibujo` (con `id`, `alt` y `pie`). Se pintan en el orden en que están.
+- Los **bloques** son `subtitulo`, `parrafo` y `idea` (con `texto`), `lista` (con `items`), `pruebalo` (con `texto`: la práctica de «Pruébalo hoy»), `dibujo` (con `id`, `alt` y `pie`) y `simulador` (con `id` —hoy solo `exposicion`—, `alt`, `pie` y `textos`: `luz`, `apertura`, `tiempo`, `iso`, `reiniciar`, `luces` con `sol`, `nublado` e `interior`, `resultado` con `muyOscura`, `oscura`, `bien`, `clara` y `muyClara` —los extremos llevan el hueco `{n}` de los pasos de luz— y tres textos, de menos a más, para `fondo`, `movimiento` y `grano`). Se pintan en el orden en que están.
 - En los textos, `[[id|texto]]` crea un término tocable del glosario, como en las recetas.
 - **Una lección no pasa de 450 palabras** (se cuentan los textos y los elementos de las listas, no el `alt` ni el `pie` de un dibujo): si se pasa, se parte en dos. La validación lo avisa, igual que un tipo de bloque que no existe, un texto que falta o un término que no está en el glosario.
 - **Añadir una lección**: crea `data/es/lecciones/<id>.json` y pon su id en la lista `lecciones` de un grupo de `data/es/lecciones.json`. **Añadir un grupo**: otro elemento de `grupos`.

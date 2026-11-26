@@ -1,0 +1,73 @@
+{
+  "id": "simulador-de-exposicion",
+  "titulo": "Simulador de exposición",
+  "resumen": "Mueve apertura, tiempo e ISO y mira qué cambia en la foto.",
+  "minutos": 2,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "idea",
+      "texto": "Mueve los tres ajustes y mira qué cambia: la luz que entra, el fondo desenfocado, el movimiento y el grano."
+    },
+    {
+      "tipo": "simulador",
+      "id": "exposicion",
+      "alt": "Una escena con una pelota que se mueve hacia la derecha delante de casas y árboles. Tres deslizadores (apertura, tiempo e ISO) y tres botones de luz (sol, nublado e interior) cambian lo clara que sale la escena, lo desenfocado que queda el fondo, la estela de la pelota y el grano. Debajo, un texto dice si la foto sale bien expuesta, oscura o clara, y cuántos pasos de luz le faltan o le sobran.",
+      "pie": "Es un esquema, no una foto de verdad: cuánto grano o desenfoque ves depende de tu cámara y de tu objetivo.",
+      "textos": {
+        "luz": "Luz de la escena",
+        "luces": {
+          "sol": "Sol",
+          "nublado": "Nublado",
+          "interior": "Interior"
+        },
+        "apertura": "Apertura",
+        "tiempo": "Tiempo",
+        "iso": "ISO",
+        "reiniciar": "Volver al inicio",
+        "resultado": {
+          "muyOscura": "Sale muy oscura: te faltan {n} pasos de luz.",
+          "oscura": "Sale oscura: te falta 1 paso de luz.",
+          "bien": "Bien expuesta.",
+          "clara": "Sale clara: te sobra 1 paso de luz.",
+          "muyClara": "Sale quemada: te sobran {n} pasos de luz."
+        },
+        "fondo": [
+          "Fondo muy desenfocado.",
+          "Fondo algo desenfocado.",
+          "Todo nítido, fondo incluido."
+        ],
+        "movimiento": [
+          "Movimiento congelado.",
+          "Algo de estela en lo que se mueve.",
+          "Mucha estela: lo que se mueve sale movido."
+        ],
+        "grano": [
+          "Foto limpia.",
+          "Algo de grano.",
+          "Mucho grano."
+        ]
+      }
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "Qué mirar"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "[[apertura|Apertura]]: ábrela (f/2) y entra más luz y el fondo se desenfoca; ciérrala (f/16) y entra menos y todo sale nítido.",
+        "[[velocidad|Tiempo]]: alárgalo (1/15 s) y entra más luz, pero lo que se mueve sale movido; acórtalo (1/1000 s) y lo congela.",
+        "[[iso|ISO]]: súbelo y la foto se aclara, pero sale con más grano."
+      ]
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Cada casilla de un deslizador es un [[paso-de-luz|paso]] de luz: el doble o la mitad. Si te sobra un paso en un ajuste, lo puedes quitar en otro y la foto queda igual de clara, pero cambia lo que pagas: fondo, movimiento o grano. Más en «El manual de verdad»."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Pon la luz en «Interior» y busca una foto bien expuesta con el movimiento congelado, sin pasar de ISO 1600. Solo hay una combinación: ¿qué pagas, fondo, movimiento o grano? Después prueba lo mismo con tu cámara en una habitación con luz."
+    }
+  ]
+}

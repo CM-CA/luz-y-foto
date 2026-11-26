@@ -4,6 +4,7 @@
   import { leccionPorId, etiquetaMinutos, etiquetaPara } from "../nucleo/lecciones.js";
   import ConTerminos from "../componentes/ConTerminos.svelte";
   import Dibujo from "../componentes/Dibujo.svelte";
+  import Simulador from "../componentes/Simulador.svelte";
 
   // Una lección: sus bloques en orden. Cada tipo de bloque tiene su sitio abajo; los textos admiten términos del glosario tocables.
   let { id } = $props();
@@ -36,6 +37,11 @@
       {:else if b.tipo === "dibujo"}
         <figure class="dibujo bloque-dibujo">
           <Dibujo id={b.id} alt={b.alt} />
+          <figcaption>{b.pie}</figcaption>
+        </figure>
+      {:else if b.tipo === "simulador"}
+        <figure class="dibujo bloque-simulador">
+          <Simulador bloque={b} />
           <figcaption>{b.pie}</figcaption>
         </figure>
       {:else if b.tipo === "idea"}

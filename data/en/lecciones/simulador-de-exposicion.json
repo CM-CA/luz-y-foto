@@ -1,0 +1,73 @@
+{
+  "id": "simulador-de-exposicion",
+  "titulo": "Exposure simulator",
+  "resumen": "Move aperture, shutter speed and ISO and watch what changes in the photo.",
+  "minutos": 2,
+  "para": "camara",
+  "bloques": [
+    {
+      "tipo": "idea",
+      "texto": "Move the three settings and watch what changes: the light that comes in, the blurred background, the movement and the grain."
+    },
+    {
+      "tipo": "simulador",
+      "id": "exposicion",
+      "alt": "A scene with a ball moving to the right in front of houses and trees. Three sliders (aperture, shutter speed and ISO) and three light buttons (sun, cloudy and indoors) change how bright the scene comes out, how blurred the background is, the ball's motion trail and the grain. Below, a line of text says whether the photo comes out well exposed, dark or bright, and how many stops of light it is missing or has too much of.",
+      "pie": "It is a sketch, not a real photo: how much grain or blur you see depends on your camera and your lens.",
+      "textos": {
+        "luz": "Light of the scene",
+        "luces": {
+          "sol": "Sun",
+          "nublado": "Cloudy",
+          "interior": "Indoors"
+        },
+        "apertura": "Aperture",
+        "tiempo": "Shutter speed",
+        "iso": "ISO",
+        "reiniciar": "Back to the start",
+        "resultado": {
+          "muyOscura": "Comes out very dark: you are missing {n} stops of light.",
+          "oscura": "Comes out dark: you are missing 1 stop of light.",
+          "bien": "Well exposed.",
+          "clara": "Comes out bright: you have 1 stop of light too many.",
+          "muyClara": "Comes out blown out: you have {n} stops of light too many."
+        },
+        "fondo": [
+          "Very blurred background.",
+          "Slightly blurred background.",
+          "Everything sharp, background included."
+        ],
+        "movimiento": [
+          "Movement frozen.",
+          "Some trail on whatever moves.",
+          "A long trail: whatever moves comes out blurred."
+        ],
+        "grano": [
+          "Clean photo.",
+          "Some grain.",
+          "A lot of grain."
+        ]
+      }
+    },
+    {
+      "tipo": "subtitulo",
+      "texto": "What to look at"
+    },
+    {
+      "tipo": "lista",
+      "items": [
+        "[[apertura|Aperture]]: open it up (f/2) and more light comes in and the background blurs; close it down (f/16) and less comes in and everything comes out sharp.",
+        "[[velocidad|Shutter speed]]: make it longer (1/15 s) and more light comes in, but whatever moves comes out blurred; make it shorter (1/1000 s) and it freezes it.",
+        "[[iso|ISO]]: raise it and the photo gets brighter, but with more grain."
+      ]
+    },
+    {
+      "tipo": "parrafo",
+      "texto": "Each notch of a slider is a [[paso-de-luz|stop]] of light: double or half. If you have one stop too many in one setting, you can take it away in another and the photo comes out just as bright, but what you pay changes: background, movement or grain. More in “Manual mode, for real”."
+    },
+    {
+      "tipo": "pruebalo",
+      "texto": "Set the light to “Indoors” and find a well-exposed photo with the movement frozen, without going above ISO 1600. There is only one combination: what do you pay, background, movement or grain? Then try the same with your camera in a lit room."
+    }
+  ]
+}
