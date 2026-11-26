@@ -2,7 +2,7 @@
 // Mismas comprobaciones que test/datos.test.cjs, pero sobre la lógica nueva (src/).
 import assert from "node:assert/strict";
 import { it } from "vitest";
-import { cargarDeDisco as cargarDatos } from "../../scripts/datos-de-disco.mjs";
+import { cargarDeDisco as cargarDatos, carpetaDeIdioma, idiomasDeDatos } from "../../scripts/datos-de-disco.mjs";
 import * as Datos from "../../src/nucleo/datos.js";
 import { datosIncluidos, IDIOMAS_DE_DATOS } from "../../src/datos-incluidos.js";
 import { DIBUJOS } from "../../src/dibujos/index.js";
@@ -247,9 +247,56 @@ prueba("dibujos: se validan los textos de cada dibujo y que la lección cite un 
 const textoDeLeccion = (l) => l.bloques.flatMap((b) => b.items || [b.texto]).filter(Boolean).join(" ").replace(/\[\[[^|\]]+\|([^\]]+)\]\]/g, "$1");
 const dibujosDe = (l) => l.bloques.filter((b) => b.tipo === "dibujo").map((b) => b.id);
 
-prueba("lecciones: «Lo básico» trae las tres de cámara, en orden", () => {
+prueba("lecciones: «Lo básico» trae las de cámara, en orden (el simulador va tras «El manual de verdad»)", () => {
   const g = cargarDatos().lecciones.indice.grupos.find((x) => x.id === "basico");
-  assert.deepEqual(g.lecciones, ["la-rueda-de-modos", "el-manual-de-verdad", "como-usar-el-histograma", "parasol-y-filtro-uv"]);
+  assert.deepEqual(g.lecciones, ["la-rueda-de-modos", "el-manual-de-verdad", "simulador-de-exposicion", "como-usar-el-histograma", "parasol-y-filtro-uv"]);
+});
+
+/* ---------- El simulador de exposición: un tipo de bloque con su propio texto ---------- */
+
+const bloqueSimulador = (c) => c.lecciones.porId["simulador-de-exposicion"].bloques.find((b) => b.tipo === "simulador");
+
+prueba("simulador: la lección lleva un bloque «simulador» con todos sus textos, en los dos idiomas", () => {
+  for (const idioma of idiomasDeDatos()) {
+    const b = bloqueSimulador(cargarDatos(carpetaDeIdioma(idioma)));
+    assert.ok(b, idioma + ": falta el bloque simulador");
+    assert.equal(b.id, "exposicion");
+    ["alt", "pie"].forEach((k) => assert.ok(typeof b[k] === "string" && b[k].trim(), idioma + ": falta " + k));
+    const t = b.textos;
+    ["luz", "apertura", "tiempo", "iso", "reiniciar"].forEach((k) => assert.ok(typeof t[k] === "string" && t[k].trim(), idioma + ": falta textos." + k));
+    assert.deepEqual(Object.keys(t.luces), ["sol", "nublado", "interior"]);
+    assert.deepEqual(Object.keys(t.resultado), ["muyOscura", "oscura", "bien", "clara", "muyClara"]);
+    assert.ok(t.resultado.muyOscura.includes("{n}") && t.resultado.muyClara.includes("{n}"), idioma + ": los niveles extremos dicen cuántos pasos");
+    ["fondo", "movimiento", "grano"].forEach((k) => assert.ok(Array.isArray(t[k]) && t[k].length === 3 && t[k].every((x) => x.trim()), idioma + ": " + k + " son tres textos"));
+  }
+});
+
+prueba("simulador: se valida el bloque (id, textos, niveles y alternativa)", () => {
+  const cambiar = (f) => errores((c) => f(bloqueSimulador(c)));
+  assert.deepEqual(errores(() => {}), []);
+  assert.ok(contiene(cambiar((b) => { b.id = "inventado"; }), "el simulador «inventado» no existe"));
+  assert.ok(contiene(cambiar((b) => { delete b.alt; }), ".alt: falta el texto"));
+  assert.ok(contiene(cambiar((b) => { delete b.textos.reiniciar; }), "textos.reiniciar: falta el texto"));
+  assert.ok(contiene(cambiar((b) => { b.textos.luces.sol = ""; }), "textos.luces.sol: falta el texto"));
+  assert.ok(contiene(cambiar((b) => { delete b.textos.resultado.bien; }), "textos.resultado.bien: falta el texto"));
+  assert.ok(contiene(cambiar((b) => { b.textos.resultado.muyClara = "Sale quemada"; }), "textos.resultado.muyClara: debe llevar el hueco {n}"));
+  assert.ok(contiene(cambiar((b) => { b.textos.fondo.pop(); }), "textos.fondo: deben ser 3 textos"));
+  assert.ok(contiene(cambiar((b) => { b.textos.grano[1] = " "; }), "textos.grano[1]: falta el texto"));
+});
+
+prueba("lecciones: Simulador de exposición", () => {
+  const l = cargarDatos().lecciones.porId["simulador-de-exposicion"];
+  assert.equal(l.titulo, "Simulador de exposición");
+  assert.equal(l.para, "camara");
+  assert.ok(l.minutos >= 2 && l.minutos <= 3);
+  assert.ok(l.bloques.some((b) => b.tipo === "idea") && l.bloques.some((b) => b.tipo === "pruebalo"), "lleva idea clave y «pruébalo hoy»");
+  assert.equal(l.bloques.filter((b) => b.tipo === "simulador").length, 1, "un simulador");
+  assert.deepEqual(dibujosDe(l), []);
+  const texto = textoDeLeccion(l);
+  assert.ok(texto.split(/\s+/).length <= 450);
+  assert.ok(!/\b(Canon|Nikon|Sony|EOS|iPhone|Samsung|Lightroom)\b/.test(texto), "no ata la lección a una marca");
+  [/apertura/i, /tiempo/i, /ISO/, /paso/i, /grano/i, /fondo/i, /movi/i, /El manual de verdad/].forEach((r) => assert.ok(r.test(texto), "no menciona " + r));
+  assert.ok(/Sol|sol/.test(texto) && /Interior|interior/.test(texto), "el reto usa la luz de interior");
 });
 
 prueba("lecciones: los grupos van en orden y «Para el móvil» va aparte, después de «Lo básico»", () => {

@@ -30,3 +30,35 @@
 .apq-t { display: block; font: 700 16px/1.3 var(--cuerpo); }
 .apq-s { display: block; font: 500 14px/1.3 var(--cuerpo); color: var(--suave); }
 .sin-corte { white-space: nowrap; }
+
+/* El simulador de exposición (src/componentes/Simulador.svelte): la escena, los deslizadores, la luz a elegir y la lectura */
+.bloque-simulador { padding-top: 14px; }
+.simulador { display: grid; gap: 14px; }
+.sim-escena { border-radius: 12px; overflow: hidden; line-height: 0; border: 1px solid var(--borde); }
+.sim-escena svg { display: block; width: 100%; height: auto; }
+.sim-luz { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.sim-luz legend { float: left; width: 100%; margin: 0 0 6px; padding: 0; font: 700 15px/1.2 var(--cuerpo); }
+.sim-opcion { position: relative; flex: 1 1 0; min-width: 0; }
+.sim-opcion input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.sim-opcion span { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 10px; border: 2px solid var(--borde); border-radius: 12px; background: var(--tarjeta); color: var(--texto); font: 600 16px/1.2 var(--cuerpo); text-align: center; }
+.sim-opcion input:checked + span { border-color: var(--texto); background: var(--gris-fondo); font-weight: 800; }
+.sim-opcion input:focus-visible + span { outline: 3px solid var(--azul-hora); outline-offset: 2px; }
+.sim-ajuste { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 2px 12px; }
+.sim-ajuste label { font: 700 16px/1.2 var(--cuerpo); }
+.sim-ajuste output { font: 700 16px/1.2 var(--cuerpo); font-variant-numeric: tabular-nums; }
+.sim-ajuste input { grid-column: 1 / -1; width: 100%; min-height: 44px; margin: 0; accent-color: var(--violeta); }
+.sim-ajuste input:focus-visible { outline: 3px solid var(--azul-hora); outline-offset: 2px; border-radius: 8px; }
+.sim-lectura { padding: 12px 14px; border-radius: 12px; background: var(--gris-fondo); }
+.sim-resultado { display: flex; align-items: baseline; gap: 10px; margin: 0 0 6px; font: 800 17px/1.35 var(--cuerpo); }
+.sim-signo { flex: none; min-width: 2.4em; padding: 2px 8px; border-radius: 999px; background: var(--tarjeta); border: 2px solid var(--texto); text-align: center; font-variant-numeric: tabular-nums; }
+.sim-bien { background: var(--verde-fondo); }
+.sim-bien .sim-signo { border-color: var(--verde); color: var(--verde); }
+.sim-oscura, .sim-clara { background: var(--ambar-fondo); }
+.sim-oscura .sim-signo, .sim-clara .sim-signo { border-color: var(--ambar); color: var(--ambar); }
+.sim-muyOscura, .sim-muyClara { background: var(--rojo-fondo); }
+.sim-muyOscura .sim-signo, .sim-muyClara .sim-signo { border-color: var(--rojo); color: var(--rojo); }
+.sim-efectos { margin: 0; padding-left: 20px; font-size: 15.5px; line-height: 1.4; }
+.sim-efectos li + li { margin-top: 2px; }
+.sim-reiniciar { justify-self: start; min-height: 44px; padding: 8px 18px; border: 2px solid var(--texto); border-radius: 999px; background: var(--tarjeta); color: var(--texto); font: 700 16px/1.2 var(--cuerpo); cursor: pointer; }
+.sim-reiniciar:disabled { border-color: var(--borde); color: var(--suave); cursor: default; }
+.sim-reiniciar:focus-visible { outline: 3px solid var(--azul-hora); outline-offset: 2px; }

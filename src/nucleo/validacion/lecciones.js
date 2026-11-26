@@ -7,7 +7,14 @@ import { esNumero, esTexto, esObjeto } from "./base.js";
 import { revisarTerminos, contarPalabras } from "./terminos.js";
 
 const PARA_LECCION = ["camara", "movil", "todos"];
-const BLOQUES_LECCION = ["subtitulo", "parrafo", "lista", "idea", "dibujo", "pruebalo"];
+const BLOQUES_LECCION = ["subtitulo", "parrafo", "lista", "idea", "dibujo", "simulador", "pruebalo"];
+
+// Los simuladores que sabe dibujar la app (src/componentes/Simulador.svelte) y los textos que cada uno necesita
+export const SIMULADORES = ["exposicion"];
+const LUCES_SIMULADOR = ["sol", "nublado", "interior"];
+const RESULTADOS_SIMULADOR = ["muyOscura", "oscura", "bien", "clara", "muyClara"];
+const CON_PASOS_SIMULADOR = ["muyOscura", "muyClara"]; // dicen cuántos pasos de luz: llevan el hueco {n}
+const TRES_NIVELES_SIMULADOR = ["fondo", "movimiento", "grano"];
 
 // Una lección se lee en 2 o 3 minutos: si pasa de aquí, se parte en dos
 export const PALABRAS_MAX_LECCION = 450;
@@ -38,11 +45,34 @@ function validarLeccion(l, id, glosario, errores) {
       if (!/^[a-z0-9-]+$/.test(b.id || "")) errores.push(a + ".id: falta (solo letras minúsculas, números y guiones)");
       else if (!DIBUJOS[b.id]) errores.push(a + ".id: el dibujo «" + b.id + "» no existe (hay " + Object.keys(DIBUJOS).join(", ") + ")");
       ["alt", "pie"].forEach((k) => { if (!esTexto(b[k])) errores.push(a + "." + k + ": falta el texto"); });
+    } else if (b.tipo === "simulador") {
+      validarSimulador(b, a, errores);
     } else {
       texto(b.texto, a + ".texto");
     }
   });
   if (palabras > PALABRAS_MAX_LECCION) errores.push(d + ": tiene " + palabras + " palabras y el máximo es " + PALABRAS_MAX_LECCION + " (si pasa, se parte en dos lecciones)");
+}
+
+// Un bloque «simulador»: el id del simulador, la alternativa y el pie, y todos los textos de sus controles y de su lectura
+function validarSimulador(b, a, errores) {
+  if (!SIMULADORES.includes(b.id)) errores.push(a + ".id: el simulador «" + b.id + "» no existe (hay " + SIMULADORES.join(", ") + ")");
+  ["alt", "pie"].forEach((k) => { if (!esTexto(b[k])) errores.push(a + "." + k + ": falta el texto"); });
+  const t = esObjeto(b.textos) ? b.textos : {};
+  if (!esObjeto(b.textos)) errores.push(a + ".textos: faltan los textos del simulador");
+  const t_ = a + ".textos";
+  ["luz", "apertura", "tiempo", "iso", "reiniciar"].forEach((k) => { if (!esTexto(t[k])) errores.push(t_ + "." + k + ": falta el texto"); });
+  LUCES_SIMULADOR.forEach((k) => { if (!esTexto((t.luces || {})[k])) errores.push(t_ + ".luces." + k + ": falta el texto"); });
+  RESULTADOS_SIMULADOR.forEach((k) => {
+    const r = (t.resultado || {})[k];
+    if (!esTexto(r)) errores.push(t_ + ".resultado." + k + ": falta el texto");
+    else if (CON_PASOS_SIMULADOR.includes(k) && !r.includes("{n}")) errores.push(t_ + ".resultado." + k + ": debe llevar el hueco {n}");
+  });
+  TRES_NIVELES_SIMULADOR.forEach((k) => {
+    const v = t[k];
+    if (!Array.isArray(v) || v.length !== 3) { errores.push(t_ + "." + k + ": deben ser 3 textos (de menos a más)"); return; }
+    v.forEach((x, j) => { if (!esTexto(x)) errores.push(t_ + "." + k + "[" + j + "]: falta el texto"); });
+  });
 }
 
 export function validarLecciones(config, errores) {

@@ -63,6 +63,9 @@ Los términos que se repiten en `data/en/` y en `src/idioma/en.js`, para que se 
 | plano (primer plano, plano medio, fondo) | layer (foreground, middle ground, background) |
 | modo Av, Tv, M | Av, Tv (A and S on Nikon and Sony), M |
 | «Hoy», «Aprender» | Today, Learn |
+| simulador de exposición (lección y bloque) | exposure simulator |
+| «Sale quemada», «Sale oscura» (lectura del simulador) | comes out blown out, comes out dark |
+| luz de la escena: «Sol», «Nublado», «Interior» | Sun, Cloudy, Indoors |
 | «Amanecer», «Atardecer», «Noche» | Sunrise, Sunset, Night |
 | «Con el móvil» (título de receta o de bloque) | With your phone |
 | «Con el móvil» (respuesta del perfil) | A phone |

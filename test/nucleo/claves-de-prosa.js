@@ -19,7 +19,11 @@ export const CLAVES_DE_PROSA = [
   String.raw`recetas\.comun\.titulos\.[^.]+`, String.raw`recetas\.comun\.tripodeHoy\.(pregunta|si|no)`, String.raw`recetas\.comun\.avisos\.[^.]+`,
   String.raw`recetas\.[^.]+\.segunSemaforo\.[^.]+`, String.raw`recetas\.[^.]+\.variantes\[\]\.(titulo|nota)`, String.raw`recetas\.[^.]+\.variantes\[\]\.pasos\[\]\.(titulo|empiezo|defiendo|controlo)`,
   String.raw`lecciones\.indice\.(titulo|subtitulo)`, String.raw`lecciones\.indice\.etiquetas\..+`, String.raw`lecciones\.indice\.grupos\[\]\.(titulo|subtitulo)`,
-  String.raw`lecciones\.porId\.[^.]+\.(titulo|resumen)`, String.raw`lecciones\.porId\.[^.]+\.bloques\[\]\.(texto|alt|pie|items\[\])`
+  String.raw`lecciones\.porId\.[^.]+\.(titulo|resumen)`, String.raw`lecciones\.porId\.[^.]+\.bloques\[\]\.(texto|alt|pie|items\[\])`,
+  // Los textos de un bloque «simulador»: sus controles, su lectura y las frases de cada efecto
+  String.raw`lecciones\.porId\.[^.]+\.bloques\[\]\.textos\.(luz|apertura|tiempo|iso|reiniciar)`,
+  String.raw`lecciones\.porId\.[^.]+\.bloques\[\]\.textos\.(luces|resultado)\.[^.]+`,
+  String.raw`lecciones\.porId\.[^.]+\.bloques\[\]\.textos\.(fondo|movimiento|grano)\[\]`
 ];
 export const PROSA = CLAVES_DE_PROSA.map((s) => new RegExp("^" + s + "$"));
 export const esProsa = (ruta) => PROSA.some((r) => r.test(ruta));
